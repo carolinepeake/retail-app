@@ -56,36 +56,27 @@ function ImageGallery() {
       <Gallery>
         {imageUrl
           ? (
-            <Main>
+            // <Main>
+            <>
                <Side>
                 {photos
               && photos.map((photo, index) => (
-                <div
-                  key={photo.url}
-                  index={index}
-                  style={{
-                    marginLeft: '2%',
-                  }}
-                >
-                  <div
-                    onClick={(e) => changeMain(e, index)}
-                    role="presentation"
-                    style={{
-                      maxWidth: '100%',
-                      height: 'auto',
-                    }}
-                  >
+
                     <img
                       src={photo.thumbnail_url}
+                      key={photo.url}
+                      index={index}
                       alt=""
                       style={{
                         width: '100%',
                         height: '100%',
                         border: '.5px black solid',
+                        marginLeft: '2%',
+                        justifyContent: 'center'
                       }}
+                      onClick={(e) => changeMain(e, index)}
                     />
                   </div>
-                </div>
               ))}
               </Side>
               <Back>
@@ -110,7 +101,8 @@ function ImageGallery() {
                   <MdArrowForwardIos style={{color: 'rgba(0, 0, 0, 0)',}}/>
                 </PlaceholderButton>}
               </Forward>
-            </Main>
+            {/* </Main> */}
+            </>
           )
           : (
             <div>No Image Available</div>
@@ -128,45 +120,56 @@ export default ImageGallery;
 
 const Gallery = styled.div`
   width: 100%;
-  height: 100%;
-  display: flex;
-  content-distribution: space-around;
+  height: auto;
+  display: grid;
+  // content-distribution: space-around;
+  grid-template-columns: 3fr 1fr 6fr 1fr;
+  align-items: start;
+  grid-row: 2 / 3;
 `;
 
-const Main = styled.div`
-  display: flex;
-  align-items: center;ß
-  margin-top: 10%;
-  width: auto;
-  height: auto;
-  justify-content: center;
-  content-distribution: space-around;
-  flex: f1;
-`;
+// const Main = styled.img`
+//   // display: f;
+//   // align-items: center;
+//   margin-top: 10%;
+//   width: auto;
+//   height: auto;
+//   justify-content: center;
+//   content-distribution: space-around;
+//   flex: f1;
+//   z-index: 2;
+// `;
 
 const Photo = styled.img`
   object-fit: scale-down;
+  object-fit: cover;
   max-width: 100%;
   max-height: 100%;
   overflow: hidden;
+  z-index: 1;
+  position: relative;
 `;
 
 
 const Side = styled.div`
   margin-left: 1%;
-  width: 10%;
-  display: inline-block;
+  // width: 10%;
+  // display: inline-block;
   justify-content: left;
   text-align: left;
   padding-right: 2%;
-  positioning: relative;
+  positioning: absolute;
   margin-top: 5%;
-  align-items: center;
+  align-items: center space-around;
+  z-index: 2;
+  display: flex;
 `;
 
 const Button = styled.button`
   background-color: rgba(0, 0, 0, 0);
   border: none;
+  z-index:
+  position: relative;
 `;
 
 const PlaceholderButton = styled.button`
@@ -179,17 +182,20 @@ const Back = styled.span`
   margin-inline-start: 50%
   display: inline-block;
   margin-inline: auto;
-  margin-
+  z-index: 2;
 `;
 
 const Forward = styled.span`
   display: inline-block;
   margin-inline-end: 1%
   margin-inline-left: 1%
-
+  z-index: 2;
+  justify-self: center;
+  align-self: end;
 `;
 
 const ProductDescription = styled.div`
+  grid-row: 3 / 4;
 `;
 
 

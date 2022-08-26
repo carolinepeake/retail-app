@@ -163,4 +163,38 @@ const Empty = styled.div`
   border: 15px solid transparent;
 `;
 
+const Fade = styled.div`
+  grid-column: 12 /12;
+  z-index: 2;
+  background-color: gradient(left, rgba(0,0,0,0), rgba(0,0,0,1));
+`;
+
 export default CardsList;
+
+// .wrapper{
+//   color-fill: white;
+
+//   }
+  // .big-font{
+  // font-size: 25px;
+  // }
+  // .fade-right {
+  // background: -webkit-linear-gradient(right, rgba(0,0,0,0), rgba(0,0,0,1));
+  // -webkit-background-clip: text;
+  // -webkit-text-fill-color: transparent;
+  // }
+  // .fade-left {
+  // background: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,1));
+  // -webkit-background-clip: text;
+  // -webkit-text-fill-color: transparent;
+  // }
+  // .fade-up {
+  // background: -webkit-linear-gradient(rgba(0,0,0,1), rgba(0,0,0,0));
+  // -webkit-background-clip: text;
+  // -webkit-text-fill-color: transparent;
+  // }
+  // .fade-down {
+  // background: -webkit-linear-gradient(rgba(0,0,0,0), rgba(0,0,0,1));
+  // -webkit-background-clip: text;
+  // -webkit-text-fill-color: transparent;
+  // }

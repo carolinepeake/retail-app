@@ -81,8 +81,8 @@ const Info = styled.div`
 const Image = styled.img`
   display: block;
   position: relative;
-  margin-left: auto;
-  margin-right: auto;
+  // margin-left: auto;
+  // margin-right: auto;
   width: 225px;
   height: 225px;
   object-fit: fill;

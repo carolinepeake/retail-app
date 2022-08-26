@@ -53,6 +53,11 @@ const StyledContainer = styled.div`
   font-family: 'Roboto Condensed', sans-serif;
   background-color: ${(props) => props.theme.backgroundColor};
   color: ${(props) => props.theme.fontColor};
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(4, minmax(2em, auto));
+  overflow: auto;
 `;
+
 
 export default App;

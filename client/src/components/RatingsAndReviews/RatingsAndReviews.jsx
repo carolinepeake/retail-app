@@ -130,6 +130,7 @@ const Container = styled.div`
   padding-right: 5%;
   background: ;
   margin-top: 20px;
+  grid-column: 2/12;
 `;
 
 const ReviewListContainer = styled.div`

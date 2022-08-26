@@ -14,48 +14,65 @@ import { useGlobalContext } from '../../contexts/GlobalStore';
 function ProductDetail() {
   const { productID, productInfo, setProductID, setProductInfo, styles, selectedStyle, setSelectedStyle } = useGlobalContext();
   return (
-    <div
+    <CP
       style={{
         'marginTop': '4%',
-        'marginRight': '2%',
-        'marginLeft': '2%',
+        // 'marginRight': '2%',
+        // 'marginLeft': '2%',
       }}
       id="product-details"
     >
-      <div>
-        <ColumnParent>
-          <Column1>
+      {/* <div>
+        <ColumnParent> */}
+          {/* <Column1> */}
+            <Side />
             <ImageGallery />
-          </Column1>
-          <Column2>
+          { productInfo.description
+          && <ProductDescription />}
+          {/* </Column1>
+          <Column2> */}
             <ProductOverview />
             <StyleSelector />
             <AddToCart />
-          </Column2>
-        </ColumnParent>
-      </div>
-    </div>
+          {/* </Column2> */}
+        {/* </ColumnParent>
+      </div> */}
+    </CP>
   );
 }
 
 export default ProductDetail;
 
-const ColumnParent = styled.div`
-  display: flex;
+
+const CP = styled.div`
+  // display: flex;
+  grid-column: 1/13;
+  display: grid;
+  //grid-template-columns: inherit
+  display: contents;
+  grid-row: 1/2;
+  grid-auto-flow: row;
 `;
 
-const Column1 = styled.div`
-  display: flex;
-  margin: 0%;
-  width: 70%;
-  flex: 1.5;
-  justify-content: space-between;
-  flex-direction: column;
+const Main = styled.img`
+  grid-column: 1 / 9;
+ // display: inherit;
+ display: grid;
+  grid-row: 2 / 4;
+  // display: flex;
+  // margin: 0%;
+  // width: 70%;
+  // flex: 1.5;
+  // justify-content: space-between;
+  // flex-direction: column;
 `;
 
 const Column2 = styled.div`
-  padding: 2% 2%;
+  // padding: 2% 2%;
   text-align: left;
-  width: 30%;
-  flex: 1;
+  // width: 30%;
+  display: flex;
+  flex-direction: column;
+  grid-column: 9 / 13;
+  grid-row: 2 / 4;
 `;

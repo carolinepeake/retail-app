@@ -42,6 +42,7 @@ const Button = styled.button`
 const Text = styled.div`
   font-size: 20px;
   font-width: bold;
+  align-text: left;
 `;
 
 export default AddOutfit;

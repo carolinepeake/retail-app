@@ -57,6 +57,8 @@ const Outline = styled.div`
   display: flex;
   flex-direction: row;
   background-color: ${(props) => props.theme.backgroundColor};
+  grid-column: 2/12;
+  column-gap: 10%;
 `;
 
 const StyleList = styled.div`

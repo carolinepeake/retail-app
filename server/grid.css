@@ -1,0 +1,11 @@
+.app {
+display: grid;
+grid-template-columns: 3fr, 16fr, 16fr, 1fr, 1fr(gap), 1fr, 16fr
+column-gap: 3fr;
+grid-template-rows: repeat(4, 1fr);
+row-gap: 1.5fr;
+}
+
+.product_description {
+
+}

@@ -42,10 +42,12 @@ function QuestionAndAnswers() {
 export default QuestionAndAnswers;
 
 const Container = styled.div`
-  justify-content: center;
+  // justify-content: center;
+  justify-content: left;
   margin-top: 20px;
-  margin-left: 5%;
-  margin-right: 5%;
+  // margin-left: 5%;
+  // margin-right: 5%;
+  grid-column: 2/12;
 `;
 
 const QuestionListContainer = styled.div`
