@@ -51,14 +51,14 @@ const ImageCard = styled.img`
   position: relative;
   margin-left: auto;
   margin-right: auto;
-  width: 225px;
-  height: 225px;
-  object-fit: fill;
+  width: 100%;
+  object-fit: cover;
   &:hover {
     opacity: 0.80;
   }
   border-radius: 10px;
   cursor: pointer;
+  aspect-ratio: 1;
 `;
 
 const Button = styled.button`
@@ -68,7 +68,7 @@ const Button = styled.button`
   color: gold;
   background-color: transparent;
   border: none;
-  font-size: 25px;
+  font-size: 1.25rem;
   font-width: bold;
   &:hover {
     background-color: trasparent;

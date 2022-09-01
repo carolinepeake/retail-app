@@ -18,6 +18,7 @@ function QuestionAndAnswers() {
 
   return (
     <Container id="question-and-answers">
+      <div style={{ fontSize: '1.17rem' }}>{`Questions \& Answers`}</div>
       <QuestionSearch />
       <QuestionListContainer id="scrollable-container" onScroll={(e) => handleScroll(e)}>
         {numQuestions === 0 ? (
@@ -44,19 +45,25 @@ export default QuestionAndAnswers;
 const Container = styled.div`
   // justify-content: center;
   justify-content: left;
-  margin-top: 20px;
-  // margin-left: 5%;
-  // margin-right: 5%;
-  grid-column: 2/12;
+  grid-column: 2/3;
+  grid-row: 4/5;
 `;
 
 const QuestionListContainer = styled.div`
   max-height: 75vh;
   overflow: auto;
-  margin-left: 20px;
-  margin-right: 20px;
-  padding: 10px;
   border-radius: 10px;
   justify-content: center;
   scroll-behavior: smooth;
 `;
+
+// const QuestionListContainer = styled.div`
+//   max-height: 75vh;
+//   overflow: auto;
+//   margin-left: 20px;
+//   margin-right: 20px;
+//   padding: 10px;
+//   border-radius: 10px;
+//   justify-content: center;
+//   scroll-behavior: smooth;
+// `;

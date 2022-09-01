@@ -79,7 +79,7 @@ const Modal = styled.div`
   height: 150px;
   top: 20%;
   right: -35%;
-  border: 2px solid black;
+  border: solid black thin;
   background-color: gray;
   overflow: auto;
   z-index: 9;
@@ -89,7 +89,7 @@ const Product = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 13px;
+  font-size: 0.75rem;
 `;
 
 export default ComparisonModal;

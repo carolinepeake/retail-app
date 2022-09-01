@@ -51,5 +51,5 @@ export default Summary;
 
 const RatingHeader = styled.div`
   padding: .12em;
-  font-size: 4em;
+  font-size: 0.25rem;
 `;

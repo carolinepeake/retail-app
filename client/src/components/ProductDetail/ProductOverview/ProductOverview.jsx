@@ -2,50 +2,36 @@ import React from 'react';
 import styled from 'styled-components';
 import { IoLogoFacebook, IoLogoTwitter, IoLogoPinterest } from 'react-icons/Io';
 import RatingsAndReviews from '../../RatingsAndReviews/RatingsAndReviews';
+import Stars from './Stars';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
-function ProductOverview(props) {
+function ProductOverview() {
   const {
-    productID, productInfo, reviews, selectedStyle, setSelectedStyle, styles, setStyles,
+    productID, setProductID, productInfo, reviews, selectedStyle, setSelectedStyle, styles, setStyles
   } = useGlobalContext();
 
 
   return (
-    <div>
-      <div>
-        <ReviewContainer>
+      <OverviewContainer>
+        {/* <ReviewContainer> */}
         {reviews.length > 0
           ? (
-            <div>
-              <span className="readReviews">
-                <a>{`Read all ${reviews.length}+ reviews`}</a>
-              </span>
-            </div>
+            <>
+              <Stars />
+              <ReadReviews className="readReviews">
+                <a href="RatingsAndReviews" style={{ color: 'black' }}>{`Read all ${reviews.length}+ reviews`}</a>
+              </ReadReviews>
+            </>
           )
           : (
-            <div>
-              <span>
+              <ReadReviews>
                 <a href="RatingsAndReviews">No reviews yet. Add one!</a>
-              </span>
-            </div>
+              </ReadReviews>
           )}
-        </ReviewContainer>
-      <CategoryContainer>{productInfo.category}</CategoryContainer>
-      <PriceContainer>
-        {selectedStyle.sale_price
-        ? (
-          <h5>
-            <span style={{color: 'red '}}>
-              {`${selectedStyle.sale_price}    `}
-            </span>
-            <s>{selectedStyle.original_price}</s>
-          </h5>
-        )
-        : (
-          <h5>{selectedStyle.original_price}</h5>
-        )}
-      </PriceContainer>
-      <h2>{productInfo.name}</h2>
+        {/* </ReviewContainer> */}
+        <CategoryContainer>{productInfo.category}</CategoryContainer>
+
+        <h2>{productInfo.name}</h2>
         <SocialMediaContainer>
           <ShareSocial>
             <Facebook>
@@ -59,22 +45,63 @@ function ProductOverview(props) {
             </Pinterest>
           </ShareSocial>
         </SocialMediaContainer>
-      </div>
-    </div>
-  );
-}
 
-const ReviewContainer = styled.div`
-  height: 5%;
-  width: auto;
+      </OverviewContainer>
+   );
+};
+
+// ProductOverview.propTypes = {
+//   data: PropTypes.shape({
+//     details: PropTypes.shape({
+//       data: PropTypes.shape({
+//         id: PropTypes.number,
+//         name: PropTypes.string,
+//         category: PropTypes.string,
+//         default_price: PropTypes.string,
+//       }),
+//     }),
+//   }).isRequired,
+// };
+
+const OverviewContainer = styled.div`
+  display: block;
+  grid-row: 1/2;
+  grid-column: 4;
 `;
 
-const CategoryContainer = styled.div`
-  margin-top: 1em;
-  margin-bottom: 1em;
+const ReadReviews = styled.h5`
+  display: inline-block;
+  margin-block-start: 0em;
+  margin-block-end: 0em;
+  margin-left: 1rem;
+  color: black;
+  text: underlined;
 `;
 
-const PriceContainer = styled.span`
+// margin-top: 1em;
+
+// const OverviewContainer = styled.div`
+//   display: block;
+//   //flex-direction: column;
+//   //grid-column: 4;
+//   //align-items: space between;
+//   //grid-row: 1;
+//   flex: 3 1;
+// `;
+
+// const ReviewContainer = styled.div`
+//   height: 5%;
+//   width: auto;
+// `;
+
+const CategoryContainer = styled.h3`
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  &:hover {
+    text-decoration: underline;
+  }
+  cursor: pointer;
+  font-size: 1.17rem;
 `;
 
 
@@ -85,18 +112,18 @@ const SocialMediaContainer = styled.div`
 
 const Facebook = styled.div`
   flex: f1;
-  font-size: 24px;
+  font-size: 1.5rem;
 `;
 
 const Twitter = styled.div`
   flex: f1;
-  font-size: 24px;
+  font-size: 1.5rem;
 
 `;
 
 const Pinterest = styled.div`
   flex: f1;
-  font-size: 24px;
+  font-size: 1.5rem;
 `;
 
 

@@ -39,7 +39,7 @@ function Card({ data }) {
         : <div /> }
     </div>
   );
-}
+};
 
 Card.propTypes = {
   data: PropTypes.shape({
@@ -57,7 +57,7 @@ Card.propTypes = {
 const CardStyle = styled.div`
   display: flex;
   flex-direction: column;
-  border: 15px solid transparent;
+  border: black solid medium transparent;
 `;
 
 const Cards = styled.div`

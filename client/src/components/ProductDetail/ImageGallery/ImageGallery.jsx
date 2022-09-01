@@ -141,13 +141,8 @@ const Gallery = styled.div`
 // `;
 
 const Photo = styled.img`
-  object-fit: scale-down;
-  object-fit: cover;
-  max-width: 100%;
-  max-height: 100%;
-  overflow: hidden;
-  z-index: 1;
-  position: relative;
+
+
 `;
 
 

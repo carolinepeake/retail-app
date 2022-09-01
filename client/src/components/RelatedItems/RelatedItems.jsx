@@ -5,41 +5,62 @@ import OutfitList from './OutfitList/OutfitList';
 
 function RelatedItems() {
   return (
-    // <div id="related-items">
       <Container id="related-items">
-        <Text>
+        <Text1>
           Related Items
-        </Text>
+        </Text1>
         <CardsList />
-        <Text>
+        <Text2>
           Outfit List
-        </Text>
+        </Text2>
         <OutfitList />
       </Container>
-    // </div>
   );
 }
 
 const Container = styled.div`
-  padding-top: 20px;
-  grid-column: 2/12;
+  grid-column: 2/3;
+  grid-row: 3/4;
+  display: grid;
+  grid-template-columns: 10% repeat(3, 4fr) 3fr 10%;
+  grid-template-rows: 1em 1fr 1.5em 1em 1fr;
+  column-gap: 1em;
 `;
 
-const Text = styled.div`
-  font-size: large;
-  font-weight: bold;
-  // text-align: center;
-  // margin-left: 20px;
-  // margin-right: 20px;
-  border-radius: 10px;
-  grid-column: 2/12;
+const Text1 = styled.div`
+  font-size: 1..17rem;
   text-align:left;
+  grid-row: 1/2;
+  grid-column: 2/4;
 `;
 
-const CardList = styled.div`
-  grid-column: 2/12;
-  column-gap: 10%
+// const Text1 = styled.div`
+//   font-size: large;
+//   font-weight: bold;
+//   border-radius: 10px;
+//   text-align:left;
+//   grid-row: 1/2;
+// `;
+
+const Text2 = styled.div`
+  font-size: 1.17rem;
+  text-align:left;
+  grid-row: 4/5;
+  grid-column: 2/4;
 `;
+const CardList = styled.div`
+  grid-column: 2/6;
+  column-gap: 10%;
+  grid-row: 2/3;
+  display: contents;
+
+
+`;
+
+// const CardList = styled.div`
+//   grid-column: 2/12;
+//   column-gap: 10%
+// `;
 
 
 

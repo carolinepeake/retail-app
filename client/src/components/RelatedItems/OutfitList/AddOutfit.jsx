@@ -27,20 +27,29 @@ function AddOutfit() {
 }
 
 const Outline = styled.div`
-  border: 15px solid transparent;
+  border: black solid medium transparent;
 `;
 
 const Button = styled.button`
-  width: 225px;
-  height: 225px;
-  font-size: 60px;
+  grid-column: 3/5;
+  aspect-ratio: 1;
+  font-size: 1.17rem;
   font-width: bold;
   border-radius: 10px;
   cursor: pointer;
 `;
 
+// const Button = styled.button`
+//   width: 225px;
+//   height: 225px;
+//   font-size: 60px;
+//   font-width: bold;
+//   border-radius: 10px;
+//   cursor: pointer;
+// `;
+
 const Text = styled.div`
-  font-size: 20px;
+  font-size: 1.17rem;
   font-width: bold;
   align-text: left;
 `;

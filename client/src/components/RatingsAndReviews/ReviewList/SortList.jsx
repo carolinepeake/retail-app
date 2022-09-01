@@ -13,7 +13,7 @@ function SortList({ sortOrder, setSortOrder, revCount, filteredRevsLength }) {
       {revCount === 2 ? 2 : filteredRevsLength}
       &nbsp;
       reviews, sorted by&nbsp;
-      <select onChange={handleSortSelect} value={sortOrder}>
+      <select onChange={handleSortSelect} value={sortOrder}  style={{ cursor: 'pointer' }}>
         <option value="relevant">Relevance</option>
         <option value="newest">Newest</option>
         <option value="helpful">Helpful</option>
@@ -32,7 +32,7 @@ export default SortList;
 
 const RevListHeader = styled.div`
   padding: 1em;
-  font-size: 1.3em;
+  font-size: 1.17em;
   margin-block-start: 1em;
   margin-block-end: 1em;
   margin-inline-start: 0px;

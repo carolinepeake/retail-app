@@ -78,7 +78,7 @@ ReviewTile.propTypes = {
 export default ReviewTile;
 
 const Container = styled.div`
-  border-bottom: 1px solid;
+  border-bottom: black solid thin;
   overflow-wrap: anywhere;
 `;
 
@@ -105,8 +105,8 @@ const PhotosDiv = styled.div`
 `;
 
 const RevImg = styled.img`
-  height: 100px;
-  width: 100px;
+  height: 25%;
+  width: 25%;
   padding: .5em;
 `;
 

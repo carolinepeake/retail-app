@@ -116,8 +116,8 @@ function AnswerEntry({ answer }) {
 
 const Answer = styled.div`
   grid-column: 2 / 3;
-  padding-bottom: 10px;
-  padding-left: 10px;
+  padding-bottom: 0.5rem;
+  padding-left: 0.5rem;
 `;
 
 const AnswerPhotos = styled.span`
@@ -126,21 +126,21 @@ const AnswerPhotos = styled.span`
 `;
 
 const AnswerImage = styled.img`
-  width: 80px;
-  height: 80px;
-  padding-right: 10px;
+  width: 20%;
+  height: 20%;
+  padding-right: 0.5rem;
   cursor: pointer;
 `;
 
 const AnswerFooter = styled.div`
   display: grid;
   grid-template-columns: 50% 25% 25%;
-  font-size: 12px;
+  font-size: 0.75rem;
 `;
 
 const AnswerBody = styled.div`
   grid-column: 2 / 3;
-  padding-bottom: 10px;
+  padding-bottom:0.5rem;
 `;
 
 const Clickable = styled.u`

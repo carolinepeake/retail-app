@@ -37,7 +37,7 @@ function AddToCart() {
         </SelectSizeContainer>
         <SelectQuantityContainer>
           {isSizeSelected
-          ? <SelectQ value={selectedQuantity} onChange={(e) => handleChangeQuantity(e)}>
+          ? <SelectQuantity value={selectedQuantity} onChange={(e) => handleChangeQuantity(e)}>
               <option>-</option>
               {availableQuantity >= 15
               ? [...Array(16).keys()].slice(1).map((num) =>
@@ -45,10 +45,10 @@ function AddToCart() {
               : [...Array(availableQuantity + 1).keys()].slice(1).map((num) =>
                   <option value={num + 1}>{num + 1}</option>)
               }
-            </SelectQ>
-          : <SelectQ disabled={!isSizeSelected} value={selectedQuantity} onChange={(e) => handleChangeQuantity(e)}>
+            </SelectQuantity>
+          : <SelectQuantity disabled={!isSizeSelected} value={selectedQuantity} onChange={(e) => handleChangeQuantity(e)}>
               <option>-</option>
-            </SelectQ>
+            </SelectQuantity>
           }
         </SelectQuantityContainer>
       </SQContainer>
@@ -64,7 +64,16 @@ function AddToCart() {
 
 const Cart = styled.div`
   display: block;
+  grid-column: 4/6;
+  grid-row: 5/6;
 `;
+
+// const Cart = styled.div`
+//   display: block;
+//   //grid-column: 4 / 6;
+//   //grid-row: 1;
+//   flex: 3 1;
+// `;
 
 const SQContainer = styled.div`
   flex-direction: row;
@@ -79,12 +88,13 @@ const SelectSizeContainer = styled.div`
 `;
 
 const SelectSize = styled.select`
-  font-size: 1em;
-  padding-bottom: 0.4em;
-  padding-top: 0.4em;
-  padding-left: 1em;
-  padding-right: 1em;
-  margin-right: 1em;
+  font-size: 1.17rem;
+  padding-bottom: 0.4rem;
+  padding-top: 0.4rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-right: 1rem;
+  cursor: pointer;
 `;
 
 const SelectQuantityContainer = styled.div`
@@ -94,12 +104,13 @@ const SelectQuantityContainer = styled.div`
   margin-right: 2%
 `;
 
-const SelectQ = styled.select`
-  font-size: 1em;
-  padding-bottom: 0.4em;
-  padding-top: 0.4em;
-  padding-left: 1.1em;
-  padding-right: 1.1em;
+const SelectQuantity = styled.select`
+  font-size: 1.17rem;
+  padding-bottom: 0.4rem;
+  padding-top: 0.4rem;
+  padding-left: 1.1rem;
+  padding-right: 1.1rem;
+
 `;
 
 const BagContainer = styled.div`
@@ -114,9 +125,10 @@ const AddtoBag = styled.div`
 `;
 
 const CartB = styled.button`
-  font-size: 1em;
-  width: 13.3em;
-  height: 2.4em;
+  font-size: 1.17rem;
+  width: 13.3rem;
+  height: 2.4rem;
+  cursor: pointer;
 `;
 
 export default AddToCart;

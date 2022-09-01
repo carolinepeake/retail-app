@@ -34,15 +34,15 @@ function QuestionSearch() {
 const QuestionSearchBar = styled.div`
   justify-content: left;
   align-items: center;
-  padding: 10px;
-  margin-left: 20px;
-  margin-right: 20px;
+  padding: 0.5rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
   border-radius: 10px;
 `;
 
 const Input = styled.input`
   width: 100%;
-  height: 30px;
+  height: 1.5rem;
   border-color: ${(props) => props.theme.fontColor};
   border-radius: 10px;
   background-color: ${(props) => props.theme.tertiaryColor};
@@ -54,8 +54,8 @@ const Input = styled.input`
   :-ms-input-placeholder {
      color: ${(props) => props.theme.fontColor};
   }
-  width: 56%;
-  margin-left: 8%;
+  width: 80%;
+  margin-left: 0.5rem;
 `;
 
 export default QuestionSearch;

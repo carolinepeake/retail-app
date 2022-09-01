@@ -1,13 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
-function CardStars({ reviewID }) {
+function Stars() {
+  const {
+    reviews
+  } = useGlobalContext();
 
   const baseStars = [];
   const filledStars = [];
-  const reviews = reviewID.results;
+
   let average = 0;
   for (let i = 0; i < reviews.length; i += 1) {
     average += reviews[i].rating;
@@ -20,28 +22,29 @@ function CardStars({ reviewID }) {
   }
 
   return (
-    <Stars>
+    <StarsContainer>
       <FilledStar className="star" size={partial}>{filledStars}</FilledStar>
       <BaseStar className="star">{baseStars}</BaseStar>
-    </Stars>
+    </StarsContainer>
   );
 }
 
-CardStars.propTypes = {
-  reviewID: PropTypes.shape({
-    results: PropTypes.arrayOf(PropTypes.shape({
-      rating: PropTypes.number,
-    })),
-  }).isRequired,
-};
-
-const Stars = styled.div`
+const StarsContainer = styled.h5`
   position: relative;
   margin-left: auto;
   margin-right: auto;
-  font-size: 1.5em;
   color: ${(props) => props.theme.fontColor};
+  display: inline-block;
+  margin-block-end: 0em;
 `;
+
+// const StarsContainer = styled.div`
+//   position: relative;
+//   margin-left: auto;
+//   margin-right: auto;
+//   font-size: 25px;
+//   color: ${(props) => props.theme.fontColor};
+// `;
 
 const BaseStar = styled.span`
   position: relative;
@@ -59,4 +62,4 @@ const FilledStar = styled.div`
   font-size: bold;
 `;
 
-export default CardStars;
+export default Stars;

@@ -49,15 +49,26 @@ function App() {
   );
 }
 
+//should include css classes for things like clickable, dropdowns, stars
+
 const StyledContainer = styled.div`
   font-family: 'Roboto Condensed', sans-serif;
   background-color: ${(props) => props.theme.backgroundColor};
   color: ${(props) => props.theme.fontColor};
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: repeat(4, minmax(2em, auto));
-  overflow: auto;
+  grid-template-columns: 1fr 8fr 1fr;
+  grid-template-rows: 1% repeat(4, 1fr);
+ // overflow: auto;
+  overflow: scroll;
+  row-gap: 1.5rem;
+
 `;
 
+//grid-template-rows: auto repeat(4, 1fr);
+// or overflow hidden? auto?
+
+//should add in safe on the property it belongs so content is not rendered overscreen and unreachable
+
+// need to make font-size responsive
 
 export default App;

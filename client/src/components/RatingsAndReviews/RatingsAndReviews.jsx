@@ -13,7 +13,7 @@ import Breakdown from './Breakdown/Breakdown';
 
 function RatingsAndReviews() {
   const {
-    productID, productInfo, reviews, setReviews, revMeta, setRevMeta,
+    productID, productInfo, reviews, setReviews, revMeta, setRevMeta
   } = useGlobalContext();
   const [sortOrder, setSortOrder] = useState('relevant');
   const [revCount, setRevCount] = useState(2);
@@ -125,19 +125,24 @@ function RatingsAndReviews() {
 export default RatingsAndReviews;
 
 const Container = styled.div`
-  display: flex;
-  padding-left: 5%;
-  padding-right: 5%;
+  display: grid;
   background: ;
-  margin-top: 20px;
-  grid-column: 2/12;
+  grid-column: 1/4;
+  grid-row: 5/6;
+  grid-template-columns: 10% repeat(3, 1fr) 10%;
+  column-gap: 1em;
 `;
 
 const ReviewListContainer = styled.div`
-  padding: 1em;
-  background: ;
-  width: 80%;
+  grid-column: 3/5;
 `;
+
+// const ReviewListContainer = styled.div`
+//   padding: 1em;
+//   background: ;
+//   width: 80%;
+//   grid-column: 3/5;
+// `;
 
 const ReviewTilesContainer = styled.div`
   padding: 1em;
@@ -151,11 +156,21 @@ const MoreAddContainer = styled.div`
   display: flex;
   width: 20em;
   justify-content: space-around;
-  margin-left: 20px;
+  margin-left: 15%;
 `;
 
 const BreakdownContainer = styled.div`
-  padding: 1em;
-  background: ;
-  width: 20%;
+  grid-column: 2/3;
 `;
+
+// const BreakdownContainer = styled.div`
+//   padding: 1em;
+//   background: ;
+//   grid-column: 2/3;
+// `;
+
+
+//better organize axios requests
+// refactor related axios requests to make DRYier
+//make stars a higher order component
+// possibly make carasouel a higher order  component

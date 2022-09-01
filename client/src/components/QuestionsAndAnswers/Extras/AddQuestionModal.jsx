@@ -177,7 +177,7 @@ const Form = styled.div`
 `;
 
 const FormField = styled.label`
-  font-size: 18px;
+  font-size: 1.17rem;
   grid-column: 1;
   cursor: initial;
 `;
@@ -195,7 +195,7 @@ const FormEntry = styled.input`
   :-ms-input-placeholder {
     color: ${(props) => props.theme.fontColor};
   }
-  border: 1px solid;
+  border:black solid thin;
 `;
 
 const InputQuestion = styled.textarea`
@@ -212,7 +212,7 @@ const InputQuestion = styled.textarea`
   :-ms-input-placeholder {
     color: ${(props) => props.theme.fontColor};
   }
-  border: 1px solid;
+  border: black solid thin;
 `;
 
 const Footer = styled.div`
@@ -223,15 +223,15 @@ const Footer = styled.div`
 `;
 
 const FooterButton = styled.button`
-  width: 150px;
-  height: 45px;
-  margin: 10px;
+  width: 12rem;
+  height: 2.5rem;
+  margin: .5rem;
   border: none;
   color: ${(props) => props.theme.fontColor};
   background-color: ${(props) => props.theme.backgroundColor};
   border-radius: 10px;
-  border: 1px solid;
-  font-size: 20px;
+  border: black solid thin;
+  font-size: 1.17rem;
   cursor: pointer;
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -243,13 +243,13 @@ const Required = styled.sup`
 `;
 
 const Disclaimer = styled.div`
-  font-size: 12px;
+  font-size: 0.75rem;
   grid-column: 2;
   font-style: italic;
 `;
 
 const Header = styled.header`
-  margin-bottom: 10px;
+  margin-bottom: 0.6rem;
 `;
 
 export default AddQuestionModal;

@@ -6,57 +6,71 @@ function StyleSelector(props) {
   const { styles, selectedStyle, setSelectedStyle, productID, productInfo } = useGlobalContext();
 
   return (
-    <div>
-      <StyleName>
-        <b>{'Style > '}</b>
-        {selectedStyle.name}
-      </StyleName>
-      <ThumbnailsContainer props={props}>
+    // <Styles>
+
+      <ThumbnailsContainer props={props} onClick={() => setSelectedStyle(style)}>
         {styles.map((style, i) => (
-          <Thumbnail key={style.style_id} i={i} value={style} style={style} props={props}/>
-        ))}
-      </ThumbnailsContainer>
-    </div>
-  );
-}
-
-const StyleName = styled.h4`
-  margin-inline-start: 1em;
-  margin-block-end: 0px;
-`;
-
-
-function Thumbnail({i, style, value, props}) {
-  const { styles, selectedStyle, setSelectedStyle, productID, productInfo } = useGlobalContext();
-
-  return(
-    <div onClick={() => setSelectedStyle(style)} role="presentation">
-      <ThumbnailContainer>
-          <ThumbnailClass
+          <ThumbnailContainer key={style.style_id} i={i} value={style} style={style} props={props} onClick={() => setSelectedStyle(style)}>
+            <ThumbnailClass
             src={style.photos[0].thumbnail_url}
             alt=""
             style={{
-              width: '100%',
-              height: '100%',
+              maxWidth: '100%',
+              maxHeight: '100%',
             }}
-          ></ThumbnailClass>
-      </ThumbnailContainer>
-    </div>
+            />
+          </ThumbnailContainer>
+        ))}
+      </ThumbnailsContainer>
+    // </Styles>
   );
 }
 
+// const StyleName = styled.h4`
+//   margin-inline-start: 1em;
+//   margin-block-end: 0px;
+// `;
+
+
+// function Thumbnail({i, style, value, props}) {
+//   const { styles, selectedStyle, setSelectedStyle, productID, productInfo } = useGlobalContext();
+
+//   return(
+//       <ThumbnailContainer onClick={() => setSelectedStyle(style)} >
+//           <ThumbnailClass
+//             src={style.photos[0].thumbnail_url}
+//             alt=""
+//             style={{
+//               width: '100%',
+//               height: '100%',
+//             }}
+//           ></ThumbnailClass>
+//       </ThumbnailContainer>
+//   );
+// }
+
 export default StyleSelector;
 
+// const Styles = styled.div`
+//   display: contents;
+//   grid-row: 1;
+//   grid-column: 4;
+// `;
+
+// const StyleName = styled.h4`
+//   grid-row:
+//   grid-column: 4;
+// `;
+
 const ThumbnailsContainer = styled.div`
+  grid-row: 4/5;
+  grid-column: 4;
   display: grid;
-  padding: 1rem 1rem;
   justify-items: center;
-  grid-template-columns: 24% 24% 24% 24%;
-  grid-column-gap: 1%;
-  max-height: 20%;
-  width: auto;
-  grid-template-rows: 1fr 1fr;
-  grid-row-gap: 1%;
+  grid-template-columns: repeat(4, 1fr);
+  grid-column-gap: 1rem;
+  //width: auto;
+  grid-row-gap: 1rem;
   align-items: center;
   justify-content: center;
   align-content: center;
@@ -64,7 +78,7 @@ const ThumbnailsContainer = styled.div`
 
 
 const ThumbnailContainer = styled.div`
-  display: grid;
+  display: contents;
   height: 50%;
   overflow: hidden;
   justify-content: space-around;
@@ -74,9 +88,11 @@ const ThumbnailContainer = styled.div`
 
 
 const ThumbnailClass = styled.img`
-  max-width: 100%;
-  max-height: 100%
-  height: auto;
+  width: 100%;
+  object-fit: cover;
+  aspect-ratio: 1;
+  cursor: pointer;
+  border-radius: 50%;
 `;
 
 

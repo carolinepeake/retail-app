@@ -202,19 +202,19 @@ const Entry = styled.div`
   grid-template-columns: 8% 57% 25% 10%;
   width: 100%;
   justify-content: center;
-  padding-bottom: 10px;
+  padding-bottom: 0.5rem;
 `;
 
 const Question = styled.div`
   grid-column: 1;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 0.5rem;
 `;
 
 const QuestionBody = styled.div`
   grid-column: 2;
   font-weight: bold;
-  padding-right: 10px;
+  padding-right: 0.5rem;
 `;
 
 const HelpfulReport = styled.div`

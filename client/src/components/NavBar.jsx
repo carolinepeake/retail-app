@@ -63,12 +63,11 @@ const Background = styled.div`
   color: ${(props) => props.theme.navBarFont};
   background-size: 100% 100%;
   background-repeat: no-repeat;
-  grid-column: 1/13;
+  grid-column: 1/4;
   display: grid;
   grid-template-columns: 14% 18% 18% 18% 18% 14%;
   justify-content: center;
   height: auto;
-  // margin-bottom: 10px;
 `;
 
 const GridItem = styled.div`

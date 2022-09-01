@@ -39,15 +39,15 @@ const ButtonContainer = styled.div`
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
-  margin-left: 20px;
-  margin-right: 20px;
-  margin-top: 5px;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-top: 0.3rem;
   border-radius: 10px;
 `;
 
 const Button = styled.button`
-  height: 50px;
-  width: 250px;
+  height: 2.5rem;
+  width: 14rem;
   border-radius: 10px;
   cursor: pointer;
   font-weight: bold;

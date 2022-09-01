@@ -82,6 +82,48 @@ export function GlobalContextProvider({ children }) {
       .catch((err) => console.error('error getting product styles', err));
   }, [productID]);
 
+  useEffect(() => {
+    setProductList([]);
+    axios.get('/related', { params: { productID } })
+      .then((results) => {
+        // Get all related product IDs
+        (results.data).map((id) => {
+          const details = axios.get('/relatedItem', { params: { productID: id } });
+          const image = axios.get('/relatedImage', { params: { productID: id } });
+          const stars = axios.get('/relatedStars', { params: { reviewID: id } });
+          return Promise.all([details, image, stars])
+            .then((object) => {
+              const tempObj = {
+                details: object[0],
+                image: object[1],
+                stars: object[2],
+              };
+              setProductList((oldList) => [...oldList, tempObj]);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        });
+      })
+      .catch((error) => console.log('Error here:', error));
+    // Get data for current product ID for user to add outfit
+    const details = axios.get('/relatedItem', { params: { productID } });
+    const image = axios.get('/relatedImage', { params: { productID } });
+    const stars = axios.get('/relatedStars', { params: { reviewID: productID } });
+    Promise.all([details, image, stars])
+      .then((object) => {
+        const outfitObj = {
+          details: object[0],
+          image: object[1],
+          stars: object[2],
+        };
+        setCurrOutfit(outfitObj);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [productID]);
+
   const dependencies = [
     productID,
     productInfo,

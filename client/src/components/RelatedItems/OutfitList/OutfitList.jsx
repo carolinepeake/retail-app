@@ -53,13 +53,23 @@ function OutfitList() {
   );
 }
 
+
 const Outline = styled.div`
   display: flex;
   flex-direction: row;
   background-color: ${(props) => props.theme.backgroundColor};
-  grid-column: 2/12;
+  grid-column: 2/6;
   column-gap: 10%;
+  grid-row: 5/6;
 `;
+
+// const Outline = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   background-color: ${(props) => props.theme.backgroundColor};
+//   grid-column: 2/6;
+//   column-gap: 10%;
+// `;
 
 const StyleList = styled.div`
   display: flex;
@@ -90,7 +100,7 @@ const LeftButton = styled.button`
   align-self: center;
   position: absolute;
   font-width: bold;
-  font-size: 60px;
+  font-size: 2.5rem;
   background-color: transparent;
   border: none;
   &:hover {
@@ -105,7 +115,7 @@ const RightButton = styled.button`
   align-self: center;
   position: absolute;
   font-width: bold;
-  font-size: 60px;
+  font-size: 2.5rem;
   background-color: transparent;
   border: none;
   &:hover {
@@ -118,7 +128,13 @@ const RightButton = styled.button`
 const EmptyOutfit = styled.div`
   width: 225px;
   height: 225px;
-  border: 15px solid transparent;
+  border: black solid medium transparent;
 `;
+
+// const EmptyOutfit = styled.div`
+//   width: 225px;
+//   height: 225px;
+//   border: 15px solid transparent;
+// `;
 
 export default OutfitList;

@@ -143,5 +143,5 @@ Characteristics.propTypes = {
 export default Characteristics;
 
 const CharDiv = styled.div`
-  margin-left: 20px;
+  margin-left: 1rem;
 `;

@@ -65,7 +65,7 @@ const Outline = styled.div`
     opacity: 0.80;
   }
   margin-top: auto;
-  border: 15px solid transparent;
+  border: black solid medium transparent;
 `;
 
 const ImageOutline = styled.div`
@@ -83,12 +83,24 @@ const Image = styled.img`
   position: relative;
   // margin-left: auto;
   // margin-right: auto;
-  width: 225px;
-  height: 225px;
-  object-fit: fill;
+  width: 100%
+  apect-ratio: 1;
+  object-fit: cover;
   border-radius: 10px;
   cursor: pointer;
 `;
+
+// const Image = styled.img`
+//   display: block;
+//   position: relative;
+//   // margin-left: auto;
+//   // margin-right: auto;
+//   width: 225px;
+//   height: 225px;
+//   object-fit: fill;
+//   border-radius: 10px;
+//   cursor: pointer;
+// `;
 
 const Button = styled.button`
   display: block;
@@ -98,7 +110,7 @@ const Button = styled.button`
   color: black;
   background-color: transparent;
   border: none;
-  font-size: 30px;
+  font-size: 1.5rem;
   font-width: bold;
   &:hover {
     background-color: trasparent;

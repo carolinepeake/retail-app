@@ -11,7 +11,7 @@ function LengthBreakdown({ revMeta, productInfo }) {
 
   return (
     <div>
-      <h4>Product Characteristics</h4>
+      {/* <h4>Product Characteristics</h4> */}
       <br />
       {Object.entries(revMeta.characteristics).map((charEntry) => (
         <div key={charEntry[1].id}>
@@ -99,13 +99,13 @@ const Row2 = styled.div`
 
 const HorizontalProgFill = styled.div`
   background: lightgrey;
-  height: 10px;
+  height: 0.5rem;
   margin: 2px;
   color: #fff;
   text-align: center;
   font-family: "Lato","Verdana",sans-serif;
-  font-size: 12px;
-  line-height: 20px;
+  font-size: 0.75rem;
+  line-height: 1rem;
   width: ${(props) => props.width - 1}%
 `;
 
