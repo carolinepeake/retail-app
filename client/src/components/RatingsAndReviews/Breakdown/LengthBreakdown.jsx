@@ -12,7 +12,7 @@ function LengthBreakdown({ revMeta, productInfo }) {
   return (
     <div>
       {/* <h4>Product Characteristics</h4> */}
-      <br />
+      {/* <br /> */}
       {Object.entries(revMeta.characteristics).map((charEntry) => (
         <div key={charEntry[1].id}>
           <div>
@@ -58,7 +58,7 @@ function LengthBreakdown({ revMeta, productInfo }) {
               </DescDiv>
             </Row2>
           </BarsContainter>
-          <br />
+          {/* <br /> */}
         </div>
       ))}
     </div>
@@ -82,6 +82,7 @@ export default LengthBreakdown;
 const BarsContainter = styled.div`
   display: flex;
   flex-direction: column;
+  margin-bottom: 1rem;
 `;
 
 const Row1 = styled.div`
@@ -89,12 +90,14 @@ const Row1 = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
+  font-size: 1rem;
 `;
 
 const Row2 = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  font-size: 0.9rem;
 `;
 
 const HorizontalProgFill = styled.div`
@@ -120,6 +123,7 @@ const DescDiv = styled.div`
   display: flex;
   justify-content: center;
   width: 33%;
+  font-size: 0.9rem;
 `;
 
 const DotDiv = styled.div`

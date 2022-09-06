@@ -43,27 +43,41 @@ function ProductDetail() {
     setPlace(() => value);
   }
 
+  function handleClickBack(e) {
+    e.preventDefault();
+    setPlace((prev) => prev - 1);
+  }
+
+  function handleClickForward(e) {
+    e.preventDefault();
+    setPlace((prev) => prev + 1);
+  }
+
   return (
     <ProductSec id="product-details">
+      <LeftTop>
         <MainContainer>
-          <Main src={imageUrl}
-          alt={`${productInfo.name} in ${selectedStyle.name} style`}
+          <Main
+            src={imageUrl}
+            alt={`${productInfo.name} in ${selectedStyle.name} style`}
           />
-          <MdArrowBackIos style={{ zIndex: 2, position: 'absolute', top: '48%', left: '15%' }} />
-          <MdArrowForwardIos style={{ zIndex: 2, position: 'absolute', top: '48%', right: '2%' }} />
+          <Side>
+          {photos
+          && photos.map((photo, index) => (
+            <Thumbnail
+              src={photo.thumbnail_url}
+              key={photo.url}
+              index={index}
+              alt=""
+              onClick={(e) => changeMain(e, index)}
+            />
+          ))}
+          </ Side>
+          <MdArrowBackIos style={{ zIndex: 2, position: 'absolute', top: '48%', left: '15%' }} onClick={handleClickBack}/>
+          <MdArrowForwardIos style={{ zIndex: 2, position: 'absolute', top: '48%', right: '2%' }} onClick={handleClickForward}/>
         </MainContainer>
-        <Side>
-        {photos
-        && photos.map((photo, index) => (
-          <Thumbnail
-            src={photo.thumbnail_url}
-            key={photo.url}
-            index={index}
-            alt=""
-            onClick={(e) => changeMain(e, index)}
-          />
-        ))}
-        </ Side>
+        </LeftTop>
+
         <LeftBottom>
         {productInfo.slogan
         && <ProductSlogan>{productInfo.slogan}</ProductSlogan>}
@@ -126,12 +140,21 @@ let ProductSec = styled.div`
 //   display: flex;
 //   flex-direction: row;
 
+const LeftTop = styled.div`
+  grid-column: 1/4;
+  grid-row: 1/6;
+  display: contents;
+  width: 100%;
+
+`;
+
 const LeftBottom = styled.div`
   grid-row: 7/8;
   grid-column: 2/4;
   display: flex;
   flex-direction: column;
   height: max-content;
+  max-width: 700px;
 `;
 
 // const LeftSide = styled.div`
@@ -164,16 +187,13 @@ const LeftBottom = styled.div`
 // `;
 
 const Side = styled.div`
-  grid-column: 1/2;
-  grid-row: 1/6;
   display: flex;
   flex-direction: column;
-  left-margin: 2%;
-  top-margin: 2%;
+  margin: 2% auto 0 auto;
   z-index: 2;
   align-self: start;
-  position: relative;
-  max-width: 100%;
+  position: absolute;
+  max-width: 10%;
   height: 100%;
   margin-left: 1rem;
   margin-right: 1rem;
@@ -193,6 +213,7 @@ const Thumbnail = styled.img`
   object-fit: cover;
   max-height: 100px;
   cursor: pointer;
+  margin: 0 auto;
 `;
 
 const MainContainer = styled.div`
@@ -205,6 +226,7 @@ const MainContainer = styled.div`
   display: grid;
   overflow: hidden;
   height: max-content;
+  max-width: 800px;
 `;
 
 // const MainContainer = styled.div`
@@ -224,7 +246,8 @@ const Main = styled.img`
   z-index: 1;
   display: grid;
   aspect-ratio: 1;
-  max-width: 750px;
+  max-width: 800px;
+  margin: 0 auto;
 `;
 
 // display: grid?
@@ -245,7 +268,8 @@ const ProductSlogan = styled.h3`
   display: block;
   margin-block-start: 0em;
   margin-block-end: 0em;
-  font-size: 1.17rem;
+  font-size: 1.0rem;
+  font-weight: bold;
 `;
 
 // const ProductSlogan = styled.h3`
@@ -257,6 +281,7 @@ const ProductSlogan = styled.h3`
 const ProductDescription = styled.p`
   display: block;
   margin-block-end: 0em;
+  font-size: 0.9rem;
 `;
 
 const PriceContainer = styled.div`
@@ -274,7 +299,7 @@ const StyleName = styled.h5`
   grid-column: 4;
   margin-block-start: 0em;
   margin-block-end: 0em;
-  font-size: 1.17rem;
+  font-size: 1.0rem;
 `;
 
 

@@ -27,10 +27,10 @@ function Summary({ revMeta }) {
   return (
     <div>
       <RatingHeader>{aveRating}</RatingHeader>
-      <p>
+      <RatingSummary>
         {recommendPercentage}
         % of reviews recommend this product
-      </p>
+      </RatingSummary>
     </div>
   );
 }
@@ -50,6 +50,11 @@ Summary.propTypes = {
 export default Summary;
 
 const RatingHeader = styled.div`
-  padding: .12em;
-  font-size: 0.25rem;
+  padding-top: 1.0rem;
+  font-size: 3.0rem;
+`;
+
+const RatingSummary = styled.div`
+  font-size: 0.9rem;
+  margin: 1.0rem 0;
 `;

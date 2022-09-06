@@ -88,7 +88,7 @@ const SelectSizeContainer = styled.div`
 `;
 
 const SelectSize = styled.select`
-  font-size: 1.17rem;
+  font-size: 1.0rem;
   padding-bottom: 0.4rem;
   padding-top: 0.4rem;
   padding-left: 1rem;
@@ -100,12 +100,12 @@ const SelectSize = styled.select`
 const SelectQuantityContainer = styled.div`
   height: auto;
   width: auto;
-  margin-left: 45ß%
+  margin-left: 45%
   margin-right: 2%
 `;
 
 const SelectQuantity = styled.select`
-  font-size: 1.17rem;
+  font-size: 1.0rem;
   padding-bottom: 0.4rem;
   padding-top: 0.4rem;
   padding-left: 1.1rem;
@@ -125,7 +125,7 @@ const AddtoBag = styled.div`
 `;
 
 const CartB = styled.button`
-  font-size: 1.17rem;
+  font-size: 1.0rem;
   width: 13.3rem;
   height: 2.4rem;
   cursor: pointer;

@@ -33,8 +33,7 @@ const Outline = styled.div`
 const Button = styled.button`
   grid-column: 3/5;
   aspect-ratio: 1;
-  font-size: 1.17rem;
-  font-width: bold;
+  font-size: 1.0rem;
   border-radius: 10px;
   cursor: pointer;
 `;
@@ -49,8 +48,7 @@ const Button = styled.button`
 // `;
 
 const Text = styled.div`
-  font-size: 1.17rem;
-  font-width: bold;
+  font-size: 1.0rem;
   align-text: left;
 `;
 

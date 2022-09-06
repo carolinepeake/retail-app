@@ -28,7 +28,7 @@ const Container = styled.div`
 `;
 
 const Text1 = styled.div`
-  font-size: 1..17rem;
+  font-size: 1.0rem;
   text-align:left;
   grid-row: 1/2;
   grid-column: 2/4;
@@ -43,7 +43,7 @@ const Text1 = styled.div`
 // `;
 
 const Text2 = styled.div`
-  font-size: 1.17rem;
+  font-size: 1.0rem;
   text-align:left;
   grid-row: 4/5;
   grid-column: 2/4;

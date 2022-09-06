@@ -53,8 +53,7 @@ export default AddPhotos;
 
 const AddButton = styled.button`
   padding: 0.75em;
-  font-size: 1.17em;
-  font-weight: bold;
+  font-size: 1.0em;
   background-color: ${(props) => props.theme.secondaryColor};
 `;
 

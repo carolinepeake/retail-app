@@ -54,11 +54,17 @@ function CardsList() {
   );
 }
 
+
 const Container = styled.div`
-  display: flex;
-  flex-direction: row;
   background-color: ${(props) => props.theme.backgroundColor};
 `;
+
+
+// const Container = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   background-color: ${(props) => props.theme.backgroundColor};
+// `;
 
 const StyleCardList = styled.div`
   display: flex;
@@ -68,7 +74,19 @@ const StyleCardList = styled.div`
   margin-left: auto;
   margin-right: auto;
   align-content: space-evenly;
+  grid-row: 2/3;
+  grid-column: 2/6;
 `;
+
+// const StyleCardList = styled.div`
+//   display: flex;
+//   float: left;
+//   positive: relative;
+//   flex-direction: row;
+//   margin-left: auto;
+//   margin-right: auto;
+//   align-content: space-evenly;
+// `;
 
 const Text = styled.div`
   font-size: 2rem;

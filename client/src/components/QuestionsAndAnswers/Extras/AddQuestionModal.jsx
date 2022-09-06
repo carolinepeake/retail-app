@@ -177,7 +177,7 @@ const Form = styled.div`
 `;
 
 const FormField = styled.label`
-  font-size: 1.17rem;
+  font-size: 1.0rem;
   grid-column: 1;
   cursor: initial;
 `;
@@ -231,7 +231,7 @@ const FooterButton = styled.button`
   background-color: ${(props) => props.theme.backgroundColor};
   border-radius: 10px;
   border: black solid thin;
-  font-size: 1.17rem;
+  font-size: 1.0rem;
   cursor: pointer;
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;

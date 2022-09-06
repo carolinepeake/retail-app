@@ -31,12 +31,10 @@ SortList.propTypes = {
 export default SortList;
 
 const RevListHeader = styled.div`
-  padding: 1em;
-  font-size: 1.17em;
+  font-size: 1.0rem;
   margin-block-start: 1em;
   margin-block-end: 1em;
   margin-inline-start: 0px;
   margin-inline-end: 0px;
-  font-weight: bold;
   display: flex;
 `;

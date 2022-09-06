@@ -179,8 +179,7 @@ export default AddRev;
 
 const AddButton = styled.button`
   padding: 0.75em;
-  font-size: 1.17em;
-  font-weight: bold;
+  font-size: 1.0rem;
   background-color: ${(props) => props.theme.secondaryColor};
   color: ${(props) => props.theme.fontColor};
   border-radius: 8px;
@@ -218,7 +217,7 @@ const AddRevDiv = styled.div`
 const CloseDiv = styled.div`
   display: flex;
   justify-content: flex-end;
-  font-size: 1.17em;
+  font-size: 1.0rem;
   cursor: pointer;
 `;
 
@@ -257,7 +256,7 @@ const RevBodyDiv = styled.div`
 `;
 
 const AuthTag = styled.div`
-  font-size: 1.17em;
+  font-size: 1.0rem;
   font-style: oblique;
   font-weight: lighter;
 `;
@@ -271,7 +270,7 @@ const ButtonContainer = styled.div`
 const ButtonDiv = styled.button`
   width 40%;
   padding: 0.75em;
-  font-size: 1.17em;
+  font-size: 1.0em;
   font-weight: bold;
   border-radius: 10px;
   cursor: pointer;

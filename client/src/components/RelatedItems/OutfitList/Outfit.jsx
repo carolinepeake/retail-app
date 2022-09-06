@@ -111,7 +111,6 @@ const Button = styled.button`
   background-color: transparent;
   border: none;
   font-size: 1.5rem;
-  font-width: bold;
   &:hover {
     background-color: trasparent;
     opacity: 0.80;

@@ -32,10 +32,11 @@ function Stars() {
 const StarsContainer = styled.h5`
   position: relative;
   margin-left: auto;
-  margin-right: auto;
+  margin-right: 0.75rem;
   color: ${(props) => props.theme.fontColor};
   display: inline-block;
   margin-block-end: 0em;
+  margin-block-start: .5em;
 `;
 
 // const StarsContainer = styled.div`

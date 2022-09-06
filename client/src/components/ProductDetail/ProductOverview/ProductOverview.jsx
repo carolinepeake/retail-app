@@ -31,7 +31,7 @@ function ProductOverview() {
         {/* </ReviewContainer> */}
         <CategoryContainer>{productInfo.category}</CategoryContainer>
 
-        <h2>{productInfo.name}</h2>
+        <ProductName>{productInfo.name}</ProductName>
         <SocialMediaContainer>
           <ShareSocial>
             <Facebook>
@@ -71,12 +71,13 @@ const OverviewContainer = styled.div`
 
 const ReadReviews = styled.h5`
   display: inline-block;
-  margin-block-start: 0em;
+  margin-block-start: 0.5em;
   margin-block-end: 0em;
-  margin-left: 1rem;
   color: black;
   text: underlined;
 `;
+
+//font-size: 0.7rem;
 
 // margin-top: 1em;
 
@@ -96,12 +97,18 @@ const ReadReviews = styled.h5`
 
 const CategoryContainer = styled.h3`
   margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   &:hover {
     text-decoration: underline;
   }
   cursor: pointer;
-  font-size: 1.17rem;
+  font-size: 1.0rem;
+  text-transform: uppercase;
+`;
+
+const ProductName = styled.h2`
+  margin-top: 0.5rem;
+  font-size: 2.0em;
 `;
 
 
@@ -112,24 +119,24 @@ const SocialMediaContainer = styled.div`
 
 const Facebook = styled.div`
   flex: f1;
-  font-size: 1.5rem;
+  font-size: 1.0rem;
 `;
 
 const Twitter = styled.div`
   flex: f1;
-  font-size: 1.5rem;
+  font-size: 1.0rem;
 
 `;
 
 const Pinterest = styled.div`
   flex: f1;
-  font-size: 1.5rem;
+  font-size: 1.0rem;
 `;
 
 
 const ShareSocial = styled.div`
-  height: 1.5rem;
-  width: 4.5rem;
+  height: 1.0rem;
+  width: 3.0rem;
   border: .1rem solid black;
   display: flex;
 `;

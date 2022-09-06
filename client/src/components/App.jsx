@@ -58,8 +58,6 @@ const StyledContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 8fr 1fr;
   grid-template-rows: 1% repeat(4, 1fr);
- // overflow: auto;
-  overflow: scroll;
   row-gap: 1.5rem;
 
 `;

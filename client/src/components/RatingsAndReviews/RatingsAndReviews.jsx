@@ -80,6 +80,7 @@ function RatingsAndReviews() {
 
   return (
     <Container id="ratings-and-reviews">
+      <RRTitle style={{ fontSize: '1.0rem' }}>Ratings & Reviews</RRTitle>
       <BreakdownContainer>
         <Breakdown
           productID={productID}
@@ -127,14 +128,20 @@ export default RatingsAndReviews;
 const Container = styled.div`
   display: grid;
   background: ;
-  grid-column: 1/4;
+  grid-column: 2/3;
   grid-row: 5/6;
-  grid-template-columns: 10% repeat(3, 1fr) 10%;
-  column-gap: 1em;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1em 1fr;
+`;
+
+const RRTitle = styled.div`
+  grid-column: 1/4;
+  grid-row: 1;
+  font-size: 1rem;
 `;
 
 const ReviewListContainer = styled.div`
-  grid-column: 3/5;
+  grid-column: 2/4;
 `;
 
 // const ReviewListContainer = styled.div`
@@ -145,7 +152,7 @@ const ReviewListContainer = styled.div`
 // `;
 
 const ReviewTilesContainer = styled.div`
-  padding: 1em;
+  padding-left: 1em;
   background: ;
   max-height: 31em;
   overflow: auto;
@@ -160,7 +167,8 @@ const MoreAddContainer = styled.div`
 `;
 
 const BreakdownContainer = styled.div`
-  grid-column: 2/3;
+  grid-column: 1/2;
+  grid-row: 2;
 `;
 
 // const BreakdownContainer = styled.div`

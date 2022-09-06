@@ -12,15 +12,14 @@ function Breakdown({ productID, productInfo, revMeta, filterReviews }) {
   }
 
   return (
-    <div style={{ fontSize: '1.17rem' }}>
-      Ratings & Reviews
+    <div>
       <Summary revMeta={revMeta} />
       <RatingBreakdown
         revMeta={revMeta}
         filterReviews={filterReviews}
         productID={productID}
       />
-      {/* <br /> */}
+      <br />
       <LengthBreakdown
         revMeta={revMeta}
         productInfo={productInfo}

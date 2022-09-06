@@ -14,7 +14,7 @@ function ReviewTile({ review }) {
 
   return (
     <Container>
-      <br />
+      {/* <br /> */}
       <StarsDateName>
         <StarCount review={review} />
         <DateName>
@@ -116,4 +116,5 @@ const Summary = styled.h3`
 
 const Body = styled.h3`
   display: flex;
+  font-size: 0.9rem;
 `;

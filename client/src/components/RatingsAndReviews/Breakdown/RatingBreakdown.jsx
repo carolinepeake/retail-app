@@ -69,7 +69,7 @@ function RatingBreakdown({ productID, revMeta, filterReviews }) {
           />
         </StarBarBackground>
         <br />
-        <br />
+        {/* <br /> */}
       </StarRankContainer>
     ))
   );
@@ -92,12 +92,13 @@ export default RatingBreakdown;
 const StarRankContainer = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
 `;
 
 const StarLabel = styled.div`
   display: flex;
   width: 30%;
+  font-size: 0.9rem;
 `;
 
 const StarBar = styled.div`
@@ -113,4 +114,5 @@ const StarBarBackground = styled.div`
   background: ${(props) => props.theme.starBackground};
   height: 100%;
   width: 70%;
+  margin: auto 0;
 `;
