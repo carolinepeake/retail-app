@@ -2,6 +2,8 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import { MdArrowForwardIos, MdArrowBackIos, MdExpandMore, MdExpandLess } from 'react-icons/md';
+import { HiArrowSmDown, HiArrowSmUp, HiArrowSmLeft, HiArrowSmRight } from 'react-icons/hi';
 import axios from 'axios';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import Card from './Card';
@@ -33,29 +35,24 @@ function CardsList() {
 
   return (
     <Container>
-      {/* <LeftBox> */}
-        {/* {cardIndex === 0 || productList.length < 4
-          ? <LeftButton />
-          : <LeftButton onClick={() => clickLeft()}> test </LeftButton>} */}
-      {/* </LeftBox> */}
       <StyleCardList>
-      {cardIndex === 0 || productList.length < 4
-          ? <LeftButton />
-          : <LeftButton onClick={() => clickLeft()}> &lt; </LeftButton>}
+      {cardIndex !== 0 && productList.length >= 4
+          && <LeftButton onClick={() => clickLeft()} >
+              <HiArrowSmLeft />
+            </LeftButton>
+          //  &lt; </LeftButton>
+           }
         {(productList.slice(cardIndex, cardIndex + 4)).map((data, i) => <Card data={data} key={i} />)}
-        {(productList.length < 4 && productList.length > 0) && fillEmpty()}
-        {(productList.length === 0) && <Text>No related items to show</Text>}
-        {(cardIndex === productList.length -1 || productList.length < 4)
-          ? <RightButton /> : (
-            <RightButton onClick={() => clickRight()}> &gt; </RightButton>
-          )}
+        {(productList.length < 4 && productList.length > 0)
+          && fillEmpty()}
+        {productList.length === 0
+          && <Text>No related items</Text>}
+        {(cardIndex !== productList.length - 4 && productList.length >= 4)
+          && <RightButton onClick={() => clickRight()}>
+              <HiArrowSmRight />
+            </RightButton>}
+          {/* &gt; </RightButton>} */}
       </StyleCardList>
-      {/* <RightBox> */}
-        {/* {(cardIndex === productList.length - 4 || productList.length < 4)
-          ? <RightButton /> : (
-            <RightButton onClick={() => clickRight()}> &gt; </RightButton>
-          )} */}
-      {/* </RightBox> */}
     </Container>
   );
 }
@@ -132,17 +129,20 @@ const LeftButton = styled.button`
   align-self: center;
   position: absolute;
   font-weight: bold;
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   background-color: transparent;
   border: none;
   &:hover {
-    opacity: 0.80;
-  }
+    background-color: rgba(114, 114, 114, 0.5);
+    color: white;
+  };
   color: ${(props) => props.theme.fontColor};
   cursor: pointer;
-  z-index: 2;
+  z-index: 1;
   grid-column: 1;
   grid-row: 1;
+  padding: 0 0;
+  height: 1.5rem;
 `;
 
 // const LeftButton = styled.button`
@@ -165,11 +165,12 @@ const RightButton = styled.button`
   align-self: center;
   position: absolute;
   font-width: bold;
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   background-color: transparent;
   border: none;
   &:hover {
-    opacity: 0.80;
+    background-color: rgba(114, 114, 114, 0.5);
+    color: white;
   }
   color: ${(props) => props.theme.fontColor};
   cursor: pointer;
@@ -177,6 +178,8 @@ const RightButton = styled.button`
   grid-column: 2;
   grid-row: 1;
   right: 5%;
+  padding: 0 0;
+  height: 1.5rem;
 `;
 
 // const RightButton = styled.button`

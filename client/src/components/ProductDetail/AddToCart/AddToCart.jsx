@@ -76,10 +76,10 @@ useEffect(() => {
         </SelectQuantityContainer>
       </SQContainer>
       <BagContainer>
-        <AddtoBag>
+        {/* <AddtoBag> */}
           {isSizeSelected
           ?
-          <CartB type="submit">
+          <CartB type="submit" style={{ cursor: "pointer" }}>
             <AddCart>Add to Cart</AddCart>
             <PlusSign>+</PlusSign>
           </CartB>
@@ -88,7 +88,7 @@ useEffect(() => {
             <AddCart>Add to Cart</AddCart>
             <PlusSign>+</PlusSign>
           </CartB>}
-        </AddtoBag>
+        {/* </AddtoBag> */}
           <Star type="button">&#9734;</Star>
       </BagContainer>
     </Cart>
@@ -121,6 +121,10 @@ const SQContainer = styled.div`
 `;
 
 const SelectSizeContainer = styled.div`
+  flex-basis: 9.8rem;
+  flex-grow: 3;
+  flex-shrink: 1;
+  margin-right: 1rem;
   height: 2.5rem;
   width: 9.8rem;
 `;
@@ -150,6 +154,9 @@ const SelectQuantityContainer = styled.div`
   width: 6rem;
   margin-left: 45%
   margin-right: 2.5%
+  flex-basis: 6rem;
+  flex-grow: 1;
+  flex-shrink: 3;
 `;
 
 const SelectQuantity = styled.select`
@@ -168,19 +175,23 @@ const BagContainer = styled.div`
 `;
 
 
-const AddtoBag = styled.div`
-  margin-top: 1px;
-  height: auto;
-`;
+// const AddtoBag = styled.div`
+//   margin-top: 1px;
+//   height: auto;
+// `;
 
 const CartB = styled.button`
   font-size: 1.0rem;
   width: 13.3rem;
   height: 2.5rem;
-  cursor: pointer;
-  padding: 0 1rem;
   position: relative;
+  margin-right: 1rem;
+  flex-basis: 13.3rem;
+  flex-grow: 5;
+  flex-shrink: 1;
 `;
+
+// padding: 0 1rem;
 
 const AddCart = styled.span`
   position: absolute;
@@ -195,11 +206,14 @@ const PlusSign = styled.span`
 `;
 
 const Star = styled.button`
-  font-size: 1.0rem;
+  font-size: 1.25rem;
   height: 2.5rem;
   right: 5%;
   width: 2.5rem;
   cursor: pointer;
+  flex-basis: 2.5rem;
+  flex-grow: 1;
+  flex-shrink: 5;
 `;
 
 export default AddToCart;

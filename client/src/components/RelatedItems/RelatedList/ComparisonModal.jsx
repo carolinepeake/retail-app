@@ -47,6 +47,7 @@ function ComparisonModal({ details }) {
         {currOutfit.details.data.name}
         {outcome[0].map((feature, i) => (feature ? <Product key={i}>&#10003;</Product> : <div key={i}>&nbsp;</div>))}
       </Product>
+      <br />
       <Product>
         Features
         {outcome[1].map((feature, i) => (feature ? <Product key={i}>{feature}</Product> : <div key={i}>&nbsp;</div>))}
@@ -83,13 +84,15 @@ const Modal = styled.div`
   background-color: gray;
   overflow: auto;
   z-index: 9;
+  border-radius: 15px;
 `;
 
 const Product = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 0.75rem;
+  font-size: 1.0rem;
+  padding: 0.25rem 0.25rem;
 `;
 
 export default ComparisonModal;

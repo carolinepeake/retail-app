@@ -130,28 +130,39 @@ const SocialMediaContainer = styled.div`
   height: auto;
   width: auto;
   margin-block-end: 1rem;
+  &:hover {
+    cursor: pointer;
+  };
 `;
 
 const Facebook = styled.div`
   flex: f1;
-  font-size: 1.0rem;
+  font-size: 1.25rem;
+  &:hover {
+    color: blue;
+  };
 `;
 
 const Twitter = styled.div`
   flex: f1;
-  font-size: 1.0rem;
-
+  font-size: 1.25rem;
+  &:hover {
+    color: aqua;
+  };
 `;
 
 const Pinterest = styled.div`
   flex: f1;
-  font-size: 1.0rem;
+  font-size: 1.25rem;
+  &:hover {
+    color: red;
+  };
 `;
 
 
 const ShareSocial = styled.div`
-  height: 1.0rem;
-  width: 3.0rem;
+  height: 1.25rem;
+  width: 3.75rem;
   border: .1rem solid black;
   display: flex;
 `;
@@ -162,7 +173,7 @@ const PriceContainer = styled.div`
 `;
 
 
-const Price = styled.h5`
+const Price = styled.h4`
   margin: auto 0;
 `;
 

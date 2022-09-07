@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { MdArrowForwardIos, MdArrowBackIos } from 'react-icons/md'
+import { MdArrowForwardIos, MdArrowBackIos, MdExpandMore, MdExpandLess } from 'react-icons/md';
+import { HiArrowSmDown, HiArrowSmUp, HiArrowSmLeft, HiArrowSmRight } from 'react-icons/hi';
 import ProductOverview from './ProductOverview/ProductOverview';
 import StyleSelector from './StyleSelector/StyleSelector';
 //import ImageGallery from './ImageGallery/ImageGallery';
@@ -13,12 +14,15 @@ import { useGlobalContext } from '../../contexts/GlobalStore';
 
 function ProductDetail() {
   const { productID, productInfo, setProductID, setProductInfo, styles, selectedStyle, setSelectedStyle } = useGlobalContext();
-
   const [imageUrl, setImageUrl] = useState('');
   const [photos, setPhotos] = useState([]);
   const [main, setMain] = useState({});
   const [place, setPlace] = useState(0);
   const [photosLength, setPhotosLength] = useState(0);
+  const [isUpHovering, setIsUpHovering] = useState(false);
+  const [isDownHovering, setIsDownHovering] = useState(false);
+  const [isBackHovering, setIsBackHovering] = useState(false);
+  const [isForwardHovering, setIsForwardHovering] = useState(false);
 
   useEffect(() => {
     function getPhotos() {
@@ -44,15 +48,52 @@ function ProductDetail() {
    // setMain(() => photos[place]);
   }
 
-  function handleClickBack(e) {
+  function handleClickArrow(n, e) {
     e.preventDefault();
-    setPlace((prev) => prev - 1);
+    setPlace((prev) => prev + n);
+    setIsBackHovering(false);
+    setIsForwardHovering(false);
   }
 
   function handleClickForward(e) {
     e.preventDefault();
     setPlace((prev) => prev + 1);
+    setIsForwardHovering(false);
+    setIsBackHovering(false);
   }
+
+  const handleMouseEnterUp = () => {
+    setIsUpHovering(true);
+  };
+
+  const handleMouseLeaveUp = () => {
+    setIsUpHovering(false);
+  };
+
+  const handleMouseEnterDown = () => {
+    setIsDownHovering(true);
+  };
+
+  const handleMouseLeaveDown = () => {
+    setIsDownHovering(false);
+  };
+
+  const handleMouseEnterBack = () => {
+    setIsBackHovering(true);
+  };
+
+  const handleMouseLeaveBack = () => {
+    setIsBackHovering(false);
+  };
+
+  const handleMouseEnterForward = () => {
+    setIsForwardHovering(true);
+  };
+
+  const handleMouseLeaveForward = () => {
+    setIsForwardHovering(false);
+  };
+
 
   return (
     <ProductSec id="product-details">
@@ -63,38 +104,72 @@ function ProductDetail() {
             alt={`${productInfo.name} in ${selectedStyle.name} style`}
           />
           <Side>
+          {photosLength > 7 && place !== 0
+            && <MdExpandLess
+            style={{fontSize: "1.5rem", backgroundColor: isUpHovering ? 'rgba(114, 114, 114, 0.5)' : '', color: isUpHovering ? 'white' : '', alignSelf: "center",  cursor: isUpHovering ? 'pointer' : ''}}
+            onMouseEnter={handleMouseEnterUp}
+            onMouseLeave={handleMouseLeaveUp}
+            onClick={(e) => handleClickArrow(-1, e)}/>}
           {photos
           &&
           photos.map((photo, index) => (
-            // console.log('index: ', index, 'place: ', place);
-            index === place
-            ?
-            <Thumbnail
-              src={photo.thumbnail_url}
-              key={photo.url}
-              index={index}
-              alt=""
-              onClick={(e) => changeMain(e, index)}
-              style={{boxShadow: "5px 5px 5px #242424"}}
-            />
-            :
-            // return
-            <Thumbnail
-              src={photo.thumbnail_url}
-              key={photo.url}
-              index={index}
-              alt=""
-              onClick={(e) => changeMain(e, index)}
-            />
+            place <= 6
+            ? index <= 6
+              && (index === place
+                 ? <Thumbnail
+                    src={photo.thumbnail_url}
+                    key={photo.url}
+                    index={index}
+                    alt=""
+                    onClick={(e) => changeMain(e, index)}
+                    style={{boxShadow: "7px 7px 5px #242424", transform: "scale(1.025)", transition: "transform 0.25s ease"}}
+                    // style={{boxShadow: "5px 5px 5px #ffffff"}}
+                  />
+                 : <Thumbnail
+                  src={photo.thumbnail_url}
+                  key={photo.url}
+                  index={index}
+                  alt=""
+                  onClick={(e) => changeMain(e, index)}
+                 />)
+            : index >= place - 6 && index <= place
+              && (index === place
+                ? <Thumbnail
+                   src={photo.thumbnail_url}
+                   key={photo.url}
+                   index={index}
+                   alt=""
+                   onClick={(e) => changeMain(e, index)}
+                   style={{boxShadow: "7px 7px 5px #242424", transform: "scale(1.025)", transition: "transform 0.25s ease"}}
+                   // style={{boxShadow: "5px 5px 5px #ffffff"}}
+                 />
+                : <Thumbnail
+                 src={photo.thumbnail_url}
+                 key={photo.url}
+                 index={index}
+                 alt=""
+                 onClick={(e) => changeMain(e, index)}
+                />)
             ))}
+            {photosLength > 7 && place !== photosLength - 1
+            && <MdExpandMore
+            style={{fontSize: "1.5rem", backgroundColor: isDownHovering ? 'rgba(114, 114, 114, 0.5)' : '', color: isDownHovering ? 'white' : '', alignSelf: "center", cursor: isDownHovering ? 'pointer' : ''}}
+            onMouseEnter={handleMouseEnterDown}
+            onMouseLeave={handleMouseLeaveDown}
+            onClick={(e) => handleClickArrow(1, e)}/>}
           </Side>
-          {place > 0
-          && <MdArrowBackIos style={{ zIndex: 2, position: 'absolute', top: '48%', left: '15%' }} onClick={handleClickBack}/>}
+          {photosLength < 4 && place > 0
+          && <MdArrowBackIos style={{ zIndex: 2, position: 'absolute', top: '48%', left: '2.5%', fontSize: '1.5rem', cursor: isBackHovering ? 'pointer' : '', backgroundColor: isBackHovering ? 'rgba(114, 114, 114, 0.5)' : '', color: isBackHovering ? 'white' : '' }} onClick={(e) => handleClickArrow(-1, e)} onMouseEnter={handleMouseEnterBack}
+          onMouseLeave={handleMouseLeaveBack}/>}
+          {place > 0 && photosLength >= 4
+          && <MdArrowBackIos style={{ zIndex: 2, position: 'absolute', top: '48%', left: '15%', fontSize: '1.5rem', cursor: isBackHovering ? 'pointer' : '', backgroundColor: isBackHovering ? 'rgba(114, 114, 114, 0.5)' : '', color: isBackHovering ? 'white' : '' }} onClick={(e) => handleClickArrow(-1, e)} onMouseEnter={handleMouseEnterBack}
+          onMouseLeave={handleMouseLeaveBack}/>}
           {place < photosLength - 1
-          && <MdArrowForwardIos style={{ zIndex: 2, position: 'absolute', top: '48%', right: '2%' }} onClick={handleClickForward}/>}
+          && <MdArrowForwardIos style={{ zIndex: 2, position: 'absolute', top: '48%', right: '2%', fontSize: '1.5rem', cursor: isForwardHovering ? 'pointer' : '', backgroundColor: isForwardHovering ? 'rgba(114, 114, 114, 0.5)' : '', color: isForwardHovering ? 'white' : '' }} onClick={(e) => handleClickArrow(1, e)} onMouseEnter={handleMouseEnterForward}
+          onMouseLeave={handleMouseLeaveForward}/>}
         </MainContainer>
         </LeftTop>
-
+        <br />
         <LeftBottom>
         {productInfo.slogan
         && <ProductSlogan>{productInfo.slogan}</ProductSlogan>}
@@ -206,10 +281,11 @@ const Side = styled.div`
   position: absolute;
   max-width: 10%;
   height: 100%;
-  margin-left: 1rem;
-  margin-right: 1rem;
-  margin-top: 1rem;
-  row-gap: 1rem;
+  margin-left: 0.75rem;
+  margin-right: 0.75rem;
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+  row-gap: 0.75rem;
   height: max-content;
 `;
 //overflow: hidden;
@@ -230,6 +306,8 @@ const Thumbnail = styled.img`
   };
 `;
 
+//border-radius: 1px;
+
 const MainContainer = styled.div`
   grid-column: 1/4;
   grid-row: 1;
@@ -240,7 +318,7 @@ const MainContainer = styled.div`
   display: grid;
   overflow: hidden;
   height: max-content;
-  max-width: 800px;
+  max-width: 700px;
 `;
 
 // const MainContainer = styled.div`
@@ -260,9 +338,14 @@ const Main = styled.img`
   z-index: 1;
   display: grid;
   aspect-ratio: 1;
-  max-width: 800px;
+  max-width: 700px;
   margin: 0 auto;
   height: 100%;
+  cursor: zoom-in;
+`;
+
+const Expanded = styled.div`
+  cursor: zoom-in;
 `;
 
 // display: grid?
@@ -281,7 +364,7 @@ const Main = styled.img`
 
 const ProductSlogan = styled.h3`
   display: block;
-  margin-block-start: 0em;
+  margin-block-start: 0.5em;
   margin-block-end: 0em;
   font-size: 1.0rem;
   font-weight: bold;
