@@ -49,7 +49,7 @@ function HelpfulReport({ review }) {
 
   return (
     <HelpfulnessDiv>
-      <div>Was this review helpful?</div>
+      <div>Helpful?</div>
       <YesButton helpfulClicked={helpfulClicked} onClick={() => handleHelpfulClick()}>
         <div>Yes</div>
         &nbsp;
@@ -80,6 +80,8 @@ const HelpfulnessDiv = styled.div`
   justify-content: space-between;
   width: 40%;
   overflow-wrap: break-word;
+  margin-bottom: 1rem;
+  font-size: 0.75rem;
 `;
 
 const YesButton = styled.div`
@@ -87,6 +89,7 @@ const YesButton = styled.div`
   cursor: ${(props) => (!props.helpfulClicked ? 'pointer' : 'default')};
   font-weight: ${(props) => (!props.helpfulClicked ? 'normal' : 'bold')};
   text-decoration: ${(props) => (!props.helpfulClicked ? 'underline' : 'normal')};
+  margin: 0 0.5rem;
 `;
 
 const ReportButton = styled.div`
@@ -94,4 +97,5 @@ const ReportButton = styled.div`
   cursor: ${(props) => (!props.reportClicked ? 'pointer' : 'default')};
   font-weight: ${(props) => (!props.reportClicked ? 'normal' : 'bold')};
   text-decoration: ${(props) => (!props.reportClicked ? 'underline' : 'normal')};
+  margin-left: 0.5rem;
 `;

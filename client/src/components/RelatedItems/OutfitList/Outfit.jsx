@@ -20,18 +20,20 @@ function Outfit({ outfit, index }) {
     setOutfits(tempArray);
   }
   return (
-    <Outline>
-      <ImageOutline>
-        <Image src={outfitImage ? outfitImage : defaultImage} />
-        <Button onClick={() => removeOutfit()}><AiOutlineCloseCircle /></Button>
-      </ImageOutline>
-      <Info>{outfitDetails.name}</Info>
-      <Info>{outfitDetails.category}</Info>
-      <Info>
-        $
-        {outfitDetails.default_price}
-      </Info>
-    </Outline>
+    <OutfitContainer i={index} >
+      <Outline >
+        <ImageOutline>
+          <Image src={outfitImage ? outfitImage : defaultImage} />
+          <Button onClick={() => removeOutfit()}><AiOutlineCloseCircle /></Button>
+        </ImageOutline>
+        <Info>{outfitDetails.name}</Info>
+        <Info>{outfitDetails.category}</Info>
+        <Info>
+          $
+          {outfitDetails.default_price}
+        </Info>
+      </Outline>
+    </OutfitContainer>
   );
 }
 
@@ -58,18 +60,37 @@ Outfit.propTypes = {
   index: PropTypes.number.isRequired,
 };
 
+// const Outline = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   &:hover {
+//     opacity: 0.80;
+//   }
+//   border: black solid medium transparent;
+//   margin-top: 0.5rem;
+// `;
+
+const OutfitContainer = styled.div`
+  grid-column: ${(i) => i};
+  grid-row: 1;
+  margin-top: 0.5rem;
+`;
+
 const Outline = styled.div`
-  display: flex;
-  flex-direction: column;
   &:hover {
     opacity: 0.80;
   }
-  margin-top: auto;
   border: black solid medium transparent;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 `;
 
 const ImageOutline = styled.div`
   position: relative;
+  overflow: hidden;
+  object-fit: cover;
+  width: 100%;
 `;
 
 const Info = styled.div`
@@ -83,11 +104,12 @@ const Image = styled.img`
   position: relative;
   // margin-left: auto;
   // margin-right: auto;
-  width: 100%
-  apect-ratio: 1;
+  width: 100%;
+  aspect-ratio: 1;
   object-fit: cover;
   border-radius: 10px;
   cursor: pointer;
+  overflow: hidden;
 `;
 
 // const Image = styled.img`

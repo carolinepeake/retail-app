@@ -73,8 +73,10 @@ function ProductDetail() {
             />
           ))}
           </ Side>
-          <MdArrowBackIos style={{ zIndex: 2, position: 'absolute', top: '48%', left: '15%' }} onClick={handleClickBack}/>
-          <MdArrowForwardIos style={{ zIndex: 2, position: 'absolute', top: '48%', right: '2%' }} onClick={handleClickForward}/>
+          {place > 0
+          && <MdArrowBackIos style={{ zIndex: 2, position: 'absolute', top: '48%', left: '15%' }} onClick={handleClickBack}/>}
+          {place < photosLength - 1
+          && <MdArrowForwardIos style={{ zIndex: 2, position: 'absolute', top: '48%', right: '2%' }} onClick={handleClickForward}/>}
         </MainContainer>
         </LeftTop>
 
@@ -84,30 +86,11 @@ function ProductDetail() {
         {productInfo.description
         && <ProductDescription>{productInfo.description}</ProductDescription>}
       </LeftBottom>
-      {/* <RightSide> */}
-        <ProductOverview />
-        <PriceContainer>
-        {selectedStyle.sale_price
-        ? (
-          <Price>
-            <span style={{color: 'red '}}>
-              {`${selectedStyle.sale_price}    `}
-            </span>
-            <s>{selectedStyle.original_price}</s>
-          </Price>
-        )
-        : (
-          <Price>{selectedStyle.original_price}</Price>
-        )}
-        </PriceContainer>
-
-        <StyleName>
-          <b>{'Style > '}</b>
-          {selectedStyle.name}
-        </StyleName>
-        <StyleSelector />
-        <AddToCart />
-      {/* </RightSide> */}
+      <RightTop>
+          <ProductOverview />
+          <StyleSelector />
+          <AddToCart />
+      </RightTop>
     </ProductSec>
   );
 }
@@ -125,10 +108,13 @@ let ProductSec = styled.div`
   grid-column: 1/4;
   grid-template-columns: 10% repeat(3, 1fr) 10%;
   column-gap: 1rem;
-  grid-template-rows: 1fr 1.5rem 1rem 1fr 1fr 1.5rem 1fr;
+  grid-template-rows: auto;
   overflow: none;
   max-width: 100%;
 `;
+
+//grid-template-auto-rows: 1fr 1.5rem 1rem 1fr 1fr 1.5rem 1fr;
+
 
 //   margin-top: 2%;
 //   grid-column: 1/4;
@@ -142,14 +128,15 @@ let ProductSec = styled.div`
 
 const LeftTop = styled.div`
   grid-column: 1/4;
-  grid-row: 1/6;
+  grid-row: 1;
   display: contents;
   width: 100%;
+  height: 100%;
 
 `;
 
 const LeftBottom = styled.div`
-  grid-row: 7/8;
+  grid-row: 2;
   grid-column: 2/4;
   display: flex;
   flex-direction: column;
@@ -164,6 +151,16 @@ const LeftBottom = styled.div`
 //   grid-template-rows: 3fr 1fr
 //   column-gap: 1em;
 // `;
+
+
+const RightTop = styled.div`
+  display: flex;
+  flex-direction: column;
+  grid-column: 4 / span 2;
+  grid-row: 1;
+  align-items: space-between;
+  justify-content: space-between;
+`;
 
 // const RightSide = styled.div`
 //   display: flex;
@@ -218,7 +215,7 @@ const Thumbnail = styled.img`
 
 const MainContainer = styled.div`
   grid-column: 1/4;
-  grid-row: 1/6;
+  grid-row: 1;
   z-index: 1;
   position: relative;
   width: 100%;
@@ -241,13 +238,14 @@ const MainContainer = styled.div`
 const Main = styled.img`
   object-fit: cover;
   width: 100%;
-  overflow: hidden
+  overflow: hidden;
   position: relative;
   z-index: 1;
   display: grid;
   aspect-ratio: 1;
   max-width: 800px;
   margin: 0 auto;
+  height: 100%;
 `;
 
 // display: grid?
@@ -284,23 +282,8 @@ const ProductDescription = styled.p`
   font-size: 0.9rem;
 `;
 
-const PriceContainer = styled.div`
-  grid-row: 2/3;
-  grid-column: 4;
-`;
 
-const Price = styled.h6`
-  margin-block-start: 0em;
-  margin-block-end: 0em;
-`;
 
-const StyleName = styled.h5`
-  grid-row: 3/4;
-  grid-column: 4;
-  margin-block-start: 0em;
-  margin-block-end: 0em;
-  font-size: 1.0rem;
-`;
 
 
 

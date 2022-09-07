@@ -142,13 +142,13 @@ function QuestionEntry({ question }) {
 
   return (
     <Entry>
-      <Question id="question_header">Question.</Question>
+      <Question id="question_header">Question:  </Question>
       <QuestionBody id="question_body">
         {question.question_body}
       </QuestionBody>
       <HelpfulReport>
         Helpful?
-        {' '}
+        {'  '}
         {clickedHelpful.current ? (
           <b>Yes</b>
         ) : (
@@ -184,7 +184,7 @@ function QuestionEntry({ question }) {
           Add Answer
         </Clickable>
       </AddAnswer>
-      <Answer id="answer_header">Answer.</Answer>
+      <Answer id="answer_header">Answer:</Answer>
       {answersList()}
       {moreAnswers()}
       {showModal && (
@@ -202,27 +202,37 @@ const Entry = styled.div`
   grid-template-columns: 8% 57% 25% 10%;
   width: 100%;
   justify-content: center;
-  padding-bottom: 0.5rem;
+  padding-bottom: 1.0rem;
+  margin-top: 1.0rem;
 `;
 
 const Question = styled.div`
   grid-column: 1;
   font-weight: bold;
   margin-bottom: 0.5rem;
+  padding-right: 0.5rem;
+  margin-right: 0.5rem;
+  width: fit-content;
 `;
 
 const QuestionBody = styled.div`
   grid-column: 2;
   font-weight: bold;
   padding-right: 0.5rem;
+  margin-left: 0.5rem;
+  padding-left: 0.5rem;
 `;
 
 const HelpfulReport = styled.div`
   grid-column: 3;
+  font-size: 0.75rem;
+  padding: 0 1.0rem;
 `;
+
 
 const AddAnswer = styled.div`
   grid-column: 4;
+  font-size: 0.75rem;
 `;
 
 const Reported = styled.span`
@@ -238,10 +248,14 @@ const AnswersListContainer = styled.div`
   overflow-y: auto;
   text-align: justify;
   grid-column: 2;
+  padding-left: 0.5rem;
+  margin-left: 0.5rem;
 `;
 
 const AnswerNone = styled.div`
   grid-column: 2;
+  padding-left: 0.5rem;
+  margin-left: 0.5rem;
 `;
 
 const Answer = styled.div`

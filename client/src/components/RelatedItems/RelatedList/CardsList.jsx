@@ -33,49 +33,47 @@ function CardsList() {
 
   return (
     <Container>
-      <LeftBox>
-        {cardIndex === 0 || productList.length < 4
-          ? <LeftButton /> : (
-            <LeftButton onClick={() => clickLeft()}> &lt; </LeftButton>
-          )}
-      </LeftBox>
+      {/* <LeftBox> */}
+        {/* {cardIndex === 0 || productList.length < 4
+          ? <LeftButton />
+          : <LeftButton onClick={() => clickLeft()}> test </LeftButton>} */}
+      {/* </LeftBox> */}
       <StyleCardList>
+      {cardIndex === 0 || productList.length < 4
+          ? <LeftButton />
+          : <LeftButton onClick={() => clickLeft()}> &lt; </LeftButton>}
         {(productList.slice(cardIndex, cardIndex + 4)).map((data, i) => <Card data={data} key={i} />)}
         {(productList.length < 4 && productList.length > 0) && fillEmpty()}
         {(productList.length === 0) && <Text>No related items to show</Text>}
-      </StyleCardList>
-      <RightBox>
-        {(cardIndex === productList.length - 4 || productList.length < 4)
+        {(cardIndex === productList.length -1 || productList.length < 4)
           ? <RightButton /> : (
             <RightButton onClick={() => clickRight()}> &gt; </RightButton>
           )}
-      </RightBox>
+      </StyleCardList>
+      {/* <RightBox> */}
+        {/* {(cardIndex === productList.length - 4 || productList.length < 4)
+          ? <RightButton /> : (
+            <RightButton onClick={() => clickRight()}> &gt; </RightButton>
+          )} */}
+      {/* </RightBox> */}
     </Container>
   );
 }
 
-
-const Container = styled.div`
-  background-color: ${(props) => props.theme.backgroundColor};
-`;
-
+// &lt;
 
 // const Container = styled.div`
-//   display: flex;
-//   flex-direction: row;
 //   background-color: ${(props) => props.theme.backgroundColor};
 // `;
 
-const StyleCardList = styled.div`
-  display: flex;
-  float: left;
-  positive: relative;
-  flex-direction: row;
-  margin-left: auto;
-  margin-right: auto;
-  align-content: space-evenly;
-  grid-row: 2/3;
-  grid-column: 2/6;
+
+const Container = styled.div`
+  margin-top: .5rem;
+  display: contents;
+  background-color: ${(props) => props.theme.backgroundColor};
+  grid-row: 2;
+  align-items: center;
+  grid-column: 1/10;
 `;
 
 // const StyleCardList = styled.div`
@@ -86,17 +84,29 @@ const StyleCardList = styled.div`
 //   margin-left: auto;
 //   margin-right: auto;
 //   align-content: space-evenly;
+//   grid-row: 2/3;
+//   grid-column: 2/6;
 // `;
+
+const StyleCardList = styled.div`
+  display: grid;
+  positive: relative;
+  grid-row: 2;
+  grid-column: 1/9;
+  grid-template-columns: repeat(4, 4fr);
+  column-gap: 1em;
+  align-content: center;
+`;
 
 const Text = styled.div`
   font-size: 2rem;
   font-width: bold;
 `;
 
-const LeftBox = styled.div`
-  grid-column: 2/3;
-  grid-row: 2/3;
-`;
+// const LeftBox = styled.div`
+//   grid-column: 2/3;
+//   grid-row: 2/3;
+// `;
 
 // const LeftBox = styled.div`
 //   display: flex;
@@ -106,10 +116,10 @@ const LeftBox = styled.div`
 //   flex-grow: 1;
 // `;
 
-const RightBox = styled.div`
-  grid-column: 4/5
-  grid-row: 2/3
-`;
+// const RightBox = styled.div`
+//   grid-column: 4/5
+//   grid-row: 2/3
+// `;
 
 // const RightBox = styled.div`
 //   display: flex;
@@ -119,10 +129,9 @@ const RightBox = styled.div`
 // `;
 
 const LeftButton = styled.button`
-  display: flex;
   align-self: center;
   position: absolute;
-  font-width: bold;
+  font-weight: bold;
   font-size: 2.5rem;
   background-color: transparent;
   border: none;
@@ -131,10 +140,28 @@ const LeftButton = styled.button`
   }
   color: ${(props) => props.theme.fontColor};
   cursor: pointer;
+  z-index: 2;
+  grid-column: 1;
+  grid-row: 1;
 `;
 
+// const LeftButton = styled.button`
+//   display: flex;
+//   align-self: center;
+//   position: absolute;
+//   font-width: bold;
+//   font-size: 2.5rem;
+//   background-color: transparent;
+//   border: none;
+//   &:hover {
+//     opacity: 0.80;
+//   }
+//   color: ${(props) => props.theme.fontColor};
+//   cursor: pointer;
+// `;
+
+
 const RightButton = styled.button`
-  display: flex;
   align-self: center;
   position: absolute;
   font-width: bold;
@@ -146,7 +173,26 @@ const RightButton = styled.button`
   }
   color: ${(props) => props.theme.fontColor};
   cursor: pointer;
+  z-index: 1;
+  grid-column: 2;
+  grid-row: 1;
+  right: 5%;
 `;
+
+// const RightButton = styled.button`
+//   display: flex;
+//   align-self: center;
+//   position: absolute;
+//   font-width: bold;
+//   font-size: 2.5rem;
+//   background-color: transparent;
+//   border: none;
+//   &:hover {
+//     opacity: 0.80;
+//   }
+//   color: ${(props) => props.theme.fontColor};
+//   cursor: pointer;
+// `;
 
 // const Empty = styled.div`
 //   width: 100%;

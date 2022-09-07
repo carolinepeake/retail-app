@@ -5,9 +5,9 @@ import { useGlobalContext } from '../../../contexts/GlobalStore';
 import CardImage from './CardImage';
 import CardStars from './CardStars';
 
-function Card({ data }) {
+function Card({ data, key }) {
   const {
-    setProductID, setCardIndex,
+    setProductID, setCardIndex, cardIndex
   } = useGlobalContext();
   const [info, setInfo] = useState(data);
   useEffect(() => {
@@ -20,7 +20,7 @@ function Card({ data }) {
     setCardIndex(0);
   }
   return (
-    <div>
+    <CardContainer i={key}>
       { info.details
         ? (
           <CardStyle onClick={() => changeItem()}>
@@ -37,7 +37,7 @@ function Card({ data }) {
           </CardStyle>
         )
         : <div /> }
-    </div>
+    </CardContainer>
   );
 };
 
@@ -53,6 +53,12 @@ Card.propTypes = {
     }),
   }).isRequired,
 };
+
+const CardContainer = styled.div`
+  grid-column: ${(i) => i};
+  grid-row: 1;
+  margin-top: 0.5rem;
+`;
 
 const CardStyle = styled.div`
   display: flex;

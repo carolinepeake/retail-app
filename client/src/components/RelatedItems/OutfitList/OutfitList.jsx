@@ -32,35 +32,34 @@ function OutfitList() {
   }
   return (
     <Outline>
-      <LeftBox>
-        {outfitIndex === 0 || outfits.length < 3
+      {/* <LeftBox> */}
+        {/* {outfitIndex === 0 || outfits.length < 3
           ? <LeftButton /> : (
             <LeftButton onClick={() => clickLeft()}> &lt; </LeftButton>
-          )}
-      </LeftBox>
+          )} */}
+      {/* </LeftBox> */}
       <StyleList>
         {(outfits.slice(outfitIndex, outfitIndex + 4)).map((outfit, i) => <Outfit outfit={outfit} key={i} index={i} />)}
         {(outfits.length <= 3 || (outfits.length >= 4 && outfits.length - outfitIndex === 3))
          && <AddOutfit /> }
         {(outfits.length <= 3) && fillEmpty()}
       </StyleList>
-      <RightBox>
-        {((outfits.length >= 4 && outfitIndex === outfits.length - 4) || (outfitIndex === 0 && outfits.length > 3))
+      {/* <RightBox> */}
+        {/* {((outfits.length >= 4 && outfitIndex === outfits.length - 4) || (outfitIndex === 0 && outfits.length > 3))
           ? <RightButton onClick={() => clickRight()}> &gt; </RightButton>
-          : <RightButton /> }
-      </RightBox>
+          : <RightButton /> } */}
+      {/* </RightBox> */}
     </Outline>
   );
 }
 
 
 const Outline = styled.div`
-  display: flex;
-  flex-direction: row;
   background-color: ${(props) => props.theme.backgroundColor};
-  grid-column: 2/6;
-  column-gap: 10%;
   grid-row: 5/6;
+  grid-column: 1/10;
+  margin-top: 0.5rem;
+  display: contents;
 `;
 
 // const Outline = styled.div`
@@ -72,13 +71,23 @@ const Outline = styled.div`
 // `;
 
 const StyleList = styled.div`
-  display: flex;
-  float: left;
-  flex-direction: row;
-  margin-left: auto;
-  margin-right: auto;
-  align-content: space-evenly;
+  display: grid;
+  positive: relative;
+  grid-row: 5;
+  grid-column: 1/9;
+  grid-template-columns: repeat(4, 4fr);
+  column-gap: 1em;
+  align-content: center;
 `;
+
+// const StyleList = styled.div`
+//   display: flex;
+//   float: left;
+//   flex-direction: row;
+//   margin-left: auto;
+//   margin-right: auto;
+//   align-content: space-evenly;
+// `;
 
 const LeftBox = styled.div`
   display: flex;
@@ -126,10 +135,15 @@ const RightButton = styled.button`
 `;
 
 const EmptyOutfit = styled.div`
-  width: 225px;
-  height: 225px;
   border: black solid medium transparent;
+  width: 100%;
 `;
+
+// const EmptyOutfit = styled.div`
+//   width: 225px;
+//   height: 225px;
+//   border: black solid medium transparent;
+// `;
 
 // const EmptyOutfit = styled.div`
 //   width: 225px;

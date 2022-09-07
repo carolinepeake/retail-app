@@ -33,17 +33,17 @@ function ReviewTile({ review }) {
         {review.body}
         {/* need to add conditional formatting for past 250 words */}
       </Body>
-      <br />
+      {/* <br /> */}
       {review.recommend
-      && <div> &#10003; I recommend this product</div>}
-      <br />
+      && <Recommend> &#10003; I recommend this product</Recommend>}
+      {/* <br /> */}
 
       <PhotosDiv>
         {review.photos.map((photo) => (
           <RevImg key={photo.id} alt="" src={photo.url} />
         ))}
       </PhotosDiv>
-      <br />
+      {/* <br /> */}
 
       {review.response
         && (
@@ -53,12 +53,12 @@ function ReviewTile({ review }) {
             <br />
             <div>{review.response}</div>
           </Response>
-          <br />
+          {/* <br /> */}
         </div>
         )}
 
       <HelpfulReport review={review} />
-      <br />
+      {/* <br /> */}
     </Container>
   );
 }
@@ -86,12 +86,14 @@ const StarsDateName = styled.div`
   display: flex;
   justify-content: space-between;
   background: ;
+  margin-top: 1rem;
 `;
 
 const DateName = styled.div`
   display: flex;
   justify-content: flex-end;
   background: ;
+  font-size: 0.75rem;
 `;
 
 const Response = styled.div`
@@ -117,4 +119,9 @@ const Summary = styled.h3`
 const Body = styled.h3`
   display: flex;
   font-size: 0.9rem;
+  margin: 1rem 0;
+`;
+
+const Recommend = styled.div`
+  margin-bottom: 1rem;
 `;

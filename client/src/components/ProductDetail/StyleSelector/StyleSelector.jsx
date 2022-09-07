@@ -2,15 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
-function StyleSelector(props) {
+function StyleSelector() {
   const { styles, selectedStyle, setSelectedStyle, productID, productInfo } = useGlobalContext();
 
   return (
-    // <Styles>
-
-      <ThumbnailsContainer props={props} onClick={() => setSelectedStyle(style)}>
+    <StyleContainer>
+      <StyleName>
+        <b>{'Style > '}</b>
+        {selectedStyle.name}
+      </StyleName>
+      <ThumbnailsContainer>
         {styles.map((style, i) => (
-          <ThumbnailContainer key={style.style_id} i={i} value={style} style={style} props={props} onClick={() => setSelectedStyle(style)}>
+          <ThumbnailContainer key={style.style_id} i={i} value={style} style={style} onClick={() => setSelectedStyle(style)}>
             <ThumbnailClass
             src={style.photos[0].thumbnail_url}
             alt=""
@@ -22,7 +25,7 @@ function StyleSelector(props) {
           </ThumbnailContainer>
         ))}
       </ThumbnailsContainer>
-    // </Styles>
+    </StyleContainer>
   );
 }
 
@@ -62,8 +65,22 @@ export default StyleSelector;
 //   grid-column: 4;
 // `;
 
+const StyleContainer = styled.div`
+  display: block;
+  margin-right: 25%;
+`;
+
+
+const StyleName = styled.h5`
+  grid-row: 1;
+  grid-column: 4;
+  margin-block-start: 0em;
+  margin-block-end: 1rem;
+  font-size: 1.0rem;
+`;
+
 const ThumbnailsContainer = styled.div`
-  grid-row: 4/5;
+  grid-row: 1;
   grid-column: 4;
   display: grid;
   justify-items: center;

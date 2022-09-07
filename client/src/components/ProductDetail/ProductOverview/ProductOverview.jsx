@@ -45,7 +45,20 @@ function ProductOverview() {
             </Pinterest>
           </ShareSocial>
         </SocialMediaContainer>
-
+        <PriceContainer>
+          {selectedStyle.sale_price
+          ? (
+            <Price>
+              <span style={{color: 'red '}}>
+                {`${selectedStyle.sale_price}    `}
+              </span>
+              <s>{selectedStyle.original_price}</s>
+            </Price>
+          )
+          : (
+            <Price>{selectedStyle.original_price}</Price>
+          )}
+          </PriceContainer>
       </OverviewContainer>
    );
 };
@@ -67,6 +80,7 @@ const OverviewContainer = styled.div`
   display: block;
   grid-row: 1/2;
   grid-column: 4;
+  margin-right: 25%;
 `;
 
 const ReadReviews = styled.h5`
@@ -115,6 +129,7 @@ const ProductName = styled.h2`
 const SocialMediaContainer = styled.div`
   height: auto;
   width: auto;
+  margin-block-end: 1rem;
 `;
 
 const Facebook = styled.div`
@@ -140,6 +155,21 @@ const ShareSocial = styled.div`
   border: .1rem solid black;
   display: flex;
 `;
+
+const PriceContainer = styled.div`
+  grid-row: 1;
+  grid-column: 4;
+`;
+
+
+const Price = styled.h5`
+  margin: auto 0;
+`;
+
+// const Price = styled.h5`
+//   margin-block-start: 0em;
+//   margin-block-end: 0em;
+// `;
 
 
 export default ProductOverview;

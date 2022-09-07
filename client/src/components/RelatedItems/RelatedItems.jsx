@@ -19,19 +19,18 @@ function RelatedItems() {
 }
 
 const Container = styled.div`
-  grid-column: 2/3;
+  grid-column: 2/4;
   grid-row: 3/4;
   display: grid;
-  grid-template-columns: 10% repeat(3, 4fr) 3fr 10%;
+  grid-template-columns: repeat(3, 4fr 1rem) 3fr 5% 5%;
   grid-template-rows: 1em 1fr 1.5em 1em 1fr;
-  column-gap: 1em;
 `;
 
 const Text1 = styled.div`
   font-size: 1.0rem;
   text-align:left;
   grid-row: 1/2;
-  grid-column: 2/4;
+  grid-column: 1/8;
 `;
 
 // const Text1 = styled.div`
@@ -46,16 +45,16 @@ const Text2 = styled.div`
   font-size: 1.0rem;
   text-align:left;
   grid-row: 4/5;
-  grid-column: 2/4;
+  grid-column: 1/8;
 `;
-const CardList = styled.div`
-  grid-column: 2/6;
-  column-gap: 10%;
-  grid-row: 2/3;
-  display: contents;
 
 
-`;
+// const CardList = styled.div`
+//   grid-column: 2/6;
+//   column-gap: 10%;
+//   grid-row: 2/3;
+//   display: flex;
+// `;
 
 // const CardList = styled.div`
 //   grid-column: 2/12;

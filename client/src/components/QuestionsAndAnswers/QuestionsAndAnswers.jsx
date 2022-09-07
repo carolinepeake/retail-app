@@ -18,7 +18,7 @@ function QuestionAndAnswers() {
 
   return (
     <Container id="question-and-answers">
-      <div style={{ fontSize: '1.17rem' }}>{`Questions \& Answers`}</div>
+      <div style={{ fontSize: '1.0rem' }}>{`Questions \& Answers`}</div>
       <QuestionSearch />
       <QuestionListContainer id="scrollable-container" onScroll={(e) => handleScroll(e)}>
         {numQuestions === 0 ? (
@@ -43,10 +43,12 @@ function QuestionAndAnswers() {
 export default QuestionAndAnswers;
 
 const Container = styled.div`
-  // justify-content: center;
-  justify-content: left;
+  justify-content: space-evenly;
   grid-column: 2/3;
   grid-row: 4/5;
+  display: flex;
+  flex-direction: column;
+
 `;
 
 const QuestionListContainer = styled.div`
