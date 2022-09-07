@@ -65,20 +65,20 @@ function ProductDetail() {
           <Side>
           {photos
           &&
-          photos.map((photo, index) => {
+          photos.map((photo, index) => (
             // console.log('index: ', index, 'place: ', place);
-            // index === place
-            // ?
-            // <Thumbnail
-            //   src={photo.thumbnail_url}
-            //   key={photo.url}
-            //   index={index}
-            //   alt=""
-            //   onClick={(e) => changeMain(e, index)}
-            //   style= {{boxShadow: "10 10 5"}}
-            // />
-            // :
-            return
+            index === place
+            ?
+            <Thumbnail
+              src={photo.thumbnail_url}
+              key={photo.url}
+              index={index}
+              alt=""
+              onClick={(e) => changeMain(e, index)}
+              style={{boxShadow: "5px 5px 5px #242424"}}
+            />
+            :
+            // return
             <Thumbnail
               src={photo.thumbnail_url}
               key={photo.url}
@@ -86,8 +86,7 @@ function ProductDetail() {
               alt=""
               onClick={(e) => changeMain(e, index)}
             />
-            })
-          }
+            ))}
           </Side>
           {place > 0
           && <MdArrowBackIos style={{ zIndex: 2, position: 'absolute', top: '48%', left: '15%' }} onClick={handleClickBack}/>}
