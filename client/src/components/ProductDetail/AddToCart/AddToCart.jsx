@@ -76,7 +76,6 @@ useEffect(() => {
         </SelectQuantityContainer>
       </SQContainer>
       <BagContainer>
-        {/* <AddtoBag> */}
           {isSizeSelected
           ?
           <CartB type="submit" style={{ cursor: "pointer" }}>
@@ -88,7 +87,6 @@ useEffect(() => {
             <AddCart>Add to Cart</AddCart>
             <PlusSign>+</PlusSign>
           </CartB>}
-        {/* </AddtoBag> */}
           <Star type="button">&#9734;</Star>
       </BagContainer>
     </Cart>
@@ -97,19 +95,13 @@ useEffect(() => {
 
 
 const Cart = styled.div`
-  display: block;
+  display: flex;
+  flex-direction: column;
   grid-column: 4/6;
   grid-row: 1;
   margin-right: 1rem;
   width: 100%;
 `;
-
-// const Cart = styled.div`
-//   display: block;
-//   //grid-column: 4 / 6;
-//   //grid-row: 1;
-//   flex: 3 1;
-// `;
 
 const SQContainer = styled.div`
   flex-direction: row;
@@ -118,6 +110,9 @@ const SQContainer = styled.div`
   margin-bottom: 2.5%;
   margin-right: 10%;
   justify-content: space-between;
+  flex-basis: 2.5rem;
+  flex-grow: 1;
+  flex-shrink: 1;
 `;
 
 const SelectSizeContainer = styled.div`
@@ -125,9 +120,10 @@ const SelectSizeContainer = styled.div`
   flex-grow: 3;
   flex-shrink: 1;
   margin-right: 1rem;
-  height: 2.5rem;
-  width: 9.8rem;
+  height: 100%;
 `;
+
+//height: 2.5rem;
 
 const SelectSize = styled.select`
   font-size: 1.0rem;
@@ -137,6 +133,7 @@ const SelectSize = styled.select`
   padding-right: 1rem;
   cursor: pointer;
   width: 100%;
+  height: 100%;
 `;
 
 const SoldOut = styled.select`
@@ -150,14 +147,14 @@ const SoldOut = styled.select`
 `;
 
 const SelectQuantityContainer = styled.div`
-  height: 2.5rem;
-  width: 6rem;
-  margin-left: 45%
-  margin-right: 2.5%
+  height: 100%;
   flex-basis: 6rem;
   flex-grow: 1;
   flex-shrink: 3;
+  width: 100%;
 `;
+
+//height: 2.5rem;
 
 const SelectQuantity = styled.select`
   font-size: 1.0rem;
@@ -168,22 +165,22 @@ const SelectQuantity = styled.select`
   width: 100%;
 `;
 
+//can combine flex-basis, grow, and shrink into one line shorthand
+
 const BagContainer = styled.div`
   display: flex;
   margin-right: 10%;
   justify-content: space-between;
+  margin-top: 2.5%;
+  flex-basis: 2.5rem;
+  flex-grow: 1;
+  flex-shrink: 1;
 `;
 
 
-// const AddtoBag = styled.div`
-//   margin-top: 1px;
-//   height: auto;
-// `;
-
 const CartB = styled.button`
   font-size: 1.0rem;
-  width: 13.3rem;
-  height: 2.5rem;
+  height: 100%;
   position: relative;
   margin-right: 1rem;
   flex-basis: 13.3rem;
@@ -191,29 +188,37 @@ const CartB = styled.button`
   flex-shrink: 1;
 `;
 
+//height: 2.5rem;
+
 // padding: 0 1rem;
 
 const AddCart = styled.span`
   position: absolute;
-  top: 0.5rem;
-  left: 1rem;
+  top: 25%;
+  left: 7.5%;
 `;
+//left: 1rem;
+//top: 0.5rem;
 
 const PlusSign = styled.span`
   position: absolute;
-  top: 0.5rem;
-  right: 1rem;
+  top: 25%;
+  right:7.5%;
 `;
 
+// top: 0.5rem;
+//   right: 1rem;
 const Star = styled.button`
-  font-size: 1.25rem;
-  height: 2.5rem;
+  font-size: 0.5;
+  height: 100%;
   right: 5%;
-  width: 2.5rem;
   cursor: pointer;
   flex-basis: 2.5rem;
   flex-grow: 1;
   flex-shrink: 5;
 `;
+
+//font-size: 1.25rem;
+//height: 2.5rem;
 
 export default AddToCart;
