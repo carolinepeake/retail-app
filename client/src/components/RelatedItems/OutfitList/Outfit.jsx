@@ -2,6 +2,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import CardStars from '../RelatedList/CardStars';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
@@ -11,6 +12,7 @@ function Outfit({ outfit, index }) {
   } = useGlobalContext();
   const outfitImage = outfit.image.data.results[0].photos[0].thumbnail_url;
   const outfitDetails = outfit.details.data;
+  const outfitStars = outfit.stars.data;
   const defaultImage = 'https://www.escapeauthority.com/wp-content/uploads/2116/11/No-image-found.jpg';
 
   function removeOutfit() {
@@ -32,6 +34,7 @@ function Outfit({ outfit, index }) {
           $
           {outfitDetails.default_price}
         </Info>
+        <CardStars reviewID={outfitStars} />
       </Outline>
     </OutfitContainer>
   );

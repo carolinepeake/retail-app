@@ -10,16 +10,12 @@ function AddToCart() {
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [inStock, setInStock] = useState(false);
 
-// useEffect(() => {
-//     console.log('selectedStyle: ', selectedStyle);
-//     for (var key in selectedStyle.skus) {
-//       if (selectedStyle.skus[key].quantity > 0) {
-//         console.log('add to cart: quantity greater than zero');
-//         setInStock(true);
-//         break;
-//       }
-//     };
-//   }, [selectedStyle])
+useEffect(() => {
+  console.log(selectedStyle);
+  setSelectedSize('Select Size');
+  setIsSizeSelected(false);
+  // setInStock(false);
+  }, [selectedStyle])
 
   function handleChangeSize(e) {
     e.preventDefault();
@@ -41,7 +37,10 @@ function AddToCart() {
                 <option>{selectedSize}</option>
               {selectedStyle.skus
               && (
-                Object.entries(selectedStyle.skus).map(([sku, {size, quantity}]) => {
+                Object.entries(selectedStyle.skus).map(([sku, {size, quantity}], i) => {
+                  // if (i === 0 && inStock === true) {
+                  //   setInStock(false);
+                  // }
                   if (quantity > 0 && inStock === false) {
                     setInStock(true);
                     return <option key={sku} quantity={quantity} value={sku}>{size}</option>;
@@ -61,8 +60,8 @@ function AddToCart() {
         </SelectSizeContainer>
         <SelectQuantityContainer>
           {isSizeSelected
-          ? <SelectQuantity value={selectedQuantity} onChange={(e) => handleChangeQuantity(e)}>
-              <option>-</option>
+          ? <SelectQuantity style={{ cursor: "pointer" }} value={selectedQuantity} onChange={(e) => handleChangeQuantity(e)}>
+              <option>{selectedQuantity}</option>
               {availableQuantity >= 15
               ? [...Array(16).keys()].slice(1).map((num) =>
                   <option value={num}>{num}</option>)
@@ -71,17 +70,24 @@ function AddToCart() {
               }
             </SelectQuantity>
           : <SelectQuantity disabled={!isSizeSelected} value={selectedQuantity} onChange={(e) => handleChangeQuantity(e)}>
-              <option>-</option>
+              <option>––</option>
             </SelectQuantity>
           }
         </SelectQuantityContainer>
       </SQContainer>
       <BagContainer>
         <AddtoBag>
+          {isSizeSelected
+          ?
           <CartB type="submit">
             <AddCart>Add to Cart</AddCart>
             <PlusSign>+</PlusSign>
           </CartB>
+          :
+          <CartB type="submit" disabled>
+            <AddCart>Add to Cart</AddCart>
+            <PlusSign>+</PlusSign>
+          </CartB>}
         </AddtoBag>
           <Star type="button">&#9734;</Star>
       </BagContainer>
@@ -193,6 +199,7 @@ const Star = styled.button`
   height: 2.5rem;
   right: 5%;
   width: 2.5rem;
+  cursor: pointer;
 `;
 
 export default AddToCart;

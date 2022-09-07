@@ -41,6 +41,7 @@ function ProductDetail() {
   function changeMain(e, value) {
     e.preventDefault();
     setPlace(() => value);
+   // setMain(() => photos[place]);
   }
 
   function handleClickBack(e) {
@@ -63,7 +64,21 @@ function ProductDetail() {
           />
           <Side>
           {photos
-          && photos.map((photo, index) => (
+          &&
+          photos.map((photo, index) => {
+            // console.log('index: ', index, 'place: ', place);
+            // index === place
+            // ?
+            // <Thumbnail
+            //   src={photo.thumbnail_url}
+            //   key={photo.url}
+            //   index={index}
+            //   alt=""
+            //   onClick={(e) => changeMain(e, index)}
+            //   style= {{boxShadow: "10 10 5"}}
+            // />
+            // :
+            return
             <Thumbnail
               src={photo.thumbnail_url}
               key={photo.url}
@@ -71,8 +86,9 @@ function ProductDetail() {
               alt=""
               onClick={(e) => changeMain(e, index)}
             />
-          ))}
-          </ Side>
+            })
+          }
+          </Side>
           {place > 0
           && <MdArrowBackIos style={{ zIndex: 2, position: 'absolute', top: '48%', left: '15%' }} onClick={handleClickBack}/>}
           {place < photosLength - 1
@@ -132,7 +148,6 @@ const LeftTop = styled.div`
   display: contents;
   width: 100%;
   height: 100%;
-
 `;
 
 const LeftBottom = styled.div`
@@ -211,6 +226,9 @@ const Thumbnail = styled.img`
   max-height: 100px;
   cursor: pointer;
   margin: 0 auto;
+  &:hover {
+    opacity: 0.80;
+  };
 `;
 
 const MainContainer = styled.div`

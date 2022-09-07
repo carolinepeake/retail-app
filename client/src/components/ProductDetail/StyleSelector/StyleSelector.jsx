@@ -110,6 +110,9 @@ const ThumbnailClass = styled.img`
   aspect-ratio: 1;
   cursor: pointer;
   border-radius: 50%;
+  &:hover {
+    opacity: 0.80;
+  }
 `;
 
 
