@@ -19,10 +19,7 @@ function ProductDetail() {
   const [main, setMain] = useState({});
   const [place, setPlace] = useState(0);
   const [photosLength, setPhotosLength] = useState(0);
-  const [isUpHovering, setIsUpHovering] = useState(false);
-  const [isDownHovering, setIsDownHovering] = useState(false);
-  const [isBackHovering, setIsBackHovering] = useState(false);
-  const [isForwardHovering, setIsForwardHovering] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
     function getPhotos() {
@@ -48,52 +45,21 @@ function ProductDetail() {
    // setMain(() => photos[place]);
   }
 
+  function handleExpandMain(e) {
+    e.preventDefault();
+    setIsExpanded(true);
+    console.log('main image clicked');
+  }
+
+  function handleClickExit(e) {
+    setIsExpanded(false);
+    e.preventDefault();
+  }
+
   function handleClickArrow(n, e) {
     e.preventDefault();
     setPlace((prev) => prev + n);
-    setIsBackHovering(false);
-    setIsForwardHovering(false);
   }
-
-  function handleClickForward(e) {
-    e.preventDefault();
-    setPlace((prev) => prev + 1);
-    setIsForwardHovering(false);
-    setIsBackHovering(false);
-  }
-
-  const handleMouseEnterUp = () => {
-    setIsUpHovering(true);
-  };
-
-  const handleMouseLeaveUp = () => {
-    setIsUpHovering(false);
-  };
-
-  const handleMouseEnterDown = () => {
-    setIsDownHovering(true);
-  };
-
-  const handleMouseLeaveDown = () => {
-    setIsDownHovering(false);
-  };
-
-  const handleMouseEnterBack = () => {
-    setIsBackHovering(true);
-  };
-
-  const handleMouseLeaveBack = () => {
-    setIsBackHovering(false);
-  };
-
-  const handleMouseEnterForward = () => {
-    setIsForwardHovering(true);
-  };
-
-  const handleMouseLeaveForward = () => {
-    setIsForwardHovering(false);
-  };
-
 
   return (
     <ProductSec id="product-details">
@@ -102,14 +68,16 @@ function ProductDetail() {
           <Main
             src={imageUrl}
             alt={`${productInfo.name} in ${selectedStyle.name} style`}
+            onClick={(e) => handleExpandMain(e)}
           />
           <Side>
           {photosLength > 7 && place !== 0
-            && <MdExpandLess
-            style={{fontSize: "1.5rem", backgroundColor: isUpHovering ? 'rgba(114, 114, 114, 0.5)' : '', color: isUpHovering ? 'white' : '', alignSelf: "center",  cursor: isUpHovering ? 'pointer' : ''}}
-            onMouseEnter={handleMouseEnterUp}
-            onMouseLeave={handleMouseLeaveUp}
-            onClick={(e) => handleClickArrow(-1, e)}/>}
+            &&  <Buttons
+                  style={{ height: '1.25em', width: '1.25em', alignSelf: 'center' }}
+                  onClick={(e) => handleClickArrow(-1, e)}
+                >
+                  <MdExpandLess style={{ fontSize: '1.25em' }}/>
+                </Buttons>}
           {photos
           &&
           photos.map((photo, index) => (
@@ -152,21 +120,34 @@ function ProductDetail() {
                 />)
             ))}
             {photosLength > 7 && place !== photosLength - 1
-            && <MdExpandMore
-            style={{fontSize: "1.5rem", backgroundColor: isDownHovering ? 'rgba(114, 114, 114, 0.5)' : '', color: isDownHovering ? 'white' : '', alignSelf: "center", cursor: isDownHovering ? 'pointer' : ''}}
-            onMouseEnter={handleMouseEnterDown}
-            onMouseLeave={handleMouseLeaveDown}
-            onClick={(e) => handleClickArrow(1, e)}/>}
+            &&  <Buttons
+                  style={{ height: '1.25em', width: '1.25em', alignSelf: 'center' }}
+                  onClick={(e) => handleClickArrow(1, e)}
+                >
+                  <MdExpandMore style={{ fontSize: '1.25em' }}/>
+                </Buttons>}
           </Side>
           {photosLength < 4 && place > 0
-          && <MdArrowBackIos style={{ zIndex: 2, position: 'absolute', top: '48%', left: '2.5%', fontSize: '1.5rem', cursor: isBackHovering ? 'pointer' : '', backgroundColor: isBackHovering ? 'rgba(114, 114, 114, 0.5)' : '', color: isBackHovering ? 'white' : '' }} onClick={(e) => handleClickArrow(-1, e)} onMouseEnter={handleMouseEnterBack}
-          onMouseLeave={handleMouseLeaveBack}/>}
+          &&  <Buttons
+                style={{ zIndex: 2, position: 'absolute', top: '48%', left: '2%', height: '2.5em', width: '2.5em' }}
+                onClick={(e) => handleClickArrow(-1, e)}
+              >
+                <MdArrowBackIos style={{ fontSize: '2.0rem', paddingLeft: '0.25em' }}/>
+              </Buttons>}
           {place > 0 && photosLength >= 4
-          && <MdArrowBackIos style={{ zIndex: 2, position: 'absolute', top: '48%', left: '15%', fontSize: '1.5rem', cursor: isBackHovering ? 'pointer' : '', backgroundColor: isBackHovering ? 'rgba(114, 114, 114, 0.5)' : '', color: isBackHovering ? 'white' : '' }} onClick={(e) => handleClickArrow(-1, e)} onMouseEnter={handleMouseEnterBack}
-          onMouseLeave={handleMouseLeaveBack}/>}
+          &&  <Buttons
+                style={{ zIndex: 2, position: 'absolute', top: '48%', left: '15%', height: '2.5em', width: '2.5em' }}
+                onClick={(e) => handleClickArrow(-1, e)}
+              >
+                <MdArrowBackIos style={{ fontSize: '2.0rem', paddingLeft: '0.25em' }} />
+              </Buttons>}
           {place < photosLength - 1
-          && <MdArrowForwardIos style={{ zIndex: 2, position: 'absolute', top: '48%', right: '2%', fontSize: '1.5rem', cursor: isForwardHovering ? 'pointer' : '', backgroundColor: isForwardHovering ? 'rgba(114, 114, 114, 0.5)' : '', color: isForwardHovering ? 'white' : '' }} onClick={(e) => handleClickArrow(1, e)} onMouseEnter={handleMouseEnterForward}
-          onMouseLeave={handleMouseLeaveForward}/>}
+          &&  <Buttons
+                style={{ zIndex: 2, position: 'absolute', top: '48%', right: '2%', height: '2.5em', width: '2.5em' }}
+                onClick={(e) => handleClickArrow(1, e)}
+              >
+                <MdArrowForwardIos style={{ fontSize: '2.0rem' }}/>
+              </Buttons>}
         </MainContainer>
         </LeftTop>
         <br />
@@ -181,6 +162,13 @@ function ProductDetail() {
           <StyleSelector />
           <AddToCart />
       </RightTop>
+      <Expanded style={{ display: isExpanded ? 'block' : 'none' }}>
+        <ExpandedImg
+          src={imageUrl}
+          alt={`${productInfo.name} in ${selectedStyle.name} style`}
+        />
+        <Exit onClick={(e) => handleClickExit(e)}>&times;</Exit>
+      </Expanded >
     </ProductSec>
   );
 }
@@ -231,6 +219,7 @@ const LeftBottom = styled.div`
   flex-direction: column;
   height: max-content;
   max-width: 700px;
+  margin: 0 auto;
 `;
 
 // const LeftSide = styled.div`
@@ -318,14 +307,10 @@ const MainContainer = styled.div`
   display: grid;
   overflow: hidden;
   height: max-content;
-  max-width: 700px;
+  max-width: 800px;
 `;
 
 // const MainContainer = styled.div`
-//   grid-column: 1 / 4;
-//   grid-row: 1;
-//   z-index: 1;
-//   position: relative;
 //   //flex: 2 0.5;
 //   object-fit: cover;
 // `;
@@ -338,7 +323,7 @@ const Main = styled.img`
   z-index: 1;
   display: grid;
   aspect-ratio: 1;
-  max-width: 700px;
+  max-width: 800px;
   margin: 0 auto;
   height: 100%;
   cursor: zoom-in;
@@ -346,7 +331,38 @@ const Main = styled.img`
 
 const Expanded = styled.div`
   cursor: zoom-in;
+  z-index: 3;
+  grid-column: 1/6;
+  grid-row: 1;
+  background-color: white;
+  overflow: none;
+  width: 100%;
+  margin: 0 auto;
+  height: max-content;
+  position: relative;
 `;
+
+const ExpandedImg = styled.img`
+  object-fit: cover;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  z-index: 3;
+  aspect-ratio: 1;
+  margin: 0 auto;
+  height: 100%;
+  cursor: zoom-in;
+`;
+
+const Exit = styled.button`
+  position: absolute;
+  right: 1%;
+  top: 1%;
+  z-index: 4;
+  opacity: 0.3;
+  color: rgba(225 225 225 0.3);
+  font-color: black;
+`
 
 // display: grid?
 
@@ -361,6 +377,26 @@ const Expanded = styled.div`
 //   z-index: 1;
 // //  display: grid;
 // `;
+
+// const ScrollUp = styled.button`
+//   fontSize: "1.5rem";
+//   backgroundColor: isUpHovering ? 'rgba(114, 114, 114, 0.5)' : '', color: isUpHovering ? 'white' : '', alignSelf: "center",  cursor: isUpHovering ? 'pointer' : ''}}
+// `;
+
+//background-color: rgba(114, 114, 114, 0.5);
+
+const Buttons = styled.button`
+  background-color: none;
+  background-color: rgba(225, 225, 225, 0.5);
+  &:hover {
+    background-color: rgba(225, 225, 225, 0.8);
+    cursor: pointer;
+  };
+  padding: 0;
+  color: black;
+  border: none;
+  border-radius: 2.5px;
+`;
 
 const ProductSlogan = styled.h3`
   display: block;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { MdArrowForwardIos, MdArrowBackIos } from 'react-icons/md'
+import { MdArrowForwardIos, MdArrowBackIos } from 'react-icons/md';
 
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 

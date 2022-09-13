@@ -34,7 +34,7 @@ useEffect(() => {
       <SQContainer>
         <SelectSizeContainer>
             <SelectSize value={selectedSize} onChange={(e) => handleChangeSize(e)}>
-                <option>{selectedSize}</option>
+                {/* <option>{selectedSize}</option> */}
               {selectedStyle.skus
               && (
                 Object.entries(selectedStyle.skus).map(([sku, {size, quantity}], i) => {
