@@ -3,6 +3,7 @@ const path = require('path');
 const cors = require('cors');
 const router = require('./routes');
 const logger = require('./middleware/logger');
+require('dotenv').config();
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -12,7 +13,7 @@ app.use(logger);
 
 app.use('/', router);
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3002;
 
 app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`);

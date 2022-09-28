@@ -21,6 +21,8 @@ module.exports.getStyles = (req, res) => {
   const productId = req.query.product_id || 40348;
   axios({
     method: 'get',
+    // should use a path method instead so works in all browers for sure
+    // or use params
     url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/products/${productId}/styles`,
   })
     .then((result) => {
