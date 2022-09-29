@@ -46,11 +46,11 @@ const ButtonContainer = styled.div`
 `;
 
 const Button = styled.button`
-  height: 2.5rem;
+  height: 3rem;
   width: 14rem;
   border-radius: 10px;
   cursor: pointer;
-  font-weight: bold;
+  font-size: 1rem;
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   }

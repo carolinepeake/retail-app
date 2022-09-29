@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
-function Stars() {
+function POStars() {
   const {
     reviews
   } = useGlobalContext();
@@ -64,4 +64,4 @@ const FilledStar = styled.div`
   font-size: bold;
 `;
 
-export default Stars;
+export default POStars;

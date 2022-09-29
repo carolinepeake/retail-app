@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { IoIosCheckmarkCircle } from 'react-icons/io';
+import { IoIosCheckmarkCircle } from 'react-icons/Io';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
-export const StyleSelector = () => {
+function StyleSelector() {
   const { styles, selectedStyle, setSelectedStyle } = useGlobalContext();
 
   return (
@@ -43,6 +43,8 @@ export const StyleSelector = () => {
     </StyleContainer>
   );
 };
+
+export default StyleSelector;
 
 const StyleContainer = styled.div`
   display: block;

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { IoLogoFacebook, IoLogoTwitter, IoLogoPinterest } from 'react-icons/Io';
 import RatingsAndReviews from '../../RatingsAndReviews/RatingsAndReviews';
-import Stars from './Stars';
+import POStars from './POStars';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
 function ProductOverview() {
@@ -17,7 +17,7 @@ function ProductOverview() {
         {reviews.length > 0
           ? (
             <>
-              <Stars />
+              <POStars />
               <ReadReviews className="readReviews">
                 <a href="RatingsAndReviews" style={{ color: 'black' }}>{`Read all ${reviews.length}+ reviews`}</a>
               </ReadReviews>

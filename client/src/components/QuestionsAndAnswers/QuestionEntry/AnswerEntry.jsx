@@ -123,6 +123,7 @@ const Answer = styled.div`
 const AnswerPhotos = styled.span`
   display: flex;
   justify-content: flex-start;
+  padding-bottom: 0.5rem;
 `;
 
 const AnswerImage = styled.img`
@@ -140,7 +141,7 @@ const AnswerFooter = styled.div`
 
 const AnswerBody = styled.div`
   grid-column: 2 / 3;
-  padding-bottom:0.5rem;
+  padding-bottom: 0.5rem;
 `;
 
 const Clickable = styled.u`

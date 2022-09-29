@@ -80,7 +80,7 @@ function RatingsAndReviews() {
 
   return (
     <Container id="ratings-and-reviews">
-      <RRTitle style={{ fontSize: '1.0rem' }}>Ratings & Reviews</RRTitle>
+      <RRTitle>Ratings & Reviews</RRTitle>
       <BreakdownContainer>
         <Breakdown
           productID={productID}
@@ -121,7 +121,7 @@ function RatingsAndReviews() {
       </ReviewListContainer>
     </Container>
   );
-}
+};
 
 export default RatingsAndReviews;
 

@@ -178,11 +178,12 @@ AddRev.propTypes = {
 export default AddRev;
 
 const AddButton = styled.button`
-  padding: 0.75em;
+  height: 3rem;
+  width: 14rem;
   font-size: 1.0rem;
   background-color: ${(props) => props.theme.secondaryColor};
   color: ${(props) => props.theme.fontColor};
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;

@@ -220,19 +220,22 @@ const QuestionBody = styled.div`
   font-weight: bold;
   padding-right: 0.5rem;
   margin-left: 0.5rem;
-  padding-left: 0.5rem;
+  padding-left: 1rem;
+  padding-bottom: 1rem;
 `;
 
 const HelpfulReport = styled.div`
   grid-column: 3;
-  font-size: 0.75rem;
+  font-size: 1.0rem;
   padding: 0 1.0rem;
+  display: flex;
+  justify-content: space-between;
 `;
-
 
 const AddAnswer = styled.div`
   grid-column: 4;
-  font-size: 0.75rem;
+  font-size: 1.0rem;
+  margin-left: 1.5rem;
 `;
 
 const Reported = styled.span`
@@ -254,8 +257,9 @@ const AnswersListContainer = styled.div`
 
 const AnswerNone = styled.div`
   grid-column: 2;
-  padding-left: 0.5rem;
+  padding-left: 2.0rem;
   margin-left: 0.5rem;
+  padding-left: 1.0rem;
 `;
 
 const Answer = styled.div`

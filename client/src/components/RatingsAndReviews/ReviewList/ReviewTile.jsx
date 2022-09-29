@@ -18,10 +18,10 @@ function ReviewTile({ review }) {
       <StarsDateName>
         <StarCount review={review} />
         <DateName>
-          <div>
+          <ReviewerName>
             {`${review.reviewer_name},`}
             &nbsp;
-          </div>
+          </ReviewerName>
           <div>
             {format(parseISO(review.date), 'MMMM dd, yyyy')}
           </div>
@@ -93,8 +93,12 @@ const DateName = styled.div`
   display: flex;
   justify-content: flex-end;
   background: ;
-  font-size: 0.75rem;
+  font-size: 1rem;
 `;
+
+const ReviewerName = styled.div`
+  padding-right: 1rem;
+`
 
 const Response = styled.div`
   padding: 1em;
