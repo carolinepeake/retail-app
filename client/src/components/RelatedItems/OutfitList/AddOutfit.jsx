@@ -27,7 +27,9 @@ function AddOutfit() {
 }
 
 const Outline = styled.div`
-  border: black solid medium transparent;
+  grid-row: 1/4;
+  min-width: 100%;
+
 `;
 
 const Button = styled.button`
@@ -36,6 +38,8 @@ const Button = styled.button`
   font-size: 1.0rem;
   border-radius: 10px;
   cursor: pointer;
+  padding: 1rem 1rem;
+  font-size: 2rem;
 `;
 
 // const Button = styled.button`
@@ -48,7 +52,7 @@ const Button = styled.button`
 // `;
 
 const Text = styled.div`
-  font-size: 1.0rem;
+  font-size: 1.5rem;
   align-text: left;
 `;
 

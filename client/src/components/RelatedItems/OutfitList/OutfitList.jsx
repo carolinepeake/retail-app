@@ -78,6 +78,8 @@ const StyleList = styled.div`
   grid-template-columns: repeat(4, 4fr);
   column-gap: 1em;
   align-content: center;
+  grid-template-rows: repeat(3, 1fr);
+  margin-top: 1em;
 `;
 
 // const StyleList = styled.div`

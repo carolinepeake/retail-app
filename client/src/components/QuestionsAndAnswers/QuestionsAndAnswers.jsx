@@ -18,7 +18,7 @@ function QuestionAndAnswers() {
 
   return (
     <Container id="question-and-answers">
-      <div style={{ fontSize: '1.0rem' }}>{`Questions \& Answers`}</div>
+      <div>{`Questions \& Answers`}</div>
       <QuestionSearch />
       <QuestionListContainer id="scrollable-container" onScroll={(e) => handleScroll(e)}>
         {numQuestions === 0 ? (

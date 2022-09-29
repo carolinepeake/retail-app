@@ -37,6 +37,7 @@ const StarsContainer = styled.h5`
   display: inline-block;
   margin-block-end: 0em;
   margin-block-start: .5em;
+  1.25rem;
 `;
 
 // const StarsContainer = styled.div`

@@ -56,6 +56,9 @@ const Input = styled.input`
   }
   width: 80%;
   margin-left: 0.5rem;
+  font-size: 1rem;
+  padding: 0.25rem 0.25rem;
+  padding-left: 0.5rem;
 `;
 
 export default QuestionSearch;

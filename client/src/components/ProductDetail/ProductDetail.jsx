@@ -73,7 +73,7 @@ function ProductDetail() {
           <Side>
           {photosLength > 7 && place !== 0
             &&  <Buttons
-                  style={{ height: '1.25em', width: '1.25em', alignSelf: 'center' }}
+                  style={{ height: '1rem', width: '1rem', alignSelf: 'center' }}
                   onClick={(e) => handleClickArrow(-1, e)}
                 >
                   <MdExpandLess style={{ fontSize: '1.25em' }}/>
@@ -121,7 +121,7 @@ function ProductDetail() {
             ))}
             {photosLength > 7 && place !== photosLength - 1
             &&  <Buttons
-                  style={{ height: '1.25em', width: '1.25em', alignSelf: 'center' }}
+                  style={{ height: '1rem', width: '1rem', alignSelf: 'center' }}
                   onClick={(e) => handleClickArrow(1, e)}
                 >
                   <MdExpandMore style={{ fontSize: '1.25em' }}/>
@@ -129,21 +129,21 @@ function ProductDetail() {
           </Side>
           {photosLength < 4 && place > 0
           &&  <Buttons
-                style={{ zIndex: 2, position: 'absolute', top: '48%', left: '2%', height: '2.5em', width: '2.5em' }}
+                style={{ zIndex: 2, position: 'absolute', top: '48%', left: '2%', height: '2rem', width: '2rem', opacity: '0.5' }}
                 onClick={(e) => handleClickArrow(-1, e)}
               >
                 <MdArrowBackIos style={{ fontSize: '2.0rem', paddingLeft: '0.25em' }}/>
               </Buttons>}
           {place > 0 && photosLength >= 4
           &&  <Buttons
-                style={{ zIndex: 2, position: 'absolute', top: '48%', left: '15%', height: '2.5em', width: '2.5em' }}
+                style={{ zIndex: 2, position: 'absolute', top: '48%', left: '15%', height: '2rem', width: '2rem', opacity: '0.5' }}
                 onClick={(e) => handleClickArrow(-1, e)}
               >
                 <MdArrowBackIos style={{ fontSize: '2.0rem', paddingLeft: '0.25em' }} />
               </Buttons>}
           {place < photosLength - 1
           &&  <Buttons
-                style={{ zIndex: 2, position: 'absolute', top: '48%', right: '2%', height: '2.5em', width: '2.5em' }}
+                style={{ zIndex: 2, position: 'absolute', top: '48%', right: '2%', height: '2rem', width: '2rem', opacity: '0.5' }}
                 onClick={(e) => handleClickArrow(1, e)}
               >
                 <MdArrowForwardIos style={{ fontSize: '2.0rem' }}/>
@@ -402,7 +402,6 @@ const ProductSlogan = styled.h3`
   display: block;
   margin-block-start: 0.5em;
   margin-block-end: 0em;
-  font-size: 1.0rem;
   font-weight: bold;
 `;
 
@@ -415,7 +414,6 @@ const ProductSlogan = styled.h3`
 const ProductDescription = styled.p`
   display: block;
   margin-block-end: 0em;
-  font-size: 0.9rem;
 `;
 
 

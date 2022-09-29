@@ -29,9 +29,11 @@ function ProductOverview() {
               </ReadReviews>
           )}
         {/* </ReviewContainer> */}
+        <br />
         <CategoryContainer>{productInfo.category}</CategoryContainer>
-
+        <br />
         <ProductName>{productInfo.name}</ProductName>
+        <br />
         <SocialMediaContainer>
           <ShareSocial>
             <Facebook>
@@ -45,6 +47,7 @@ function ProductOverview() {
             </Pinterest>
           </ShareSocial>
         </SocialMediaContainer>
+        <br />
         <PriceContainer>
           {selectedStyle.sale_price
           ? (
@@ -59,6 +62,7 @@ function ProductOverview() {
             <Price>{selectedStyle.original_price}</Price>
           )}
           </PriceContainer>
+          <br />
       </OverviewContainer>
    );
 };
@@ -89,6 +93,7 @@ const ReadReviews = styled.h5`
   margin-block-end: 0em;
   color: black;
   text: underlined;
+  font-size: 1.25rem;
 `;
 
 //font-size: 0.7rem;
@@ -110,19 +115,20 @@ const ReadReviews = styled.h5`
 // `;
 
 const CategoryContainer = styled.h3`
-  margin-top: 1rem;
+  margin-top: 2.0rem;
   margin-bottom: 0.5rem;
   &:hover {
     text-decoration: underline;
   }
   cursor: pointer;
-  font-size: 1.0rem;
+  font-size: 1.5rem;
   text-transform: uppercase;
 `;
 
 const ProductName = styled.h2`
   margin-top: 0.5rem;
-  font-size: 2.0em;
+  font-size: 2.0rem;
+  margin-bottom: 0.5rem;
 `;
 
 
@@ -133,11 +139,16 @@ const SocialMediaContainer = styled.div`
   &:hover {
     cursor: pointer;
   };
+  display: flex;
 `;
 
 const Facebook = styled.div`
   flex: f1;
-  font-size: 1.25rem;
+  flex-basis: 2.0rem;
+  flex-grow: .75;
+  flex-shrink: 1;
+  font-size: 2.0rem;
+  padding: 0 0.25rem;
   &:hover {
     color: blue;
   };
@@ -145,7 +156,11 @@ const Facebook = styled.div`
 
 const Twitter = styled.div`
   flex: f1;
-  font-size: 1.25rem;
+  flex-basis: 2.0rem;
+  flex-grow: .75;
+  flex-shrink: 1;
+  font-size: 2.0rem;
+  padding: 0 0.25rem;
   &:hover {
     color: aqua;
   };
@@ -153,7 +168,11 @@ const Twitter = styled.div`
 
 const Pinterest = styled.div`
   flex: f1;
-  font-size: 1.25rem;
+  flex-basis: 2.0rem;
+  flex-grow: .75;
+  flex-shrink: 1;
+  font-size: 2.0rem;
+  padding: 0 0.25rem;
   &:hover {
     color: red;
   };
@@ -161,10 +180,14 @@ const Pinterest = styled.div`
 
 
 const ShareSocial = styled.div`
-  height: 1.25rem;
-  width: 3.75rem;
+  height: 2.0rem;
+  width: 7.5rem;
+  max-width: 7.5rem;
   border: .1rem solid black;
   display: flex;
+  flex-basis: 2.0rem 7.5rem;
+  flex-shrink: 1;
+  flex-grow: .75;
 `;
 
 const PriceContainer = styled.div`
@@ -175,6 +198,7 @@ const PriceContainer = styled.div`
 
 const Price = styled.h4`
   margin: auto 0;
+  font-size: 1.25rem;
 `;
 
 // const Price = styled.h5`

@@ -101,6 +101,7 @@ const Cart = styled.div`
   grid-row: 1;
   margin-right: 1rem;
   width: 100%;
+  font-size: 1.25rem;
 `;
 
 const SQContainer = styled.div`
