@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
+import Button from '../../reusable/Button.jsx';
 
 function AddToCart() {
   const { productID, selectedStyle, productInfo, styles } = useGlobalContext();
@@ -33,7 +34,7 @@ useEffect(() => {
     <Cart>
       <SQContainer>
         <SelectSizeContainer>
-            <SelectSize value={selectedSize} onChange={(e) => handleChangeSize(e)}>
+            <SelectSize as="select" value={selectedSize} onChange={(e) => handleChangeSize(e)}>
                 {/* <option>{selectedSize}</option> */}
               {selectedStyle.skus
               && (
@@ -99,11 +100,10 @@ const Cart = styled.div`
   flex-direction: column;
   grid-column: 4/6;
   grid-row: 1;
-  margin-right: 1rem;
+  margin-right: 1em;
   width: 100%;
-  font-size: 1.25rem;
 `;
-
+//font-size: 1.25rem;
 const SQContainer = styled.div`
   flex-direction: row;
   align-content: space-between;
@@ -111,45 +111,45 @@ const SQContainer = styled.div`
   margin-bottom: 2.5%;
   margin-right: 10%;
   justify-content: space-between;
-  flex-basis: 2.5rem;
+  flex-basis: 2.5em;
   flex-grow: 1;
   flex-shrink: 1;
 `;
 
 const SelectSizeContainer = styled.div`
-  flex-basis: 9.8rem;
+  flex-basis: 9.8em;
   flex-grow: 3;
   flex-shrink: 1;
-  margin-right: 1rem;
+  margin-right: 1em;
   height: 100%;
 `;
 
 //height: 2.5rem;
 
-const SelectSize = styled.select`
-  font-size: 1.0rem;
-  padding-bottom: 0.5rem;
-  padding-top: 0.5rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  cursor: pointer;
+const SelectSize = styled(Button)`
   width: 100%;
   height: 100%;
 `;
+// padding-bottom: 0.5em;
+// padding-top: 0.5em;
+// padding-left: 1em;
+// padding-right: 1em;
+//font-size: 1.0rem;
 
 const SoldOut = styled.select`
-  font-size: 1.0rem;
-  padding-bottom: 0.5rem;
-  padding-top: 0.5rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding: calc(4px + 0.25vw) calc(8px + 0.5vw);
   cursor: pointer;
   width: 100%;
+  font-size: calc(8px + 0.5vw);
 `;
-
+//font-size: 1.0rem;
+// padding-bottom: 0.5em;
+// padding-top: 0.5em;
+// padding-left: 1em;
+// padding-right: rem;
 const SelectQuantityContainer = styled.div`
   height: 100%;
-  flex-basis: 6rem;
+  flex-basis: 6em;
   flex-grow: 1;
   flex-shrink: 3;
   width: 100%;
@@ -158,14 +158,15 @@ const SelectQuantityContainer = styled.div`
 //height: 2.5rem;
 
 const SelectQuantity = styled.select`
-  font-size: 1.0rem;
-  padding-bottom: 0.5rem;
-  padding-top: 0.5rem;
-  padding-left: 1.0rem;
-  padding-right: 1.0rem;
+  padding: calc(4px + 0.25vw) calc(8px + 0.5vw);
   width: 100%;
+  font-size: calc(8px + 0.5vw);
 `;
-
+//font-size: 1.0rem;
+// padding-bottom: 0.5em;
+// padding-top: 0.5em;
+// padding-left: 1em;
+// padding-right: rem;
 //can combine flex-basis, grow, and shrink into one line shorthand
 
 const BagContainer = styled.div`
@@ -173,22 +174,23 @@ const BagContainer = styled.div`
   margin-right: 10%;
   justify-content: space-between;
   margin-top: 2.5%;
-  flex-basis: 2.5rem;
+  flex-basis: 2.5em;
   flex-grow: 1;
   flex-shrink: 1;
 `;
 
 
 const CartB = styled.button`
-  font-size: 1.0rem;
+  padding: calc(5px + 0.5vw);
   height: 100%;
   position: relative;
-  margin-right: 1rem;
-  flex-basis: 13.3rem;
+  margin-right: calc(10px + 1vw);
+  flex-basis: 13.3em;
   flex-grow: 5;
   flex-shrink: 1;
+  font-size: calc(10px + 1vw);
 `;
-
+//font-size: 1.0rem;
 //height: 2.5rem;
 
 // padding: 0 1rem;
@@ -210,15 +212,16 @@ const PlusSign = styled.span`
 // top: 0.5rem;
 //   right: 1rem;
 const Star = styled.button`
-  font-size: 0.5;
+  padding: calc(7.5px + 0.75vw) calc(10px + 1vw);
   height: 100%;
   right: 5%;
   cursor: pointer;
-  flex-basis: 2.5rem;
+  flex-basis: 2.5em;
   flex-grow: 1;
   flex-shrink: 5;
+  font-size: calc(10px + 1vw);
 `;
-
+//font-size: 0.5;
 //font-size: 1.25rem;
 //height: 2.5rem;
 

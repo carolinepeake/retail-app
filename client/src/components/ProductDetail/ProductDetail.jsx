@@ -51,13 +51,13 @@ let ProductSec = styled.div`
   display: grid;
   grid-row: 2;
   grid-column: 1/4;
-  grid-template-columns: 10% repeat(3, 1fr) 10%;
+  grid-template-columns: 10% minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) 10%;
   grid-template-rows: 1fr;
   column-gap: 1rem;
   overflow: none;
   max-width: 100%;
 `;
-
+// repeat(3, 1fr)
 //grid-template-rows: auto;
 
 //grid-template-auto-rows: 1fr 1.5rem 1rem 1fr 1fr 1.5rem 1fr;

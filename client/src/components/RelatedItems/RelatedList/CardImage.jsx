@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import ComparisonModal from './ComparisonModal';
 
-function CardImage({ imageInfo, details }) {
+function CardImage({ imageInfo, details, i }) {
   const [image, setImage] = useState(imageInfo);
   const [modal, setModal] = useState(false);
   // const [starType, setStarType] = useState('&#9734;');
@@ -83,8 +83,8 @@ const Button = styled.button`
   color: black;
   background-color: transparent;
   border: none;
-  font-size: 1.25rem;
-  font-width: bold;
+  font-size: calc(12.5px + 1.25vw);
+  font-weight: bold;
   &:hover {
     color: gold;
     opacity: 0.80;

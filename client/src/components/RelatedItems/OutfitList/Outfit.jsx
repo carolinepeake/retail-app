@@ -8,7 +8,7 @@ import { useGlobalContext } from '../../../contexts/GlobalStore';
 
 function Outfit({ outfit, index }) {
   const {
-    outfits, setOutfits,
+    outfits, setOutfits, outfitIndex
   } = useGlobalContext();
   const outfitImage = outfit.image.data.results[0].photos[0].thumbnail_url;
   const outfitDetails = outfit.details.data;
@@ -20,9 +20,10 @@ function Outfit({ outfit, index }) {
     const tempArray = [...outfits];
     tempArray.splice(index, 1);
     setOutfits(tempArray);
-  }
+  };
+
   return (
-    <OutfitContainer i={index} >
+    <OutfitContainer i={index} outfitIndex={outfitIndex}>
       <Outline >
         <ImageOutline>
           <Image src={outfitImage ? outfitImage : defaultImage} />
@@ -74,10 +75,13 @@ Outfit.propTypes = {
 // `;
 
 const OutfitContainer = styled.div`
-  grid-column: ${(i) => i};
-  grid-row: 1;
-  margin-top: 0.5rem;
+  grid-column: ${props => {props.i}};
+  grid-row: 1/4;
+  align-self: center;
+  mask-image: ${(props) => props.i === 3 ? "linear-gradient(to right, rgba(0,0,0,1), 40%, rgba(0,0,0,0) 80%)" : " " };
 `;
+
+//margin-top: 0.5rem;
 
 const Outline = styled.div`
   &:hover {
@@ -104,7 +108,6 @@ const Info = styled.div`
 
 const Image = styled.img`
   display: block;
-  position: relative;
   // margin-left: auto;
   // margin-right: auto;
   width: 100%;
@@ -135,7 +138,8 @@ const Button = styled.button`
   color: black;
   background-color: transparent;
   border: none;
-  font-size: 1.5rem;
+  padding: calc(5px + 0.5vw);
+  font-size: calc(15px + 1.5vw);
   &:hover {
     background-color: trasparent;
     opacity: 0.80;

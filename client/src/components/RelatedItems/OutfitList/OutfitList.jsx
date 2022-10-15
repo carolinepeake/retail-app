@@ -10,49 +10,57 @@ function OutfitList() {
   const {
     outfits, setOutfits, outfitIndex, setOutfitIndex,
   } = useGlobalContext();
+
   useEffect(() => {
     setOutfits(outfits);
   }, [outfits, setOutfits]);
+
   function clickRight() {
-    if (outfitIndex + 3 < outfits.length) {
+    if (outfitIndex + 2 < outfits.length) {
       setOutfitIndex(outfitIndex + 1);
     }
-  }
+  };
+
   function clickLeft() {
     if (outfitIndex > 0) {
       setOutfitIndex(outfitIndex - 1);
     }
-  }
+  };
+
   function fillEmpty() {
     const emptyCells = [];
     for (let i = 0; i < (3 - outfits.length); i += 1) {
       emptyCells.push(<EmptyOutfit key={i} />);
     }
     return emptyCells;
-  }
+  };
+
   return (
     <Outline>
       {/* <LeftBox> */}
-        {/* {outfitIndex === 0 || outfits.length < 3
-          ? <LeftButton /> : (
-            <LeftButton onClick={() => clickLeft()}> &lt; </LeftButton>
-          )} */}
+        {/* {(outfitIndex !== 0 && outfits.length >= 3) */}
+          {/* // ? <LeftButton /> : ( */}
+          {/* &&  <LeftButton onClick={() => clickLeft()}> &lt; </LeftButton>} */}
+          {/* // )} */}
       {/* </LeftBox> */}
       <StyleList>
+      {(outfitIndex !== 0 && outfits.length >= 3)
+          &&  <LeftButton onClick={() => clickLeft()}> &lt; </LeftButton>}
         {(outfits.slice(outfitIndex, outfitIndex + 4)).map((outfit, i) => <Outfit outfit={outfit} key={i} index={i} />)}
-        {(outfits.length <= 3 || (outfits.length >= 4 && outfits.length - outfitIndex === 3))
+        {(outfits.length <= 3 || (outfits.length >= 3 && (outfits.length - outfitIndex === 2 || outfits.length - outfitIndex === 3)))
          && <AddOutfit /> }
         {(outfits.length <= 3) && fillEmpty()}
+        {(outfitIndex !== outfits.length - 2 && outfits.length >= 3)
+          &&  <RightButton onClick={() => clickRight()}> &gt; </RightButton>}
       </StyleList>
       {/* <RightBox> */}
-        {/* {((outfits.length >= 4 && outfitIndex === outfits.length - 4) || (outfitIndex === 0 && outfits.length > 3))
+        {/* {/* {((outfits.length >= 4 && outfitIndex === outfits.length - 4) || (outfitIndex === 0 && outfits.length > 3))
           ? <RightButton onClick={() => clickRight()}> &gt; </RightButton>
           : <RightButton /> } */}
       {/* </RightBox> */}
     </Outline>
   );
-}
-
+};
 
 const Outline = styled.div`
   background-color: ${(props) => props.theme.backgroundColor};
@@ -77,10 +85,12 @@ const StyleList = styled.div`
   grid-column: 1/9;
   grid-template-columns: repeat(4, 4fr);
   column-gap: 1em;
-  align-content: center;
   grid-template-rows: repeat(3, 1fr);
   margin-top: 1em;
+  align-content: center;
 `;
+
+
 
 // const StyleList = styled.div`
 //   display: flex;
@@ -107,38 +117,80 @@ const RightBox = styled.div`
 `;
 
 const LeftButton = styled.button`
-  display: flex;
   align-self: center;
   position: absolute;
   font-width: bold;
-  font-size: 2.5rem;
+  font-size: calc(15px + 1.5vw);
   background-color: transparent;
   border: none;
   &:hover {
-    opacity: 0.60;
+    background-color: rgba(114, 114, 114, 0.5);
+    color: white;
   }
   color: ${(props) => props.theme.fontColor};
   cursor: pointer;
+  z-index: 1;
+  grid-column: 1;
+  grid-row: 2;
+  padding: 0 0;
+  height: calc(15px + 1.5vw);
 `;
 
+// const LeftButton = styled.button`
+//   display: flex;
+//   align-self: center;
+//   position: absolute;
+//   font-width: bold;
+//   font-size: 2.5rem;
+//   background-color: transparent;
+//   border: none;
+//   &:hover {
+//     opacity: 0.60;
+//   }
+//   color: ${(props) => props.theme.fontColor};
+//   cursor: pointer;
+// `;
+
 const RightButton = styled.button`
-  display: flex;
   align-self: center;
   position: absolute;
   font-width: bold;
-  font-size: 2.5rem;
+  font-size: calc(15px + 1.5vw);
   background-color: transparent;
   border: none;
   &:hover {
-    opacity: 0.60;
+    background-color: rgba(114, 114, 114, 0.5);
+    color: white;
   }
   color: ${(props) => props.theme.fontColor};
   cursor: pointer;
+  z-index: 1;
+  grid-column: 2;
+  grid-row: 1;
+  right: 5%;
+  padding: 0 0;
+  height: calc(15px + 1.5vw);
 `;
+
+// const RightButton = styled.button`
+//   display: flex;
+//   align-self: center;
+//   position: absolute;
+//   font-width: bold;
+//   font-size: 2.5rem;
+//   background-color: transparent;
+//   border: none;
+//   &:hover {
+//     opacity: 0.60;
+//   }
+//   color: ${(props) => props.theme.fontColor};
+//   cursor: pointer;
+// `;
 
 const EmptyOutfit = styled.div`
   border: black solid medium transparent;
   width: 100%;
+  height: 100%
 `;
 
 // const EmptyOutfit = styled.div`

@@ -14,11 +14,12 @@ function CardsList() {
   } = useGlobalContext();
 
   function clickRight() {
-    if (cardIndex + 4 < productList.length) {
+    if (cardIndex + 3 < productList.length) {
       setCardIndex(cardIndex + 1);
     }
   }
 
+  // make transition smooth, so looks like a smooth carousel
   function clickLeft() {
     if (cardIndex > 0) {
       setCardIndex(cardIndex - 1);
@@ -42,16 +43,15 @@ function CardsList() {
             </LeftButton>
           //  &lt; </LeftButton>
            }
-        {(productList.slice(cardIndex, cardIndex + 4)).map((data, i) => <Card data={data} key={i} />)}
+        {(productList.slice(cardIndex, cardIndex + 4)).map((data, i) => <Card data={data} key={i} i={i}/>)}
         {(productList.length < 4 && productList.length > 0)
           && fillEmpty()}
         {productList.length === 0
           && <Text>No related items</Text>}
-        {(cardIndex !== productList.length - 4 && productList.length >= 4)
+        {(cardIndex !== productList.length - 3 && productList.length >= 4)
           && <RightButton onClick={() => clickRight()}>
               <HiArrowSmRight />
             </RightButton>}
-          {/* &gt; </RightButton>} */}
       </StyleCardList>
     </Container>
   );
@@ -129,7 +129,7 @@ const LeftButton = styled.button`
   align-self: center;
   position: absolute;
   font-weight: bold;
-  font-size: 1.5rem;
+  font-size: calc(12px + 0.75vw);
   background-color: transparent;
   border: none;
   &:hover {
@@ -142,7 +142,7 @@ const LeftButton = styled.button`
   grid-column: 1;
   grid-row: 1;
   padding: 0 0;
-  height: 1.5rem;
+  height: calc(12px + 0.75vw);
 `;
 
 // const LeftButton = styled.button`
@@ -165,7 +165,7 @@ const RightButton = styled.button`
   align-self: center;
   position: absolute;
   font-width: bold;
-  font-size: 1.5rem;
+  font-size: calc(12px + 0.75vw);
   background-color: transparent;
   border: none;
   &:hover {
@@ -179,8 +179,9 @@ const RightButton = styled.button`
   grid-row: 1;
   right: 5%;
   padding: 0 0;
-  height: 1.5rem;
+  height: calc(12px + 0.75vw);
 `;
+
 
 // const RightButton = styled.button`
 //   display: flex;
@@ -209,11 +210,13 @@ const Empty = styled.div`
   border: 15px solid transparent;
 `;
 
-const Fade = styled.div`
-  grid-column: 5/6;
-  z-index: 2;
-  background-color: gradient(left, rgba(0,0,0,0), rgba(0,0,0,1));
-`;
+// const Fade = styled.div`
+//   grid-column: 4;
+//   z-index: 2;
+//   background-color: gradient(left, rgba(0,0,0,0), rgba(0,0,0,1));
+//   grid-row: 1;
+//   position: absolute;
+// `;
 
 export default CardsList;
 

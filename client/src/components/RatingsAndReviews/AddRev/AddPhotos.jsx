@@ -37,6 +37,7 @@ function AddPhotos() {
         id="photos"
         accept="image/png, image/jpeg"
         onChange={(event) => handleAddPhotos(event)}
+        style={{ fontSize: 'calc(10px + 1vw)', font: 'inherit', padding: 'calc(2.5px + 0.25vw)'}}
       />
       <br />
     </div>
@@ -52,8 +53,8 @@ function AddPhotos() {
 export default AddPhotos;
 
 const AddButton = styled.button`
-  padding: 0.75em;
-  font-size: 1.0em;
+  padding: calc(7.5px + 0.75vw);
+  font-size: calc(10px + 1vw);
   background-color: ${(props) => props.theme.secondaryColor};
 `;
 

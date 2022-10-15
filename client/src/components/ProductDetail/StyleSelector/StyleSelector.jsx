@@ -49,20 +49,20 @@ export default StyleSelector;
 const StyleContainer = styled.div`
   display: block;
   margin-right: 25%;
-  margin-block-end: 0.5rem;
+  margin-block-end: 0.5em;
 `;
 
-const StyleName = styled.h5`
+const StyleName = styled.h4`
   margin-block-start: 0em;
-  margin-block-end: 1rem;
-  font-size: 1.5rem;
-`;
+  margin-block-end: 1em;
 
+`;
+//font-size: 1.5rem;
 const ThumbnailsContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-column-gap: 1rem;
-  grid-row-gap: 1rem;
+  grid-column-gap: 1em;
+  grid-row-gap: 1em;
   position: relative;
   z-index: 1;
 `;

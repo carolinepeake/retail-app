@@ -57,8 +57,8 @@ StarRating.propTypes = {
 export default StarRating;
 
 const AddButton = styled.button`
-  padding: 0.75em;
-  font-size: 1.0rem;
+  padding: calc(7.5px + 0.75vw);
+  font-size: calc(10px + 1vw);
 `;
 
 const StarInput = styled.input`

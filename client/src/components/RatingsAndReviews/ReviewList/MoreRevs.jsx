@@ -36,8 +36,8 @@ MoreRevs.propTypes = {
 export default MoreRevs;
 
 const MoreButton = styled.button`
-  padding: 0.75em;
-  font-size: 1.0rem;
+  padding: calc(7.5px + 0.75vw);
+  font-size: calc(10px + 1vw);
   background-color: ${(props) => props.theme.secondaryColor};
   color: ${(props) => props.theme.fontColor};
   border-radius: 8px;

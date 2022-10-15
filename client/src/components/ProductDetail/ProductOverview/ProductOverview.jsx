@@ -93,8 +93,9 @@ const ReadReviews = styled.h5`
   margin-block-end: 0em;
   color: black;
   text: underlined;
-  font-size: 1.25rem;
 `;
+
+//font-size: 1.25rem;
 
 //font-size: 0.7rem;
 
@@ -115,27 +116,26 @@ const ReadReviews = styled.h5`
 // `;
 
 const CategoryContainer = styled.h3`
-  margin-top: 2.0rem;
-  margin-bottom: 0.5rem;
+  margin-top: calc(16px + 1vw); ;
+  margin-bottom: calc(4px + 0.25vw); ;
   &:hover {
     text-decoration: underline;
   }
   cursor: pointer;
-  font-size: 1.5rem;
   text-transform: uppercase;
 `;
+//font-size: 1.5rem;
 
 const ProductName = styled.h2`
-  margin-top: 0.5rem;
-  font-size: 2.0rem;
-  margin-bottom: 0.5rem;
+  margin-top: calc(4px + 0.25vw);
+  margin-bottom: calc(4px + 0.25vw);
 `;
-
+//font-size: 2.0rem;
 
 const SocialMediaContainer = styled.div`
   height: auto;
   width: auto;
-  margin-block-end: 1rem;
+  margin-block-end: calc(8px + 0.5vw);
   &:hover {
     cursor: pointer;
   };
@@ -147,37 +147,37 @@ const Facebook = styled.div`
   flex-basis: 2.0rem;
   flex-grow: .75;
   flex-shrink: 1;
-  font-size: 2.0rem;
+
   padding: 0 0.25rem;
   &:hover {
     color: blue;
   };
 `;
-
+//font-size: 2.0rem;
 const Twitter = styled.div`
   flex: f1;
   flex-basis: 2.0rem;
   flex-grow: .75;
   flex-shrink: 1;
-  font-size: 2.0rem;
+
   padding: 0 0.25rem;
   &:hover {
     color: aqua;
   };
 `;
-
+//font-size: 2.0rem;
 const Pinterest = styled.div`
   flex: f1;
   flex-basis: 2.0rem;
   flex-grow: .75;
   flex-shrink: 1;
-  font-size: 2.0rem;
+
   padding: 0 0.25rem;
   &:hover {
     color: red;
   };
 `;
-
+//font-size: 2.0rem;
 
 const ShareSocial = styled.div`
   height: 2.0rem;
@@ -198,9 +198,8 @@ const PriceContainer = styled.div`
 
 const Price = styled.h4`
   margin: auto 0;
-  font-size: 1.25rem;
 `;
-
+//font-size: 1.25rem;
 // const Price = styled.h5`
 //   margin-block-start: 0em;
 //   margin-block-end: 0em;

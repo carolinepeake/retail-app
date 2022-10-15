@@ -4,9 +4,10 @@ import { useGlobalContext } from '../../../contexts/GlobalStore';
 
 function AddOutfit() {
   const {
-    productID, outfits, setOutfits, currOutfit,
+    productID, outfits, setOutfits, currOutfit, setOutfitIndex, outfitIndex
   } = useGlobalContext();
-  function add() {
+
+  const add = async() => {
     for (let i = 0; i < outfits.length; i += 1) {
       if (outfits[i].details.data.id === productID) {
         return;
@@ -14,10 +15,11 @@ function AddOutfit() {
     }
     const newOutfit = currOutfit;
     const tempArray = [...outfits, newOutfit];
-    setOutfits(tempArray);
-  }
+    await setOutfits(tempArray);
+  };
+
   return (
-    <Outline>
+    <Outline outfitIndex={outfitIndex} outfits={outfits}>
       <Button onClick={() => add()}>
         +
         <Text>Add Outfit</Text>
@@ -27,20 +29,25 @@ function AddOutfit() {
 }
 
 const Outline = styled.div`
-  grid-row: 1/4;
+  grid-row: 1/3;
   min-width: 100%;
-
+  min-height: 100%;
+  display: flex;
+  mask-image: ${props => props.outfitIndex === props.outfits.length - 3 ? "linear-gradient(to right, rgba(0,0,0,1), 40%, rgba(0,0,0,0) 80%)" : " " };
 `;
 
 const Button = styled.button`
-  grid-column: 3/5;
+  min-width: 100%;
   aspect-ratio: 1;
-  font-size: 1.0rem;
   border-radius: 10px;
   cursor: pointer;
-  padding: 1rem 1rem;
-  font-size: 2rem;
+  padding: calc(8px + 0.5vw);
+  align-self:center;
+  font-size: calc(8px + 1vw);
 `;
+
+//grid-column: 3/5;
+//font-size: 2rem;
 
 // const Button = styled.button`
 //   width: 225px;

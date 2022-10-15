@@ -164,10 +164,12 @@ const CloseButtonDiv = styled.div`
 `;
 
 const CloseButtonButton = styled.button`
+  padding: calc(6px + 0.375vw);
   background-color: transparent;
   border: none;
   cursor: pointer;
   color: ${(props) => props.theme.fontColor};
+  font-size: calc(8px + 0.5vw);
 `;
 
 const Form = styled.div`
@@ -223,20 +225,22 @@ const Footer = styled.div`
 `;
 
 const FooterButton = styled.button`
-  width: 12rem;
-  height: 2.5rem;
-  margin: .5rem;
+  padding: calc(6px + 0.375vw);
+  margin: calc(4px + 0.25vw);
   border: none;
   color: ${(props) => props.theme.fontColor};
   background-color: ${(props) => props.theme.backgroundColor};
   border-radius: 10px;
   border: black solid thin;
-  font-size: 1.0rem;
+  font-size: calc(8px + 0.5vw);
   cursor: pointer;
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   }
 `;
+// width: 12rem;
+// height: 2.5rem;
+// margin: .5rem;
 
 const Required = styled.sup`
   color: #ff0000;

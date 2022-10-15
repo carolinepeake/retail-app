@@ -46,16 +46,17 @@ const ButtonContainer = styled.div`
 `;
 
 const Button = styled.button`
-  height: 3rem;
-  width: 14rem;
+  padding: calc(6px + 0.375vw);
   border-radius: 10px;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: calc(8px + 0.5vw);
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   }
   background-color: ${(props) => props.theme.secondaryColor};
   color: ${(props) => props.theme.fontColor};
 `;
+// height: 3rem;
+// width: 14rem;
 
 export default ExtraButtons;

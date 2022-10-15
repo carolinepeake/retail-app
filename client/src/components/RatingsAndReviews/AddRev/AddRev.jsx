@@ -178,9 +178,8 @@ AddRev.propTypes = {
 export default AddRev;
 
 const AddButton = styled.button`
-  height: 3rem;
-  width: 14rem;
-  font-size: 1.0rem;
+  padding: calc(7.5px + 0.75vw);
+  font-size: calc(10px + 1vw);
   background-color: ${(props) => props.theme.secondaryColor};
   color: ${(props) => props.theme.fontColor};
   border-radius: 10px;
@@ -189,6 +188,8 @@ const AddButton = styled.button`
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   }
 `;
+// height: 3rem;
+// width: 14rem;
 
 const AddRevBackground = styled.div`
   width: 100vw;
@@ -270,8 +271,8 @@ const ButtonContainer = styled.div`
 
 const ButtonDiv = styled.button`
   width 40%;
-  padding: 0.75em;
-  font-size: 1.0em;
+  padding: calc(7.5px + 0.75vw);
+  font-size: calc(10px + 1vw);
   font-weight: bold;
   border-radius: 10px;
   cursor: pointer;

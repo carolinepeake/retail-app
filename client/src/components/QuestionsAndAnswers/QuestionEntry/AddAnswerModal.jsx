@@ -235,6 +235,8 @@ const CloseButtonButton = styled.button`
   border: none;
   cursor: pointer;
   color: ${(props) => props.theme.fontColor};
+  font-size: calc(8px + 0.5vw);
+  padding: calc(6px + 0.375vw);
 `;
 
 const Form = styled.div`
@@ -290,20 +292,22 @@ const Footer = styled.div`
 `;
 
 const FooterButton = styled.button`
-  width: 5.5rem;
-  height: 2.5rem;
-  margin: .5rem;
+  padding: calc(6px + 0.375vw);
+  margin: calc(4px + 0.25vw);
+  padding: calc(6px + 0.375vw);
   border: none;
   color: ${(props) => props.theme.fontColor};
   background-color: ${(props) => props.theme.backgroundColor};
   border-radius: 10px;
   border: black solid thin;
-  font-size: 1rem;
+  font-size: calc(8px + 0.5vw);
   cursor: pointer;
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   }
 `;
+// width: 5.5rem;
+// height: 2.5rem;
 
 const Required = styled.sup`
   color: #ff0000;
@@ -340,6 +344,9 @@ const FileInput = styled.input`
     background-color: ${(props) => props.theme.tertiaryColor};
     cursor: pointer;
   }
+  font-size: calc(8px + 0.5vw);
+  padding: calc(6px + 0.375vw);
+  font: inherit;
 `;
 
 export default AddAnswerModal;

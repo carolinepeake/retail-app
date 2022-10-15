@@ -60,8 +60,15 @@ const StyledContainer = styled.div`
   grid-template-columns: 1fr 8fr 1fr;
   grid-template-rows: 1% repeat(4, 1fr);
   row-gap: 1.5rem;
-  font-size: calc(15px + 0.390625vw);
+  font-size: calc(10px + 1vw);
 `;
+
+// const Button = styled.button`
+//   font-family: 'Roboto Condensed', sans-serif;
+//   font-size:
+// `;
+
+//font-size: calc(10px + 0.390625vw);
 
 //grid-template-rows: auto repeat(4, 1fr);
 // or overflow hidden? auto?

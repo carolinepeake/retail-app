@@ -6,13 +6,13 @@ import OutfitList from './OutfitList/OutfitList';
 function RelatedItems() {
   return (
       <Container id="related-items">
-        <Text1>
+        <Text>
           Related Items
-        </Text1>
+        </Text>
         <CardsList />
-        <Text2>
+        <Text second>
           Outfit List
-        </Text2>
+        </Text>
         <OutfitList />
       </Container>
   );
@@ -26,9 +26,9 @@ const Container = styled.div`
   grid-template-rows: 1em 1fr 1.5em 1em 1fr;
 `;
 
-const Text1 = styled.div`
+const Text = styled.div`
   text-align:left;
-  grid-row: 1/2;
+  grid-row: ${props => props.second ? "4/5" : "1/2"};
   grid-column: 1/8;
 `;
 
@@ -40,11 +40,11 @@ const Text1 = styled.div`
 //   grid-row: 1/2;
 // `;
 
-const Text2 = styled.div`
-  text-align:left;
-  grid-row: 4/5;
-  grid-column: 1/8;
-`;
+// const Text2 = styled.div`
+//   text-align:left;
+//   grid-row: 4/5;
+//   grid-column: 1/8;
+// `;
 
 
 // const CardList = styled.div`

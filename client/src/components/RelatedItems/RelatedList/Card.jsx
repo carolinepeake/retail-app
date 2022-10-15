@@ -5,11 +5,12 @@ import { useGlobalContext } from '../../../contexts/GlobalStore';
 import CardImage from './CardImage';
 import CardStars from './CardStars';
 
-function Card({ data, key }) {
+function Card({ data, i }) {
   const {
-    setProductID, setCardIndex, cardIndex
+    setProductID, setCardIndex, cardIndex, outfitIndex
   } = useGlobalContext();
   const [info, setInfo] = useState(data);
+
   useEffect(() => {
     setInfo(data);
   }, [data]);
@@ -20,10 +21,10 @@ function Card({ data, key }) {
     setCardIndex(0);
   }
   return (
-    <CardContainer i={key}>
+    <CardContainer i={i}>
       { info.details
         ? (
-          <CardStyle onClick={() => changeItem()}>
+          <CardStyle onClick={() => changeItem()} i={i} outfitIndex={outfitIndex}>
             <CardImage imageInfo={info.image.data} details={info.details} />
             <Text>
               <Cards>{info.details.data.name}</Cards>
@@ -55,15 +56,17 @@ Card.propTypes = {
 };
 
 const CardContainer = styled.div`
-  grid-column: ${(i) => i};
+  grid-column: ${(props) => {props.i}};
   grid-row: 1;
   margin-top: 0.5rem;
+  position: relative;
 `;
 
 const CardStyle = styled.div`
   display: flex;
   flex-direction: column;
   border: black solid medium transparent;
+  mask-image: ${props => props.i === 3 ? "linear-gradient(to right, rgba(0,0,0,1), 40%, rgba(0,0,0,0) 80%)" : " " };
 `;
 
 const Cards = styled.div`
