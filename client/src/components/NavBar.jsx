@@ -37,7 +37,7 @@ function NavBar({ toggleTheme }) {
         {isExpanded
         && (
         <ExpandedNav>
-          <GridItem secondary onClick={() => toggleTheme()} isExpanded={isExpanded} style={{borderTop: 'black solid 2px', borderRadius: '5px 5px 0 0'}}>
+          <GridItem secondary first onClick={() => toggleTheme()} isExpanded={isExpanded} style={{borderTop: 'black solid 2px'}}>
             Toggle Dark Mode
           </GridItem>
         {navLinks.map((link, i) =>  {
@@ -47,7 +47,9 @@ function NavBar({ toggleTheme }) {
             onClick={(event) => scrollTo(event)}
             isExpanded={isExpanded}
             secondary
-            style={{borderRadius: i === navLinks.length - 1 ? '0 0 5px 5px' : '0' }}
+            i={i}
+            navLinksLength={navLinks.length}
+            //style={{borderRadius: i === navLinks.length - 1 && '0 0 5px 5px', :&hover:  }}
           >
             {link.label}
           </GridItem>)
@@ -116,6 +118,15 @@ const GridItem = styled.div`
     border-bottom: black solid 2px;
     padding: 5%;
     background-color: ${(props) => props.theme.navColor};
+    transition: transform 0.25s ease;
+    border-radius: ${(props) => props.i === props.navLinksLength - 1 && '0 0 5px 5px'};
+    border-radius: ${(props) => props.first && '5px 5px 0 0'};
+    &:hover {
+      transform: scale(1.025);
+      border-radius: 5px;
+      border: black solid 2px;
+      border-top: black solid 1px;
+    };
   `};
 `;
 

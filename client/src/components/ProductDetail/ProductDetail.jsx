@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import ProductOverview from './ProductOverview/ProductOverview';
 import StyleSelector from './StyleSelector/StyleSelector';
@@ -18,11 +18,51 @@ import { useGlobalContext } from '../../contexts/GlobalStore';
 
 function ProductDetail() {
   const { productInfo } = useGlobalContext();
+  const mainImage = useRef();
+  const [height, setHeight] = useState(0);
+
+  // const setMaxHeight = async () => {
+  //   try {
+  //     let computedImageHeight = await parseInt(window
+  //       .getComputedStyle(mainImage.current)
+  //       .getPropertyValue("height"));
+  //     console.log('computedImageHeight: ', computedImageHeight);
+  //     await setHeight(computedImageHeight);
+  //     console.log('height: ', height);
+  //   } catch (err) {
+  //     console.log('error computing and setting max image height');
+  //   }
+  //   return height;
+  // };
+
+  // const setMaxHeight = async () => {
+  //   try {
+  //     let computedImageWidth = await parseInt(window
+  //       .getComputedStyle(mainImage.current)
+  //       .getPropertyValue("width"));
+  //     console.log('computedImageWidth: ', computedImageWidth);
+  //     await setHeight(computedImageWidth);
+  //     console.log('height: ', height);
+  //   } catch (err) {
+  //     console.log('error computing and setting max image height');
+  //   }
+  //   return height;
+  // };
+
+  //   useEffect(() => {
+  //   setMaxHeight();
+  // }, []);
 
   return (
     <ProductSec id="product-details">
-      {/* <LeftColumn> */}
-        <ImageGallery />
+      <LeftColumn
+      style={{height: '100%', width: '100%'}}
+      ref={mainImage}
+      onResize={() => setMaxHeight()}
+      >
+        <ImageGallery
+        //  ref={mainImage}
+        />
         <br />
         <LeftBottom>
           {productInfo.slogan
@@ -30,11 +70,13 @@ function ProductDetail() {
           {productInfo.description
           && <ProductDescription>{productInfo.description}</ProductDescription>}
         </LeftBottom>
-      {/* </LeftColumn> */}
+      </LeftColumn>
       <RightColumn>
+        <TopRight height={height}>
           <ProductOverview />
           <StyleSelector />
           <AddToCart />
+        </TopRight>
       </RightColumn>
     </ProductSec>
   );
@@ -52,11 +94,11 @@ let ProductSec = styled.div`
   grid-row: 2;
   grid-column: 1/4;
   grid-template-columns: 10% minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) 10%;
-  grid-template-rows: 1fr;
   column-gap: 1rem;
   overflow: none;
   max-width: 100%;
 `;
+//grid-template-rows: minmax(0, 1fr);
 // repeat(3, 1fr)
 //grid-template-rows: auto;
 
@@ -80,6 +122,13 @@ let ProductSec = styled.div`
 //   height: 100%;
 // `;
 
+const LeftColumn = styled.div`
+   grid-column: 1/4;
+   grid-row: 1;
+   display: flex;
+   flex-direction: column;
+`;
+
 // const LeftColumn = styled.div`
 //    grid-column: 1/4;
 //    grid-row: 1;
@@ -90,24 +139,31 @@ let ProductSec = styled.div`
 
 // change grid-row to 1 to get rid of gap
 const LeftBottom = styled.div`
-  grid-column: 2/4;
   display: flex;
   flex-direction: column;
   height: max-content;
   max-width: 700px;
   margin: 0 auto;
-  grid-row: 2;
+  margin-left: 20%;
 `;
 
 // justify content: flex-start and add larger margin-bottom below StyleSelector if making ProductDetail 1 row
 const RightColumn = styled.div`
-  display: flex;
-  flex-direction: column;
   grid-column: 4 / span 2;
   grid-row: 1;
+  display: contents;
+`;
+
+const TopRight = styled.div`
+  max-height: 800px;
+  grid-column: 4 / span 2;
+  display: flex;
+  flex-direction: column;
   align-items: space-between;
   justify-content: space-between;
+  height: calc(61.585vw);
 `;
+//height: ${props => props.height + 'px'};
 
 const ProductSlogan = styled.h3`
   display: block;

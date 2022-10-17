@@ -31,7 +31,6 @@ function ProductOverview() {
         {/* </ReviewContainer> */}
         <br />
         <CategoryContainer>{productInfo.category}</CategoryContainer>
-        <br />
         <ProductName>{productInfo.name}</ProductName>
         <br />
         <SocialMediaContainer>
@@ -53,16 +52,16 @@ function ProductOverview() {
           ? (
             <Price>
               <span style={{color: 'red '}}>
-                {`${selectedStyle.sale_price}    `}
+                {`$${selectedStyle.sale_price}    `}
               </span>
               <s>{selectedStyle.original_price}</s>
             </Price>
           )
           : (
-            <Price>{selectedStyle.original_price}</Price>
+            <Price>{`$${selectedStyle.original_price}`}</Price>
           )}
           </PriceContainer>
-          <br />
+          {/* <br /> */}
       </OverviewContainer>
    );
 };
@@ -126,7 +125,7 @@ const CategoryContainer = styled.h3`
 `;
 //font-size: 1.5rem;
 
-const ProductName = styled.h2`
+const ProductName = styled.h1`
   margin-top: calc(4px + 0.25vw);
   margin-bottom: calc(4px + 0.25vw);
 `;
@@ -180,8 +179,6 @@ const Pinterest = styled.div`
 //font-size: 2.0rem;
 
 const ShareSocial = styled.div`
-  height: 2.0rem;
-  width: 7.5rem;
   max-width: 7.5rem;
   border: .1rem solid black;
   display: flex;
@@ -189,6 +186,9 @@ const ShareSocial = styled.div`
   flex-shrink: 1;
   flex-grow: .75;
 `;
+
+// height: 2.0rem;
+// width: 7.5rem;
 
 const PriceContainer = styled.div`
   grid-row: 1;

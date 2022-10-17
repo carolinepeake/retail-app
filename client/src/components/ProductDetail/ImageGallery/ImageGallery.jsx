@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import { MdArrowForwardIos, MdArrowBackIos, MdExpandMore, MdExpandLess } from 'react-icons/md';
 //import { HiArrowSmDown, HiArrowSmUp, HiArrowSmLeft, HiArrowSmRight } from 'react-icons/hi';
@@ -14,6 +14,7 @@ function ImageGallery() {
   const [place, setPlace] = useState(0);
   const [photosLength, setPhotosLength] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
+  //const mainImage = useRef();
 
   useEffect(() => {
     function getPhotos() {
@@ -32,6 +33,11 @@ function ImageGallery() {
     getUrl();
   }, [selectedStyle, photos, main, place]);
 
+  // useEffect(() => {
+  //   const computedImageHeight = parseInt(window
+  //     .getComputedStyle(mainImage)
+  //     .getPropertyValue("height"));
+  // }, []);
 
   function changeMain(e, value) {
     e.preventDefault();
@@ -59,6 +65,7 @@ function ImageGallery() {
     // <Wrapper>
     <ImageGalleryContainer>
       <Main
+       // ref={mainImage}
         src={imageUrl}
         alt={`${productInfo.name} in ${selectedStyle.name} style`}
         onClick={(e) => handleExpandMain(e)}
@@ -172,8 +179,6 @@ function ImageGallery() {
 // `;
 
 const ImageGalleryContainer = styled.div`
-  grid-row: 1;
-  grid-column: 1/4;
   width: 100%;
   height: 100%;
   z-index: 1;

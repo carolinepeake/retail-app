@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 
 
 const Button = styled.button`
-    padding: calc(7.5px + 0.75vw) calc(10px + 1vw);
+    padding: calc(4px + 1.2vw) calc(10px + 1vw);
     font-size: calc(10px + 1vw);
     cursor: pointer;
     ${props => props.primary && css`

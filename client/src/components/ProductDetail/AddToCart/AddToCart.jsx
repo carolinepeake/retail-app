@@ -62,16 +62,16 @@ useEffect(() => {
         <SelectQuantityContainer>
           {isSizeSelected
           ? <SelectQuantity as="select" value={selectedQuantity} onChange={(e) => handleChangeQuantity(e)}>
-              <option>{selectedQuantity}</option>
+              {/* <Option>{selectedQuantity}</Option> */}
               {availableQuantity >= 15
               ? [...Array(16).keys()].slice(1).map((num) =>
-                  <option value={num}>{num}</option>)
-              : [...Array(availableQuantity + 1).keys()].slice(1).map((num) =>
-                  <option value={num + 1}>{num + 1}</option>)
+                  <Option value={num}>{num}</Option>)
+              : [...Array(availableQuantity).keys()].slice(1).map((num) =>
+                  <Option value={num + 1}>{num + 1}</Option>)
               }
             </SelectQuantity>
           : <SelectQuantity disabled={!isSizeSelected} value={selectedQuantity} onChange={(e) => handleChangeQuantity(e)}>
-              <option>––</option>
+              <Option>––</Option>
             </SelectQuantity>
           }
         </SelectQuantityContainer>
@@ -167,6 +167,11 @@ const SelectQuantity = styled(Button)`
 // padding-left: 1em;
 // padding-right: rem;
 //can combine flex-basis, grow, and shrink into one line shorthand
+
+const Option = styled.option`
+  min-height: 0;
+  padding: 0;
+`;
 
 const BagContainer = styled.div`
   display: flex;
