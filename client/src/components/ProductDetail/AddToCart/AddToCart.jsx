@@ -61,7 +61,7 @@ useEffect(() => {
         </SelectSizeContainer>
         <SelectQuantityContainer>
           {isSizeSelected
-          ? <SelectQuantity style={{ cursor: "pointer" }} value={selectedQuantity} onChange={(e) => handleChangeQuantity(e)}>
+          ? <SelectQuantity as="select" value={selectedQuantity} onChange={(e) => handleChangeQuantity(e)}>
               <option>{selectedQuantity}</option>
               {availableQuantity >= 15
               ? [...Array(16).keys()].slice(1).map((num) =>
@@ -136,12 +136,11 @@ const SelectSize = styled(Button)`
 // padding-right: 1em;
 //font-size: 1.0rem;
 
-const SoldOut = styled.select`
-  padding: calc(4px + 0.25vw) calc(8px + 0.5vw);
-  cursor: pointer;
+const SoldOut = styled(Button)`
   width: 100%;
-  font-size: calc(8px + 0.5vw);
 `;
+// font-size: calc(8px + 0.5vw);
+//padding: calc(4px + 0.25vw) calc(8px + 0.5vw);
 //font-size: 1.0rem;
 // padding-bottom: 0.5em;
 // padding-top: 0.5em;
@@ -157,11 +156,11 @@ const SelectQuantityContainer = styled.div`
 
 //height: 2.5rem;
 
-const SelectQuantity = styled.select`
-  padding: calc(4px + 0.25vw) calc(8px + 0.5vw);
+const SelectQuantity = styled(Button)`
   width: 100%;
-  font-size: calc(8px + 0.5vw);
 `;
+//font-size: calc(8px + 0.5vw);
+//padding: calc(4px + 0.25vw) calc(8px + 0.5vw);
 //font-size: 1.0rem;
 // padding-bottom: 0.5em;
 // padding-top: 0.5em;
@@ -180,7 +179,7 @@ const BagContainer = styled.div`
 `;
 
 
-const CartB = styled.button`
+const CartB = styled(Button)`
   padding: calc(5px + 0.5vw);
   height: 100%;
   position: relative;
@@ -188,7 +187,6 @@ const CartB = styled.button`
   flex-basis: 13.3em;
   flex-grow: 5;
   flex-shrink: 1;
-  font-size: calc(10px + 1vw);
 `;
 //font-size: 1.0rem;
 //height: 2.5rem;
@@ -211,15 +209,12 @@ const PlusSign = styled.span`
 
 // top: 0.5rem;
 //   right: 1rem;
-const Star = styled.button`
-  padding: calc(7.5px + 0.75vw) calc(10px + 1vw);
+const Star = styled(Button)`
   height: 100%;
   right: 5%;
-  cursor: pointer;
   flex-basis: 2.5em;
   flex-grow: 1;
   flex-shrink: 5;
-  font-size: calc(10px + 1vw);
 `;
 //font-size: 0.5;
 //font-size: 1.25rem;

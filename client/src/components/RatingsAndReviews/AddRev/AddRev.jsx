@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import StarRating from './StarRating';
 import Characteristics from './Characteristics';
 import AddPhotos from './AddPhotos';
+import Button from '../../reusable/Button.jsx';
 
 function AddRev({ revMeta, productID, productInfo }) {
   const [addClicked, setAddClicked] = useState(false);
@@ -66,7 +67,7 @@ function AddRev({ revMeta, productID, productInfo }) {
 
   return (
     <div>
-      <AddButton type="button" onClick={() => handleAddRev()}>
+      <AddButton primary type="button" onClick={() => handleAddRev()}>
         Add a Review +
       </AddButton>
       {addClicked && (
@@ -157,8 +158,8 @@ function AddRev({ revMeta, productID, productInfo }) {
             <br />
 
             <ButtonContainer>
-              <ButtonDiv type="submit">Submit</ButtonDiv>
-              <ButtonDiv type="button" onClick={() => setAddClicked(false)}> Cancel </ButtonDiv>
+              <ButtonDiv primary type="submit">Submit</ButtonDiv>
+              <ButtonDiv primary type="button" onClick={() => setAddClicked(false)}> Cancel </ButtonDiv>
             </ButtonContainer>
 
           </FormContainer>
@@ -177,16 +178,9 @@ AddRev.propTypes = {
 
 export default AddRev;
 
-const AddButton = styled.button`
-  padding: calc(7.5px + 0.75vw);
-  font-size: calc(10px + 1vw);
+const AddButton = styled(Button)`
   background-color: ${(props) => props.theme.secondaryColor};
   color: ${(props) => props.theme.fontColor};
-  border-radius: 10px;
-  cursor: pointer;
-  &:hover {
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  }
 `;
 // height: 3rem;
 // width: 14rem;
@@ -269,14 +263,6 @@ const ButtonContainer = styled.div`
   padding: 1.5em;
 `;
 
-const ButtonDiv = styled.button`
+const ButtonDiv = styled(Button)`
   width 40%;
-  padding: calc(7.5px + 0.75vw);
-  font-size: calc(10px + 1vw);
-  font-weight: bold;
-  border-radius: 10px;
-  cursor: pointer;
-  &:hover {
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  }
 `;

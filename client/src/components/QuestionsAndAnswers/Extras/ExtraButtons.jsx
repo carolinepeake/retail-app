@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import AddQuestionModal from './AddQuestionModal';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
+import Button from '../../reusable/Button.jsx';
 
 function ExtraButtons() {
   const [showModal, setShowModal] = useState(false);
@@ -19,13 +20,13 @@ function ExtraButtons() {
 
   return (
     <ButtonContainer>
-      <Button type="submit" onClick={() => setShowModal(true)}>
+      <StyledButton primary type="submit" onClick={() => setShowModal(true)}>
         Ask a Question
-      </Button>
+      </StyledButton>
       {numQuestions < questions.length ? (
-        <Button type="submit" onClick={() => increaseQuestions()}>
+        <StyledButton primary type="submit" onClick={() => increaseQuestions()}>
           More Questions
-        </Button>
+        </StyledButton>
       ) : null}
       {showModal ? (
         <AddQuestionModal setShowModal={setShowModal} />
@@ -45,14 +46,7 @@ const ButtonContainer = styled.div`
   border-radius: 10px;
 `;
 
-const Button = styled.button`
-  padding: calc(6px + 0.375vw);
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: calc(8px + 0.5vw);
-  &:hover {
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  }
+const StyledButton = styled(Button)`
   background-color: ${(props) => props.theme.secondaryColor};
   color: ${(props) => props.theme.fontColor};
 `;

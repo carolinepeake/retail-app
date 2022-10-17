@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
+import Button from '../../reusable/Button.jsx';
 
 function QuestionSearch() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -42,9 +43,7 @@ const QuestionSearchBar = styled.div`
 
 const Input = styled.input`
   width: 100%;
-  height: 1.5rem;
   border-color: ${(props) => props.theme.fontColor};
-  border-radius: 10px;
   background-color: ${(props) => props.theme.tertiaryColor};
   color: ${(props) => props.theme.fontColor};
   ::placeholder,
@@ -56,9 +55,15 @@ const Input = styled.input`
   }
   width: 80%;
   margin-left: 0.5rem;
+  border-radius: 25px;
+  padding: calc(7.5px + 0.75vw);
   font-size: 1rem;
-  padding: 0.25rem 0.25rem;
-  padding-left: 0.5rem;
 `;
+// height: 1.5rem;
+// font-size: 1rem;
+// padding: 0.25rem 0.25rem;
+// padding-left: 0.5rem;
+
+
 
 export default QuestionSearch;

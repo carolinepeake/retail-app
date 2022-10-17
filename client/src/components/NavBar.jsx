@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FaSearch } from 'react-icons/fa';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 function NavBar({ toggleTheme }) {
   NavBar.propTypes = {
     toggleTheme: PropTypes.func.isRequired,
+  };
+
+  const [isExpanded, setIsExpanded] = useState(false);
+  const navLinks = [{target: "product-details", label: "Product Details"}, {target: "related-items", label: "Related Items"}, {target: "question-and-answers", label: "Questions and Answers"}, {target: "ratings-and-reviews", label: "Ratings and Reviews"}];
+
+  // stop propagation?
+    // https://www.aleksandrhovhannisyan.com/blog/responsive-navbar-tutorial/
+
+  const toggleNavbarVisibility = () => {
+    let isNavBarExpanded = !isExpanded;
+    setIsExpanded(isNavBarExpanded);
+    //navbarToggle.setAttribute("aria-expanded", isNavBarExpanded);
   };
 
   function scrollTo(event) {
@@ -16,38 +28,55 @@ function NavBar({ toggleTheme }) {
 
   return (
     <Background id="navbar">
-      <GridItem onClick={() => toggleTheme()}>
+      <CollapsedNav type="button" id="navbar-toggle" aria-controls="navbar-menu" aria-label="Toggle menu" aria-expanded="false"
+      onClick={() => toggleNavbarVisibility()}
+      >
+        <IconBar />
+        <IconBar />
+        <IconBar />
+        {isExpanded
+        && (
+        <ExpandedNav>
+          <GridItem secondary onClick={() => toggleTheme()} isExpanded={isExpanded} style={{borderTop: 'black solid 2px', borderRadius: '5px 5px 0 0'}}>
+            Toggle Dark Mode
+          </GridItem>
+        {navLinks.map((link, i) =>  {
+          return (
+          <GridItem
+            data-target={link.target}
+            onClick={(event) => scrollTo(event)}
+            isExpanded={isExpanded}
+            secondary
+            style={{borderRadius: i === navLinks.length - 1 ? '0 0 5px 5px' : '0' }}
+          >
+            {link.label}
+          </GridItem>)
+        })}
+        </ExpandedNav>)}
+      </CollapsedNav>
+      <GridItem onClick={() => toggleTheme()} >
         Toggle Dark Mode
       </GridItem>
-      <GridItem
+      {navLinks.map((link, i) =>  {
+          return (
+          <GridItem
+            data-target={link.target}
+            onClick={(event) => scrollTo(event)}
+          >
+            {link.label}
+          </GridItem>)
+        })}
+      {/* <GridItem
         data-target="product-details"
         onClick={(event) => scrollTo(event)}
-        value="ProductDetails"
+       // value="ProductDetails"
       >
         Product Details
-      </GridItem>
-      <GridItem
-        data-target="related-items"
-        onClick={(event) => scrollTo(event)}
-      >
-        Related Items
-      </GridItem>
-      <GridItem
-        data-target="question-and-answers"
-        onClick={(event) => scrollTo(event)}
-      >
-        Questions & Answers
-      </GridItem>
-      <GridItem
-        data-target="ratings-and-reviews"
-        onClick={(event) => scrollTo(event)}
-      >
-        Ratings & Reviews
-      </GridItem>
-      <GridItem>
+      </GridItem> */}
+      <Search>
         <Input />
-        <FaSearch />
-      </GridItem>
+        <FaSearch style={{position: 'absolute', marginTop: '0.3%', marginLeft: '0.3%'}}/>
+      </Search>
     </Background>
   );
 }
@@ -71,13 +100,67 @@ const Background = styled.div`
 `;
 
 const GridItem = styled.div`
+  @media (max-width: 992px) {
+    display: ${props => props.isExpanded ? 'block' : 'none'};
+  };
   display: flex;
   align-items: center;
   justify-content: space-evenly;
   cursor: pointer;
   &:hover {
     font-weight: bold;
-  }
+  };
+  font-size: calc(8px + .75vw);
+  ${props => props.secondary && css`
+    font-size: calc(10px + 1vw);
+    border-bottom: black solid 2px;
+    padding: 5%;
+    background-color: ${(props) => props.theme.navColor};
+  `};
+`;
+
+const Search = styled.div`
+  display: block;
+  cursor: pointer;
+  &:hover {
+    font-weight: bold;
+  };
+  font-size: calc(10px + 1vw);
+  grid-column: 6/7;
+`;
+
+// positioning is a little off - change background color to see
+const CollapsedNav = styled.button`
+  @media (min-width: 992px) {
+    display: none;
+  };
+  width: 25px;
+  height: 20px;
+  margin-top: 3%;
+  margin-left: 2px;
+  border: none;
+  background-color: ${(props) => props.theme.navColor};
+`;
+
+const ExpandedNav = styled.div`
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  left: 0.5%;
+  flex-direction: column;
+  margin-top: 0.5%;
+  width: calc(250px + 0.5vw);
+  border-radius: 5px;
+  border-right: black solid 2px;
+  border-left: black solid 2px;
+`;
+
+const IconBar = styled.span`
+  display: block;
+  width: 25px;
+  height: 4px;
+  margin: 2px 0px;
+  background-color: ${(props) => props.theme.fontColor};
 `;
 
 const Input = styled.input`
