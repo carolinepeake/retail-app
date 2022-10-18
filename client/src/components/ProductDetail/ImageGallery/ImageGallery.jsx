@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { MdArrowForwardIos, MdArrowBackIos, MdExpandMore, MdExpandLess } from 'react-icons/md';
 //import { HiArrowSmDown, HiArrowSmUp, HiArrowSmLeft, HiArrowSmRight } from 'react-icons/hi';
 
@@ -14,7 +14,7 @@ function ImageGallery() {
   const [place, setPlace] = useState(0);
   const [photosLength, setPhotosLength] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
-  //const mainImage = useRef();
+  const [isScrollableBothDirection, setIsScrollableBothDirection] = useState(false);
 
   useEffect(() => {
     function getPhotos() {
@@ -32,12 +32,6 @@ function ImageGallery() {
     getPhotos();
     getUrl();
   }, [selectedStyle, photos, main, place]);
-
-  // useEffect(() => {
-  //   const computedImageHeight = parseInt(window
-  //     .getComputedStyle(mainImage)
-  //     .getPropertyValue("height"));
-  // }, []);
 
   function changeMain(e, value) {
     e.preventDefault();
@@ -62,29 +56,23 @@ function ImageGallery() {
   };
 
   return (
-    // <Wrapper>
     <ImageGalleryContainer>
       <Main
-       // ref={mainImage}
         src={imageUrl}
         alt={`${productInfo.name} in ${selectedStyle.name} style`}
         onClick={(e) => handleExpandMain(e)}
       />
-      <Side>
-      {photosLength > 7 && place !== 0
-       && <Buttons
-            style={{ height: '1rem', width: '1rem', alignSelf: 'center' }}
+      <Side full={photosLength > 7} middle={place !== 0 && place !== photosLength - 1}>
+      {(photosLength > 7 && place !== 0)
+       && <Buttons scroll
             onClick={(e) => handleClickArrow(-1, e)}
           >
             <MdExpandLess style={{ fontSize: '1.25em' }}/>
           </Buttons>}
       {photos
-       && photos.map((photo, index) => (
-         place <= 6
-         ? index <= 6
-           &&
-          //  (index === place
-            //  ?
+       && photos.map((photo, index) => {
+         if (place <= 6 && index <= 6) {
+             return (
               <Thumbnail
                 src={photo.thumbnail_url}
                 key={photo.url}
@@ -93,66 +81,48 @@ function ImageGallery() {
                 onClick={(e) => changeMain(e, index)}
                 style={{boxShadow: index === place ? '7px 7px 5px #242424' : '', transform: index === place ? 'scale(1.025)' : '', transition: index === place ? 'transform 0.25s ease' : ''}}
               />
-      //         : <Thumbnail
-      //           src={photo.thumbnail_url}
-      //           key={photo.url}
-      //           index={index}
-      //           alt={`${style.name} thumbnail`}
-      //           onClick={(e) => changeMain(e, index)}
-      //  />)
-  : index >= place - 6 && index <= place
-    // && (index === place
-      // ?
-      &&
-      <Thumbnail
-         src={photo.thumbnail_url}
-         key={photo.url}
-         index={index}
-         alt=""
-         onClick={(e) => changeMain(e, index)}
-         style={{boxShadow: index === place ? "7px 7px 5px #242424" : '', transform: index === place ? "scale(1.025)" : '', transition: index === place ? "transform 0.25s ease" : ''}}
-         // style={{boxShadow: "5px 5px 5px #ffffff"}}
-       />
-      // : <Thumbnail
-      //  src={photo.thumbnail_url}
-      //  key={photo.url}
-      //  index={index}
-      //  alt=""
-      //  onClick={(e) => changeMain(e, index)}
-      // />)
-  ))}
-  {photosLength > 7 && place !== photosLength - 1
-  &&  <Buttons
-        style={{ height: '1rem', width: '1rem', alignSelf: 'center' }}
-        onClick={(e) => handleClickArrow(1, e)}
-      >
-        <MdExpandMore style={{ fontSize: '1.25em' }}/>
-      </Buttons>}
-</Side>
-{photosLength < 4 && place > 0
-&&  <Buttons
-      style={{ zIndex: 2, position: 'absolute', top: '48%', left: '2%', height: '2rem', width: '2rem', opacity: '0.5' }}
-      onClick={(e) => handleClickArrow(-1, e)}
-    >
-      <MdArrowBackIos style={{ fontSize: '2.0rem', paddingLeft: '0.25em' }}/>
-    </Buttons>}
-{place > 0 && photosLength >= 4
-&&  <Buttons
-      style={{ zIndex: 2, position: 'absolute', top: '48%', left: '15%', height: '2rem', width: '2rem', opacity: '0.5' }}
-      onClick={(e) => handleClickArrow(-1, e)}
-    >
-      <MdArrowBackIos style={{ fontSize: '2.0rem', paddingLeft: '0.25em' }} />
-    </Buttons>}
-{place < photosLength - 1
-&&  <Buttons
-      style={{ zIndex: 2, position: 'absolute', top: '48%', right: '2%', height: '2rem', width: '2rem', opacity: '0.5' }}
-      onClick={(e) => handleClickArrow(1, e)}
-    >
-      <MdArrowForwardIos style={{ fontSize: '2.0rem' }}/>
-    </Buttons>}
-    </ImageGalleryContainer>
-
-
+             )
+          } else if (index >= place - 6 && index <= place) {
+            return (
+              <Thumbnail
+              src={photo.thumbnail_url}
+              key={photo.url}
+              index={index}
+              alt=""
+              onClick={(e) => changeMain(e, index)}
+              style={{boxShadow: index === place ? "7px 7px 5px #242424" : '', transform: index === place ? "scale(1.025)" : '', transition: index === place ? "transform 0.25s ease" : ''}}
+            />
+            )
+          } else {
+            return;
+          }
+        })}
+      {(photosLength > 7 && place !== photosLength - 1)
+      &&  <Buttons scroll
+            onClick={(e) => handleClickArrow(1, e)}
+          >
+            <MdExpandMore style={{ fontSize: '1.25em' }}/>
+          </Buttons>}
+        </Side>
+    {photosLength < 4 && place > 0
+    &&  <Buttons left
+          onClick={(e) => handleClickArrow(-1, e)}
+        >
+          <MdArrowBackIos style={{ fontSize: '1.5rem', paddingLeft: '0.5rem', paddingTop: '0.25rem' }}/>
+        </Buttons>}
+    {place > 0 && photosLength >= 4
+    &&  <Buttons farLeft
+          onClick={(e) => handleClickArrow(-1, e)}
+        >
+          <MdArrowBackIos style={{ fontSize: '1.5rem', paddingLeft: '0.25em', paddingTop: '0.25rem' }} />
+        </Buttons>}
+    {place < photosLength - 1
+    &&  <Buttons right
+          onClick={(e) => handleClickArrow(1, e)}
+        >
+          <MdArrowForwardIos style={{ fontSize: '1.5rem', paddingTop: '0.25rem' }}/>
+        </Buttons>}
+        </ImageGalleryContainer>
   );
 };
 
@@ -188,6 +158,9 @@ const ImageGalleryContainer = styled.div`
   overflow: hidden;
   height: max-content;
   max-width: 800px;
+  max-height: 800px;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-rows: 100%;
 `;
 
 // journal: needed to have display: grid (along with position: relative) to display image underneath thumbnail images with larger z-indexes, even though no grid-template columns or rows were set on the background image with display: grid;
@@ -199,26 +172,21 @@ const ImageGalleryContainer = styled.div`
 // to make font-size responsive, set the root font-size to be a porportion of the view width, i.e. html {
  //font-size: () => 15px + 0.3vw;  // not 100% on my syntax but that's the jist
 //},
+  // buttons, inputs, selects and some other elements have default broswer font-size, padding, and other settings that are not overridden by a general font-size change and using rem or em
+
 
 // file input elements should work for mobile, and suggest file, access camera, access photos
 
 
-
-
-
-
-// const ImageGallery2 = styled.div`
-//   grid-column: 1/4;
-//   grid-row: 1;
-//   z-index: 1;
-//   position: relative;
-//   width: 100%;
-//   margin: 0 auto;
-//   display: grid;
-//   overflow: hidden;
-//   height: max-content;
-//   max-width: 800px;
-// `;
+// advice to incoming HR students:
+  // pay special attentiom to data structures and algorithims
+  // time management is key
+  // what stack overflow is
+  // theres youtube videos with instructions/lessons
+  // almost everything you are going to do has been done before
+  // be careful not to spin your wheels too much/too long
+  // get a solid note taking strategy /organization strategy down before class starts (recs; notation)
+  // second monitor
 
 const Side = styled.div`
   display: flex;
@@ -227,6 +195,8 @@ const Side = styled.div`
   z-index: 2;
   align-self: start;
   position: absolute;
+  grid-column: 1 / 2
+  grid-row: 1/ 2;
   max-width: 10%;
   height: 100%;
   margin-left: 0.75rem;
@@ -234,7 +204,12 @@ const Side = styled.div`
   margin-top: 0.75rem;
   margin-bottom: 0.75rem;
   row-gap: 0.75rem;
+  align-items: stretch;
   height: max-content;
+  ${props => (props.full && props.middle) && css`
+    height: 100%;
+    justify-items: space-evenly;
+  `};
 `;
 
 const Thumbnail = styled.img`
@@ -265,6 +240,8 @@ const Main = styled.img`
   margin: 0 auto;
   height: 100%;
   cursor: zoom-in;
+  grid-column: 1 / 8;
+  grid-row: 1/ 2;
 `;
 
 // grid-column: 1/4;
@@ -316,6 +293,23 @@ const Buttons = styled.button`
   color: black;
   border: none;
   border-radius: 2.5px;
+  width: 3rem;
+  height: 3rem;
+  z-index: 3;
+  top: 48%;
+  position: absolute;
+  left: ${props => props.left && '2%'};
+  right: ${props => props.right && '2%'};
+  left: ${props => props.farLeft && '15%'};
+  opacity: 0.5;
+  ${props => props.scroll && css`
+    height: 1rem;
+    width: 1rem;
+    align-self: center;
+    top: 0;
+    z-index: 4;
+    position: relative;
+  `};
 `;
 
 export default ImageGallery;
