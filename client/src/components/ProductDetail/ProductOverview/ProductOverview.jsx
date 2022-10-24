@@ -13,13 +13,12 @@ function ProductOverview() {
 
   return (
       <OverviewContainer>
-        {/* <ReviewContainer> */}
         {reviews.length > 0
           ? (
             <>
               <POStars />
               <ReadReviews className="readReviews">
-                <a href="RatingsAndReviews" style={{ color: 'black' }}>{`Read all ${reviews.length}+ reviews`}</a>
+                <a href="RatingsAndReviews" style={{ color: 'black' }}>{`Read all ${reviews.length} reviews`}</a>
               </ReadReviews>
             </>
           )
@@ -28,22 +27,21 @@ function ProductOverview() {
                 <a href="RatingsAndReviews">No reviews yet. Add one!</a>
               </ReadReviews>
           )}
-        {/* </ReviewContainer> */}
         <br />
         <CategoryContainer>{productInfo.category}</CategoryContainer>
         <ProductName>{productInfo.name}</ProductName>
         <br />
         <SocialMediaContainer>
           <ShareSocial>
-            <Facebook>
+            <Logo facebook>
               <IoLogoFacebook />
-            </Facebook>
-            <Twitter>
+            </Logo>
+            <Logo twitter>
               <IoLogoTwitter />
-            </Twitter>
-            <Pinterest>
+            </Logo>
+            <Logo pinterest>
               <IoLogoPinterest />
-            </Pinterest>
+            </Logo>
           </ShareSocial>
         </SocialMediaContainer>
         <br />
@@ -61,7 +59,7 @@ function ProductOverview() {
             <Price>{`$${selectedStyle.original_price}`}</Price>
           )}
           </PriceContainer>
-          {/* <br /> */}
+
       </OverviewContainer>
    );
 };
@@ -94,26 +92,6 @@ const ReadReviews = styled.h5`
   text: underlined;
 `;
 
-//font-size: 1.25rem;
-
-//font-size: 0.7rem;
-
-// margin-top: 1em;
-
-// const OverviewContainer = styled.div`
-//   display: block;
-//   //flex-direction: column;
-//   //grid-column: 4;
-//   //align-items: space between;
-//   //grid-row: 1;
-//   flex: 3 1;
-// `;
-
-// const ReviewContainer = styled.div`
-//   height: 5%;
-//   width: auto;
-// `;
-
 const CategoryContainer = styled.h3`
   margin-top: calc(16px + 1vw); ;
   margin-bottom: calc(4px + 0.25vw); ;
@@ -123,13 +101,11 @@ const CategoryContainer = styled.h3`
   cursor: pointer;
   text-transform: uppercase;
 `;
-//font-size: 1.5rem;
 
 const ProductName = styled.h1`
   margin-top: calc(4px + 0.25vw);
   margin-bottom: calc(4px + 0.25vw);
 `;
-//font-size: 2.0rem;
 
 const SocialMediaContainer = styled.div`
   height: auto;
@@ -141,39 +117,16 @@ const SocialMediaContainer = styled.div`
   display: flex;
 `;
 
-const Facebook = styled.div`
+const Logo = styled.div`
   flex: f1;
   flex-basis: 2.0rem;
   flex-grow: .75;
   flex-shrink: 1;
-
   padding: 0 0.25rem;
   &:hover {
-    color: blue;
-  };
-`;
-//font-size: 2.0rem;
-const Twitter = styled.div`
-  flex: f1;
-  flex-basis: 2.0rem;
-  flex-grow: .75;
-  flex-shrink: 1;
-
-  padding: 0 0.25rem;
-  &:hover {
-    color: aqua;
-  };
-`;
-//font-size: 2.0rem;
-const Pinterest = styled.div`
-  flex: f1;
-  flex-basis: 2.0rem;
-  flex-grow: .75;
-  flex-shrink: 1;
-
-  padding: 0 0.25rem;
-  &:hover {
-    color: red;
+    color: ${props => props.facebook && 'blue'};
+    color: ${props => props.twitter && 'aqua'};
+    color: ${props => props.pintrest && 'red'};
   };
 `;
 //font-size: 2.0rem;
@@ -186,7 +139,6 @@ const ShareSocial = styled.div`
   flex-shrink: 1;
   flex-grow: .75;
 `;
-
 // height: 2.0rem;
 // width: 7.5rem;
 
@@ -195,15 +147,8 @@ const PriceContainer = styled.div`
   grid-column: 4;
 `;
 
-
 const Price = styled.h4`
   margin: auto 0;
 `;
-//font-size: 1.25rem;
-// const Price = styled.h5`
-//   margin-block-start: 0em;
-//   margin-block-end: 0em;
-// `;
-
 
 export default ProductOverview;

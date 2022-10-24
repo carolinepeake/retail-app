@@ -55,9 +55,8 @@ const StyleContainer = styled.div`
 const StyleName = styled.h4`
   margin-block-start: 0em;
   margin-block-end: 1em;
-
 `;
-//font-size: 1.5rem;
+
 const ThumbnailsContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);

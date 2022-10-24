@@ -7,7 +7,6 @@ import AddToCart from './AddToCart/AddToCart';
 
 import { useGlobalContext } from '../../contexts/GlobalStore';
 
-// will want to fade out related images and outfit carousel
 // and make 2.5 zoom in, make zoom in modal smaller, and make mouse magnifying icon when zoomed in
 // accessibility
 // url
@@ -35,20 +34,6 @@ function ProductDetail() {
   //   return height;
   // };
 
-  // const setMaxHeight = async () => {
-  //   try {
-  //     let computedImageWidth = await parseInt(window
-  //       .getComputedStyle(mainImage.current)
-  //       .getPropertyValue("width"));
-  //     console.log('computedImageWidth: ', computedImageWidth);
-  //     await setHeight(computedImageWidth);
-  //     console.log('height: ', height);
-  //   } catch (err) {
-  //     console.log('error computing and setting max image height');
-  //   }
-  //   return height;
-  // };
-
   //   useEffect(() => {
   //   setMaxHeight();
   // }, []);
@@ -57,14 +42,15 @@ function ProductDetail() {
     <ProductSec id="product-details">
       <LeftColumn
       style={{height: '100%', width: '100%'}}
-      ref={mainImage}
-      onResize={() => setMaxHeight()}
+      //ref={mainImage}
+      // not currently working
+      //onResize={() => setMaxHeight()}
       >
         <ImageGallery
         //  ref={mainImage}
         />
-        <br />
         <LeftBottom>
+        <br />
           {productInfo.slogan
           && <ProductSlogan>{productInfo.slogan}</ProductSlogan>}
           {productInfo.description
@@ -72,7 +58,9 @@ function ProductDetail() {
         </LeftBottom>
       </LeftColumn>
       <RightColumn>
-        <TopRight height={height}>
+        <TopRight
+        // height={height}
+         >
           <ProductOverview />
           <StyleSelector />
           <AddToCart />
@@ -98,29 +86,6 @@ let ProductSec = styled.div`
   overflow: none;
   max-width: 100%;
 `;
-//grid-template-rows: minmax(0, 1fr);
-// repeat(3, 1fr)
-//grid-template-rows: auto;
-
-//grid-template-auto-rows: 1fr 1.5rem 1rem 1fr 1fr 1.5rem 1fr;
-
-//   margin-top: 2%;
-//   grid-column: 1/4;
-//   //display: grid;
-//   //grid-template-columns:
-//  // grid-template-columns: 1fr 3fr 3fr 3fr 1fr;
-//   //grid-auto-rows:
-//   column-gap: 1em;
-//   display: flex;
-//   flex-direction: row;
-
-// const LeftTop = styled.div`
-//   grid-column: 1/4;
-//   grid-row: 1;
-//   display: contents;
-//   width: 100%;
-//   height: 100%;
-// `;
 
 const LeftColumn = styled.div`
    grid-column: 1/4;
@@ -129,15 +94,6 @@ const LeftColumn = styled.div`
    flex-direction: column;
 `;
 
-// const LeftColumn = styled.div`
-//    grid-column: 1/4;
-//    grid-row: 1;
-//    display: contents;
-//    width: 100%;
-//    height: 100%;
-// `;
-
-// change grid-row to 1 to get rid of gap
 const LeftBottom = styled.div`
   display: flex;
   flex-direction: column;

@@ -21,6 +21,8 @@ function POStars() {
     filledStars.push(<span className="filled-star" key={i}>&#9733;</span>);
   }
 
+  // class  names?
+
   return (
     <StarsContainer>
       <FilledStar className="star" size={partial}>{filledStars}</FilledStar>
@@ -39,14 +41,6 @@ const StarsContainer = styled.h5`
   margin-block-start: .5em;
   1.25em;
 `;
-
-// const StarsContainer = styled.div`
-//   position: relative;
-//   margin-left: auto;
-//   margin-right: auto;
-//   font-size: 25px;
-//   color: ${(props) => props.theme.fontColor};
-// `;
 
 const BaseStar = styled.span`
   position: relative;
