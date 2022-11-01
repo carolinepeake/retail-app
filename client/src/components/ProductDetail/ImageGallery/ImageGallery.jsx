@@ -5,7 +5,7 @@ import { MdArrowForwardIos, MdArrowBackIos, MdExpandMore, MdExpandLess } from 'r
 
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
-function ImageGallery() {
+function ImageGallery({ setIsExpanded, isExpanded }) {
 
   const { productID, setProductID, productInfo, styles, selectedStyle, setSelectedStyle } = useGlobalContext();
   const [imageUrl, setImageUrl] = useState('');
@@ -13,7 +13,6 @@ function ImageGallery() {
   const [main, setMain] = useState({});
   const [place, setPlace] = useState(0);
   const [photosLength, setPhotosLength] = useState(0);
-  const [isExpanded, setIsExpanded] = useState(false);
   const [isScrollableBothDirection, setIsScrollableBothDirection] = useState(false);
 
   useEffect(() => {
@@ -47,7 +46,6 @@ function ImageGallery() {
   function handleExpandMain(e) {
     e.preventDefault();
     setIsExpanded(true);
-    console.log('main image clicked');
   };
 
   function handleClickExit(e) {
@@ -56,11 +54,13 @@ function ImageGallery() {
   };
 
   return (
-    <ImageGalleryContainer>
+    <ImageGalleryContainer expanded={isExpanded} default={!isExpanded}>
       <Main
         src={imageUrl}
         alt={`${productInfo.name} in ${selectedStyle.name} style`}
         onClick={(e) => handleExpandMain(e)}
+        expanded={isExpanded}
+        default={!isExpanded}
       />
       <Side full={photosLength > 7} middle={place !== 0 && place !== photosLength - 1}>
       {(photosLength > 7 && place !== 0)
@@ -122,19 +122,14 @@ function ImageGallery() {
         >
           <MdArrowForwardIos style={{ fontSize: '1.5rem', paddingTop: '0.25rem' }}/>
         </Buttons>}
-        </ImageGalleryContainer>
+
+      <Exit onClick={(e) => handleClickExit(e)}
+      expanded={isExpanded}
+      default={!isExpanded}
+      >&times;</Exit>
+    </ImageGalleryContainer>
   );
 };
-
-
-    {/* <Expanded style={{ display: isExpanded ? 'block' : 'none' }}>
-    <ExpandedImg
-      src={imageUrl}
-      alt={`${productInfo.name} in ${selectedStyle.name} style`}
-    />
-    <Exit onClick={(e) => handleClickExit(e)}>&times;</Exit>
-  </Expanded >
-  </Wrapper> */}
 
   // could make productDetails section have only one grid-template-row,
   // display LeftColumn flex, flex-direction: column, to get rid of gap between main image and product desciption when add to cart extends vertically past the main image.
@@ -151,17 +146,86 @@ function ImageGallery() {
 const ImageGalleryContainer = styled.div`
   width: 100%;
   height: 100%;
-  z-index: 1;
+  ${props => props.default && css`
+    display: grid;
+    max-width: 800px;
+    max-height: 800px;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    grid-template-rows: 100%;
+    margin: 0 auto;
+    z-index: 1;
+    position: relative;
+    height: max-content;
+  `};
+  ${props => props.expanded && css`
   position: relative;
-  display: grid;
-  margin: 0 auto;
-  overflow: hidden;
   height: max-content;
-  max-width: 800px;
-  max-height: 800px;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  grid-template-rows: 100%;
+  width: max-content;
+  display: flex;
+  grid-row: 1;
+  margin: auto;
+  `};
 `;
+// background-color: white;
+// display: flex;
+// position: absolute;
+// grid-column: 1/6;
+// grid-row: 1;
+// background-color: white;
+// overflow: none;
+// z-index: 3;
+
+const Main = styled.img`
+  object-fit: cover;
+  overflow: hidden;
+  position: relative;
+  cursor: zoom-in;
+  ${props => props.default && css`
+  width: 100%;
+  display: grid;
+  aspect-ratio: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  z-index: 1;
+  height: 100%;
+  grid-column: 1 / 8;
+  grid-row: 1/ 2;
+  `};
+  ${props => props.expanded && css`
+  height: 100vh;
+  z-index: 3;
+  margin: auto;
+  `};
+`;
+
+// grid-column: 1/4;
+// grid-row: 1;
+
+
+// const Expanded = styled.div`
+//   cursor: zoom-in;
+//   z-index: 3;
+//   grid-column: 1/6;
+//   grid-row: 1;
+//   background-color: white;
+//   overflow: none;
+//   width: 100%;
+//   height: 100%;
+//   position: absolute;
+//   display: flex;
+// `;
+
+// const ExpandedImg = styled.img`
+//   object-fit: cover;
+//   height: 100vw;
+//   overflow: hidden;
+//   position: relative;
+//   z-index: 3;
+//   margin: auto;
+//   cursor: zoom-in;
+// `;
+//height: 100%;
+//aspect-ratio: 1;
 
 // journal: needed to have display: grid (along with position: relative) to display image underneath thumbnail images with larger z-indexes, even though no grid-template columns or rows were set on the background image with display: grid;
 
@@ -192,7 +256,7 @@ const Side = styled.div`
   display: flex;
   flex-direction: column;
   margin: 2% auto 0 auto;
-  z-index: 2;
+  z-index: 3;
   align-self: start;
   position: absolute;
   grid-column: 1 / 2
@@ -228,59 +292,8 @@ const Thumbnail = styled.img`
 `;
 
 
-const Main = styled.img`
-  object-fit: cover;
-  width: 100%;
-  overflow: hidden;
-  position: relative;
-  z-index: 1;
-  display: grid;
-  aspect-ratio: 1;
-  max-width: 800px;
-  margin: 0 auto;
-  height: 100%;
-  cursor: zoom-in;
-  grid-column: 1 / 8;
-  grid-row: 1/ 2;
-`;
 
-// grid-column: 1/4;
-// grid-row: 1;
 
-const Expanded = styled.div`
-  cursor: zoom-in;
-  z-index: 3;
-  grid-column: 1/6;
-  grid-row: 1;
-  background-color: white;
-  overflow: none;
-  width: 100%;
-  margin: 0 auto;
-  height: max-content;
-  position: relative;
-`;
-
-const ExpandedImg = styled.img`
-  object-fit: cover;
-  width: 100%;
-  overflow: hidden;
-  position: relative;
-  z-index: 3;
-  aspect-ratio: 1;
-  margin: 0 auto;
-  height: 100%;
-  cursor: zoom-in;
-`;
-
-const Exit = styled.button`
-  position: absolute;
-  right: 1%;
-  top: 1%;
-  z-index: 4;
-  opacity: 0.3;
-  color: rgba(225 225 225 0.3);
-  font-color: black;
-`;
 
 const Buttons = styled.button`
   background-color: none;
@@ -310,6 +323,27 @@ const Buttons = styled.button`
     z-index: 4;
     position: relative;
   `};
+`;
+
+const Exit = styled.button`
+  position: absolute;
+  right: 1%;
+  top: 1%;
+  z-index: 4;
+  opacity: 0.3;
+  color: rgba(225 225 225 0.3);
+  font-color: black;
+  font-size: calc(10px + 2vw);
+  &:hover {
+    background-color: rgba(225, 225, 225, 0.8);
+    cursor: pointer;
+  };
+  ${props => props.default && css`
+    display: none;
+  `};
+  ${props => props.expanded && css`
+  display: block;
+`};
 `;
 
 export default ImageGallery;

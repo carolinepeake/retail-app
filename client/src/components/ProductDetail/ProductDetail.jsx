@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import ProductOverview from './ProductOverview/ProductOverview';
 import StyleSelector from './StyleSelector/StyleSelector';
 import ImageGallery from './ImageGallery/ImageGallery';
@@ -19,6 +19,7 @@ function ProductDetail() {
   const { productInfo } = useGlobalContext();
   const mainImage = useRef();
   const [height, setHeight] = useState(0);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   // const setMaxHeight = async () => {
   //   try {
@@ -41,12 +42,13 @@ function ProductDetail() {
   return (
     <ProductSec id="product-details">
       <LeftColumn
-      style={{height: '100%', width: '100%'}}
+      style={{height: '100%', width: '100%', display: isExpanded ? 'none' : 'flex'}}
       //ref={mainImage}
       // not currently working
       //onResize={() => setMaxHeight()}
       >
         <ImageGallery
+        setIsExpanded={setIsExpanded} isExpanded={isExpanded}
         //  ref={mainImage}
         />
         <LeftBottom>
@@ -57,7 +59,7 @@ function ProductDetail() {
           && <ProductDescription>{productInfo.description}</ProductDescription>}
         </LeftBottom>
       </LeftColumn>
-      <RightColumn>
+      <RightColumn hidden={isExpanded}>
         <TopRight
         // height={height}
          >
@@ -66,6 +68,12 @@ function ProductDetail() {
           <AddToCart />
         </TopRight>
       </RightColumn>
+      <Expanded style={{ display: isExpanded ? 'block' : 'none' }}>
+      <ImageGallery
+        isExpanded={isExpanded}
+        setIsExpanded={setIsExpanded}
+      />
+    </Expanded >
     </ProductSec>
   );
 };
@@ -90,7 +98,6 @@ let ProductSec = styled.div`
 const LeftColumn = styled.div`
    grid-column: 1/4;
    grid-row: 1;
-   display: flex;
    flex-direction: column;
 `;
 
@@ -108,6 +115,9 @@ const RightColumn = styled.div`
   grid-column: 4 / span 2;
   grid-row: 1;
   display: contents;
+  ${props => props.hidden && css`
+    display: none;
+    `};
 `;
 
 const TopRight = styled.div`
@@ -132,6 +142,24 @@ const ProductDescription = styled.p`
   display: block;
   margin-block-end: 0em;
 `;
+
+const Expanded = styled.div`
+  cursor: zoom-in;
+  z-index: 3;
+  grid-column: 1/6;
+  grid-row: 1;
+  background-color: white;
+  overflow: none;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  position: relative;
+`;
+//position: absolute;
+
+//margin: 0 10% 0 0;
+
+
 
 
 

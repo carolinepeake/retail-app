@@ -75,8 +75,8 @@ function AddToCart() {
       </SelectSizeAndQuantityContainer>
       <BagContainer>
         <AddToCartContainer type="submit" disabled={!isSizeSelected}>
-          <AddToCartText>Add to Cart</AddToCartText>
-          <AddToCartText>+</AddToCartText>
+          <AddToCartText words>Add to Cart</AddToCartText>
+          <AddToCartText plus>+</AddToCartText>
           </AddToCartContainer>
         <Star type="button">&#9734;</Star>
       </BagContainer>
@@ -178,9 +178,15 @@ const AddToCartContainer = styled(Button)`
 
 const AddToCartText = styled.span`
   position: absolute;
-  top: 25%;
-  left: 7.5%;
+  top: 1rem;
+  ${props => props.words && css`
+    left: 7.5%;
+  `};
+  ${props => props.plus && css`
+    right: 7.5%;
+  `};
 `;
+//top: 25%;
 //left: 1rem;
 //top: 0.5rem;
 

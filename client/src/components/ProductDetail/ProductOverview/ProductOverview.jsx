@@ -39,7 +39,7 @@ function ProductOverview() {
             <Logo twitter>
               <IoLogoTwitter />
             </Logo>
-            <Logo pinterest>
+            <Logo pintrest>
               <IoLogoPinterest />
             </Logo>
           </ShareSocial>
@@ -122,12 +122,15 @@ const Logo = styled.div`
   flex-basis: 2.0rem;
   flex-grow: .75;
   flex-shrink: 1;
-  padding: 0 0.25rem;
+  padding: 0.25rem 0.25rem;
   &:hover {
     color: ${props => props.facebook && 'blue'};
     color: ${props => props.twitter && 'aqua'};
     color: ${props => props.pintrest && 'red'};
   };
+  display: flex;
+  justify-content: center;
+  font-size: calc(8px + 1.5vw); ;
 `;
 //font-size: 2.0rem;
 
