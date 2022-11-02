@@ -7,48 +7,19 @@ import AddToCart from './AddToCart/AddToCart';
 
 import { useGlobalContext } from '../../contexts/GlobalStore';
 
-// and make 2.5 zoom in, make zoom in modal smaller, and make mouse magnifying icon when zoomed in
-// accessibility
-// url
-// time to first paint
-
 // Works when ready to hook up API with URL
 // setProductID(window.location.pathname || 40348);
 
 function ProductDetail() {
   const { productInfo } = useGlobalContext();
-  const mainImage = useRef();
-  const [height, setHeight] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isZoomed, setIsZoomed] = useState(false);
   const [isDefault, setIsDefault] = useState(false);
-  // const [isDefault, setIsDefault] = useState(true);
-
-  // const setMaxHeight = async () => {
-  //   try {
-  //     let computedImageHeight = await parseInt(window
-  //       .getComputedStyle(mainImage.current)
-  //       .getPropertyValue("height"));
-  //     console.log('computedImageHeight: ', computedImageHeight);
-  //     await setHeight(computedImageHeight);
-  //     console.log('height: ', height);
-  //   } catch (err) {
-  //     console.log('error computing and setting max image height');
-  //   }
-  //   return height;
-  // };
-
-  //   useEffect(() => {
-  //   setMaxHeight();
-  // }, []);
 
   return (
     <ProductSec id="product-details">
       <LeftColumn
       style={{height: '100%', width: '100%', display: isExpanded ? 'none' : isZoomed ? 'none' : 'flex'}}
-      //ref={mainImage}
-      // not currently working
-      //onResize={() => setMaxHeight()}
       >
         <ImageGallery
         setIsExpanded={setIsExpanded} isExpanded={isExpanded}
@@ -56,7 +27,6 @@ function ProductDetail() {
         isDefault={isDefault}
         setIsZoomed={setIsZoomed}
         isZoomed={isZoomed}
-        //  ref={mainImage}
         />
         <LeftBottom>
         <br />
@@ -68,7 +38,6 @@ function ProductDetail() {
       </LeftColumn>
       <RightColumn expanded={isExpanded} zoomed={isZoomed}>
         <TopRight
-        // height={height}
          >
           <ProductOverview />
           <StyleSelector />
@@ -90,11 +59,6 @@ function ProductDetail() {
 };
 
 export default ProductDetail;
-
-// make a max-width (max size for the main image) maybe the standard height of a computer so can always see full square
-// also make a max-width for the thumbnails -- although might not actually need to if main image has max width
-// margin 0 auto then centers the main image if reaches max-width so there's white space around it
-
 
 let ProductSec = styled.div`
   display: grid;
@@ -120,17 +84,16 @@ const LeftBottom = styled.div`
   margin-left: 20%;
 `;
 
-// justify content: flex-start and add larger margin-bottom below StyleSelector if making ProductDetail 1 row
 const RightColumn = styled.div`
   grid-column: 4 / span 2;
   grid-row: 1;
   display: contents;
   ${props => props.zoomed && css`
     display: none;
-    `};
-    ${props => props.expanded && css`
+  `};
+  ${props => props.expanded && css`
     display: none;
-    `};
+  `};
 `;
 
 const TopRight = styled.div`
@@ -142,7 +105,6 @@ const TopRight = styled.div`
   justify-content: space-between;
   height: calc(61.585vw);
 `;
-//height: ${props => props.height + 'px'};
 
 const ProductSlogan = styled.h3`
   display: block;
@@ -164,11 +126,7 @@ const Expanded = styled.div`
   height: 100%;
   display: flex;
 `;
-//position: absolute;
-//margin: 0 10% 0 0;
-//z-index: 3;
-//background-color: white;
-//position: relative;
+
 
 
 

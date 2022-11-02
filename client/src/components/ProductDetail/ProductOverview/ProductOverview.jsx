@@ -132,7 +132,6 @@ const Logo = styled.div`
   justify-content: center;
   font-size: calc(8px + 1.5vw); ;
 `;
-//font-size: 2.0rem;
 
 const ShareSocial = styled.div`
   max-width: 7.5rem;
@@ -142,8 +141,6 @@ const ShareSocial = styled.div`
   flex-shrink: 1;
   flex-grow: .75;
 `;
-// height: 2.0rem;
-// width: 7.5rem;
 
 const PriceContainer = styled.div`
   grid-row: 1;

@@ -1,6 +1,5 @@
 import styled, { css } from 'styled-components';
 
-
 const Button = styled.button`
     padding: calc(2px + 1.2vw) calc(8px + 1.2vw);
     font-size: calc(8px + 1.2vw);

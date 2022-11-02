@@ -91,7 +91,6 @@ const Cart = styled.div`
   width: 100%;
 `;
 
-//font-size: 1.25rem;
 const SelectSizeAndQuantityContainer = styled.div`
   flex-direction: row;
   align-content: space-between;
@@ -119,31 +118,6 @@ const StyledSelect = styled(Button)`
   `};
 `;
 
-
-// font-size: calc(8px + 0.5vw);
-//padding: calc(4px + 0.25vw) calc(8px + 0.5vw);
-//font-size: 1.0rem;
-// padding-bottom: 0.5em;
-// padding-top: 0.5em;
-// padding-left: 1em;
-// padding-right: rem;
-// const SelectQuantityContainer = styled.div`
-//   height: 100%;
-//   flex-basis: 6em;
-//   flex-grow: 1;
-//   flex-shrink: 3;
-//   width: 100%;
-// `;
-
-
-//font-size: calc(8px + 0.5vw);
-//padding: calc(4px + 0.25vw) calc(8px + 0.5vw);
-//font-size: 1.0rem;
-// padding-bottom: 0.5em;
-// padding-top: 0.5em;
-// padding-left: 1em;
-// padding-right: rem;
-//height: 2.5rem;
 //can combine flex-basis, grow, and shrink into one line shorthand
 
 const Option = styled.option`
@@ -171,10 +145,6 @@ const AddToCartContainer = styled(Button)`
   flex-grow: 5;
   flex-shrink: 1;
 `;
-//font-size: 1.0rem;
-//height: 2.5rem;
-
-// padding: 0 1rem;
 
 const AddToCartText = styled.span`
   position: absolute;
@@ -186,10 +156,6 @@ const AddToCartText = styled.span`
     right: 7.5%;
   `};
 `;
-//top: 25%;
-//left: 1rem;
-//top: 0.5rem;
-
 
 const Star = styled(Button)`
   height: 100%;
@@ -198,8 +164,5 @@ const Star = styled(Button)`
   flex-grow: 1;
   flex-shrink: 5;
 `;
-//font-size: 0.5;
-//font-size: 1.25rem;
-//height: 2.5rem;
 
 export default AddToCart;

@@ -21,8 +21,6 @@ function POStars() {
     filledStars.push(<span className="filled-star" key={i}>&#9733;</span>);
   }
 
-  // class  names?
-
   return (
     <StarsContainer>
       <FilledStar className="star" size={partial}>{filledStars}</FilledStar>
