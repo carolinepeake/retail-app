@@ -87,7 +87,7 @@ function NavBar({ toggleTheme }) {
 // navBarFont: '#fff',
 
 const Background = styled.div`
-  z-index: 3;
+  z-index: 5;
   position: sticky;
   top: 0;
   background-color: ${(props) => props.theme.navColor};

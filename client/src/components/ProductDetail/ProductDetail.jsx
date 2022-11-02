@@ -20,6 +20,9 @@ function ProductDetail() {
   const mainImage = useRef();
   const [height, setHeight] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isZoomed, setIsZoomed] = useState(false);
+  const [isDefault, setIsDefault] = useState(false);
+  // const [isDefault, setIsDefault] = useState(true);
 
   // const setMaxHeight = async () => {
   //   try {
@@ -42,13 +45,17 @@ function ProductDetail() {
   return (
     <ProductSec id="product-details">
       <LeftColumn
-      style={{height: '100%', width: '100%', display: isExpanded ? 'none' : 'flex'}}
+      style={{height: '100%', width: '100%', display: isExpanded ? 'none' : isZoomed ? 'none' : 'flex'}}
       //ref={mainImage}
       // not currently working
       //onResize={() => setMaxHeight()}
       >
         <ImageGallery
         setIsExpanded={setIsExpanded} isExpanded={isExpanded}
+        setIsDefault={setIsDefault}
+        isDefault={isDefault}
+        setIsZoomed={setIsZoomed}
+        isZoomed={isZoomed}
         //  ref={mainImage}
         />
         <LeftBottom>
@@ -59,7 +66,7 @@ function ProductDetail() {
           && <ProductDescription>{productInfo.description}</ProductDescription>}
         </LeftBottom>
       </LeftColumn>
-      <RightColumn hidden={isExpanded}>
+      <RightColumn expanded={isExpanded} zoomed={isZoomed}>
         <TopRight
         // height={height}
          >
@@ -68,10 +75,14 @@ function ProductDetail() {
           <AddToCart />
         </TopRight>
       </RightColumn>
-      <Expanded style={{ display: isExpanded ? 'block' : 'none' }}>
+      <Expanded style={{ display: isExpanded ? 'block' : isZoomed ? 'block' : 'none' }}>
       <ImageGallery
         isExpanded={isExpanded}
         setIsExpanded={setIsExpanded}
+        setIsDefault={setIsDefault}
+        isDefault={isDefault}
+        setIsZoomed={setIsZoomed}
+        isZoomed={isZoomed}
       />
     </Expanded >
     </ProductSec>
@@ -91,7 +102,6 @@ let ProductSec = styled.div`
   grid-column: 1/4;
   grid-template-columns: 10% minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) 10%;
   column-gap: 1rem;
-  overflow: none;
   max-width: 100%;
 `;
 
@@ -115,7 +125,10 @@ const RightColumn = styled.div`
   grid-column: 4 / span 2;
   grid-row: 1;
   display: contents;
-  ${props => props.hidden && css`
+  ${props => props.zoomed && css`
+    display: none;
+    `};
+    ${props => props.expanded && css`
     display: none;
     `};
 `;
@@ -144,20 +157,18 @@ const ProductDescription = styled.p`
 `;
 
 const Expanded = styled.div`
-  cursor: zoom-in;
-  z-index: 3;
   grid-column: 1/6;
   grid-row: 1;
-  background-color: white;
   overflow: none;
   width: 100%;
   height: 100%;
   display: flex;
-  position: relative;
 `;
 //position: absolute;
-
 //margin: 0 10% 0 0;
+//z-index: 3;
+//background-color: white;
+//position: relative;
 
 
 
