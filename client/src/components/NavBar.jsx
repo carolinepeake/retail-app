@@ -68,13 +68,6 @@ function NavBar({ toggleTheme }) {
             {link.label}
           </GridItem>)
         })}
-      {/* <GridItem
-        data-target="product-details"
-        onClick={(event) => scrollTo(event)}
-       // value="ProductDetails"
-      >
-        Product Details
-      </GridItem> */}
       <Search>
         <Input />
         <FaSearch style={{position: 'absolute', marginTop: '0.3%', marginLeft: '0.3%'}}/>

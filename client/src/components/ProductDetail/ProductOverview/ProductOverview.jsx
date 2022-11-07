@@ -18,13 +18,13 @@ function ProductOverview() {
             <>
               <POStars />
               <ReadReviews className="readReviews">
-                <a href="RatingsAndReviews" style={{ color: 'black' }}>{`Read all ${reviews.length} reviews`}</a>
+                <a href="#ratings-and-reviews" style={{ color: 'black' }}>{`Read all ${reviews.length} reviews`}</a>
               </ReadReviews>
             </>
           )
           : (
               <ReadReviews>
-                <a href="RatingsAndReviews">No reviews yet. Add one!</a>
+                <a href="#ratings-and-reviews">No reviews yet. Add one!</a>
               </ReadReviews>
           )}
         <br />

@@ -94,7 +94,7 @@ function ImageGallery({ setIsExpanded, isExpanded, setIsDefault, isDefault, setI
         zoomed={isZoomed}
         xPercent={xPerc}
         yPercent={yPerc}
-        style={{cursor: isExpanded ? 'zoom-in' : isZoomed ? 'zoom-out' : isDefault ? 'crosshair' : 'crosshair', transform: isDefault ? 'translate(50% 50%) scale(0.4)' : '', }}
+        style={{cursor: isExpanded ? 'zoom-in' : isZoomed ? 'zoom-out' : isDefault ? 'zoom-in' : 'zoom-in', transform: isDefault ? 'translate(50% 50%) scale(0.4)' : '', }}
       />
       <Side full={photosLength > 7} middle={place !== 0 && place !== photosLength - 1} expanded={isExpanded}
         zoomed={isZoomed} default={isDefault}>
