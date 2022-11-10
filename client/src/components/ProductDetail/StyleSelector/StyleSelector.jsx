@@ -14,35 +14,42 @@ function StyleSelector() {
       </StyleName>
       <ThumbnailsContainer>
         {styles.map((style, i) => (
-          <ThumbnailContainer key={style.style_id} i={i} style={style} onClick={() => setSelectedStyle(style)}>
+          <ThumbnailContainer
+            key={style.style_id}
+            i={i}
+            style={style}
+            onClick={() => setSelectedStyle(style)}
+          >
             <ThumbnailImg
-                src={style.photos[0].thumbnail_url}
-                alt={style.name}
-                style={{
-                  boxShadow: selectedStyle.style_id === style.style_id ? '5px 5px 5px #727272' : '',
-                }}
-              />
+              src={style.photos[0].thumbnail_url}
+              alt={style.name}
+              style={{
+                boxShadow: selectedStyle.style_id === style.style_id ? '5px 5px 5px #727272' : '',
+              }}
+            />
             {selectedStyle.style_id === style.style_id
-            && <IoIosCheckmarkCircle
-                style={{
-                  width: '25%',
-                  height: '25%',
-                  borderRadius: '50px',
-                  zIndex: 2,
-                  position: 'absolute',
-                  top: '0%',
-                  right: '0%',
-                  color: 'rgba(255,255,255, 0.9)',
-                  backgroundColor: '#101010',
-                  opacity: '0.9',
-                }}
-              />}
+            && (
+            <IoIosCheckmarkCircle
+              style={{
+                width: '25%',
+                height: '25%',
+                borderRadius: '50px',
+                zIndex: 2,
+                position: 'absolute',
+                top: '0%',
+                right: '0%',
+                color: 'rgba(255,255,255, 0.9)',
+                backgroundColor: '#101010',
+                opacity: '0.9',
+              }}
+            />
+            )}
           </ThumbnailContainer>
         ))}
       </ThumbnailsContainer>
     </StyleContainer>
   );
-};
+}
 
 export default StyleSelector;
 
@@ -85,7 +92,3 @@ const ThumbnailImg = styled.img`
   transition: transform 0.25s ease;
   border: solid black thin;
 `;
-
-
-
-

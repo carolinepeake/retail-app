@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import ProductOverview from './ProductOverview/ProductOverview';
 import StyleSelector from './StyleSelector/StyleSelector';
@@ -12,55 +12,51 @@ import { useGlobalContext } from '../../contexts/GlobalStore';
 
 function ProductDetail() {
   const { productInfo } = useGlobalContext();
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [isZoomed, setIsZoomed] = useState(false);
-  const [isDefault, setIsDefault] = useState(false);
+  const [status, setStatus] = useState('default');
 
   return (
     <ProductSec id="product-details">
-      <LeftColumn
-      style={{height: '100%', width: '100%', display: isExpanded ? 'none' : isZoomed ? 'none' : 'flex'}}
-      >
-        <ImageGallery
-        setIsExpanded={setIsExpanded} isExpanded={isExpanded}
-        setIsDefault={setIsDefault}
-        isDefault={isDefault}
-        setIsZoomed={setIsZoomed}
-        isZoomed={isZoomed}
-        />
-        <LeftBottom>
-        <br />
-          {productInfo.slogan
-          && <ProductSlogan>{productInfo.slogan}</ProductSlogan>}
-          {productInfo.description
-          && <ProductDescription>{productInfo.description}</ProductDescription>}
-        </LeftBottom>
-      </LeftColumn>
-      <RightColumn expanded={isExpanded} zoomed={isZoomed}>
-        <TopRight
-         >
-          <ProductOverview />
-          <StyleSelector />
-          <AddToCart />
-        </TopRight>
-      </RightColumn>
-      <Expanded style={{ display: isExpanded ? 'block' : isZoomed ? 'block' : 'none' }}>
-      <ImageGallery
-        isExpanded={isExpanded}
-        setIsExpanded={setIsExpanded}
-        setIsDefault={setIsDefault}
-        isDefault={isDefault}
-        setIsZoomed={setIsZoomed}
-        isZoomed={isZoomed}
-      />
-    </Expanded >
+      {status === 'default'
+        ? (
+          <>
+            <LeftColumn
+              style={{ height: '100%', width: '100%', display: 'flex' }}
+            >
+              <ImageGallery
+                status={status}
+                setStatus={setStatus}
+              />
+              <LeftBottom>
+                <br />
+                {productInfo.slogan
+            && <ProductSlogan>{productInfo.slogan}</ProductSlogan>}
+                {productInfo.description
+            && <ProductDescription>{productInfo.description}</ProductDescription>}
+              </LeftBottom>
+            </LeftColumn>
+            <RightColumn>
+              <TopRight>
+                <ProductOverview />
+                <StyleSelector />
+                <AddToCart />
+              </TopRight>
+            </RightColumn>
+          </>
+        ) : (
+          <Expanded>
+            <ImageGallery
+              status={status}
+              setStatus={setStatus}
+            />
+          </Expanded>
+        )}
     </ProductSec>
   );
-};
+}
 
 export default ProductDetail;
 
-let ProductSec = styled.div`
+const ProductSec = styled.div`
   display: grid;
   grid-row: 2;
   grid-column: 1/4;
@@ -88,12 +84,6 @@ const RightColumn = styled.div`
   grid-column: 4 / span 2;
   grid-row: 1;
   display: contents;
-  ${props => props.zoomed && css`
-    display: none;
-  `};
-  ${props => props.expanded && css`
-    display: none;
-  `};
 `;
 
 const TopRight = styled.div`
@@ -126,12 +116,3 @@ const Expanded = styled.div`
   height: 100%;
   display: flex;
 `;
-
-
-
-
-
-
-
-
-

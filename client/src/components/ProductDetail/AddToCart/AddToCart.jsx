@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
-import Button from '../../reusable/Button.jsx';
+import Button from '../../reusable/Button';
 
 function AddToCart() {
   const { selectedStyle } = useGlobalContext();
@@ -9,75 +9,87 @@ function AddToCart() {
   const [isSizeSelected, setIsSizeSelected] = useState(false);
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [inStock, setInStock] = useState(false);
-  //const [selectedSize, setSelectedSize] = useState('Select Size');
+  // const [selectedSize, setSelectedSize] = useState('Select Size');
   const [selectedSku, setSelectedSku] = useState({});
+  const [stock, setStock] = useState([]);
 
-  let options;
-
-  selectedStyle.skus && (
-    options = Object.entries(selectedStyle.skus).map(([sku, {quantity, size}]) => {
+  function getStock() {
+    const options = Object.entries(selectedStyle.skus).map(([sku, { quantity, size }]) => {
       if (quantity > 0) {
         if (inStock === false) {
           setInStock(true);
         }
-        return <Option key={sku} value={JSON.stringify({sku: sku, quantity: quantity, size: size})}>{size}</Option>
-      } else {
-        return;
+        return <Option key={sku} value={JSON.stringify({ sku, quantity, size })}>{size}</Option>;
       }
-    })
-  );
+    });
+    return options;
+  }
+
+  useEffect(() => {
+    if (selectedStyle.skus) {
+      setStock(() => getStock());
+    }
+  }, [selectedStyle]);
 
   const handleChangeSize = async (e) => {
     e.preventDefault();
     try {
-      let sku = await JSON.parse(e.target.value);
+      const sku = await JSON.parse(e.target.value);
       await setSelectedSku(sku);
-      if (sku.size.length === 0 || typeof sku.size.length !== "number") {
+      if (sku.size.length === 0 || typeof sku.size.length !== 'number') {
         setIsSizeSelected(false);
       } else {
-       // await setSelectedSize(sku.size);
+        // await setSelectedSize(sku.size);
         setIsSizeSelected(true);
       }
     } catch (err) {
       console.log('error handling select size');
     }
- };
+  };
 
   function handleChangeQuantity(e) {
     e.preventDefault();
     setSelectedQuantity(e.target.value);
-  };
+  }
 
   return (
     <Cart>
       <SelectSizeAndQuantityContainer>
         {inStock
-        ? <StyledSelect as="select"
-            //value={selectedSize}
-            onChange={(e) => handleChangeSize(e)}>
-            <Option value={JSON.stringify({size: '', quantity: 0, sku: ''})}>Select Size</Option>
-            {options}
-          </StyledSelect>
-        : <StyledSelect as="select" disabled value="Out of Stock">
-            <Option>Out of Stock</Option>
-          </StyledSelect>}
+          ? (
+            <StyledSelect
+              as="select"
+            // value={selectedSize}
+              onChange={(e) => handleChangeSize(e)}
+            >
+              <Option value={JSON.stringify({ size: '', quantity: 0, sku: '' })}>Select Size</Option>
+              {stock}
+            </StyledSelect>
+          )
+          : (
+            <StyledSelect as="select" disabled value="Out of Stock">
+              <Option>Out of Stock</Option>
+            </StyledSelect>
+          )}
         {isSizeSelected
-        ? <StyledSelect quantity as="select" value={selectedQuantity} onChange={(e) => handleChangeQuantity(e)}>
-            {selectedSku.quantity >= 15
-            ? [...Array(16).keys()].slice(1).map((num) =>
-                <Option value={num}>{num}</Option>)
-            : [...Array(selectedSku.quantity + 1).keys()].slice(1).map((num) =>
-                <Option value={num}>{num}</Option>)}
-          </StyledSelect>
-        : <StyledSelect quantity as="select" disabled >
-            <Option>––</Option>
-          </StyledSelect>}
+          ? (
+            <StyledSelect quantity as="select" value={selectedQuantity} onChange={(e) => handleChangeQuantity(e)}>
+              {selectedSku.quantity >= 15
+                ? [...Array(16).keys()].slice(1).map((num) => <Option value={num}>{num}</Option>)
+                : [...Array(selectedSku.quantity + 1).keys()].slice(1).map((num) => <Option value={num}>{num}</Option>)}
+            </StyledSelect>
+          )
+          : (
+            <StyledSelect quantity as="select" disabled>
+              <Option>––</Option>
+            </StyledSelect>
+          )}
       </SelectSizeAndQuantityContainer>
       <BagContainer>
         <AddToCartContainer type="submit" disabled={!isSizeSelected}>
           <AddToCartText words>Add to Cart</AddToCartText>
           <AddToCartText plus>+</AddToCartText>
-          </AddToCartContainer>
+        </AddToCartContainer>
         <Star type="button">&#9734;</Star>
       </BagContainer>
     </Cart>
@@ -110,7 +122,7 @@ const StyledSelect = styled(Button)`
   flex-grow: 3;
   flex-shrink: 1;
   margin-right: 1em;
-  ${props => props.quantity && css`
+  ${(props) => props.quantity && css`
     flex-basis: 6em;
     flex-grow: 1;
     flex-shrink: 3;
@@ -118,7 +130,7 @@ const StyledSelect = styled(Button)`
   `};
 `;
 
-//can combine flex-basis, grow, and shrink into one line shorthand
+// can combine flex-basis, grow, and shrink into one line shorthand
 
 const Option = styled.option`
   min-height: 0;
@@ -135,7 +147,6 @@ const BagContainer = styled.div`
   flex-shrink: 1;
 `;
 
-
 const AddToCartContainer = styled(Button)`
   padding: calc(5px + 0.5vw);
   height: 100%;
@@ -149,10 +160,10 @@ const AddToCartContainer = styled(Button)`
 const AddToCartText = styled.span`
   position: absolute;
   top: 1rem;
-  ${props => props.words && css`
+  ${(props) => props.words && css`
     left: 7.5%;
   `};
-  ${props => props.plus && css`
+  ${(props) => props.plus && css`
     right: 7.5%;
   `};
 `;

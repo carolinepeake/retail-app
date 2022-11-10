@@ -1,190 +1,191 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, {
+  useEffect, useState, useRef,
+} from 'react';
 import styled, { css } from 'styled-components';
-import { MdArrowForwardIos, MdArrowBackIos, MdExpandMore, MdExpandLess } from 'react-icons/md';
+import {
+  MdArrowForwardIos, MdArrowBackIos, MdExpandMore, MdExpandLess,
+} from 'react-icons/md';
 
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
-function ImageGallery({ setIsExpanded, isExpanded, setIsDefault, isDefault, setIsZoomed, isZoomed }) {
+function ImageGallery({ status, setStatus }) {
+  const { productInfo, selectedStyle } = useGlobalContext();
 
-  const { productInfo, styles, selectedStyle, setSelectedStyle } = useGlobalContext();
-  const [imageUrl, setImageUrl] = useState('');
-  const [photos, setPhotos] = useState([]);
-  const [main, setMain] = useState({});
-  const [place, setPlace] = useState(0);
-  const [photosLength, setPhotosLength] = useState(0);
-  const [isScrollableBothDirection, setIsScrollableBothDirection] = useState(false);
   const imageContainer = useRef(null);
+
+  const [place, setPlace] = useState(0);
+  // const [main, setMain] = useState('');
+  const [thumbnails, setThumbnails] = useState([]);
+
+  const getThumbnails = () => {
+    const thumbnailsArray = selectedStyle.photos.map((photo, index) => (
+      <Thumbnail
+        src={photo.thumbnail_url}
+        key={photo.url}
+        index={index}
+        alt={`${selectedStyle.name} thumbnail`}
+        onClick={() => setPlace(index)}
+        style={{ boxShadow: index === place ? '7px 7px 5px #242424' : '', transform: index === place ? 'scale(1.025)' : '', transition: index === place ? 'transform 0.25s ease' : '' }}
+      />
+    ));
+    return thumbnailsArray;
+  };
+
+  useEffect(() => {
+    if (selectedStyle.photos) {
+      setThumbnails(() => getThumbnails());
+    }
+  }, [selectedStyle]);
+
+  // useEffect(() => {
+  //   if (selectedStyle.photos) {
+  //     setMain(() => selectedStyle.photos[place || 0].url);
+  //   }
+  // }, [selectedStyle, place]);
+
+  function handleClickArrow(n) {
+    setPlace((prev) => prev + n);
+  }
+
   const [xPerc, setXPerc] = useState('');
   const [yPerc, setYPerc] = useState('');
 
-  useEffect(() => {
-    function getPhotos() {
-      if (photos) {
-        setMain(() => photos[place]);
-        setPhotosLength(() => photos.length);
-      }
-    }
-    function getUrl() {
-      if (main) {
-        setImageUrl(() => main.url);
-      }
-    }
-    setPhotos(() => selectedStyle.photos);
-    getPhotos();
-    getUrl();
-  }, [selectedStyle, photos, main, place]);
-
-  function changeMain(e, value) {
-    setPlace(() => value);
-  };
-
-  function handleClickArrow(n, e) {
-    setPlace((prev) => prev + n);
-  };
-
   function getProportionalZoom(e) {
-    let containerWidth = imageContainer.current.clientWidth;
-    let x = e.pageX - imageContainer.current.offsetLeft;
-    let y = e.pageY - imageContainer.current.offsetTop;
-    var xPercent = (x / (containerWidth / 100)) * 1.5 + '%';
-    var yPercent = (y / (containerWidth / 100)) * 1.5 + '%';
+    const containerWidth = imageContainer.current.clientWidth;
+    const x = e.pageX - imageContainer.current.offsetLeft;
+    const y = e.pageY - imageContainer.current.offsetTop;
+    const xPercent = `${(x / (containerWidth / 100)) * 1.5}%`;
+    const yPercent = `${(y / (containerWidth / 100)) * 1.5}%`;
     setXPerc(() => xPercent);
     setYPerc(() => yPercent);
-  };
+  }
 
-  function handleExpandMain(e) {
-    if (isExpanded && !isZoomed) {
-      getProportionalZoom(e);
-      setIsExpanded(false);
-      setIsZoomed(true);
-    } else if (!isExpanded && !isZoomed) {
-      setIsExpanded(true);
-      setIsDefault(false);
-    } else if (isZoomed) {
-      setIsExpanded(true);
-      setIsZoomed(false);
+  function handleClickMain(e) {
+    e.preventDefault();
+    switch (status) {
+      case 'default':
+        setStatus(() => 'expanded');
+        break;
+      case 'expanded':
+        setStatus(() => 'zoomed');
+        getProportionalZoom(e);
+        break;
+      case 'zoomed':
+        setStatus(() => 'expanded');
+        break;
+      default:
+        console.log('error handling expand main');
     }
-  };
+  }
 
   function handlePanImage(e) {
-    if (isExpanded || isZoomed) {
+    if (status !== 'default') {
       getProportionalZoom(e);
     }
-  };
+  }
 
-  const handleClickExit = async(e) => {
-    try {
-      await setIsZoomed(false);
-      await setIsDefault(true);
-      await setIsExpanded(false);
-    } catch (err) {
-      console.log('error handling click exit expanded view', err);
-    }
-  };
+  function handleClickExit() {
+    setStatus(() => 'default');
+  }
 
   return (
-    <ImageGalleryContainer expanded={isExpanded} default={isDefault} zoomed={isZoomed} ref={imageContainer}>
+    <ImageGalleryContainer
+      status={status}
+      ref={imageContainer}
+    >
+      {selectedStyle.photos
+      && (
       <Main
-        src={imageUrl}
+        src={selectedStyle.photos[place || 0].url}
         alt={`${productInfo.name} in ${selectedStyle.name} style`}
-        onClick={(e) => handleExpandMain(e)}
+        onClick={(e) => handleClickMain(e)}
+        status={status}
         onMouseMove={(e) => handlePanImage(e)}
-        expanded={isExpanded}
-        default={isDefault}
-        zoomed={isZoomed}
         xPercent={xPerc}
         yPercent={yPerc}
-        style={{cursor: isExpanded ? 'zoom-in' : isZoomed ? 'zoom-out' : isDefault ? 'zoom-in' : 'zoom-in', transform: isDefault ? 'translate(50% 50%) scale(0.4)' : '', }}
       />
-      <Side full={photosLength > 7} middle={place !== 0 && place !== photosLength - 1} expanded={isExpanded}
-        zoomed={isZoomed} default={isDefault}>
-      {(photosLength > 7 && place !== 0)
-       && <Buttons scroll
-            onClick={(e) => handleClickArrow(-1, e)}
-          >
-            <MdExpandLess style={{ fontSize: '1.25em' }}/>
-          </Buttons>}
-      {photos
-       && photos.map((photo, index) => {
-         if (place <= 6 && index <= 6) {
-             return (
-              <Thumbnail
-                src={photo.thumbnail_url}
-                key={photo.url}
-                index={index}
-                alt={`${selectedStyle.name} thumbnail`}
-                onClick={(e) => changeMain(e, index)}
-                style={{boxShadow: index === place ? '7px 7px 5px #242424' : '', transform: index === place ? 'scale(1.025)' : '', transition: index === place ? 'transform 0.25s ease' : ''}}
-              />
-             )
-          } else if (index >= place - 6 && index <= place) {
-            return (
-              <Thumbnail
-              src={photo.thumbnail_url}
-              key={photo.url}
-              index={index}
-              alt=""
-              onClick={(e) => changeMain(e, index)}
-              style={{boxShadow: index === place ? "7px 7px 5px #242424" : '', transform: index === place ? "scale(1.025)" : '', transition: index === place ? "transform 0.25s ease" : ''}}
-            />
-            )
-          } else {
-            return;
-          }
-        })}
-      {(photosLength > 7 && place !== photosLength - 1)
-      &&  <Buttons scroll
-            onClick={(e) => handleClickArrow(1, e)}
-          >
-            <MdExpandMore style={{ fontSize: '1.25em' }}/>
-          </Buttons>}
-        </Side>
-    {photosLength < 4 && place > 0
-    &&  <Buttons left expanded={isExpanded}
-          onClick={(e) => handleClickArrow(-1, e)}
-          zoomed={isZoomed}
-        >
-          <MdArrowBackIos style={{ fontSize: '1.5rem', paddingLeft: '0.5rem', paddingTop: '0.25rem' }}/>
-        </Buttons>}
-    {place > 0 && photosLength >= 4
-    &&  <Buttons farLeft expanded={isExpanded}
-          onClick={(e) => handleClickArrow(-1, e)}
-          zoomed={isZoomed}
-        >
-          <MdArrowBackIos style={{ fontSize: '1.5rem', paddingLeft: '0.25em', paddingTop: '0.25rem' }} />
-        </Buttons>}
-    {place < photosLength - 1
-    &&  <Buttons right
-          onClick={(e) => handleClickArrow(1, e)}
-          zoomed={isZoomed}
-        >
-          <MdArrowForwardIos style={{ fontSize: '1.5rem', paddingTop: '0.25rem' }}/>
-        </Buttons>}
+      )}
 
-      <Exit onClick={(e) => handleClickExit(e)}
-      expanded={isExpanded}
-      default={isDefault}
-      zoomed={isZoomed}
-      >&times;</Exit>
-      <ThumbnailIcons
-        expanded={isExpanded}
-        default={!isExpanded}
-        zoomed={isZoomed}
-      >
-      {photos
-       && photos.map((photo, index) => {
-        return <IconContainer  key={index}
-        index={index} onClick={(e) => changeMain(e, index)}
-        style={{fontSize: '1.5rem', border: index === place ? "solid black thin" : 'none', transform: index === place ? "scale(1.025)" : '', transition: index === place ? "transform 0.25s ease" : '', cursor: 'pointer', borderRadius: '50px', margin: '0.5em', boxShadow: index === place ? '5px 5px 5px #727272' : ''}}
+      {status === 'default'
+        && (
+        <Side
+          full={() => thumbnails.length > 7}
+          middle={place !== 0 && place !== thumbnails.length - 1}
+          status={status}
         >
-          <Circle/>
-        </IconContainer>
-       })
-      }
+          {place <= 6
+            ? thumbnails.slice(0, 7)
+            : (
+              <>
+                <Buttons
+                  scroll
+                  onClick={() => handleClickArrow(-1)}
+                  style={{ display: place === 0 ? 'none' : '' }}
+                >
+                  <MdExpandLess style={{ fontSize: '1.25em' }} />
+                </Buttons>
+                {thumbnails.slice(place, place + 7)}
+                {place !== thumbnails.length - 1
+                && (
+                  <Buttons
+                    scroll
+                    onClick={() => handleClickArrow(1)}
+                  >
+                    <MdExpandMore style={{ fontSize: '1.25em' }} />
+                  </Buttons>
+                )}
+              </>
+            )}
+        </Side>
+        )}
+
+      {status !== 'zoomed'
+      && (
+        <>
+          <Buttons
+            style={{ left: thumbnails.length < 4 || status === 'expanded' ? '2%' : '15%', display: place === 0 ? 'none' : 'block' }}
+            onClick={() => handleClickArrow(-1)}
+          >
+            <MdArrowBackIos style={{ fontSize: '1.5rem', paddingLeft: '0.5rem', paddingTop: '0.25rem' }} />
+          </Buttons>
+          <Buttons
+            style={{ right: '2%', display: place === thumbnails.length - 1 ? 'none' : 'block' }}
+            onClick={() => handleClickArrow(1)}
+          >
+            <MdArrowForwardIos style={{ fontSize: '1.5rem', paddingTop: '0.25rem' }} />
+          </Buttons>
+        </>
+      )}
+
+      {status === 'expanded'
+    && (
+    <>
+      <Exit
+        onClick={() => handleClickExit()}
+      >
+        &times;
+      </Exit>
+      <ThumbnailIcons>
+        {selectedStyle.photos
+        && selectedStyle.photos.map((photo, index) => (
+          <IconContainer
+            key={photo.url}
+            index={index}
+            onClick={() => setPlace(index)}
+            style={{
+              fontSize: '1.5rem', border: index === place ? 'solid black thin' : 'none', transform: index === place ? 'scale(1.025)' : '', transition: index === place ? 'transform 0.25s ease' : '', cursor: 'pointer', borderRadius: '50px', margin: '0.5em', boxShadow: index === place ? '5px 5px 5px #727272' : '',
+            }}
+          >
+            <Circle />
+          </IconContainer>
+        ))}
       </ThumbnailIcons>
+    </>
+    )}
+
     </ImageGalleryContainer>
   );
-};
+}
 
 const ImageGalleryContainer = styled.div`
   width: 100%;
@@ -193,7 +194,7 @@ const ImageGalleryContainer = styled.div`
   max-width: 800px;
   max-height: 800px;
   position: relative;
-  ${props => props.default && css`
+  ${(props) => props.status === 'default' && css`
     display: grid;
     grid-template-columns: repeat(7, minmax(0, 1fr));
     grid-template-rows: 100%;
@@ -204,7 +205,7 @@ const ImageGalleryContainer = styled.div`
     overflow: hidden;
     position: relative;
   `};
-  ${props => props.expanded && css`
+  ${(props) => props.status === 'expanded' && css`
   width: 100%;
   display: flex;
   grid-row: 1;
@@ -216,7 +217,7 @@ const ImageGalleryContainer = styled.div`
   align-items: center;
   align-content: center;
   `};
-  ${props => props.zoomed && css`
+  ${(props) => props.status === 'zoomed' && css`
   width: 100%;
   display: flex;
   grid-row: 1;
@@ -244,7 +245,7 @@ const Main = styled.img`
   grid-column: 1 / 8;
   grid-row: 1/ 2;
   overflow: hidden;
-  ${props => props.default && css`
+  ${(props) => props.status === 'default' && css`
   width: 100%;
   display: grid;
   max-width: 800px;
@@ -256,20 +257,25 @@ const Main = styled.img`
   overflow: hidden;
   transition: translate 0.25s smooth transform 0.25s ease;;
   position: absolute;
+  cursor: zoom-in;
   `};
-  ${props => props.expanded && css`
+  ${(props) => props.status === 'expanded' && css`
   z-index: 3;
+  cursor: crosshair
   `};
-  ${props => props.zoomed && css`
+  ${(props) => props.status === 'zoomed' && css`
     z-index: 3;
     transform: scale(2.5);
     transition: transform 0.25s ease;
     transform-origin: top left;
     transition: translate 0.25s smooth;
     position: absolute;
-    translate: ${props => '-' + props.xPercent} ${props=> '-' + props.yPercent};
+    translate: ${props => '-' + props.xPercent} ${props => '-' + props.yPercent};
+    cursor: zoom-out;
   `};
 `;
+// transform: translate(50% 50%) scale(0.4);
+// translate: ${(props) => `-${props.xPercent}`} ${(props) => `-${props.yPercent}`};
 
 // journal: needed to have display: grid (along with position: relative) to display image underneath thumbnail images with larger z-indexes, even though no grid-template columns or rows were set on the background image with display: grid;
 
@@ -278,23 +284,21 @@ const Main = styled.img`
 // fill is a css property you can use to color in icons
 
 // to make font-size responsive, set the root font-size to be a porportion of the view width, i.e. html {
- //font-size: () => 15px + 0.3vw;  // not 100% on my syntax but that's the jist
-//},
-  // buttons, inputs, selects and some other elements have default broswer font-size, padding, and other settings that are not overridden by a general font-size change and using rem or em
-
+// font-size: () => 15px + 0.3vw;  // not 100% on my syntax but that's the jist
+// },
+// buttons, inputs, selects and some other elements have default broswer font-size, padding, and other settings that are not overridden by a general font-size change and using rem or em
 
 // file input elements should work for mobile, and suggest file, access camera, access photos
 
-
 // advice to incoming HR students:
-  // pay special attentiom to data structures and algorithims
-  // time management is key
-  // what stack overflow is
-  // theres youtube videos with instructions/lessons
-  // almost everything you are going to do has been done before
-  // be careful not to spin your wheels too much/too long
-  // get a solid note taking strategy /organization strategy down before class starts (recs; notation)
-  // second monitor
+// pay special attentiom to data structures and algorithims
+// time management is key
+// what stack overflow is
+// theres youtube videos with instructions/lessons
+// almost everything you are going to do has been done before
+// be careful not to spin your wheels too much/too long
+// get a solid note taking strategy /organization strategy down before class starts (recs; notation)
+// second monitor
 
 const Side = styled.div`
   flex-direction: column;
@@ -311,15 +315,9 @@ const Side = styled.div`
   align-items: stretch;
   height: max-content;
   display: flex;
-  ${props => (props.full && props.middle) && css`
+  ${(props) => (props.full && props.middle) && css`
     height: 100%;
     justify-items: space-evenly;
-  `};
-  ${props => props.expanded && css`
-    display: none;
-  `};
-  ${props => props.zoomed && css`
-    display: none;
   `};
 `;
 
@@ -353,10 +351,7 @@ const Buttons = styled.button`
   z-index: 3;
   top: 48%;
   position: absolute;
-  left: ${props => props.left && '2%'};
-  right: ${props => props.right && '2%'};
-  left: ${props => props.farLeft && '15%'};
-  ${props => props.scroll && css`
+  ${(props) => props.scroll && css`
     height: 1rem;
     width: 1rem;
     align-self: center;
@@ -364,10 +359,7 @@ const Buttons = styled.button`
     z-index: 4;
     position: relative;
   `};
-  left: ${props => props.expanded && '2%'};
-  ${props => props.zoomed && css`
-    display: none;
-  `};
+  left: ${(props) => props.status === 'expanded' && '2%'};
 `;
 
 const Exit = styled.button`
@@ -389,11 +381,6 @@ const Exit = styled.button`
   width:1.5em;
   height: 1.5em;
   line-height: 1em;
-  display: none;
-  ${props => props.expanded && css`
-    display: block;
-  `};
-
 `;
 
 const ThumbnailIcons = styled.div`
@@ -407,9 +394,6 @@ const ThumbnailIcons = styled.div`
   display: flex;
   border-radius: 2.5px;
   padding-right: 1em;
-  ${props => (props.default || props.zoomed) && css`
-    display: none;
-  `};
 `;
 
 const IconContainer = styled.button`
@@ -435,8 +419,3 @@ const Circle = styled.span`
 `;
 
 export default ImageGallery;
-
-
-
-
-
