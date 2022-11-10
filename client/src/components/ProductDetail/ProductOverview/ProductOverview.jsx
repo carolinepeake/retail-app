@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { IoLogoFacebook, IoLogoTwitter, IoLogoPinterest } from 'react-icons/Io';
+import { IoLogoFacebook, IoLogoTwitter, IoLogoPinterest } from 'react-icons/io';
 import RatingsAndReviews from '../../RatingsAndReviews/RatingsAndReviews';
 import POStars from './POStars';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
