@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { IoIosCheckmarkCircle } from 'react-icons/Io';
+import { IoIosCheckmarkCircle } from 'react-icons/io';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
 function StyleSelector() {
