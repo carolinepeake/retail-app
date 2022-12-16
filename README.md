@@ -28,7 +28,7 @@ A bold clothing and fashion retail website
 
 ### Step 1
 ```
-$ git clone https://github.com/HR-Zelda/retail-app.git
+$ git clone https://github.com/HR-Zelda/Atelier-Fashion.git
 $ cd Atelier-Fashion
 $ npm install
 $ npm run build
