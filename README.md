@@ -60,3 +60,6 @@ This project has 4 main sections for a product each with various functionalities
 4. Ratings & Reviews
 ![Screen Shot 2022-07-23 at 3 42 24 PM (1)](https://user-images.githubusercontent.com/20650665/207993515-339f3346-7e5f-4e90-96a7-53a9e582fcaf.png)
   <br>The ratings and reviews section shows all reviews for the current product being displayed, as well as a breakdown of the ratings and product characteristics. The list of reviews can be sorted by relevance, helpfulness, or date. The user can also filter reviews by their star ratings. A user may add their own review to the list. Reviews can also be marked as helpful or reported.
+  
+
+© Atelier Fashion 2022  
