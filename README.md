@@ -1,4 +1,7 @@
-![Item Shop - Product Zoom](https://user-images.githubusercontent.com/100883305/208582528-d3841018-27c5-4cb6-b6af-057f5575f2dd.gif)
+<h1>
+<textAlign="center>
+
+<h1/>
 
  <img src="https://imgur.com/DjbSPnD.gif" alt="Product Zoom"/>
  
