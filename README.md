@@ -39,19 +39,19 @@ This project has 4 main sections for a product each with various functionalities
 
 <!--  ![Product Overview Screenshot](images/product_overview.png)-->
 
-  [Product Overview Screenshot](Project Screenshots/product_overview.png)
+  [Product Overview Screenshot](/Project%Screenshots/product_overview.png)
   
   <br>The Product Overview section displays product information, available styles, and an image gallery for the product. Users may select a particular style by clicking on its thumbnail, and view additional images of this style by clicking through the image carousel to the left of the expanded image.
   Clicking on the main image will open the expanded view, and clicking on the expanded view will zoom the image and allow the user to pan and zoom the image on hover. Gif demo below.
   
  <!-- ![Product Zoom Demo] (images/zoom_demo.gif)-->
             
- [Product Zoom Demo](Project Screenshots/zoom_demo.gif)
+ [Product Zoom Demo](/Project%Screenshots/zoom_demo.gif)
   
   
 2. Related Products
 <!--![Related Products Screenshot](images/related_new.png)-->
-![Related Products Screenshot](Project Screenshots/Screen Shot 2023-04-19 at 8.19.41 AM.png)
+[Related Products Screenshot](/Project Screenshots/Screen Shot 2023-04-19 at 8.19.41 AM.png)
 
   <br>The Related Products section displays a list of products related to the current item at the top. Users can navigate through the list and click on a product to be redirected to that product's page. Users can utilize the outfit list by adding/removing products they might be interested in.
 
