@@ -80,6 +80,72 @@ To support the upload of user pictures for the ratings and reviews section, you 
 
 ## Contributors
 
+<!-- CONTACT -->
+## Contributors
+
+<table>
+  <tr>
+    <th>Caroline P.</th>
+    <th>Andy </th>
+    <th>Gary</th>
+    <th>Ibrahem</th>
+  </tr>
+  <!-- Sections -->
+   <tr>
+    <td>
+     <tc>Product Overview & Related Products Image Carousel</tc>
+    <th>Related Products Cards and Outfit</th>
+    <th>Questions and Answers</th>
+    <th>Ratings and Reviews</th>
+    </td>
+     </tr>
+  <tr>
+    <td>
+<!-- GITHUB LINKS      -->
+      <a href="https://github.com/carolinepeake"> <!-- Caroline    -->
+        <img src="https://img.shields.io/badge/github%20-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/>
+      </a>
+    <td>
+      <a href="https://github.com/andy"> <!-- Andy    -->
+        <img src="https://img.shields.io/badge/github%20-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/>
+      </a>
+    </td>
+    <td>
+      <a href="https://github.com/gary"> <!-- Gary    -->
+        <img src="https://img.shields.io/badge/github%20-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/>
+      </a>
+    </td>
+    <td>
+      <a href="https://github.com/ibr"> <!-- Ibr    -->
+        <img src="https://img.shields.io/badge/github%20-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/>
+      </a>
+    </td>
+    </td>
+  <tr>
+      <!-- LINKEDIN LINKS      -->
+    <td>
+      <a href="https://www.linkedin.com/in/carolinepeake/"> <!-- Caroline    -->
+        <img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/>
+      </a>
+    </td>
+    <td>
+      <a href="https://www.linkedin.com/in/andy/">  <!-- Andy    -->
+        <img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/>
+      </a>
+    </td>
+    <td>
+      <a href="https://www.linkedin.com/in/gary/">  <!-- Gary    -->
+        <img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/>
+      </a>
+    </td>
+     <td>
+      <a href="https://www.linkedin.com/in/Ibr/"> <!-- Ibr    -->
+        <img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/>
+      </a>
+    </td>
+</table>
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Tech Stack
 
