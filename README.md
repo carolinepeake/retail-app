@@ -37,10 +37,14 @@ To support the upload of user pictures for the ratings and reviews section, you 
 ## Overview
 This project has 4 main sections for a product each with various functionalities.
 1. Product Overview
+<img width="909" alt="Screen Shot 2023-04-19 at 7 48 17 AM" src="https://user-images.githubusercontent.com/100883305/233071758-3e8fff0e-9e13-4391-a8c6-a3cb791f2300.png">
+
   ![Screen Shot 2022-07-23 at 3 48 01 PM](https://user-images.githubusercontent.com/20650665/207993230-649b0cb7-bfed-45a7-ae4a-56ea2cf4d112.png)
   <br>The Product Overview section displays product information, available styles, and an image gallery for the product. Users may select a particular style by clicking on its thumbnail, and view additional images of this style by clicking through the image carousel to the left of the expanded image.
   
 2. Related Products
+![image](https://user-images.githubusercontent.com/100883305/233071955-4c0ac370-1ef6-48ef-9a91-e9f2105b224a.png)
+
 ![Screen Shot 2022-07-23 at 3 48 41 PM](https://user-images.githubusercontent.com/20650665/207993311-ad4d0550-598d-402a-9c29-78b62ab68d68.png)
   <br>The Related Products section displays a list of products related to the current item at the top. Users can navigate through the list and click on a product to be redirected to that product's page. Users can utilize the outfit list by adding/removing products they might be interested in.
 
