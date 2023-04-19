@@ -83,6 +83,7 @@ This project has 4 main sections for a product each with various functionalities
   <br>The Related Products section displays an image carousel of products related to the product currently being viewed. The carousel displays a maximum of 4 items at a time, and users can navigate through any additional related items by clicking the arrows on the right and left side of the carousel, unless the first or last item is showing. Clicking on a product card redirects to that product's page. Users can utilize the outfit list by adding/removing products they might be interested in.
 3. Questions & Answers
   <br>The Questions & Answers section contains a search bar, questions and answers, as well as many more features. Users are also able to add their own question they have about a product. Each question can be marked as helpful or reported, and can also be answered. The search bar will allow the user to filter out questions for any specific term they want to look for.
+  Project Screenshots/Screen Shot 2022-07-23 at 3.42.24 PM.png
 4. [Ratings & Reviews](https://github.com/HR-Zelda/retail-app/blob/main/Project%20Screenshots/Screen%20Shot%202022-07-23%20at%203.42.24%20PM.png)
   <br>The ratings and reviews section shows all reviews for the current product being displayed, as well as a breakdown of the ratings and product characteristics.. The list of reviews can be sorted by relevance, helpfulness, or date. The user can also filter reviews by their star ratings. A user may add their own review to the list. Reviews can also be marked as helpful or reported.
   
