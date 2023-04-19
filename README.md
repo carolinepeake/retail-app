@@ -4,11 +4,13 @@
 <h1/>
 
 ## Overview
-This repository is a single-page Javascript application that contains 4 main sections and a navigation bar. The sections include Product Overview, Related Products, Questions and Answers, and Ratings and Reviews. In this readme, I will first give an overview of each section, explain how to get started running the application, list the relevant technologies, and finally, list the developers and their contact information.
+This repository is a single-page Javascript application that contains 4 main sections and a navigation bar. The sections include Product Overview, Related Products, Questions and Answers, and Ratings and Reviews. 
                        
-I forked this code repository from the developers' group repository and made significant changes to it before publishing the new repository to my personal github.
+I forked this code repository from the developers' group repository and made significant changes to it before publishing it to my personal github.
 
-<bold>My contributions include</bold> developing the product overview section, refactoring the related items image carousel to scroll correctly, display arrows only when scrolling is possible, and include a masking effect, adding breakpoints to the navigation bar, standardizing the application's spacing, font, and the sizing and styling of some repeated components, and making the application responsive.                       
+<bold>My individual contributions include</bold> developing the product overview section, refactoring the related items image carousel to scroll correctly, display arrows only when scrolling is possible, and include a masking effect, adding breakpoints to the navigation bar, standardizing the application's spacing, font, and the sizing and styling of some repeated components, and making the application responsive.   
+                       
+In this readme, I will first give an overview of each section, explain how to get started running the application, list the relevant technologies, and finally, list the developers and their contact information.
                        
                         
 ## Components
