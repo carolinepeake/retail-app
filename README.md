@@ -37,7 +37,7 @@ My individual contributions include: <!-- INCLUDE SCREENSHOTS -->
   
 ![Product Zoom Demo] (https://user-images.githubusercontent.com/100883305/233085544-081dd73e-ced4-42be-997a-ca6defee1bcd.gif)
  
- <h3>Gif demonstrating the product overview's zoom and pan features<h3/>
+ <h3>Gif demonstrating the product overview's zoom and pan features</h3>
  
  <!-- ![Product Zoom Demo] (images/zoom_demo.gif)-->
  
