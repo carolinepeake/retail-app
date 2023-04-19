@@ -1,19 +1,24 @@
 <h1>
 <textAlign="center>
-<a href="#readme-top">
+  <a href="#readme-top">Atelier Fashion: Retail Application</a>
 <h1/>
 
 ## Overview
-This repository is a single-page retail application that contains 4 main sections. The sections include Product Overview, Related Products, Questions and Answers, and Ratings and Reviews. And there is a navigation bar at the top. 
+This repository is a single-page Javascript application that contains 4 main sections and a navigation bar. The sections include Product Overview, Related Products, Questions and Answers, and Ratings and Reviews. In this readme, I will first give an overview of each section, explain how to get started running the application, list the relevant technologies, and finally, list the developers and their contact information.
+                       
+I forked this code repository from the developers' group repository and made significant changes to it before publishing the new repository to my personal github.
+
+<bold>My contributions include</bold> developing the product overview section, refactoring the related items image carousel to scroll correctly, display arrows only when scrolling is possible, and include a masking effect, adding breakpoints to the navigation bar, standardizing the application's spacing, font, and the sizing and styling of some repeated components, and making the application responsive.                       
+                       
                         
 ## Components
 1. Product Overview
 
 <!--  ![Product Overview Screenshot](images/product_overview.png)-->
   
-<img width="909" alt="product_overview" src="https://user-images.githubusercontent.com/100883305/233085638-2442e07a-9868-4fa0-bc14-cb01ee6b42dd.png">
+<img align="center" width="950" alt="product_overview" src="https://user-images.githubusercontent.com/100883305/233085638-2442e07a-9868-4fa0-bc14-cb01ee6b42dd.png">
   
-  ![product_overview_nav]<img width="1042" alt="product_nav" src="https://user-images.githubusercontent.com/100883305/233090260-aa25d48e-66e7-4305-bf44-644c31c88e5e.png">
+ <img align="center" width="950" alt="product_nav" src="https://user-images.githubusercontent.com/100883305/233090260-aa25d48e-66e7-4305-bf44-644c31c88e5e.png">
 
 
   <br>The Product Overview section displays product information, available styles, and an image gallery for the selected product. Users may select a particular style by clicking on its thumbnail, and view additional images of this style by clicking through the image carousel on the left side of the main image or using the forward and back arrows to either side of the main image.Clicking on the main image will expand it and clicking on the expanded image will zoom the image 2.5 times and allow the user to pan the zoom image on hover.Clicking the main image again will exit the enlarged view. See gif below for a demonstration of the zoom and pan feature.
@@ -21,26 +26,26 @@ This repository is a single-page retail application that contains 4 main section
   
  <!-- ![Product Zoom Demo] (images/zoom_demo.gif)-->
  
-  ![zoom_demo](img width="1042" alt="product_nav" src="https://user-images.githubusercontent.com/100883305/233085544-081dd73e-ced4-42be-997a-ca6defee1bcd.gif")
+  (img width="950" align="center" alt="product_nav" src="https://user-images.githubusercontent.com/100883305/233085544-081dd73e-ced4-42be-997a-ca6defee1bcd.gif")
   
   
 2. Related Products
 <!--![Related Products Screenshot](images/related_new.png)-->
    
-    <img width="1126" alt="new_related" src="https://user-images.githubusercontent.com/100883305/233085678-8e730dc7-8c6d-46c0-a64c-9538456da3a9.png">
+    <img width="950" align="center" alt="new_related" src="https://user-images.githubusercontent.com/100883305/233085678-8e730dc7-8c6d-46c0-a64c-9538456da3a9.png">
 
   <br>The Related Products section displays an image carousel of products related to the product currently being viewed. The carousel displays a maximum of 4 items at a time, and users can navigate through any additional related items by clicking the arrows on the right and left side of the carousel, unless the first or last item is showing. Clicking on a product card redirects to that product's page. Users can utilize the outfit list by adding/removing products they might be interested in. 
 
 3. Questions & Answers
 <!--![Questions and Answers Screenshot](images/qa.png)-->
 
-(img width="1042" alt="questions and answers src="https://user-images.githubusercontent.com/100883305/233085608-99418387-8828-49e0-9506-a422b7b0260d.png")
+(img width="950" align="center" alt="questions and answers src="https://user-images.githubusercontent.com/100883305/233085608-99418387-8828-49e0-9506-a422b7b0260d.png")
   <br>The Questions & Answers section contains a search bar, questions and answers, as well as many more features. Users are also able to add their own question they have about a product. Each question can be marked as helpful or reported, and can also be answered. The search bar will allow the user to filter out questions for any specific term they want to look for.
 
 4. Ratings & Reviews
 <!--![Ratings and Reviews Screenshot](images/review.png)-->
      
-(img width="1042" alt="ratings and reviews" src="https://user-images.githubusercontent.com/100883305/233085585-5bdfec2f-ac1d-46e8-a786-4a4383b41fa5.png")
+(img width="950" align="center" alt="ratings and reviews" src="https://user-images.githubusercontent.com/100883305/233085585-5bdfec2f-ac1d-46e8-a786-4a4383b41fa5.png")
   <br>The ratings and reviews section shows all reviews for the current product being displayed, as well as a breakdown of the ratings and product characteristics.. The list of reviews can be sorted by relevance, helpfulness, or date. The user can also filter reviews by their star ratings. A user may add their own review to the list. Reviews can also be marked as helpful or reported.
             
   <p align="right">(<a href="#readme-top">back to top</a>)</p>
