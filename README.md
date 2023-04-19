@@ -47,11 +47,13 @@ This project has 4 main sections for a product each with various functionalities
  <!-- ![Product Zoom Demo] (images/zoom_demo.gif)-->
             
  [Product Zoom Demo](/Project%Screenshots/zoom_demo.gif)
+ ![Product Zoom Demo]  (https://github.com/carolinepeake/retail-app/blob/d49e9bebf3c538728f63e6a0a55a2521e08890c1/Project%20Screenshots/product_overview.png)
   
   
 2. Related Products
 <!--![Related Products Screenshot](images/related_new.png)-->
 [Related Products Screenshot](/Project Screenshots/Screen Shot 2023-04-19 at 8.19.41 AM.png)
+   [Related Products Screenshot] (https://github.com/carolinepeake/retail-app/blob/d49e9bebf3c538728f63e6a0a55a2521e08890c1/Project%20Screenshots/Screen Shot 2023-04-19 at 8.19.41 AM.png)
 
   <br>The Related Products section displays a list of products related to the current item at the top. Users can navigate through the list and click on a product to be redirected to that product's page. Users can utilize the outfit list by adding/removing products they might be interested in.
 
