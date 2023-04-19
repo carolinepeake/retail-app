@@ -2,8 +2,48 @@
 <textAlign="center>
 
 <h1/>
+
+## Overview
+This repository is a single-page retail application that contains 4 main sections. The sections include Product Overview, Related Products, Questions and Answers, and Ratings and Reviews. Additionally, there is a navigation bar at the top. 
+            
+## Components
+1. Product Overview
+
+<!--  ![Product Overview Screenshot](images/product_overview.png)-->
+  
+  ![product_overview] <img width="909" alt="product_overview" src="https://user-images.githubusercontent.com/100883305/233085638-2442e07a-9868-4fa0-bc14-cb01ee6b42dd.png">
+  
+  ![product_overview_nav]<img width="1042" alt="product_nav" src="https://user-images.githubusercontent.com/100883305/233090260-aa25d48e-66e7-4305-bf44-644c31c88e5e.png">
+
+
+  <br>The Product Overview section displays product information, available styles, and an image gallery for the selected product. Users may select a particular style by clicking on its thumbnail, and view additional images of this style by clicking through the image carousel on the left side of the main image or using the forward and back arrows to either side of the main image.Clicking on the main image will expand it and clicking on the expanded image will zoom the image 2.5 times and allow the user to pan the zoom image on hover.Clicking the main image again will exit the enlarged view. See gif below for a demonstration of the zoom and pan feature.
+  <!-- Again, to click through the different photographs of the selectded style, use the arrows or click the black circles representing the different images available on the left side of the main image. Users may still view additional images of the selected style by clicking on a corresponding icon on the left side of the main image or using the arrows to either side of the main image. -->
+  
+ <!-- ![Product Zoom Demo] (images/zoom_demo.gif)-->
  
-<!-- GETTING STARTED -->
+  ![zoom_demo](https://user-images.githubusercontent.com/100883305/233085544-081dd73e-ced4-42be-997a-ca6defee1bcd.gif)
+  
+  
+2. Related Products
+<!--![Related Products Screenshot](images/related_new.png)-->
+   
+   ![related_products] <img width="1126" alt="new_related" src="https://user-images.githubusercontent.com/100883305/233085678-8e730dc7-8c6d-46c0-a64c-9538456da3a9.png">
+
+  <br>The Related Products section displays an image carousel of products related to the product currently being viewed. The carousel displays a maximum of 4 items at a time, and users can navigate through any additional related items by clicking the arrows on the right and left side of the carousel, unless the first or last item is showing. Clicking on a product card redirects to that product's page. Users can utilize the outfit list by adding/removing products they might be interested in. 
+
+3. Questions & Answers
+<!--![Questions and Answers Screenshot](images/qa.png)-->
+
+![qa](https://user-images.githubusercontent.com/100883305/233085608-99418387-8828-49e0-9506-a422b7b0260d.png)
+  <br>The Questions & Answers section contains a search bar, questions and answers, as well as many more features. Users are also able to add their own question they have about a product. Each question can be marked as helpful or reported, and can also be answered. The search bar will allow the user to filter out questions for any specific term they want to look for.
+
+4. Ratings & Reviews
+<!--![Ratings and Reviews Screenshot](images/review.png)-->
+     
+![review](https://user-images.githubusercontent.com/100883305/233085585-5bdfec2f-ac1d-46e8-a786-4a4383b41fa5.png)
+  <br>The ratings and reviews section shows all reviews for the current product being displayed, as well as a breakdown of the ratings and product characteristics.. The list of reviews can be sorted by relevance, helpfulness, or date. The user can also filter reviews by their star ratings. A user may add their own review to the list. Reviews can also be marked as helpful or reported.
+  
+  <!-- GETTING STARTED -->
 ## Getting Started
 
 ### Prerequisites
@@ -32,82 +72,14 @@ To support the upload of user pictures for the ratings and reviews section, you 
 4. Open browser 
    - Open http://localhost:3000 (or whichever port is specified in your .env file)
 
-## Overview
-This project has 4 main sections for a product each with various functionalities.
-1. Product Overview
-
-
-<!--  ![Product Overview Screenshot](images/product_overview.png)-->
-
-  [Product Overview Screenshot](/Project%Screenshots/product_overview.png)
-  
-  ![product_overview] <img width="909" alt="product_overview" src="https://user-images.githubusercontent.com/100883305/233085638-2442e07a-9868-4fa0-bc14-cb01ee6b42dd.png">
-  
-  <br>The Product Overview section displays product information, available styles, and an image gallery for the product. Users may select a particular style by clicking on its thumbnail, and view additional images of this style by clicking through the image carousel to the left of the expanded image.
-  Clicking on the main image will open the expanded view, and clicking on the expanded view will zoom the image and allow the user to pan and zoom the image on hover. Gif demo below.
-  
- <!-- ![Product Zoom Demo] (images/zoom_demo.gif)-->
-            
- [Product Zoom Demo](/Project%Screenshots/zoom_demo.gif)
- ![Product Zoom Demo]  (https://github.com/carolinepeake/retail-app/blob/d49e9bebf3c538728f63e6a0a55a2521e08890c1/Project%20Screenshots/product_overview.png)
- 
-  ![zoom_demo](https://user-images.githubusercontent.com/100883305/233085544-081dd73e-ced4-42be-997a-ca6defee1bcd.gif)
-  
-  
-2. Related Products
-<!--![Related Products Screenshot](images/related_new.png)-->
-[Related Products Screenshot](/Project Screenshots/Screen Shot 2023-04-19 at 8.19.41 AM.png)
-   [Related Products Screenshot] (https://github.com/carolinepeake/retail-app/blob/d49e9bebf3c538728f63e6a0a55a2521e08890c1/Project%20Screenshots/Screen Shot 2023-04-19 at 8.19.41 AM.png)
-   
-   ![related_products] <img width="1126" alt="new_related" src="https://user-images.githubusercontent.com/100883305/233085678-8e730dc7-8c6d-46c0-a64c-9538456da3a9.png">
-
-  <br>The Related Products section displays a list of products related to the current item at the top. Users can navigate through the list and click on a product to be redirected to that product's page. Users can utilize the outfit list by adding/removing products they might be interested in.
-
-3. Questions & Answers
-<!--![Questions and Answers Screenshot](images/qa.png)-->
-![Questions and Answers Screenshot](Project Screenshots/Screen Shot 2022-07-23 at 3.51.58 PM.png)
-
-![qa](https://user-images.githubusercontent.com/100883305/233085608-99418387-8828-49e0-9506-a422b7b0260d.png)
-  <br>The Questions & Answers section allows users to search for, ask, and answer questions related to a product. Each question can be marked as helpful or reported. The search bar will allow the user to filter questions by any specific term they are looking for.
-
-4. Ratings & Reviews
-<!--![Ratings and Reviews Screenshot](images/review.png)-->
-![Ratings and Reviews Screenshot](Project Screenshots/Screen Shot 2022-07-23 at 3.42.24 PM.png)
-     
-![review](https://user-images.githubusercontent.com/100883305/233085585-5bdfec2f-ac1d-46e8-a786-4a4383b41fa5.png)
-  <br>The ratings and reviews section shows all reviews for the current product being displayed, as well as a breakdown of the ratings and product characteristics. The list of reviews can be sorted by relevance, helpfulness, or date. The user can also filter reviews by their star ratings. A user may add their own review to the list. Reviews can also be marked as helpful or reported.
-  
-
-# retail-app
-from an external API.
-## How to start
-Install dependencies
-```
-npm run install
-```
-Create a production build
-```
-npm run build
-```
-Start the server
-```
-npm run server
-```
-## Components
-This project has 4 main sections for a product each with various functionalities.
-1. Product Overview
-  <br>The Product Overview section displays product information, available styles, and an image gallery for the product. Users may select a particular style by clicking on its thumbnail, and view additional images of this style by clicking through the image carousel on the left side of the expanded image or use the forward and back arrows to either side of the expanded image. Click on the main image to make it larger and be able to pan and zoom in on hover. Again, to click through the different photographs of the selectded style, use the arrows or click the black circles representing the different images available on the left side of the main image. Click the main image again to return out of the enlarged view.
-2. Related Products
-  <br>The Related Products section displays an image carousel of products related to the product currently being viewed. The carousel displays a maximum of 4 items at a time, and users can navigate through any additional related items by clicking the arrows on the right and left side of the carousel, unless the first or last item is showing. Clicking on a product card redirects to that product's page. Users can utilize the outfit list by adding/removing products they might be interested in.
-3. Questions & Answers
-  <br>The Questions & Answers section contains a search bar, questions and answers, as well as many more features. Users are also able to add their own question they have about a product. Each question can be marked as helpful or reported, and can also be answered. The search bar will allow the user to filter out questions for any specific term they want to look for.
-4. [Ratings & Reviews]
-  <br>The ratings and reviews section shows all reviews for the current product being displayed, as well as a breakdown of the ratings and product characteristics.. The list of reviews can be sorted by relevance, helpfulness, or date. The user can also filter reviews by their star ratings. A user may add their own review to the list. Reviews can also be marked as helpful or reported.
   
 ## Technologies
-* **Front-end**: React, JavaScript, HTML, Styled-Components
-* **Back-end**: Node.js, Express.js, WebPack
-* * **API**: Atelier API
+* **Front-End**: React, JavaScript, HTML, Styled-Components
+* **Back-End**: Node.js, Express.js, WebPack
+* **API**: Atelier API
+
+## Contributors
+
 
 ## Tech Stack
 
