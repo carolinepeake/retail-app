@@ -38,12 +38,14 @@ This project has 4 main sections for a product each with various functionalities
 
 
 <!--  ![Product Overview Screenshot](images/product_overview.png)-->
-[Product Overview Screenshot](Project Screenshots/product_overview.png)
+
+  [Product Overview Screenshot](Project Screenshots/product_overview.png)
   
   <br>The Product Overview section displays product information, available styles, and an image gallery for the product. Users may select a particular style by clicking on its thumbnail, and view additional images of this style by clicking through the image carousel to the left of the expanded image.
   Clicking on the main image will open the expanded view, and clicking on the expanded view will zoom the image and allow the user to pan and zoom the image on hover. Gif demo below.
   
  <!-- ![Product Zoom Demo] (images/zoom_demo.gif)-->
+            
  [Product Zoom Demo](Project Screenshots/zoom_demo.gif)
   
   
