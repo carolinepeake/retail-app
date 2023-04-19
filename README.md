@@ -45,6 +45,9 @@ This project has 4 main sections for a product each with various functionalities
 2. Related Products
 ![image](https://user-images.githubusercontent.com/100883305/233071955-4c0ac370-1ef6-48ef-9a91-e9f2105b224a.png)
 
+<img width="1126" alt="Screen Shot 2023-04-19 at 8 19 41 AM" src="https://user-images.githubusercontent.com/100883305/233073073-c31d649f-cf40-4b51-a756-4fbd34a55eff.png">
+
+
 ![Screen Shot 2022-07-23 at 3 48 41 PM](https://user-images.githubusercontent.com/20650665/207993311-ad4d0550-598d-402a-9c29-78b62ab68d68.png)
   <br>The Related Products section displays a list of products related to the current item at the top. Users can navigate through the list and click on a product to be redirected to that product's page. Users can utilize the outfit list by adding/removing products they might be interested in.
 
