@@ -1,7 +1,8 @@
 import React, {
-  useEffect, useState, useRef,
+  useState, useRef,
 } from 'react';
 import styled, { css } from 'styled-components';
+import PropTypes from 'prop-types';
 import {
   MdArrowForwardIos, MdArrowBackIos, MdExpandMore, MdExpandLess,
 } from 'react-icons/md';
@@ -14,37 +15,26 @@ function ImageGallery({ status, setStatus }) {
   const imageContainer = useRef(null);
 
   const [place, setPlace] = useState(0);
-  // const [main, setMain] = useState('');
-  const [thumbnails, setThumbnails] = useState([]);
-
-  const getThumbnails = () => {
-    const thumbnailsArray = selectedStyle.photos.map((photo, index) => (
-      <Thumbnail
-        src={photo.thumbnail_url}
-        key={photo.url}
-        index={index}
-        alt={`${selectedStyle.name} thumbnail`}
-        onClick={() => setPlace(index)}
-        style={{ boxShadow: index === place ? '7px 7px 5px #242424' : '', transform: index === place ? 'scale(1.025)' : '', transition: index === place ? 'transform 0.25s ease' : '' }}
-      />
-    ));
-    return thumbnailsArray;
-  };
-
-  useEffect(() => {
-    if (selectedStyle.photos) {
-      setThumbnails(() => getThumbnails());
-    }
-  }, [selectedStyle]);
-
-  // useEffect(() => {
-  //   if (selectedStyle.photos) {
-  //     setMain(() => selectedStyle.photos[place || 0].url);
-  //   }
-  // }, [selectedStyle, place]);
+  const [firstPhotoIndex, setFirstPhotoIndex] = useState(0);
 
   function handleClickArrow(n) {
+    if (place === firstPhotoIndex && n === -1) {
+      setFirstPhotoIndex((prev) => prev - 1);
+    }
+    if ((place === firstPhotoIndex + 6) && n === 1) {
+      setFirstPhotoIndex((prev) => prev + 1);
+    }
     setPlace((prev) => prev + n);
+  }
+
+  function handleScroll(n) {
+    if (place === firstPhotoIndex && n === 1) {
+      setPlace((prev) => prev + 1);
+    }
+    if ((place === firstPhotoIndex + 6) && n === -1) {
+      setPlace((prev) => prev - 1);
+    }
+    setFirstPhotoIndex((prevI) => prevI + n);
   }
 
   const [xPerc, setXPerc] = useState('');
@@ -88,6 +78,20 @@ function ImageGallery({ status, setStatus }) {
     setStatus(() => 'default');
   }
 
+  let thumbnails = [];
+  if (selectedStyle.photos) {
+    thumbnails = selectedStyle.photos.map((photo, index) => (
+      <Thumbnail
+        src={photo.thumbnail_url}
+        key={photo.url}
+        index={index}
+        alt={`${selectedStyle.name} thumbnail`}
+        onClick={() => setPlace(index)}
+        style={{ boxShadow: index === place ? '7px 7px 5px #242424' : '', transform: index === place ? 'scale(1.025)' : '', transition: index === place ? 'transform 0.25s ease' : '' }}
+      />
+    ));
+  }
+
   return (
     <ImageGalleryContainer
       status={status}
@@ -113,27 +117,25 @@ function ImageGallery({ status, setStatus }) {
           middle={place !== 0 && place !== thumbnails.length - 1}
           status={status}
         >
-          {place <= 6
-            ? thumbnails.slice(0, 7)
+          {thumbnails.length <= 7
+            ? thumbnails
             : (
               <>
                 <Buttons
                   scroll
-                  onClick={() => handleClickArrow(-1)}
-                  style={{ display: place === 0 ? 'none' : '' }}
+                  onClick={() => handleScroll(-1)}
+                  style={{ visibility: firstPhotoIndex === 0 ? 'hidden' : '', disabled: firstPhotoIndex === 0 ? 'true' : '' }}
                 >
                   <MdExpandLess style={{ fontSize: '1.25em' }} />
                 </Buttons>
-                {thumbnails.slice(place, place + 7)}
-                {place !== thumbnails.length - 1
-                && (
-                  <Buttons
-                    scroll
-                    onClick={() => handleClickArrow(1)}
-                  >
-                    <MdExpandMore style={{ fontSize: '1.25em' }} />
-                  </Buttons>
-                )}
+                {thumbnails.slice(firstPhotoIndex, firstPhotoIndex + 7)}
+                <Buttons
+                  scroll
+                  onClick={() => handleScroll(1)}
+                  style={{ visibility: firstPhotoIndex < thumbnails.length - 7 ? '' : 'hidden', disabled: firstPhotoIndex < thumbnails.length - 7 ? '' : 'true' }}
+                >
+                  <MdExpandMore style={{ fontSize: '1.25em' }} />
+                </Buttons>
               </>
             )}
         </Side>
@@ -149,7 +151,7 @@ function ImageGallery({ status, setStatus }) {
             <MdArrowBackIos style={{ fontSize: '1.5rem', paddingLeft: '0.5rem', paddingTop: '0.25rem' }} />
           </Buttons>
           <Buttons
-            style={{ right: '2%', display: place === thumbnails.length - 1 ? 'none' : 'block' }}
+            style={{ right: '2%', display: place < thumbnails.length - 1 ? 'block' : 'none' }}
             onClick={() => handleClickArrow(1)}
           >
             <MdArrowForwardIos style={{ fontSize: '1.5rem', paddingTop: '0.25rem' }} />
@@ -186,6 +188,11 @@ function ImageGallery({ status, setStatus }) {
     </ImageGalleryContainer>
   );
 }
+
+ImageGallery.propTypes = {
+  status: PropTypes.string.isRequired,
+  setStatus: PropTypes.func.isRequired,
+};
 
 const ImageGalleryContainer = styled.div`
   width: 100%;
@@ -270,7 +277,7 @@ const Main = styled.img`
     transform-origin: top left;
     transition: translate 0.25s smooth;
     position: absolute;
-    translate: ${props => '-' + props.xPercent} ${props => '-' + props.yPercent};
+    translate: ${(props) => `-${props.xPercent}`} ${(props) => `-${props.yPercent}`};
     cursor: zoom-out;
   `};
 `;

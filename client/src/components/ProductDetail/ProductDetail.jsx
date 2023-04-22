@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
+
 import ProductOverview from './ProductOverview/ProductOverview';
 import StyleSelector from './StyleSelector/StyleSelector';
 import ImageGallery from './ImageGallery/ImageGallery';
