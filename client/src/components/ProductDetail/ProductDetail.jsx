@@ -62,9 +62,8 @@ const ProductSec = styled.div`
   }
 
   @media (min-width: 600px) {
+    margin-top: 1.5rem;
     display: grid;
-    grid-row: 2;
-    grid-column: 1/4;
     grid-template-columns: 10% minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) 10%;
     column-gap: 1rem;
     max-width: 100%;
@@ -100,15 +99,15 @@ const LeftBottom = styled.div`
     display: flex;
     flex-direction: column;
   }
-
-  @media (min-width: 1200px) {
-    max-width: '';
-    margin-left: 10%;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-  }
 `;
+
+// @media (min-width: 1200px) {
+//   max-width: '';
+//   margin-left: 10%;
+//   margin: 0 auto;
+//   display: flex;
+//   flex-direction: column;
+// }
 
 const RightColumn = styled.div`
 
@@ -131,15 +130,15 @@ const TopRight = styled.div`
     justify-content: space-between;
     height: calc(61.585vw);
   }
-
-  @media (min-width: 1200px) {
-    grid-column: 4 / span 2;
-    display: flex;
-    flex-direction: column;
-    align-items: space-between;
-    justify-content: space-between;
-  }
 `;
+
+// @media (min-width: 1200px) {
+//   grid-column: 4 / span 2;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: space-between;
+//   justify-content: space-between;
+// }
 
 const ProductSlogan = styled.h3`
   font-size: 1.0rem;

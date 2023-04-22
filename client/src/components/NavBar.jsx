@@ -95,10 +95,6 @@ const Background = styled.div`
   grid-template-columns: 14% 18% 18% 18% 18% 14%;
   justify-content: center;
   height: auto;
-
-  @media (min-width: 600px) {
-    grid-column: 1/4;
-  }
 `;
 
 // TO-DO: decide grid or flex for x-large screens

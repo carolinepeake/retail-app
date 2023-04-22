@@ -51,8 +51,8 @@ const Container = styled.div`
   }
 
   @media (min-width: 600px) {
-    grid-column: 2/3;
-    grid-row: 4/5;
+    margin-top: 1.5rem;
+    padding: 0 5%;
     justify-content: space-evenly;
   }
 `;

@@ -31,8 +31,8 @@ const Container = styled.div`
   grid-template-rows: 1em 1fr 1.5em 1em 1fr;
 
   @media (min-width: 600px) {
-    grid-column: 2/4;
-    grid-row: 3/4;
+    padding: 0 5%;
+    margin-top: 1.5rem;
   }
 `;
 

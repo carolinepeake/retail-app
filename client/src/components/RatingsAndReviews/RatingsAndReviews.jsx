@@ -138,8 +138,8 @@ const Container = styled.div`
   }
 
   @media (min-width: 600px) {
-    grid-column: 2/3;
-    grid-row: 5/6;
+    margin-top: 1.5rem;
+    padding: 0 5% 1.5rem 2.5%
   }
 `;
 
@@ -176,13 +176,17 @@ const MoreAddContainer = styled.div`
 `;
 
 const BreakdownContainer = styled.div`
-  margin 0 auto;
+
+  @media (max-width: 600px) {
+    margin 0 auto;
+    padding: 0 5%;
+  }
   max-width: 400px;
-  padding: 0 5%
 
   @media (min-width: 600px) {
     grid-column: 1/2;
     grid-row: 2;
+    padding-right: 2.5%;
   }
 `;
 
