@@ -124,7 +124,7 @@ function ImageGallery({ status, setStatus }) {
                 <Buttons
                   scroll
                   onClick={() => handleScroll(-1)}
-                  style={{ visibility: firstPhotoIndex === 0 ? 'hidden' : '', disabled: firstPhotoIndex === 0 ? 'true' : '' }}
+                  style={{ display: firstPhotoIndex === 0 ? 'none' : '' }}
                 >
                   <MdExpandLess style={{ fontSize: '1.25em' }} />
                 </Buttons>
@@ -132,7 +132,7 @@ function ImageGallery({ status, setStatus }) {
                 <Buttons
                   scroll
                   onClick={() => handleScroll(1)}
-                  style={{ visibility: firstPhotoIndex < thumbnails.length - 7 ? '' : 'hidden', disabled: firstPhotoIndex < thumbnails.length - 7 ? '' : 'true' }}
+                  style={{ display: firstPhotoIndex < thumbnails.length - 7 ? '' : 'none' }}
                 >
                   <MdExpandMore style={{ fontSize: '1.25em' }} />
                 </Buttons>

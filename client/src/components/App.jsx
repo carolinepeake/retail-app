@@ -57,7 +57,7 @@ const StyledContainer = styled.div`
   background-color: ${(props) => props.theme.backgroundColor};
   color: ${(props) => props.theme.fontColor};
   display: grid;
-  grid-template-columns: 1fr 8fr 1fr;
+  grid-template-columns: 0.5fr 9fr 0.5fr;
   grid-template-rows: 1% repeat(4, 1fr);
   row-gap: 1.5rem;
   font-size: calc(10px + 1vw);
@@ -74,7 +74,5 @@ const StyledContainer = styled.div`
 // or overflow hidden? auto?
 
 //should add in safe on the property it belongs so content is not rendered overscreen and unreachable
-
-// need to make font-size responsive
 
 export default App;

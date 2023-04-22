@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-function SortList({ sortOrder, setSortOrder, revCount, filteredRevsLength }) {
+function SortList({
+  sortOrder, setSortOrder, revCount, filteredRevsLength,
+}) {
   const handleSortSelect = function handleSortSelect(event) {
     setSortOrder(event.target.value);
   };
@@ -13,7 +15,7 @@ function SortList({ sortOrder, setSortOrder, revCount, filteredRevsLength }) {
       {revCount === 2 ? 2 : filteredRevsLength}
       &nbsp;
       reviews, sorted by&nbsp;
-      <select onChange={handleSortSelect} value={sortOrder}  style={{ cursor: 'pointer' }}>
+      <select onChange={handleSortSelect} value={sortOrder} style={{ cursor: 'pointer' }}>
         <option value="relevant">Relevance</option>
         <option value="newest">Newest</option>
         <option value="helpful">Helpful</option>
@@ -26,6 +28,11 @@ SortList.propTypes = {
   revCount: PropTypes.number.isRequired,
   sortOrder: PropTypes.string.isRequired,
   setSortOrder: PropTypes.func.isRequired,
+  filteredRevsLength: PropTypes.number,
+};
+
+SortList.defaultProps = {
+  filteredRevsLength: 0,
 };
 
 export default SortList;

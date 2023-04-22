@@ -4,7 +4,7 @@ import { useGlobalContext } from '../../../contexts/GlobalStore';
 
 function POStars() {
   const {
-    reviews
+    reviews,
   } = useGlobalContext();
 
   const baseStars = [];

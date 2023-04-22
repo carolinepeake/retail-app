@@ -2,15 +2,19 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { MdArrowForwardIos, MdArrowBackIos, MdExpandMore, MdExpandLess } from 'react-icons/md';
-import { HiArrowSmDown, HiArrowSmUp, HiArrowSmLeft, HiArrowSmRight } from 'react-icons/hi';
+import {
+  MdArrowForwardIos, MdArrowBackIos, MdExpandMore, MdExpandLess,
+} from 'react-icons/md';
+import {
+  HiArrowSmDown, HiArrowSmUp, HiArrowSmLeft, HiArrowSmRight,
+} from 'react-icons/hi';
 import axios from 'axios';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import Card from './Card';
 
 function CardsList() {
   const {
-    productID, cardIndex, setCardIndex, productList, setProductList, setCurrOutfit
+    productID, cardIndex, setCardIndex, productList, setProductList, setCurrOutfit,
   } = useGlobalContext();
 
   function clickRight() {
@@ -37,21 +41,25 @@ function CardsList() {
   return (
     <Container>
       <StyleCardList>
-      {cardIndex !== 0 && productList.length >= 4
-          && <LeftButton onClick={() => clickLeft()} >
-              <HiArrowSmLeft />
-            </LeftButton>
+        {cardIndex !== 0 && productList.length >= 4
+          && (
+          <LeftButton onClick={() => clickLeft()}>
+            <HiArrowSmLeft />
+          </LeftButton>
+          )
           //  &lt; </LeftButton>
            }
-        {(productList.slice(cardIndex, cardIndex + 4)).map((data, i) => <Card data={data} key={i} i={i}/>)}
+        {(productList.slice(cardIndex, cardIndex + 4)).map((data, i) => <Card data={data} key={i} i={i} />)}
         {(productList.length < 4 && productList.length > 0)
           && fillEmpty()}
         {productList.length === 0
           && <Text>No related items</Text>}
         {(cardIndex !== productList.length - 3 && productList.length >= 4)
-          && <RightButton onClick={() => clickRight()}>
-              <HiArrowSmRight />
-            </RightButton>}
+          && (
+          <RightButton onClick={() => clickRight()}>
+            <HiArrowSmRight />
+          </RightButton>
+          )}
       </StyleCardList>
     </Container>
   );
@@ -62,7 +70,6 @@ function CardsList() {
 // const Container = styled.div`
 //   background-color: ${(props) => props.theme.backgroundColor};
 // `;
-
 
 const Container = styled.div`
   margin-top: .5rem;
@@ -93,6 +100,7 @@ const StyleCardList = styled.div`
   grid-template-columns: repeat(4, 4fr);
   column-gap: 1em;
   align-content: center;
+  margin-top: 1em;
 `;
 
 const Text = styled.div`
@@ -160,7 +168,6 @@ const LeftButton = styled.button`
 //   cursor: pointer;
 // `;
 
-
 const RightButton = styled.button`
   align-self: center;
   position: absolute;
@@ -181,7 +188,6 @@ const RightButton = styled.button`
   padding: 0 0;
   height: calc(12px + 0.75vw);
 `;
-
 
 // const RightButton = styled.button`
 //   display: flex;
@@ -224,26 +230,26 @@ export default CardsList;
 //   color-fill: white;
 
 //   }
-  // .big-font{
-  // font-size: 25px;
-  // }
-  // .fade-right {
-  // background: -webkit-linear-gradient(right, rgba(0,0,0,0), rgba(0,0,0,1));
-  // -webkit-background-clip: text;
-  // -webkit-text-fill-color: transparent;
-  // }
-  // .fade-left {
-  // background: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,1));
-  // -webkit-background-clip: text;
-  // -webkit-text-fill-color: transparent;
-  // }
-  // .fade-up {
-  // background: -webkit-linear-gradient(rgba(0,0,0,1), rgba(0,0,0,0));
-  // -webkit-background-clip: text;
-  // -webkit-text-fill-color: transparent;
-  // }
-  // .fade-down {
-  // background: -webkit-linear-gradient(rgba(0,0,0,0), rgba(0,0,0,1));
-  // -webkit-background-clip: text;
-  // -webkit-text-fill-color: transparent;
-  // }
+// .big-font{
+// font-size: 25px;
+// }
+// .fade-right {
+// background: -webkit-linear-gradient(right, rgba(0,0,0,0), rgba(0,0,0,1));
+// -webkit-background-clip: text;
+// -webkit-text-fill-color: transparent;
+// }
+// .fade-left {
+// background: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,1));
+// -webkit-background-clip: text;
+// -webkit-text-fill-color: transparent;
+// }
+// .fade-up {
+// background: -webkit-linear-gradient(rgba(0,0,0,1), rgba(0,0,0,0));
+// -webkit-background-clip: text;
+// -webkit-text-fill-color: transparent;
+// }
+// .fade-down {
+// background: -webkit-linear-gradient(rgba(0,0,0,0), rgba(0,0,0,1));
+// -webkit-background-clip: text;
+// -webkit-text-fill-color: transparent;
+// }

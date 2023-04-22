@@ -86,10 +86,10 @@ function AddToCart() {
           )}
       </SelectSizeAndQuantityContainer>
       <BagContainer>
-        <AddToCartContainer type="submit" disabled={!isSizeSelected}>
-          <AddToCartText words>Add to Cart</AddToCartText>
-          <AddToCartText plus>+</AddToCartText>
-        </AddToCartContainer>
+        <AddToCartButton type="submit" disabled={!isSizeSelected}>
+          <AddToCartText>Add to Cart</AddToCartText>
+          <AddToCartText>+</AddToCartText>
+        </AddToCartButton>
         <Star type="button">&#9734;</Star>
       </BagContainer>
     </Cart>
@@ -122,6 +122,8 @@ const StyledSelect = styled(Button)`
   flex-grow: 3;
   flex-shrink: 1;
   margin-right: 1em;
+  padding: calc(2px + 1.2vw) calc(6px + 1.2vw);
+  font-size: calc(6px + 1.2vw);
   ${(props) => props.quantity && css`
     flex-basis: 6em;
     flex-grow: 1;
@@ -147,25 +149,24 @@ const BagContainer = styled.div`
   flex-shrink: 1;
 `;
 
-const AddToCartContainer = styled(Button)`
-  padding: calc(5px + 0.5vw);
+const AddToCartButton = styled(Button)`
   height: 100%;
   position: relative;
   margin-right: calc(10px + 1vw);
-  flex-basis: 13.3em;
-  flex-grow: 5;
+  flex-basis: 12em;
+  flex-grow: 4;
   flex-shrink: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: calc(2px + 1.2vw) calc(6px + 1.2vw);
+  font-size: calc(6px + 1.2vw);
 `;
 
-const AddToCartText = styled.span`
-  position: absolute;
-  top: 1rem;
-  ${(props) => props.words && css`
-    left: 7.5%;
-  `};
-  ${(props) => props.plus && css`
-    right: 7.5%;
-  `};
+const AddToCartText = styled.div`
+  display: inline-block;
+  font-size: calc(6px + 1.2vw);
 `;
 
 const Star = styled(Button)`
@@ -173,7 +174,7 @@ const Star = styled(Button)`
   right: 5%;
   flex-basis: 2.5em;
   flex-grow: 1;
-  flex-shrink: 5;
+  flex-shrink: 4;
 `;
 
 export default AddToCart;

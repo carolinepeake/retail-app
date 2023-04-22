@@ -20,9 +20,7 @@ function ProductDetail() {
       {status === 'default'
         ? (
           <>
-            <LeftColumn
-              style={{ height: '100%', width: '100%', display: 'flex' }}
-            >
+            <LeftColumn>
               <ImageGallery
                 status={status}
                 setStatus={setStatus}
@@ -67,9 +65,12 @@ const ProductSec = styled.div`
 `;
 
 const LeftColumn = styled.div`
-   grid-column: 1/4;
-   grid-row: 1;
-   flex-direction: column;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  grid-column: 1/4;
+  grid-row: 1;
+  flex-direction: column;
 `;
 
 const LeftBottom = styled.div`

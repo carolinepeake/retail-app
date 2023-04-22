@@ -1,55 +1,49 @@
 import React from 'react';
 import styled from 'styled-components';
 import { IoLogoFacebook, IoLogoTwitter, IoLogoPinterest } from 'react-icons/io';
-import RatingsAndReviews from '../../RatingsAndReviews/RatingsAndReviews';
 import POStars from './POStars';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
 function ProductOverview() {
-  const {
-    productID, setProductID, productInfo, reviews, selectedStyle, setSelectedStyle, styles, setStyles
-  } = useGlobalContext();
-
+  const { productInfo, reviews, selectedStyle } = useGlobalContext();
 
   return (
-      <OverviewContainer>
-        {reviews.length > 0
-          ? (
-            <>
-              <POStars />
-              <ReadReviews className="readReviews">
-                <a href="#ratings-and-reviews" style={{ color: 'black' }}>{`Read all ${reviews.length} reviews`}</a>
-              </ReadReviews>
-            </>
-          )
-          : (
-              <ReadReviews>
-                <a href="#ratings-and-reviews">No reviews yet. Add one!</a>
-              </ReadReviews>
-          )}
-        <br />
-        <CategoryContainer>{productInfo.category}</CategoryContainer>
-        <ProductName>{productInfo.name}</ProductName>
-        <br />
-        <SocialMediaContainer>
-          <ShareSocial>
-            <Logo facebook>
-              <IoLogoFacebook />
-            </Logo>
-            <Logo twitter>
-              <IoLogoTwitter />
-            </Logo>
-            <Logo pintrest>
-              <IoLogoPinterest />
-            </Logo>
-          </ShareSocial>
-        </SocialMediaContainer>
-        <br />
-        <PriceContainer>
-          {selectedStyle.sale_price
+    <OverviewContainer>
+      {reviews.length > 0
+        ? (
+          <>
+            <POStars />
+            <ReadReviews className="readReviews">
+              <a href="#ratings-and-reviews" style={{ color: 'black' }}>{`Read all ${reviews.length} reviews`}</a>
+            </ReadReviews>
+          </>
+        )
+        : (
+          <ReadReviews>
+            <a href="#ratings-and-reviews">No reviews yet. Add one!</a>
+          </ReadReviews>
+        )}
+      <br />
+      <CategoryContainer>{productInfo.category}</CategoryContainer>
+      <ProductName>{productInfo.name}</ProductName>
+      <SocialMediaContainer>
+        <ShareSocial>
+          <Logo facebook>
+            <IoLogoFacebook />
+          </Logo>
+          <Logo twitter>
+            <IoLogoTwitter />
+          </Logo>
+          <Logo pintrest>
+            <IoLogoPinterest />
+          </Logo>
+        </ShareSocial>
+      </SocialMediaContainer>
+      <PriceContainer>
+        {selectedStyle.sale_price
           ? (
             <Price>
-              <span style={{color: 'red '}}>
+              <span style={{ color: 'red ' }}>
                 {`$${selectedStyle.sale_price}    `}
               </span>
               <s>{selectedStyle.original_price}</s>
@@ -58,11 +52,11 @@ function ProductOverview() {
           : (
             <Price>{`$${selectedStyle.original_price}`}</Price>
           )}
-          </PriceContainer>
+      </PriceContainer>
 
-      </OverviewContainer>
-   );
-};
+    </OverviewContainer>
+  );
+}
 
 // ProductOverview.propTypes = {
 //   data: PropTypes.shape({
@@ -93,7 +87,6 @@ const ReadReviews = styled.h5`
 `;
 
 const CategoryContainer = styled.h3`
-  margin-top: calc(16px + 1vw); ;
   margin-bottom: calc(4px + 0.25vw); ;
   &:hover {
     text-decoration: underline;
@@ -111,6 +104,7 @@ const SocialMediaContainer = styled.div`
   height: auto;
   width: auto;
   margin-block-end: calc(8px + 0.5vw);
+  margin-top: calc(8px + 0.5vw);
   &:hover {
     cursor: pointer;
   };
@@ -124,9 +118,9 @@ const Logo = styled.div`
   flex-shrink: 1;
   padding: 0.25rem 0.25rem;
   &:hover {
-    color: ${props => props.facebook && 'blue'};
-    color: ${props => props.twitter && 'aqua'};
-    color: ${props => props.pintrest && 'red'};
+    color: ${(props) => props.facebook && 'blue'};
+    color: ${(props) => props.twitter && 'aqua'};
+    color: ${(props) => props.pintrest && 'red'};
   };
   display: flex;
   justify-content: center;
