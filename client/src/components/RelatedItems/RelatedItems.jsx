@@ -19,11 +19,21 @@ function RelatedItems() {
 }
 
 const Container = styled.div`
-  grid-column: 2/4;
-  grid-row: 3/4;
+
+  @media (max-width: 600px) {
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 5%;
+  }
+
   display: grid;
   grid-template-columns: repeat(3, 4fr 1rem) 3fr 5% 5%;
   grid-template-rows: 1em 1fr 1.5em 1em 1fr;
+
+  @media (min-width: 600px) {
+    grid-column: 2/4;
+    grid-row: 3/4;
+  }
 `;
 
 const Text = styled.div`

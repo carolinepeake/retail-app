@@ -196,23 +196,23 @@ ImageGallery.propTypes = {
 
 const ImageGalleryContainer = styled.div`
   width: 100%;
-  height: 100%;
   overflow: hidden;
   max-width: 800px;
   max-height: 800px;
   position: relative;
+  aspect-ratio: 1;
   ${(props) => props.status === 'default' && css`
     display: grid;
     grid-template-columns: repeat(7, minmax(0, 1fr));
     grid-template-rows: 100%;
     margin: 0 auto;
     z-index: 1;
-    height: 100%;
     width: 100%;
     overflow: hidden;
     position: relative;
   `};
   ${(props) => props.status === 'expanded' && css`
+  height: 100%;
   width: 100%;
   display: flex;
   grid-row: 1;
@@ -226,6 +226,7 @@ const ImageGalleryContainer = styled.div`
   `};
   ${(props) => props.status === 'zoomed' && css`
   width: 100%;
+  height: 100%;
   display: flex;
   grid-row: 1;
   margin: auto;
@@ -237,6 +238,7 @@ const ImageGalleryContainer = styled.div`
   align-content: center;
   `};
 `;
+// height: 100%;
 
 const Main = styled.img`
   object-fit: cover;

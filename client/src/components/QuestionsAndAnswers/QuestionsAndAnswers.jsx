@@ -43,12 +43,18 @@ function QuestionAndAnswers() {
 export default QuestionAndAnswers;
 
 const Container = styled.div`
-  justify-content: space-evenly;
-  grid-column: 2/3;
-  grid-row: 4/5;
-  display: flex;
-  flex-direction: column;
 
+  @media (max-width: 600px) {
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 5%;
+  }
+
+  @media (min-width: 600px) {
+    grid-column: 2/3;
+    grid-row: 4/5;
+    justify-content: space-evenly;
+  }
 `;
 
 const QuestionListContainer = styled.div`

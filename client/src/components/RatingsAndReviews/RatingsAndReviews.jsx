@@ -127,11 +127,20 @@ export default RatingsAndReviews;
 
 const Container = styled.div`
   display: grid;
-  background: ;
-  grid-column: 2/3;
-  grid-row: 5/6;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: 1em 1fr;
+  background: ;
+
+  @media (max-width: 600px) {
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 5%;
+  }
+
+  @media (min-width: 600px) {
+    grid-column: 2/3;
+    grid-row: 5/6;
+  }
 `;
 
 const RRTitle = styled.div`
@@ -167,8 +176,14 @@ const MoreAddContainer = styled.div`
 `;
 
 const BreakdownContainer = styled.div`
-  grid-column: 1/2;
-  grid-row: 2;
+  margin 0 auto;
+  max-width: 400px;
+  padding: 0 5%
+
+  @media (min-width: 600px) {
+    grid-column: 1/2;
+    grid-row: 2;
+  }
 `;
 
 // const BreakdownContainer = styled.div`

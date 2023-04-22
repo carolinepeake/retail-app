@@ -40,7 +40,6 @@ function App() {
         <GlobalContextProvider>
           <NavBar theme={theme} toggleTheme={toggleTheme} />
           <ProductDetail />
-          <br />
           <RelatedItems />
           <QuestionsAndAnswers />
           <RatingsAndReviews />
@@ -56,11 +55,25 @@ const StyledContainer = styled.div`
   font-family: 'Roboto Condensed', sans-serif;
   background-color: ${(props) => props.theme.backgroundColor};
   color: ${(props) => props.theme.fontColor};
-  display: grid;
-  grid-template-columns: 0.5fr 9fr 0.5fr;
-  grid-template-rows: 1% repeat(4, 1fr);
-  row-gap: 1.5rem;
   font-size: calc(10px + 1vw);
+
+  @media (min-width: 600px) {
+    display: grid;
+    grid-template-columns: 0.5fr 9fr 0.5fr;
+    grid-template-rows: 1% repeat(4, 1fr);
+    row-gap: 1.5rem;
+    align-items: space-between;
+    justify-content: space-between;
+  }
+
+  @media (min-width: 1200px) {
+    display: grid;
+    grid-template-columns: 1fr 8fr 1fr;
+    grid-template-rows: 1% repeat(4, 1fr);
+    row-gap: 1.5rem;
+    align-items: space-between;
+    justify-content: space-between;
+  }
 `;
 
 // const Button = styled.button`

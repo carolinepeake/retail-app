@@ -9,15 +9,15 @@ function NavBar({ toggleTheme }) {
   };
 
   const [isExpanded, setIsExpanded] = useState(false);
-  const navLinks = [{target: "product-details", label: "Product Details"}, {target: "related-items", label: "Related Items"}, {target: "question-and-answers", label: "Questions and Answers"}, {target: "ratings-and-reviews", label: "Ratings and Reviews"}];
+  const navLinks = [{ target: 'product-details', label: 'Product Details' }, { target: 'related-items', label: 'Related Items' }, { target: 'question-and-answers', label: 'Questions and Answers' }, { target: 'ratings-and-reviews', label: 'Ratings and Reviews' }];
 
   // stop propagation?
-    // https://www.aleksandrhovhannisyan.com/blog/responsive-navbar-tutorial/
+  // https://www.aleksandrhovhannisyan.com/blog/responsive-navbar-tutorial/
 
   const toggleNavbarVisibility = () => {
-    let isNavBarExpanded = !isExpanded;
+    const isNavBarExpanded = !isExpanded;
     setIsExpanded(isNavBarExpanded);
-    //navbarToggle.setAttribute("aria-expanded", isNavBarExpanded);
+    // navbarToggle.setAttribute("aria-expanded", isNavBarExpanded);
   };
 
   function scrollTo(event) {
@@ -28,8 +28,13 @@ function NavBar({ toggleTheme }) {
 
   return (
     <Background id="navbar">
-      <CollapsedNav type="button" id="navbar-toggle" aria-controls="navbar-menu" aria-label="Toggle menu" aria-expanded="false"
-      onClick={() => toggleNavbarVisibility()}
+      <CollapsedNav
+        type="button"
+        id="navbar-toggle"
+        aria-controls="navbar-menu"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+        onClick={() => toggleNavbarVisibility()}
       >
         <IconBar />
         <IconBar />
@@ -37,40 +42,39 @@ function NavBar({ toggleTheme }) {
         {isExpanded
         && (
         <ExpandedNav>
-          <GridItem secondary first onClick={() => toggleTheme()} isExpanded={isExpanded} style={{borderTop: 'black solid 2px'}}>
+          <GridItem secondary first onClick={() => toggleTheme()} isExpanded={isExpanded} style={{ borderTop: 'black solid 2px' }}>
             Toggle Dark Mode
           </GridItem>
-        {navLinks.map((link, i) =>  {
-          return (
-          <GridItem
-            data-target={link.target}
-            onClick={(event) => scrollTo(event)}
-            isExpanded={isExpanded}
-            secondary
-            i={i}
-            navLinksLength={navLinks.length}
-            //style={{borderRadius: i === navLinks.length - 1 && '0 0 5px 5px', :&hover:  }}
-          >
-            {link.label}
-          </GridItem>)
-        })}
-        </ExpandedNav>)}
+          {navLinks.map((link, i) => (
+            <GridItem
+              data-target={link.target}
+              onClick={(event) => scrollTo(event)}
+              isExpanded={isExpanded}
+              secondary
+              i={i}
+              navLinksLength={navLinks.length}
+            >
+              {link.label}
+            </GridItem>
+          ))}
+        </ExpandedNav>
+        )}
       </CollapsedNav>
-      <GridItem onClick={() => toggleTheme()} >
+      <GridItem onClick={() => toggleTheme()}>
         Toggle Dark Mode
       </GridItem>
-      {navLinks.map((link, i) =>  {
-          return (
-          <GridItem
-            data-target={link.target}
-            onClick={(event) => scrollTo(event)}
-          >
-            {link.label}
-          </GridItem>)
-        })}
+      {navLinks.map((link) => (
+        <GridItem
+          key={link.label}
+          data-target={link.target}
+          onClick={(event) => scrollTo(event)}
+        >
+          {link.label}
+        </GridItem>
+      ))}
       <Search>
         <Input />
-        <FaSearch style={{position: 'absolute', marginTop: '0.3%', marginLeft: '0.3%'}}/>
+        <FaSearch style={{ position: 'absolute', marginTop: '0.3%', marginLeft: '0.3%' }} />
       </Search>
     </Background>
   );
@@ -87,16 +91,21 @@ const Background = styled.div`
   color: ${(props) => props.theme.navBarFont};
   background-size: 100% 100%;
   background-repeat: no-repeat;
-  grid-column: 1/4;
   display: grid;
   grid-template-columns: 14% 18% 18% 18% 18% 14%;
   justify-content: center;
   height: auto;
+
+  @media (min-width: 600px) {
+    grid-column: 1/4;
+  }
 `;
+
+// TO-DO: decide grid or flex for x-large screens
 
 const GridItem = styled.div`
   @media (max-width: 992px) {
-    display: ${props => props.isExpanded ? 'block' : 'none'};
+    display: ${(props) => (props.isExpanded ? 'block' : 'none')};
   };
   display: flex;
   align-items: center;
@@ -106,7 +115,7 @@ const GridItem = styled.div`
     font-weight: bold;
   };
   font-size: calc(8px + .75vw);
-  ${props => props.secondary && css`
+  ${(props) => props.secondary && css`
     font-size: calc(10px + 1vw);
     border-bottom: black solid 2px;
     padding: 5%;
@@ -131,6 +140,9 @@ const Search = styled.div`
   };
   font-size: calc(10px + 1vw);
   grid-column: 6/7;
+  align-self: center;
+  padding-right: 8px;
+  padding-bottom: 3%;
 `;
 
 // positioning is a little off - change background color to see
@@ -138,13 +150,16 @@ const CollapsedNav = styled.button`
   @media (min-width: 992px) {
     display: none;
   };
+  margin-bottom: 6%;
   width: 25px;
   height: 20px;
   margin-top: 3%;
-  margin-left: 2px;
   border: none;
   background-color: ${(props) => props.theme.navColor};
+  align-self: center;
+  padding-left: 6px;
 `;
+// margin-left: 2px;
 
 const ExpandedNav = styled.div`
   position: absolute;
@@ -167,6 +182,7 @@ const IconBar = styled.span`
   background-color: ${(props) => props.theme.fontColor};
 `;
 
+// TO-DO: make bigger on focus (for mobile)
 const Input = styled.input`
   background-color: ${(props) => props.theme.secondaryColor};
   color: ${(props) => props.theme.fontColor};
@@ -176,5 +192,6 @@ const Input = styled.input`
   }
   width: 60%;
 `;
+
 
 export default NavBar;
