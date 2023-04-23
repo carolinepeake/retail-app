@@ -58,6 +58,7 @@ const StyledContainer = styled.div`
   background-color: ${(props) => props.theme.backgroundColor};
   color: ${(props) => props.theme.fontColor};
   font-size: calc(10px + 1vw);
+
 `;
 
 

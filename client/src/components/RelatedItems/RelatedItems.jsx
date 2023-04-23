@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import CardsList from './RelatedList/CardsList';
 import OutfitList from './OutfitList/OutfitList';
+import SectionHeading from '../reusable/SectionHeading';
 
 function RelatedItems() {
   return (
@@ -36,7 +37,7 @@ const Container = styled.div`
   }
 `;
 
-const Text = styled.div`
+const Text = styled(SectionHeading)`
   text-align:left;
   grid-row: ${(props) => (props.second ? '4/5' : '1/2')};
   grid-column: 1/8;

@@ -7,6 +7,7 @@ import ReviewTile from './ReviewList/ReviewTile';
 import MoreRevs from './ReviewList/MoreRevs';
 import AddRev from './AddRev/AddRev';
 import Breakdown from './Breakdown/Breakdown';
+import SectionHeading from '../reusable/SectionHeading';
 
 // need to change how i get reviews. Just get all at once, then slice.
 // if need to change the filter, just make new get request
@@ -80,7 +81,9 @@ function RatingsAndReviews() {
 
   return (
     <Container id="ratings-and-reviews">
-      <RRTitle>Ratings & Reviews</RRTitle>
+      <RRTitle>
+        Ratings & Reviews
+      </RRTitle>
       <BreakdownContainer>
         <Breakdown
           productID={productID}
@@ -143,10 +146,10 @@ const Container = styled.div`
   }
 `;
 
-const RRTitle = styled.div`
+const RRTitle = styled(SectionHeading)`
   grid-column: 1/4;
   grid-row: 1;
-  font-size: 1rem;
+  padding-right: 5%;
 `;
 
 const ReviewListContainer = styled.div`
@@ -170,18 +173,20 @@ const ReviewTilesContainer = styled.div`
 const MoreAddContainer = styled.div`
   padding: 1em;
   display: flex;
-  width: 20em;
-  justify-content: space-around;
-  margin-left: 15%;
+  justify-content: space-evenly;
 `;
+  // width: 20em;
+  // margin-left: 15%;
+  // justify-content: space-around;
 
 const BreakdownContainer = styled.div`
+  max-width: 400px;
+  margin-top: 0.5rem;
 
   @media (max-width: 600px) {
     margin 0 auto;
     padding: 0 5%;
   }
-  max-width: 400px;
 
   @media (min-width: 600px) {
     grid-column: 1/2;

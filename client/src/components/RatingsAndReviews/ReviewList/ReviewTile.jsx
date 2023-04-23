@@ -80,14 +80,17 @@ export default ReviewTile;
 const Container = styled.div`
   border-bottom: black solid thin;
   overflow-wrap: anywhere;
+  background-color: ${(props) => props.theme.secondaryColor};
+  padding: 0.5rem;
+  margin-top: 0.5rem;
 `;
 
 const StarsDateName = styled.div`
   display: flex;
   justify-content: space-between;
-  background: ;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 `;
+  // margin-top: 1rem;
 
 const DateName = styled.div`
   display: flex;

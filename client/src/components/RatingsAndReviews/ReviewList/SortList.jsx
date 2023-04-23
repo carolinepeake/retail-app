@@ -40,7 +40,7 @@ export default SortList;
 const RevListHeader = styled.div`
   font-size: 1.0rem;
   margin-block-start: 1em;
-  margin-block-end: 1em;
+  margin-block-end: 0.5em;
   margin-inline-start: 0px;
   margin-inline-end: 0px;
   display: flex;

@@ -50,9 +50,9 @@ Summary.propTypes = {
 export default Summary;
 
 const RatingHeader = styled.div`
-  padding-top: 1.0rem;
   font-size: 3.0rem;
 `;
+//padding-top: 1.0rem;
 
 const RatingSummary = styled.div`
   font-size: 0.9rem;

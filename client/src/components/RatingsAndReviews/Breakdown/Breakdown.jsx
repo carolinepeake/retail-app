@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import Summary from './Summary';
 import RatingBreakdown from './RatingBreakdown';
 import LengthBreakdown from './LengthBreakdown';
@@ -12,7 +13,7 @@ function Breakdown({ productID, productInfo, revMeta, filterReviews }) {
   }
 
   return (
-    <div>
+    <BreakdownContainer>
       <Summary revMeta={revMeta} />
       <RatingBreakdown
         revMeta={revMeta}
@@ -24,7 +25,7 @@ function Breakdown({ productID, productInfo, revMeta, filterReviews }) {
         revMeta={revMeta}
         productInfo={productInfo}
       />
-    </div>
+    </BreakdownContainer>
   );
 }
 
@@ -39,5 +40,10 @@ Breakdown.propTypes = {
     }),
   }).isRequired,
 };
+
+const BreakdownContainer = styled.div`
+  background-color: ${(props) => props.theme.secondaryColor};
+  padding: 0.5rem;
+`;
 
 export default Breakdown;
