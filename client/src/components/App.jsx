@@ -12,9 +12,11 @@ function App() {
 
   const themeLight = {
     backgroundColor: '#f5f7f8',
-    secondaryColor: '#becbd2',
+    // secondaryColor: '#becbd2',
+    secondaryColor: 'white',
     tertiaryColor: '#becbd2',
-    navColor: '#becbd2',
+    // navColor: '#becbd2',
+    navColor: 'white',
     navBarFont: '#000000',
     fontColor: '#000000',
     starBackground: 'lightgrey',

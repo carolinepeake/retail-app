@@ -62,7 +62,6 @@ const ProductSec = styled.div`
   }
 
   @media (min-width: 600px) {
-    margin-top: 1.5rem;
     display: grid;
     grid-template-columns: 10% minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) 10%;
     column-gap: 1rem;

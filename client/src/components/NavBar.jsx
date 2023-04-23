@@ -9,7 +9,7 @@ function NavBar({ toggleTheme }) {
   };
 
   const [isExpanded, setIsExpanded] = useState(false);
-  const navLinks = [{ target: 'product-details', label: 'Product Details' }, { target: 'related-items', label: 'Related Items' }, { target: 'question-and-answers', label: 'Questions and Answers' }, { target: 'ratings-and-reviews', label: 'Ratings and Reviews' }];
+  const navLinks = [{ target: 'product-details', label: 'Product Details' }, { target: 'related-items', label: 'Related Items' }, { target: 'question-and-answers', label: 'Questions & Answers' }, { target: 'ratings-and-reviews', label: 'Ratings & Reviews' }];
 
   // stop propagation?
   // https://www.aleksandrhovhannisyan.com/blog/responsive-navbar-tutorial/
@@ -73,7 +73,7 @@ function NavBar({ toggleTheme }) {
         </GridItem>
       ))}
       <Search>
-        <Input />
+        <Input type="search" placeholder="Search..." />
         <FaSearch style={{ position: 'absolute', marginTop: '0.3%', marginLeft: '0.3%' }} />
       </Search>
     </Background>
@@ -91,11 +91,17 @@ const Background = styled.div`
   color: ${(props) => props.theme.navBarFont};
   background-size: 100% 100%;
   background-repeat: no-repeat;
-  display: grid;
-  grid-template-columns: 14% 18% 18% 18% 18% 14%;
-  justify-content: center;
   height: auto;
+  padding: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+  font-weight: bold;
 `;
+// display: grid;
+// grid-template-columns: 14% 18% 18% 18% 18% 14%;
+
 
 // TO-DO: decide grid or flex for x-large screens
 
@@ -108,7 +114,7 @@ const GridItem = styled.div`
   justify-content: space-evenly;
   cursor: pointer;
   &:hover {
-    font-weight: bold;
+    text-decoration: underline;
   };
   font-size: calc(8px + .75vw);
   ${(props) => props.secondary && css`
@@ -135,10 +141,8 @@ const Search = styled.div`
     font-weight: bold;
   };
   font-size: calc(10px + 1vw);
-  grid-column: 6/7;
   align-self: center;
   padding-right: 8px;
-  padding-bottom: 3%;
 `;
 
 // positioning is a little off - change background color to see
@@ -182,12 +186,13 @@ const IconBar = styled.span`
 const Input = styled.input`
   background-color: ${(props) => props.theme.secondaryColor};
   color: ${(props) => props.theme.fontColor};
-  border: 2 px solid;
+  border: ${(props) => props.theme.fontColor} 1px solid;
+  border-radius: 2.5%;
   &:focus {
     outline: none;
   }
-  width: 60%;
+  width: 70%;
+  font-size: large;
 `;
-
 
 export default NavBar;
