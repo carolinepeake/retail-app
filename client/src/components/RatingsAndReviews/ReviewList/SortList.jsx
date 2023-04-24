@@ -14,12 +14,12 @@ function SortList({
       &nbsp;
       {revCount === 2 ? 2 : filteredRevsLength}
       &nbsp;
-      reviews, sorted by&nbsp;
-      <select onChange={handleSortSelect} value={sortOrder} style={{ cursor: 'pointer' }}>
+      reviews, sorted by:
+      <Sort onChange={handleSortSelect} value={sortOrder}>
         <option value="relevant">Relevance</option>
         <option value="newest">Newest</option>
         <option value="helpful">Helpful</option>
-      </select>
+      </Sort>
     </RevListHeader>
   );
 }
@@ -43,5 +43,20 @@ const RevListHeader = styled.div`
   margin-block-end: 0.5em;
   margin-inline-start: 0px;
   margin-inline-end: 0px;
+  margin-left: 1em;
   display: flex;
 `;
+
+const Sort = styled.select`
+  font: inherit;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 0.25em;
+  margin-left: 0.25em;
+  margin-top: -0.25em;
+  align-self: center;
+`;
+// text-decoration: underline;
+// background-color: inherit;
+// border: none;

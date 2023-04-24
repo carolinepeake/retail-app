@@ -28,14 +28,15 @@ const Container = styled.div`
   }
 
   display: grid;
-  grid-template-columns: repeat(3, 4fr 1rem) 3fr 5% 5%;
+  grid-template-columns: 1fr 3fr 2.0rem 4fr 2.0rem 4fr 2.0rem 3fr 1fr;
   grid-template-rows: 1em 1fr 1.5em 1em 1fr;
 
   @media (min-width: 600px) {
-    padding: 0 5%;
+    padding: 0 2.5%;
     margin-top: 1.5rem;
   }
 `;
+// grid-template-columns: repeat(3, 4fr 1rem) 3fr 5% 5%;
 
 const Text = styled(SectionHeading)`
   text-align:left;

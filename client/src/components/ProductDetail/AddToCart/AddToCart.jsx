@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled, { css } from 'styled-components';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import Button from '../../reusable/Button';
@@ -12,6 +12,8 @@ function AddToCart() {
   // const [selectedSize, setSelectedSize] = useState('Select Size');
   const [selectedSku, setSelectedSku] = useState({});
   const [stock, setStock] = useState([]);
+  const [error, setError] = useState(false);
+  const sizeDropdown = useRef(null);
 
   function getStock() {
     const options = Object.entries(selectedStyle.skus).map(([sku, { quantity, size }]) => {
@@ -41,6 +43,9 @@ function AddToCart() {
       } else {
         // await setSelectedSize(sku.size);
         setIsSizeSelected(true);
+        if (error) {
+          setError(false);
+        }
       }
     } catch (err) {
       console.log('error handling select size');
@@ -52,6 +57,17 @@ function AddToCart() {
     setSelectedQuantity(e.target.value);
   }
 
+  function handleAddToBag(e) {
+    if (!isSizeSelected) {
+      // sizeDropdown.current.focus();
+      setError(true);
+    }
+    e.preventDefault();
+  }
+
+  // TO-DO: get rid of error after set amount of time
+  // and when mouse event outside of add to cart button
+
   return (
     <Cart>
       <SelectSizeAndQuantityContainer>
@@ -59,6 +75,8 @@ function AddToCart() {
           ? (
             <StyledSelect
               as="select"
+              ref={sizeDropdown}
+              style={{ borderColor: error ? 'red' : 'black' }}
             // value={selectedSize}
               onChange={(e) => handleChangeSize(e)}
             >
@@ -85,8 +103,9 @@ function AddToCart() {
             </StyledSelect>
           )}
       </SelectSizeAndQuantityContainer>
+      <Error style={{ display: error ? 'block' : 'none' }}>Please Select a Size</Error>
       <BagContainer>
-        <AddToCartButton type="submit" disabled={!isSizeSelected}>
+        <AddToCartButton type="submit" onClick={(e) => handleAddToBag(e)}>
           <AddToCartText>Add to Cart</AddToCartText>
           <AddToCartText>+</AddToCartText>
         </AddToCartButton>
@@ -101,9 +120,10 @@ const Cart = styled.div`
   flex-direction: column;
   margin-right: 1em;
   width: 100%;
+  position: relative;
 `;
 
-const SelectSizeAndQuantityContainer = styled.div`
+const SelectSizeAndQuantityContainer = styled.form`
   flex-direction: row;
   align-content: space-between;
   display: flex;
@@ -160,9 +180,13 @@ const AddToCartButton = styled(Button)`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: calc(2px + 1.2vw) calc(6px + 1.2vw);
+  padding: calc(1px + 1.2vw) calc(6px + 1.2vw);
   font-size: calc(6px + 1.2vw);
+  font-weight: bold;
 `;
+// background-color: ${(props) => props.theme.addToCart};
+// color: ${(props) => props.theme.addToCartFont};
+
 
 const AddToCartText = styled.div`
   display: inline-block;
@@ -175,6 +199,21 @@ const Star = styled(Button)`
   flex-basis: 2.5em;
   flex-grow: 1;
   flex-shrink: 4;
+`;
+
+// const Error = styled.div`
+//   position: relative;
+//   top: 0;
+//   z-index: 2;
+//   border: thin red solid;
+//   border-radius: 5px;
+//   padding: 0.5em 1em;
+//   color: red;
+// `;
+
+const Error = styled.div`
+  color: red;
+  font-size: 0.75em;
 `;
 
 export default AddToCart;

@@ -24,14 +24,14 @@ function Outfit({ outfit, index }) {
 
   return (
     <OutfitContainer i={index} outfitIndex={outfitIndex}>
-      <Outline >
+      <Outline>
         <ImageOutline>
           <Image src={outfitImage ? outfitImage : defaultImage} />
           <Button onClick={() => removeOutfit()}><AiOutlineCloseCircle /></Button>
         </ImageOutline>
-        <Info>{outfitDetails.name}</Info>
-        <Info>{outfitDetails.category}</Info>
-        <Info>
+        <Info style={{ paddingTop: '0.25rem' }}>{outfitDetails.category}</Info>
+        <Info style={{ fontSize: '1.0rem' }}>{outfitDetails.name}</Info>
+        <Info style={{ padding: '0.25rem' }}>
           $
           {outfitDetails.default_price}
         </Info>
@@ -102,18 +102,19 @@ const ImageOutline = styled.div`
 
 const Info = styled.div`
   display: inline-block;
-  margin-left: auto;
+  padding-left: 0.25rem;
   margin-right: auto;
+  font-size: 0.75rem;
 `;
+// margin-left: auto;
 
 const Image = styled.img`
   display: block;
   // margin-left: auto;
   // margin-right: auto;
   width: 100%;
-  aspect-ratio: 1;
+  aspect-ratio: 4/5;
   object-fit: cover;
-  border-radius: 10px;
   cursor: pointer;
   overflow: hidden;
 `;

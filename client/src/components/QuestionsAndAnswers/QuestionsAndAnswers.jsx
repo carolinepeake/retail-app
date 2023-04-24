@@ -4,6 +4,7 @@ import { useGlobalContext } from '../../contexts/GlobalStore';
 import QuestionEntry from './QuestionEntry/QuestionEntry';
 import QuestionSearch from './QuestionSearch/QuestionSearch';
 import ExtraButtons from './Extras/ExtraButtons';
+import SectionHeading from '../reusable/SectionHeading';
 
 function QuestionAndAnswers() {
   const { numQuestions, filteredQuestions, setNumQuestions } = useGlobalContext();
@@ -18,7 +19,9 @@ function QuestionAndAnswers() {
 
   return (
     <Container id="question-and-answers">
-      <div>{`Questions \& Answers`}</div>
+      <QATitle>
+        Questions & Answers
+      </QATitle>
       <QuestionSearch />
       <QuestionListContainer id="scrollable-container" onScroll={(e) => handleScroll(e)}>
         {numQuestions === 0 ? (
@@ -30,7 +33,7 @@ function QuestionAndAnswers() {
                 question={question}
                 key={`${question.question_id}`}
               />
-              <hr/>
+              <hr />
             </>
           ))
         )}
@@ -52,26 +55,22 @@ const Container = styled.div`
 
   @media (min-width: 600px) {
     margin-top: 1.5rem;
-    padding: 0 5%;
+    padding: 0 2.5%;
     justify-content: space-evenly;
   }
+`;
+
+const QATitle = styled(SectionHeading)`
+  margin-bottom: 0.5rem;
 `;
 
 const QuestionListContainer = styled.div`
   max-height: 75vh;
   overflow: auto;
-  border-radius: 10px;
   justify-content: center;
   scroll-behavior: smooth;
+  background-color: ${(props) => props.theme.secondaryColor};
+  padding: 0.5em 1.0em 1.0em 1.0em;
+  margin-bottom: 0.5em;
 `;
-
-// const QuestionListContainer = styled.div`
-//   max-height: 75vh;
-//   overflow: auto;
-//   margin-left: 20px;
-//   margin-right: 20px;
-//   padding: 10px;
-//   border-radius: 10px;
-//   justify-content: center;
-//   scroll-behavior: smooth;
-// `;
+// border-radius: 10px;

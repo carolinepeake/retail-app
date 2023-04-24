@@ -27,9 +27,9 @@ function Card({ data, i }) {
           <CardStyle onClick={() => changeItem()} i={i} outfitIndex={outfitIndex}>
             <CardImage imageInfo={info.image.data} details={info.details} />
             <Text>
-              <Cards>{info.details.data.name}</Cards>
-              <Cards>{info.details.data.category}</Cards>
-              <Cards>
+              <Cards style={{ paddingTop: '0.1rem'}}>{info.details.data.category}</Cards>
+              <Cards style={{ fontSize: '1.0rem' }}>{info.details.data.name}</Cards>
+              <Cards style={{ padding: '0.25rem' }}>
                 $
                 {info.details.data.default_price}
               </Cards>
@@ -61,6 +61,7 @@ const CardContainer = styled.div`
   margin-top: 0.5rem;
   position: relative;
 `;
+// background-color: white;
 
 const CardStyle = styled.div`
   display: flex;
@@ -70,9 +71,11 @@ const CardStyle = styled.div`
 `;
 
 const Cards = styled.div`
-  margin-left: auto;
   margin-right: auto;
+  font-size: 0.75rem;
+  padding-left: 0.25rem;
 `;
+// margin-left: auto;
 
 const Text = styled.div`
   display: flex;

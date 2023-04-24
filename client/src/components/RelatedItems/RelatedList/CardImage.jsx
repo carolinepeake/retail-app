@@ -71,10 +71,11 @@ const ImageCard = styled.img`
   &:hover {
     opacity: 0.80;
   }
-  border-radius: 10px;
   cursor: pointer;
-  aspect-ratio: 1;
+  aspect-ratio: 4/5;
 `;
+  // border-radius: 10px;
+  // aspect-ratio: 1;
 
 const Button = styled.button`
   position: absolute;

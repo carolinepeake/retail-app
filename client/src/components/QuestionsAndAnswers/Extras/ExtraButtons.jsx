@@ -20,14 +20,14 @@ function ExtraButtons() {
 
   return (
     <ButtonContainer>
-      <StyledButton primary type="submit" onClick={() => setShowModal(true)}>
-        Ask a Question
-      </StyledButton>
       {numQuestions < questions.length ? (
-        <StyledButton primary type="submit" onClick={() => increaseQuestions()}>
+        <StyledButton primary load type="submit" onClick={() => increaseQuestions()}>
           More Questions
         </StyledButton>
       ) : null}
+      <StyledButton primary modal type="submit" onClick={() => setShowModal(true)}>
+        Ask a Question +
+      </StyledButton>
       {showModal ? (
         <AddQuestionModal setShowModal={setShowModal} />
       ) : null}

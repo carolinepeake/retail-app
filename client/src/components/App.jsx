@@ -20,6 +20,8 @@ function App() {
     navBarFont: '#000000',
     fontColor: '#000000',
     starBackground: 'lightgrey',
+    addToCart: 'black',
+    addToCartFont: 'white',
   };
 
   const themeDark = {
@@ -30,6 +32,8 @@ function App() {
     navBarFont: '#fff',
     fontColor: 'white',
     starBackground: '#3a4b53',
+    addToCart: 'white',
+    addToCartFont: 'black',
   };
 
   const toggleTheme = () => {

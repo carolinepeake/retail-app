@@ -19,13 +19,13 @@ function OutfitList() {
     if (outfitIndex + 2 < outfits.length) {
       setOutfitIndex(outfitIndex + 1);
     }
-  };
+  }
 
   function clickLeft() {
     if (outfitIndex > 0) {
       setOutfitIndex(outfitIndex - 1);
     }
-  };
+  }
 
   function fillEmpty() {
     const emptyCells = [];
@@ -33,39 +33,39 @@ function OutfitList() {
       emptyCells.push(<EmptyOutfit key={i} />);
     }
     return emptyCells;
-  };
+  }
 
   return (
     <Outline>
       {/* <LeftBox> */}
-        {/* {(outfitIndex !== 0 && outfits.length >= 3) */}
-          {/* // ? <LeftButton /> : ( */}
-          {/* &&  <LeftButton onClick={() => clickLeft()}> &lt; </LeftButton>} */}
-          {/* // )} */}
+      {/* {(outfitIndex !== 0 && outfits.length >= 3) */}
+      {/* // ? <LeftButton /> : ( */}
+      {/* &&  <LeftButton onClick={() => clickLeft()}> &lt; </LeftButton>} */}
+      {/* // )} */}
       {/* </LeftBox> */}
       <StyleList>
-      {(outfitIndex !== 0 && outfits.length >= 3)
-          &&  <LeftButton onClick={() => clickLeft()}> &lt; </LeftButton>}
+        {(outfitIndex !== 0 && outfits.length >= 3)
+          && <LeftButton onClick={() => clickLeft()}> &lt; </LeftButton>}
         {(outfits.slice(outfitIndex, outfitIndex + 4)).map((outfit, i) => <Outfit outfit={outfit} key={i} index={i} />)}
         {(outfits.length <= 3 || (outfits.length >= 3 && (outfits.length - outfitIndex === 2 || outfits.length - outfitIndex === 3)))
          && <AddOutfit /> }
         {(outfits.length <= 3) && fillEmpty()}
         {(outfitIndex !== outfits.length - 2 && outfits.length >= 3)
-          &&  <RightButton onClick={() => clickRight()}> &gt; </RightButton>}
+          && <RightButton onClick={() => clickRight()}> &gt; </RightButton>}
       </StyleList>
       {/* <RightBox> */}
-        {/* {/* {((outfits.length >= 4 && outfitIndex === outfits.length - 4) || (outfitIndex === 0 && outfits.length > 3))
+      {/* {/* {((outfits.length >= 4 && outfitIndex === outfits.length - 4) || (outfitIndex === 0 && outfits.length > 3))
           ? <RightButton onClick={() => clickRight()}> &gt; </RightButton>
           : <RightButton /> } */}
       {/* </RightBox> */}
     </Outline>
   );
-};
+}
 
 const Outline = styled.div`
   background-color: ${(props) => props.theme.backgroundColor};
   grid-row: 5/6;
-  grid-column: 1/10;
+  grid-column: 1/11;
   margin-top: 0.5rem;
   display: contents;
 `;
@@ -82,15 +82,13 @@ const StyleList = styled.div`
   display: grid;
   positive: relative;
   grid-row: 5;
-  grid-column: 1/9;
+  grid-column: 1/10;
   grid-template-columns: repeat(4, 4fr);
-  column-gap: 1em;
+  column-gap: 2em;
   grid-template-rows: repeat(3, 1fr);
   margin-top: 1em;
   align-content: center;
 `;
-
-
 
 // const StyleList = styled.div`
 //   display: flex;

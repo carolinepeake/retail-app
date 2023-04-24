@@ -142,7 +142,7 @@ const Container = styled.div`
 
   @media (min-width: 600px) {
     margin-top: 1.5rem;
-    padding: 0 5% 1.5rem 2.5%
+    padding: 0 2.5% 1.5rem 2.5%
   }
 `;
 

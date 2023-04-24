@@ -66,11 +66,18 @@ const ProductSec = styled.div`
     grid-template-columns: 10% minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) 10%;
     column-gap: 1rem;
     max-width: 100%;
+    margin-top: 1.5rem;
+    margin-left: 2.5%;
   }
 `;
+//margin: 1.5rem 2.5% 0 2.5%;
 
 // @media (min-width: 1200px) {
 // }
+
+// changed aspect ratio on image, grid columns maybe,
+// moved thumbnails side from within main image,
+// added margin to left of product details
 
 const LeftColumn = styled.div`
 
@@ -82,9 +89,8 @@ const LeftColumn = styled.div`
     grid-row: 1;
     flex-direction: column;
   }
-
 `;
-
+// grid-column: 1/4;
 const LeftBottom = styled.div`
   height: max-content;
   max-width: 600px;

@@ -97,18 +97,6 @@ function ImageGallery({ status, setStatus }) {
       status={status}
       ref={imageContainer}
     >
-      {selectedStyle.photos
-      && (
-      <Main
-        src={selectedStyle.photos[place || 0].url}
-        alt={`${productInfo.name} in ${selectedStyle.name} style`}
-        onClick={(e) => handleClickMain(e)}
-        status={status}
-        onMouseMove={(e) => handlePanImage(e)}
-        xPercent={xPerc}
-        yPercent={yPerc}
-      />
-      )}
 
       {status === 'default'
         && (
@@ -140,6 +128,19 @@ function ImageGallery({ status, setStatus }) {
             )}
         </Side>
         )}
+
+      {selectedStyle.photos
+      && (
+      <Main
+        src={selectedStyle.photos[place || 0].url}
+        alt={`${productInfo.name} in ${selectedStyle.name} style`}
+        onClick={(e) => handleClickMain(e)}
+        status={status}
+        onMouseMove={(e) => handlePanImage(e)}
+        xPercent={xPerc}
+        yPercent={yPerc}
+      />
+      )}
 
       {status !== 'zoomed'
       && (
@@ -200,7 +201,7 @@ const ImageGalleryContainer = styled.div`
   max-width: 800px;
   max-height: 800px;
   position: relative;
-  aspect-ratio: 1;
+  aspect-ratio: 4/5;
   ${(props) => props.status === 'default' && css`
     display: grid;
     grid-template-columns: repeat(7, minmax(0, 1fr));
@@ -217,7 +218,6 @@ const ImageGalleryContainer = styled.div`
   display: flex;
   grid-row: 1;
   margin: auto;
-  aspect-ratio: 1;
   height: max-content;
   flex-direction: column;
   justify-content: center;
@@ -230,7 +230,6 @@ const ImageGalleryContainer = styled.div`
   display: flex;
   grid-row: 1;
   margin: auto;
-  aspect-ratio: 1;
   height: max-content;
   flex-direction: column;
   justify-content: center;
@@ -244,7 +243,7 @@ const Main = styled.img`
   object-fit: cover;
   overflow: hidden;
   position: absolute;
-  aspect-ratio: 1;
+  aspect-ratio: 4/5;
   width: 100%;
   display: grid;
   max-width: 800px;

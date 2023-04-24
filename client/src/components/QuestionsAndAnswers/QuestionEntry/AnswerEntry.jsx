@@ -58,6 +58,7 @@ function AnswerEntry({ answer }) {
   return (
     <Answer key={answer.id}>
       <AnswerBody>{answer.body}</AnswerBody>
+      {answer.photos.length > 1 && (
       <AnswerPhotos>
         {answer.photos.map((photo) => (
           <AnswerImage
@@ -68,8 +69,9 @@ function AnswerEntry({ answer }) {
           />
         ))}
       </AnswerPhotos>
+      )}
       <AnswerFooter>
-        <div>
+        <Answerer>
           {'by '}
           {answer.answerer_name.toLowerCase() === 'seller' ? (
             <b>{answer.answerer_name}</b>
@@ -77,24 +79,27 @@ function AnswerEntry({ answer }) {
             answer.answerer_name
           )}
           {` on ${format(parseISO(answer.date), 'MMM dd, yyyy')}`}
-        </div>
-        <div>
-          Helpful?{' '}
+        </Answerer>
+        <div>|</div>
+        <Helpful>
+          Helpful?
+          <Yes>
+            {clickedHelpful.current ? (
+              <b>Yes</b>
+            ) : (
+              <Clickable onClick={() => helpfulAnswer()}>
+                Yes
+              </Clickable>
+            )}
+          </Yes>
           {clickedHelpful.current ? (
-            <b>Yes</b>
+            <b>{`(${helpfulness})`}</b>
           ) : (
-            <Clickable onClick={() => helpfulAnswer()}>
-              {' '}
-              Yes
-            </Clickable>
+            <span>{`(${helpfulness})`}</span>
           )}
-          {clickedHelpful.current ? (
-            <b>({helpfulness})</b>
-          ) : (
-            <span>({helpfulness})</span>
-          )}
-        </div>
-        <div>
+        </Helpful>
+        <div>|</div>
+        <Report>
           {clickedReport ? (
             <Reported>Reported</Reported>
           ) : (
@@ -102,7 +107,7 @@ function AnswerEntry({ answer }) {
               Report
             </Clickable>
           )}
-        </div>
+        </Report>
       </AnswerFooter>
       {showModal && (
         <ExpandedImageModal
@@ -115,9 +120,9 @@ function AnswerEntry({ answer }) {
 }
 
 const Answer = styled.div`
-  grid-column: 2 / 3;
-  padding-bottom: 0.5rem;
+  padding-bottom: 1rem;
   padding-left: 0.5rem;
+  font-size: 1.0rem;
 `;
 
 const AnswerPhotos = styled.span`
@@ -134,27 +139,47 @@ const AnswerImage = styled.img`
 `;
 
 const AnswerFooter = styled.div`
-  display: grid;
-  grid-template-columns: 50% 25% 25%;
+  display: flex;
   font-size: 0.75rem;
+  justify-content: flex-start;
+  color: rgb(85 85 85);
+`;
+
+const Answerer = styled.div`
+  padding-right: 1em;
+`;
+
+const Helpful = styled.div`
+  padding: 0 1em;
+`;
+
+const Yes = styled.span`
+  padding-left: 0.5em;
+  padding-right: 0.25em;
+`;
+
+const Report = styled.div`
+  padding-left: 1em;
 `;
 
 const AnswerBody = styled.div`
-  grid-column: 2 / 3;
-  padding-bottom: 0.5rem;
 `;
+// padding-bottom: 0.5rem;
 
 const Clickable = styled.u`
   cursor: pointer;
   text-decoration: underline;
   &:hover {
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  }
+    text-decoration: initial;
+  };
 `;
+// &:hover {
+//   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+// }
 
 const Reported = styled.span`
-  grid-column: 3;
   font-weight: bold;
 `;
+// margin-left: 1em;
 
 export default AnswerEntry;

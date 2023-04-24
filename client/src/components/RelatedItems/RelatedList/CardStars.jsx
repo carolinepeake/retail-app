@@ -37,11 +37,14 @@ CardStars.propTypes = {
 
 const Stars = styled.div`
   position: relative;
-  margin-left: auto;
+  margin-left: 0.25rem;
   margin-right: auto;
-  font-size: 1.5em;
+  font-size: 0.75rem;
   color: ${(props) => props.theme.fontColor};
+  margin-top: 0.25rem;
 `;
+// margin-left: auto;
+// font-size: 1.5em;
 
 const BaseStar = styled.span`
   position: relative;

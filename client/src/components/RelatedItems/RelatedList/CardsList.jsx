@@ -77,7 +77,7 @@ const Container = styled.div`
   background-color: ${(props) => props.theme.backgroundColor};
   grid-row: 2;
   align-items: center;
-  grid-column: 1/10;
+  grid-column: 1/11;
 `;
 
 // const StyleCardList = styled.div`
@@ -96,9 +96,9 @@ const StyleCardList = styled.div`
   display: grid;
   positive: relative;
   grid-row: 2;
-  grid-column: 1/9;
+  grid-column: 1/10;
   grid-template-columns: repeat(4, 4fr);
-  column-gap: 1em;
+  column-gap: 2em;
   align-content: center;
   margin-top: 1em;
 `;

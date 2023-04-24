@@ -67,7 +67,7 @@ function AddRev({ revMeta, productID, productInfo }) {
 
   return (
     <div>
-      <AddButton primary type="button" onClick={() => handleAddRev()}>
+      <AddButton primary modal type="button" onClick={() => handleAddRev()}>
         Add a Review +
       </AddButton>
       {addClicked && (
