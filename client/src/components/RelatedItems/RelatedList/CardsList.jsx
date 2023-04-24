@@ -72,7 +72,6 @@ function CardsList() {
 // `;
 
 const Container = styled.div`
-  margin-top: .5rem;
   display: contents;
   background-color: ${(props) => props.theme.backgroundColor};
   grid-row: 2;
@@ -100,7 +99,6 @@ const StyleCardList = styled.div`
   grid-template-columns: repeat(4, 4fr);
   column-gap: 2em;
   align-content: center;
-  margin-top: 1em;
 `;
 
 const Text = styled.div`

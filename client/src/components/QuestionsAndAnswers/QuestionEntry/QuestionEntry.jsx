@@ -208,7 +208,7 @@ const Entry = styled.div`
 
 const QBlock = styled.div`
   display: flex;
-  align-items: center;
+  align-items: start;
   padding-bottom: 0.25rem;
 `;
 
@@ -220,7 +220,7 @@ const Question = styled.div`
 const QuestionHeader = styled.div`
   width: 100%;
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: space-between;
   margin-left: 1.0rem;
 `;

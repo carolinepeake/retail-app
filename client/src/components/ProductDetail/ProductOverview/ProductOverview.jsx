@@ -10,35 +10,21 @@ function ProductOverview() {
   return (
     <OverviewContainer>
       {reviews.length > 0
-        ? (
-          <>
+        && (
+          <div>
             <POStars />
             <ReadReviews className="readReviews">
-              <a href="#ratings-and-reviews" style={{ color: 'black' }}>{`Read all ${reviews.length} reviews`}</a>
+              <ReviewsLink href="#ratings-and-reviews">{`Read all ${reviews.length} reviews`}</ReviewsLink>
             </ReadReviews>
-          </>
-        )
-        : (
-          <ReadReviews>
-            <a href="#ratings-and-reviews">No reviews yet. Add one!</a>
-          </ReadReviews>
+          </div>
         )}
-      <br />
+      {/* // : (
+        //   <ReadReviews>
+        //     <a href="#ratings-and-reviews">No reviews yet. Add one!</a>
+        //   </ReadReviews>
+        // ) */}
       <CategoryContainer>{productInfo.category}</CategoryContainer>
       <ProductName>{productInfo.name}</ProductName>
-      <SocialMediaContainer>
-        <ShareSocial>
-          <Logo facebook>
-            <IoLogoFacebook />
-          </Logo>
-          <Logo twitter>
-            <IoLogoTwitter />
-          </Logo>
-          <Logo pintrest>
-            <IoLogoPinterest />
-          </Logo>
-        </ShareSocial>
-      </SocialMediaContainer>
       <PriceContainer>
         {selectedStyle.sale_price
           ? (
@@ -53,7 +39,20 @@ function ProductOverview() {
             <Price>{`$${selectedStyle.original_price}`}</Price>
           )}
       </PriceContainer>
-
+      <SocialMediaContainer>
+        <Like>Like it? Share it!</Like>
+        <ShareSocial>
+          <Logo facebook>
+            <IoLogoFacebook />
+          </Logo>
+          <Logo twitter>
+            <IoLogoTwitter />
+          </Logo>
+          <Logo pintrest>
+            <IoLogoPinterest />
+          </Logo>
+        </ShareSocial>
+      </SocialMediaContainer>
     </OverviewContainer>
   );
 }
@@ -72,7 +71,8 @@ function ProductOverview() {
 // };
 
 const OverviewContainer = styled.div`
-  display: block;
+  display: flex;
+  flex-direction: column;
   grid-row: 1/2;
   grid-column: 4;
   margin-right: 25%;
@@ -82,8 +82,18 @@ const ReadReviews = styled.h5`
   display: inline-block;
   margin-block-start: 0.5em;
   margin-block-end: 0em;
-  color: black;
   text: underlined;
+`;
+
+const ReviewsLink = styled.a`
+  &:hover {
+    text-decoration: none;
+  };
+  color: black;
+  &:visited {
+    color: initial;
+  };
+  font-weight: normal;
 `;
 
 const CategoryContainer = styled.h3`
@@ -93,11 +103,13 @@ const CategoryContainer = styled.h3`
   }
   cursor: pointer;
   text-transform: uppercase;
+  font-weight: normal;
+  font-size: 1rem;
 `;
 
 const ProductName = styled.h1`
-  margin-top: calc(4px + 0.25vw);
-  margin-bottom: calc(4px + 0.25vw);
+  margin-top: 0px;
+  margin-bottom: 0px;
 `;
 
 const SocialMediaContainer = styled.div`
@@ -109,6 +121,14 @@ const SocialMediaContainer = styled.div`
     cursor: pointer;
   };
   display: flex;
+  flex-direction: column;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  width: fit-content;
+`;
+
+const Like = styled.div`
+  font-size: 1rem;
 `;
 
 const Logo = styled.div`
@@ -116,7 +136,8 @@ const Logo = styled.div`
   flex-basis: 2.0rem;
   flex-grow: .75;
   flex-shrink: 1;
-  padding: 0.25rem 0.25rem;
+  padding-right: 0.5rem;
+  padding-top: 0.5rem;
   &:hover {
     color: ${(props) => props.facebook && 'blue'};
     color: ${(props) => props.twitter && 'aqua'};
@@ -129,7 +150,6 @@ const Logo = styled.div`
 
 const ShareSocial = styled.div`
   max-width: 7.5rem;
-  border: .1rem solid black;
   display: flex;
   flex-basis: 2.0rem 7.5rem;
   flex-shrink: 1;
@@ -142,7 +162,9 @@ const PriceContainer = styled.div`
 `;
 
 const Price = styled.h4`
-  margin: auto 0;
+  font-weight: normal;
+  margin-top: calc(10px + 0.5vw);
+  margin-bottom: calc(4px + 0.25vw);
 `;
 
 export default ProductOverview;

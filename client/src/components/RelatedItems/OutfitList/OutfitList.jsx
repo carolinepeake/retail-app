@@ -66,7 +66,6 @@ const Outline = styled.div`
   background-color: ${(props) => props.theme.backgroundColor};
   grid-row: 5/6;
   grid-column: 1/11;
-  margin-top: 0.5rem;
   display: contents;
 `;
 
@@ -81,14 +80,13 @@ const Outline = styled.div`
 const StyleList = styled.div`
   display: grid;
   positive: relative;
-  grid-row: 5;
-  grid-column: 1/10;
+  grid-row: 5/6;
+  grid-column: 1/11;
   grid-template-columns: repeat(4, 4fr);
   column-gap: 2em;
-  grid-template-rows: repeat(3, 1fr);
-  margin-top: 1em;
   align-content: center;
 `;
+//grid-template-rows: repeat(3, 1fr);
 
 // const StyleList = styled.div`
 //   display: flex;

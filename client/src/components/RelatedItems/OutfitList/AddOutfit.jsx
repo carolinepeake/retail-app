@@ -29,22 +29,32 @@ function AddOutfit() {
 }
 
 const Outline = styled.div`
-  grid-row: 1/3;
+  justify-self: stretch;
+  aspect-ratio: 4/6;
+  height: 100%
   min-width: 100%;
   min-height: 100%;
   display: flex;
   mask-image: ${props => props.outfitIndex === props.outfits.length - 3 ? "linear-gradient(to right, rgba(0,0,0,1), 40%, rgba(0,0,0,0) 80%)" : " " };
 `;
 
+//grid-row: 1/3;
+
 const Button = styled.button`
   min-width: 100%;
-  aspect-ratio: 1;
-  border-radius: 10px;
+  border-radius: 5px;
   cursor: pointer;
   padding: calc(8px + 0.5vw);
-  align-self:center;
+  align-self: flex-start;
   font-size: calc(8px + 1vw);
+  aspect-ratio: 4/6;
+  background-color: ${(props) => props.theme.secondaryColor};
+  color: ${(props) => props.theme.fontColor};
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  };
 `;
+// aspect-ratio: 1;
 
 //grid-column: 3/5;
 //font-size: 2rem;

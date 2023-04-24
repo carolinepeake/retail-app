@@ -11,21 +11,19 @@
 
   </a>
 
+<br/>
 
-
-  <p align="center">
+  <p>
    Atelier Fashion: Retail Application is a single-page React application that contains a navigation bar and 4 overarching components.
     <br/>
    The 4 components are:
     <br/>
-    * **Product Overview**
-    * **Related Products & Outfits Lits**
-    * **Questions & Answers**; and
-    * **Ratings & Reviews**
-
+    1) Product Overview
+    2) Related Products & Outfits Lits
+    3) Questions & Answers; and
+    4) Ratings & Reviews
   </p>
 
-    <br />
 
    ·<!-- DEMO LINK
       <a href="https://github.com/ph-castle/apples2oranges">View Demo(DEMO LINK HERE!!!!)</a>
@@ -46,7 +44,8 @@ In this readme, I will first describe my solo contributions, give an overview of
 
 <br/>
 
-                       <p align="right">(<a href="#readme-top">back to top</a>)</p>
+                       <p align="right">
+                  (<a href="#readme-top">back to top</a>)</p>
 
  ## My Contributions
 

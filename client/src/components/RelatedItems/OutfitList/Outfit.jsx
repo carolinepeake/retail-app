@@ -76,10 +76,11 @@ Outfit.propTypes = {
 
 const OutfitContainer = styled.div`
   grid-column: ${props => {props.i}};
-  grid-row: 1/4;
   align-self: center;
   mask-image: ${(props) => props.i === 3 ? "linear-gradient(to right, rgba(0,0,0,1), 40%, rgba(0,0,0,0) 80%)" : " " };
 `;
+
+// grid-row: 1/4;
 
 //margin-top: 0.5rem;
 

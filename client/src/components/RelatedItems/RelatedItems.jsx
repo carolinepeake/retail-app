@@ -41,7 +41,7 @@ const Container = styled.div`
 const Text = styled(SectionHeading)`
   text-align:left;
   grid-row: ${(props) => (props.second ? '4/5' : '1/2')};
-  grid-column: 1/8;
+  grid-column: 1/11;
 `;
 
 // const Text1 = styled.div`

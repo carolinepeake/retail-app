@@ -60,8 +60,9 @@ const StyleContainer = styled.div`
 `;
 
 const StyleName = styled.h4`
-  margin-block-start: 0em;
+  margin-block-start: 1em;
   margin-block-end: 1em;
+  font-weight: normal;
 `;
 
 const ThumbnailsContainer = styled.div`

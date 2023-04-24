@@ -118,10 +118,11 @@ function AddToCart() {
 const Cart = styled.div`
   display: flex;
   flex-direction: column;
-  margin-right: 1em;
   width: 100%;
   position: relative;
+  margin: 1.0rem 0;
 `;
+//margin-right: 1em;
 
 const SelectSizeAndQuantityContainer = styled.form`
   flex-direction: row;
@@ -183,6 +184,9 @@ const AddToCartButton = styled(Button)`
   padding: calc(1px + 1.2vw) calc(6px + 1.2vw);
   font-size: calc(6px + 1.2vw);
   font-weight: bold;
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  };
 `;
 // background-color: ${(props) => props.theme.addToCart};
 // color: ${(props) => props.theme.addToCartFont};
@@ -199,6 +203,9 @@ const Star = styled(Button)`
   flex-basis: 2.5em;
   flex-grow: 1;
   flex-shrink: 4;
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  };
 `;
 
 // const Error = styled.div`
