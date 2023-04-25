@@ -131,6 +131,7 @@ const Text = styled.div`
 //   flex-grow: 1;
 // `;
 
+// TO-DO: combine css for all arrows
 const LeftButton = styled.button`
   align-self: center;
   position: absolute;

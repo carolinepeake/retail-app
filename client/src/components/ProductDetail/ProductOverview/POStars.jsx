@@ -51,7 +51,7 @@ const FilledStar = styled.div`
   width: ${(props) => props.size}%;
   overflow:hidden;
   flex-direction: row;
-  color: gold;
+  color: ${(props) => props.theme.starFilled};
   font-size: bold;
 `;
 

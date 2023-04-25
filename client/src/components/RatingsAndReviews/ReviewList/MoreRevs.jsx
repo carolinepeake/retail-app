@@ -1,42 +1,27 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Button from '../../reusable/Button.jsx';
+import Button from '../../reusable/Button';
 
-function MoreRevs({ productID, setRevCount, revListLength }) {
-  const noMoreReviews = useRef(false);
-  const handleMoreReviews = function handleMoreReviews() {
-    setRevCount(() => {
-      noMoreReviews.current = true;
-      return revListLength;
-    });
-  };
-
-  useEffect(() => {
-    noMoreReviews.current = false;
-  }, [productID]);
+function MoreRevs({ revCount, setRevCount }) {
+  function handleMoreReviews() {
+    setRevCount((prev) => prev + 5);
+  }
 
   return (
-    <div>
-      {!noMoreReviews.current
-        && (
-          <MoreButton primary load type="button" onClick={() => handleMoreReviews()}>
-            More Reviews
-          </MoreButton>
-        )}
-    </div>
+    <MoreRevsButton type="button" onClick={() => handleMoreReviews()}>
+      More Reviews
+    </MoreRevsButton>
   );
 }
 
 MoreRevs.propTypes = {
-  productID: PropTypes.number.isRequired,
+  revCount: PropTypes.number.isRequired,
   setRevCount: PropTypes.func.isRequired,
-  revListLength: PropTypes.number.isRequired,
 };
 
-export default MoreRevs;
-
-const MoreButton = styled(Button)`
-  background-color: ${(props) => props.theme.secondaryColor};
-  color: ${(props) => props.theme.fontColor};
+const MoreRevsButton = styled(Button)`
+  flex: 1;
 `;
+
+export default MoreRevs;

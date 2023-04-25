@@ -2,13 +2,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import CardStars from '../RelatedList/CardStars';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
+import CardStars from '../RelatedList/CardStars';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
 function Outfit({ outfit, index }) {
   const {
-    outfits, setOutfits, outfitIndex
+    outfits, setOutfits, outfitIndex,
   } = useGlobalContext();
   const outfitImage = outfit.image.data.results[0].photos[0].thumbnail_url;
   const outfitDetails = outfit.details.data;
@@ -20,7 +20,7 @@ function Outfit({ outfit, index }) {
     const tempArray = [...outfits];
     tempArray.splice(index, 1);
     setOutfits(tempArray);
-  };
+  }
 
   return (
     <OutfitContainer i={index} outfitIndex={outfitIndex}>
@@ -75,14 +75,11 @@ Outfit.propTypes = {
 // `;
 
 const OutfitContainer = styled.div`
-  grid-column: ${props => {props.i}};
+  grid-column: ${(props) => props.i};
   align-self: center;
-  mask-image: ${(props) => props.i === 3 ? "linear-gradient(to right, rgba(0,0,0,1), 40%, rgba(0,0,0,0) 80%)" : " " };
+  background-color: ${(props) => props.theme.backgroundColor};
+  mask-image: ${(props) => (props.i === 3 ? 'linear-gradient(to right, rgba(0,0,0,1), 40%, rgba(0,0,0,0) 80%)' : ' ')};
 `;
-
-// grid-row: 1/4;
-
-//margin-top: 0.5rem;
 
 const Outline = styled.div`
   &:hover {
@@ -107,7 +104,6 @@ const Info = styled.div`
   margin-right: auto;
   font-size: 0.75rem;
 `;
-// margin-left: auto;
 
 const Image = styled.img`
   display: block;
@@ -119,18 +115,6 @@ const Image = styled.img`
   cursor: pointer;
   overflow: hidden;
 `;
-
-// const Image = styled.img`
-//   display: block;
-//   position: relative;
-//   // margin-left: auto;
-//   // margin-right: auto;
-//   width: 225px;
-//   height: 225px;
-//   object-fit: fill;
-//   border-radius: 10px;
-//   cursor: pointer;
-// `;
 
 const Button = styled.button`
   display: block;

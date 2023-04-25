@@ -4,7 +4,7 @@ import { useGlobalContext } from '../../contexts/GlobalStore';
 import QuestionEntry from './QuestionEntry/QuestionEntry';
 import QuestionSearch from './QuestionSearch/QuestionSearch';
 import ExtraButtons from './Extras/ExtraButtons';
-import SectionHeading from '../reusable/SectionHeading';
+import SectionHeader from '../reusable/SectionHeader';
 
 function QuestionAndAnswers() {
   const { numQuestions, filteredQuestions, setNumQuestions } = useGlobalContext();
@@ -19,9 +19,9 @@ function QuestionAndAnswers() {
 
   return (
     <Container id="question-and-answers">
-      <QATitle>
+      <SectionHeader>
         Questions & Answers
-      </QATitle>
+      </SectionHeader>
       <QuestionSearch />
       <QuestionListContainer id="scrollable-container" onScroll={(e) => handleScroll(e)}>
         {numQuestions === 0 ? (
@@ -60,17 +60,12 @@ const Container = styled.div`
   }
 `;
 
-const QATitle = styled(SectionHeading)`
-  margin-bottom: 0.5rem;
-`;
-
 const QuestionListContainer = styled.div`
   max-height: 75vh;
   overflow: auto;
   justify-content: center;
   scroll-behavior: smooth;
-  background-color: ${(props) => props.theme.secondaryColor};
+  background-color: ${(props) => props.theme.backgroundColor};
   padding: 0.5em 1.0em 1.0em 1.0em;
   margin-bottom: 0.5em;
 `;
-// border-radius: 10px;

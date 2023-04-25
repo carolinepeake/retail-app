@@ -172,6 +172,9 @@ const Clickable = styled.u`
   &:hover {
     text-decoration: initial;
   };
+  &:visited {
+    color: ${(props) => props.theme.clicked};
+  };
 `;
 // &:hover {
 //   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -179,6 +182,7 @@ const Clickable = styled.u`
 
 const Reported = styled.span`
   font-weight: bold;
+  color: ${(props) => props.theme.clicked};
 `;
 // margin-left: 1em;
 

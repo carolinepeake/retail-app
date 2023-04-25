@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
+// TO-DO: make a reusable component for Stars
+
 function CardStars({ reviewID }) {
 
   const baseStars = [];
@@ -58,7 +60,7 @@ const FilledStar = styled.div`
   width: ${(props) => props.size}%;
   overflow:hidden;
   flex-direction: row;
-  color: gold;
+  color: ${(props) => props.theme.starFilled};
   font-size: bold;
 `;
 

@@ -80,11 +80,11 @@ const Modal = styled.div`
   height: 150px;
   top: 20%;
   right: -35%;
-  border: solid black thin;
+  border: solid currentColor thin;
   background-color: gray;
   overflow: auto;
   z-index: 9;
-  border-radius: 15px;
+  border-radius: 5px;
 `;
 
 const Product = styled.div`

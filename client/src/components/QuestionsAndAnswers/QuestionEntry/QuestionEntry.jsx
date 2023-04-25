@@ -251,6 +251,9 @@ const Report = styled.div`
 
 const Reported = styled.span`
   font-weight: bold;
+  &:visited {
+    color: ${(props) => props.theme.clicked};
+  };
 `;
 
 const Add = styled.div`
@@ -296,6 +299,9 @@ const Clickable = styled.u`
   &:hover {
     text-decoration: initial;
   };
+  &:visited {
+    color: ${(props) => props.theme.clicked};
+  };
 `;
 // &:hover {
 //   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -305,7 +311,8 @@ const MoreAnswers = styled(Button)`
   display: flex;
   grid-column: 2;
   cursor: pointer;
-  background-color: white;
+  background-color: ${(props) => props.theme.backgroundColor};
+  };
   border: none;
   font-weight: bold;
   font-size: calc(8px + 0.5vw);

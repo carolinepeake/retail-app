@@ -47,6 +47,7 @@ function HelpfulReport({ review }) {
     }
   };
 
+  // TO-DO: make reusable component w/ Q&A
   return (
     <HelpfulnessDiv>
       <Helpful>

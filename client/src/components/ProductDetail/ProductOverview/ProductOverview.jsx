@@ -76,6 +76,7 @@ const OverviewContainer = styled.div`
   grid-row: 1/2;
   grid-column: 4;
   margin-right: 25%;
+  background-color: ${(props) => props.theme.backgroundColor}
 `;
 
 const ReadReviews = styled.h5`
@@ -115,17 +116,18 @@ const ProductName = styled.h1`
 const SocialMediaContainer = styled.div`
   height: auto;
   width: auto;
-  margin-block-end: calc(8px + 0.5vw);
-  margin-top: calc(8px + 0.5vw);
   &:hover {
     cursor: pointer;
   };
   display: flex;
   flex-direction: column;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
   width: fit-content;
+  margin: 1.0rem 0;
 `;
+// margin-block-end: calc(8px + 0.5vw);
+//   margin-top: calc(8px + 0.5vw);
+//   margin-top: 0.5rem;
+//   margin-bottom: 0.5rem;
 
 const Like = styled.div`
   font-size: 1rem;

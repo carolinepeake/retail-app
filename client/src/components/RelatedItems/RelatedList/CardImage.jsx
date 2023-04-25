@@ -87,7 +87,7 @@ const Button = styled.button`
   font-size: calc(12.5px + 1.25vw);
   font-weight: bold;
   &:hover {
-    color: gold;
+    color: ${(props) => props.theme.starFilled};
     opacity: 0.80;
   };
   cursor: pointer;

@@ -34,7 +34,7 @@ function ExpandedImageModal({ src, setShowModal }) {
 const ModalBackground = styled.div`
   width: 100vw;
   height: 100vh;
-  background-color: rgba(200, 200, 200, 0.5);
+  background-color: ${(props) => props.theme.backgroundColor};
   position: fixed;
   display: flex;
   justify-content: center;
@@ -47,13 +47,13 @@ const ModalBackground = styled.div`
 const ModalContainer = styled.div`
   max-width: 60vw;
   max-height: 90vh;
-  border-radius: 10px;
-  background-color: white;
+  border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   display: flex;
   flex-direction: column;
   padding: 25px;
-  background-color: ${(props) => props.theme.secondaryColor};
+  background-color: ${(props) => props.theme.backgroundColor};
+  color: ${(props) => props.theme.fontColor};
 `;
 
 const CloseButtonDiv = styled.div`

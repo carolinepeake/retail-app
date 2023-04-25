@@ -102,11 +102,11 @@ const StarLabel = styled.div`
 `;
 
 const StarBar = styled.div`
-  background: ${(props) => props.clickedBar ? 'gold' : 'grey'};
+  background: ${(props) => props.clickedBar ? props.theme.starFilled : 'grey'};
   height: 0.5rem;
   width: ${(props) => props.width}%;
   &:hover {
-    background: gold;
+    background: ${(props) => props.theme.starFilled};
   }
 `;
 

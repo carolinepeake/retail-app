@@ -7,14 +7,14 @@ import ReviewTile from './ReviewList/ReviewTile';
 import MoreRevs from './ReviewList/MoreRevs';
 import AddRev from './AddRev/AddRev';
 import Breakdown from './Breakdown/Breakdown';
-import SectionHeading from '../reusable/SectionHeading';
+import SectionHeader from '../reusable/SectionHeader';
 
 // need to change how i get reviews. Just get all at once, then slice.
 // if need to change the filter, just make new get request
 
 function RatingsAndReviews() {
   const {
-    productID, productInfo, reviews, setReviews, revMeta, setRevMeta
+    productID, productInfo, reviews, setReviews, revMeta, setRevMeta,
   } = useGlobalContext();
   const [sortOrder, setSortOrder] = useState('relevant');
   const [revCount, setRevCount] = useState(2);
@@ -103,19 +103,19 @@ function RatingsAndReviews() {
         />
 
         <ReviewTilesContainer>
+
           {filteredRevs.slice(0, revCount).map((review) => (
-            <ReviewTile key={review.review_id} review={review} />
-          ))}
+            <ReviewTile key={review.review_id} review={review} />))}
+
         </ReviewTilesContainer>
 
         <MoreAddContainer>
           {
-            reviews.length >= 2
+            (reviews.length > 2 && reviews.length > revCount)
             && (
               <MoreRevs
-                productID={productID}
+                revCount={revCount}
                 setRevCount={setRevCount}
-                revListLength={filteredRevs.length}
               />
             )
           }
@@ -124,15 +124,14 @@ function RatingsAndReviews() {
       </ReviewListContainer>
     </Container>
   );
-};
+}
 
 export default RatingsAndReviews;
 
 const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 1em 1fr;
-  background: ;
+  grid-template-rows: 2.0rem 1fr;
 
   @media (max-width: 600px) {
     padding-left: 5%;
@@ -146,38 +145,27 @@ const Container = styled.div`
   }
 `;
 
-const RRTitle = styled(SectionHeading)`
+const RRTitle = styled(SectionHeader)`
   grid-column: 1/4;
   grid-row: 1;
-  padding-right: 5%;
 `;
 
 const ReviewListContainer = styled.div`
   grid-column: 2/4;
 `;
 
-// const ReviewListContainer = styled.div`
-//   padding: 1em;
-//   background: ;
-//   width: 80%;
-//   grid-column: 3/5;
-// `;
-
 const ReviewTilesContainer = styled.div`
   padding-left: 1em;
-  background: ;
   max-height: 31em;
   overflow: auto;
 `;
 
 const MoreAddContainer = styled.div`
-  padding: 1em;
+  padding: 1em 0 1em 1em;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
+  column-gap: 2.0rem;
 `;
-  // width: 20em;
-  // margin-left: 15%;
-  // justify-content: space-around;
 
 const BreakdownContainer = styled.div`
   max-width: 400px;
@@ -201,8 +189,7 @@ const BreakdownContainer = styled.div`
 //   grid-column: 2/3;
 // `;
 
-
-//better organize axios requests
+// better organize axios requests
 // refactor related axios requests to make DRYier
-//make stars a higher order component
+// make stars a higher order component
 // possibly make carasouel a higher order  component

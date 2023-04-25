@@ -76,6 +76,7 @@ function AddToCart() {
             <StyledSelect
               as="select"
               ref={sizeDropdown}
+              select
               style={{ borderColor: error ? 'red' : 'black' }}
             // value={selectedSize}
               onChange={(e) => handleChangeSize(e)}
@@ -91,25 +92,29 @@ function AddToCart() {
           )}
         {isSizeSelected
           ? (
-            <StyledSelect quantity as="select" value={selectedQuantity} onChange={(e) => handleChangeQuantity(e)}>
+            <StyledSelect as="select" value={selectedQuantity} quantity select onChange={(e) => handleChangeQuantity(e)}>
               {selectedSku.quantity >= 15
                 ? [...Array(16).keys()].slice(1).map((num) => <Option value={num}>{num}</Option>)
-                : [...Array(selectedSku.quantity + 1).keys()].slice(1).map((num) => <Option value={num}>{num}</Option>)}
+                : [...Array(selectedSku.quantity + 1).keys()].slice(1).map((num) => (
+                  <Option value={num}>{num}</Option>
+                ))}
             </StyledSelect>
           )
           : (
-            <StyledSelect quantity as="select" disabled>
+            <StyledSelect quantity as="select" select disabled>
               <Option>––</Option>
             </StyledSelect>
           )}
       </SelectSizeAndQuantityContainer>
       <Error style={{ display: error ? 'block' : 'none' }}>Please Select a Size</Error>
       <BagContainer>
-        <AddToCartButton type="submit" onClick={(e) => handleAddToBag(e)}>
+        <AddToCartButton type="submit" modal onClick={(e) => handleAddToBag(e)}>
           <AddToCartText>Add to Cart</AddToCartText>
           <AddToCartText>+</AddToCartText>
         </AddToCartButton>
-        <Star type="button">&#9734;</Star>
+        <Star type="button">
+          <span>&#9733;</span>
+        </Star>
       </BagContainer>
     </Cart>
   );
@@ -120,9 +125,9 @@ const Cart = styled.div`
   flex-direction: column;
   width: 100%;
   position: relative;
-  margin: 1.0rem 0;
+  margin-top: 1.0rem;
 `;
-//margin-right: 1em;
+// margin-right: 1em;
 
 const SelectSizeAndQuantityContainer = styled.form`
   flex-direction: row;
@@ -183,14 +188,7 @@ const AddToCartButton = styled(Button)`
   align-items: center;
   padding: calc(1px + 1.2vw) calc(6px + 1.2vw);
   font-size: calc(6px + 1.2vw);
-  font-weight: bold;
-  &:hover {
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  };
 `;
-// background-color: ${(props) => props.theme.addToCart};
-// color: ${(props) => props.theme.addToCartFont};
-
 
 const AddToCartText = styled.div`
   display: inline-block;
@@ -204,19 +202,10 @@ const Star = styled(Button)`
   flex-grow: 1;
   flex-shrink: 4;
   &:hover {
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    color: ${(props) => props.theme.starFilled};
+    border-color: ${(props) => props.theme.inherit};
   };
 `;
-
-// const Error = styled.div`
-//   position: relative;
-//   top: 0;
-//   z-index: 2;
-//   border: thin red solid;
-//   border-radius: 5px;
-//   padding: 0.5em 1em;
-//   color: red;
-// `;
 
 const Error = styled.div`
   color: red;

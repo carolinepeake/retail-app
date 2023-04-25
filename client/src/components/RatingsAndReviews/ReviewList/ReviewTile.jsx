@@ -78,7 +78,7 @@ ReviewTile.propTypes = {
 export default ReviewTile;
 
 const Container = styled.div`
-  border-bottom: black solid thin;
+  border-bottom: currentColor solid thin;
   overflow-wrap: anywhere;
   background-color: ${(props) => props.theme.secondaryColor};
   padding: 0.5rem;

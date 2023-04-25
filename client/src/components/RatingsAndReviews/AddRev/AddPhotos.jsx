@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 // const cloudinary = require('cloudinary').v2;
 // require('dotenv').config();
+import Button from '../../reusable/Button';
 
 function AddPhotos() {
   //
@@ -24,6 +25,7 @@ function AddPhotos() {
   //   }
   // };
 
+  // TO-DO: implement add photos functionality
   const handleAddPhotos = function handleAddPhotos(event) {
     //
     console.log(event.target.files);
@@ -40,6 +42,7 @@ function AddPhotos() {
         style={{ fontSize: 'calc(10px + 1vw)', font: 'inherit', padding: 'calc(2.5px + 0.25vw)'}}
       />
       <br />
+      <AddButton />
     </div>
   );
 }
@@ -52,10 +55,8 @@ function AddPhotos() {
 
 export default AddPhotos;
 
-const AddButton = styled.button`
+const AddButton = styled(Button)`
   padding: calc(7.5px + 0.75vw);
-  font-size: calc(10px + 1vw);
-  background-color: ${(props) => props.theme.secondaryColor};
 `;
 
 const AddPhotosBackground = styled.div`

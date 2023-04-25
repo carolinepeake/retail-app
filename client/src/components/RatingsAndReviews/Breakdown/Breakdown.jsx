@@ -42,7 +42,7 @@ Breakdown.propTypes = {
 };
 
 const BreakdownContainer = styled.div`
-  background-color: ${(props) => props.theme.secondaryColor};
+  background-color: ${(props) => props.theme.backgroundColor};
   padding: 0.5rem;
 `;
 

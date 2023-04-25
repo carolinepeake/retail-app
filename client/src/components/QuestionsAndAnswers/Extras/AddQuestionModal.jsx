@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import axios from 'axios';
+import Button from '../../reusable/Button';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
 function AddQuestionModal({ setShowModal }) {
@@ -122,7 +123,7 @@ function AddQuestionModal({ setShowModal }) {
           ) : null}
         </Form>
         <Footer>
-          <FooterButton onClick={() => askQuestion()}>
+          <FooterButton type="submit" modal onClick={() => askQuestion()}>
             Submit
           </FooterButton>
           <FooterButton onClick={() => setShowModal(false)}>
@@ -137,7 +138,7 @@ function AddQuestionModal({ setShowModal }) {
 const ModalBackground = styled.div`
   width: 100vw;
   height: 100vh;
-  background-color: rgba(200, 200, 200, 0.5);
+  background-color: ${(props) => props.theme.backgroundColor};
   position: fixed;
   display: flex;
   justify-content: center;
@@ -149,13 +150,14 @@ const ModalBackground = styled.div`
 const ModalContainer = styled.div`
   width: 60vw;
   max-height: 90vh;
-  border-radius: 10px;
+  border-radius: 5x;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   display: flex;
   flex-direction: column;
   padding: 25px;
-  background-color: ${(props) => props.theme.secondaryColor};
+  background-color: ${(props) => props.theme.backgroundColor};
+  color: ${(props) => props.theme.fontColor};
 `;
 
 const CloseButtonDiv = styled.div`
@@ -197,9 +199,10 @@ const FormEntry = styled.input`
   :-ms-input-placeholder {
     color: ${(props) => props.theme.fontColor};
   }
-  border:black solid thin;
+  border: currentColor solid thin;
 `;
 
+// TO-DO: make size (height) responsive
 const InputQuestion = styled.textarea`
   resize: none;
   height: 125px;
@@ -214,7 +217,7 @@ const InputQuestion = styled.textarea`
   :-ms-input-placeholder {
     color: ${(props) => props.theme.fontColor};
   }
-  border: black solid thin;
+  border: currentColor solid thin;
 `;
 
 const Footer = styled.div`
@@ -224,32 +227,26 @@ const Footer = styled.div`
   margin-top: 20%;
 `;
 
-const FooterButton = styled.button`
-  padding: calc(6px + 0.375vw);
-  margin: calc(4px + 0.25vw);
-  border: none;
-  color: ${(props) => props.theme.fontColor};
-  background-color: ${(props) => props.theme.backgroundColor};
-  border-radius: 10px;
-  border: black solid thin;
-  font-size: calc(8px + 0.5vw);
-  cursor: pointer;
-  &:hover {
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  }
-`;
+const FooterButton = styled(Button);
+// padding: calc(6px + 0.375vw);
+//   margin: calc(4px + 0.25vw);
+//   font-size: calc(8px + 0.5vw);
+//   &:hover {
+//     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+//   }
 // width: 12rem;
 // height: 2.5rem;
 // margin: .5rem;
 
 const Required = styled.sup`
-  color: #ff0000;
+  color: ${(props) => props.theme.formError}
 `;
 
 const Disclaimer = styled.div`
   font-size: 0.75rem;
   grid-column: 2;
   font-style: italic;
+  color: ${(props) => props.theme.formError}
 `;
 
 const Header = styled.header`

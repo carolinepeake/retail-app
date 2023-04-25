@@ -56,10 +56,10 @@ Card.propTypes = {
 };
 
 const CardContainer = styled.div`
-  grid-column: ${(props) => {props.i}};
+  grid-column: ${(props) => props.i};
   grid-row: 1;
-  margin-top: 0.5rem;
   position: relative;
+  background-color: ${(props) => props.theme.backgroundColor};
 `;
 // background-color: white;
 
@@ -67,7 +67,7 @@ const CardStyle = styled.div`
   display: flex;
   flex-direction: column;
   border: black solid medium transparent;
-  mask-image: ${props => props.i === 3 ? "linear-gradient(to right, rgba(0,0,0,1), 40%, rgba(0,0,0,0) 80%)" : " " };
+  mask-image: ${(props) => (props.i === 3 ? 'linear-gradient(to right, rgba(0,0,0,1), 40%, rgba(0,0,0,0) 80%)' : ' ' )};
 `;
 
 const Cards = styled.div`

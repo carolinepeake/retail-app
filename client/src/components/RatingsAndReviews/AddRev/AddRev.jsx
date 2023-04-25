@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import StarRating from './StarRating';
 import Characteristics from './Characteristics';
 import AddPhotos from './AddPhotos';
-import Button from '../../reusable/Button.jsx';
+import Button from '../../reusable/Button';
 
 function AddRev({ revMeta, productID, productInfo }) {
   const [addClicked, setAddClicked] = useState(false);
@@ -66,10 +66,10 @@ function AddRev({ revMeta, productID, productInfo }) {
   };
 
   return (
-    <div>
-      <AddButton primary modal type="button" onClick={() => handleAddRev()}>
+    <>
+      <AddRevButton modal type="button" onClick={() => handleAddRev()}>
         Add a Review +
-      </AddButton>
+      </AddRevButton>
       {addClicked && (
       <AddRevBackground id="AddRevBackground" onClick={(event) => handleBackgroundClick(event)}>
         <AddRevDiv>
@@ -158,15 +158,15 @@ function AddRev({ revMeta, productID, productInfo }) {
             <br />
 
             <ButtonContainer>
-              <ButtonDiv primary type="submit">Submit</ButtonDiv>
-              <ButtonDiv primary type="button" onClick={() => setAddClicked(false)}> Cancel </ButtonDiv>
+              <ButtonDiv modal type="submit">Submit</ButtonDiv>
+              <ButtonDiv type="button" onClick={() => setAddClicked(false)}> Cancel </ButtonDiv>
             </ButtonContainer>
 
           </FormContainer>
         </AddRevDiv>
       </AddRevBackground>
       )}
-    </div>
+    </>
   );
 }
 
@@ -178,12 +178,9 @@ AddRev.propTypes = {
 
 export default AddRev;
 
-const AddButton = styled(Button)`
-  background-color: ${(props) => props.theme.secondaryColor};
-  color: ${(props) => props.theme.fontColor};
+const AddRevButton = styled(Button)`
+  flex: 1;
 `;
-// height: 3rem;
-// width: 14rem;
 
 const AddRevBackground = styled.div`
   width: 100vw;
@@ -200,7 +197,7 @@ const AddRevDiv = styled.div`
   width: 60vw;
   max-height: 80vh;
   padding: 25px;
-  border-radius: 10px;
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
   border: 1px solid;
