@@ -82,7 +82,9 @@ function AnswerEntry({ answer }) {
         </Answerer>
         <div>|</div>
         <Helpful>
-          Helpful?
+          <div style={{ paddingRight: '0.5em' }}>
+            Helpful?
+          </div>
           <Yes>
             {clickedHelpful.current ? (
               <b>Yes</b>
@@ -121,9 +123,9 @@ function AnswerEntry({ answer }) {
 
 const Answer = styled.div`
   padding-bottom: 1rem;
-  padding-left: 0.5rem;
-  font-size: 1.0rem;
+  font-size: 1.0em;
 `;
+// padding-left: 0.5rem;
 
 const AnswerPhotos = styled.span`
   display: flex;
@@ -140,10 +142,12 @@ const AnswerImage = styled.img`
 
 const AnswerFooter = styled.div`
   display: flex;
-  font-size: 0.75rem;
+  font-size: 0.75em;
   justify-content: flex-start;
   color: rgb(85 85 85);
+  padding-top: 0.1em;
 `;
+// padding-top: 0.25em;
 
 const Answerer = styled.div`
   padding-right: 1em;
@@ -151,12 +155,14 @@ const Answerer = styled.div`
 
 const Helpful = styled.div`
   padding: 0 1em;
+  display: flex;
+  justify-content: center;
 `;
 
 const Yes = styled.span`
-  padding-left: 0.5em;
   padding-right: 0.25em;
 `;
+// padding-left: 0.5em;
 
 const Report = styled.div`
   padding-left: 1em;

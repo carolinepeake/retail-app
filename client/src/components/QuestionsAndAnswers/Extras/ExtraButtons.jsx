@@ -21,13 +21,13 @@ function ExtraButtons() {
   return (
     <ButtonContainer>
       {numQuestions < questions.length ? (
-        <Button onClick={() => increaseQuestions()}>
+        <QuestionsButton type="button" onClick={() => increaseQuestions()}>
           More Questions
-        </Button>
+        </QuestionsButton>
       ) : null}
-      <Button modal onClick={() => setShowModal(true)}>
+      <QuestionsButton type="button" modal onClick={() => setShowModal(true)}>
         Ask a Question +
-      </Button>
+      </QuestionsButton>
       {showModal ? (
         <AddQuestionModal setShowModal={setShowModal} />
       ) : null}
@@ -37,13 +37,30 @@ function ExtraButtons() {
 
 const ButtonContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
-  margin-left: 1rem;
-  margin-right: 1rem;
-  margin-top: 0.3rem;
-  border-radius: 5px;
+  flex-direction: column;
+
+  @media (min-width: 600px) {
+    flex-direction: row;
+    column-gap: 2rem;
+    justify-content: space-evenly;
+    align-items: center;
+  };
 `;
 
+  // margin-left: 1rem;
+  // margin-right: 1rem;
+  // margin-top: 0.3rem;
+
+const QuestionsButton = styled(Button)`
+  flex: 1;
+  margin: 0.5rem 0;
+
+  @media (min-width: 600px) {
+    margin: 0;
+  };
+`;
+// padding: 12px;
+// padding: calc(7.5px + 0.75vw);
+// font-size: 12px;
+// padding: calc(4px + 1.2vw) calc(10px + 1vw);
 export default ExtraButtons;

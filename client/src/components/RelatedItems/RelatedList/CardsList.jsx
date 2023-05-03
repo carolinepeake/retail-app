@@ -76,6 +76,11 @@ const Container = styled.div`
   background-color: ${(props) => props.theme.backgroundColor};
   grid-row: 2;
   align-items: center;
+
+  @media (min-width: 600px) {
+    grid-column: 1/11;
+  };
+
   grid-column: 1/11;
 `;
 
@@ -96,9 +101,14 @@ const StyleCardList = styled.div`
   positive: relative;
   grid-row: 2;
   grid-column: 1/10;
-  grid-template-columns: repeat(4, 4fr);
-  column-gap: 2em;
+  grid-template-columns: repeat(2, 2fr);
+  column-gap: 1em;
   align-content: center;
+
+  @media (min-width: 600px) {
+    grid-template-columns: repeat(4, 4fr);
+    column-gap: 2em;
+  };
 `;
 
 const Text = styled.div`

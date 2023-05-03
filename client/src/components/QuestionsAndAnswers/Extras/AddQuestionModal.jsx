@@ -225,9 +225,12 @@ const Footer = styled.div`
   flex: none;
   justify-content: center;
   margin-top: 20%;
+  column-gap: 2rem;
 `;
 
-const FooterButton = styled(Button);
+const FooterButton = styled(Button)`
+  flex: 1;
+`;
 // padding: calc(6px + 0.375vw);
 //   margin: calc(4px + 0.25vw);
 //   font-size: calc(8px + 0.5vw);

@@ -75,7 +75,7 @@ const OverviewContainer = styled.div`
   flex-direction: column;
   grid-row: 1/2;
   grid-column: 4;
-  margin-right: 25%;
+  margin-right: 10%;
   background-color: ${(props) => props.theme.backgroundColor}
 `;
 
@@ -113,6 +113,8 @@ const ProductName = styled.h1`
   margin-bottom: 0px;
 `;
 
+// TO-DO: make social media container same size as price & style but separate by color
+
 const SocialMediaContainer = styled.div`
   height: auto;
   width: auto;
@@ -147,7 +149,7 @@ const Logo = styled.div`
   };
   display: flex;
   justify-content: center;
-  font-size: calc(8px + 1.5vw); ;
+  font-size: calc(8px + 1.5vw);
 `;
 
 const ShareSocial = styled.div`

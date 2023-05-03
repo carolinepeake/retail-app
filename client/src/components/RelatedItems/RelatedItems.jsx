@@ -20,20 +20,21 @@ function RelatedItems() {
 }
 
 const Container = styled.div`
+  padding-left: 5%;
+  padding-right: 5%;
 
   @media (max-width: 600px) {
-    padding-left: 5%;
-    padding-right: 5%;
     padding-top: 5%;
+    display: grid;
+    grid-template-columns: 1fr 3fr 1.0rem 3fr 1fr;
+    grid-template-rows: 1.0rem 1fr 1.5em 1.0rem 1fr;
   }
 
-  display: grid;
-  grid-template-columns: 1fr 3fr 2.0rem 4fr 2.0rem 4fr 2.0rem 3fr 1fr;
-  grid-template-rows: 2.0rem 1fr 1.5em 2.0rem 1fr;
-
   @media (min-width: 600px) {
-    padding: 0 2.5%;
     margin-top: 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 3fr 2.0rem 4fr 2.0rem 4fr 2.0rem 3fr 1fr;
+    grid-template-rows: 2.0rem 1fr 1.5em 2.0rem 1fr;
   }
 `;
 // grid-template-columns: repeat(3, 4fr 1rem) 3fr 5% 5%;

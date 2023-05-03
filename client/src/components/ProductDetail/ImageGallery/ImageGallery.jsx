@@ -132,6 +132,7 @@ function ImageGallery({ status, setStatus }) {
       {selectedStyle.photos
       && (
         <MainWrapper status={status}>
+
           <Main
             src={selectedStyle.photos[place || 0].url}
             alt={`${productInfo.name} in ${selectedStyle.name} style`}
@@ -143,48 +144,49 @@ function ImageGallery({ status, setStatus }) {
           />
 
           {status !== 'zoomed'
-      && (
-        <>
-          <Buttons
-            style={{ left: '2%' }}
-            onClick={() => handleClickArrow(-1)}
-          >
-            <MdArrowBackIos style={{ fontSize: '1.5rem', paddingLeft: '0.5rem', paddingTop: '0.25rem' }} />
-          </Buttons>
-          <Buttons
-            style={{ right: '2%', display: place < thumbnails.length - 1 ? 'block' : 'none' }}
-            onClick={() => handleClickArrow(1)}
-          >
-            <MdArrowForwardIos style={{ fontSize: '1.5rem', paddingTop: '0.25rem' }} />
-          </Buttons>
-        </>
-      )}
+          && (
+            <>
+              <Buttons
+                style={{ left: '2%', display: place > 0 ? 'block' : 'none' }}
+                onClick={() => handleClickArrow(-1)}
+              >
+                <MdArrowBackIos style={{ fontSize: '1.5rem', paddingLeft: '0.5rem', paddingTop: '0.25rem' }} />
+              </Buttons>
+              <Buttons
+                style={{ right: '2%', display: place < thumbnails.length - 1 ? 'block' : 'none' }}
+                onClick={() => handleClickArrow(1)}
+              >
+                <MdArrowForwardIos style={{ fontSize: '1.5rem', paddingTop: '0.25rem' }} />
+              </Buttons>
+            </>
+          )}
 
           {status === 'expanded'
-    && (
-    <>
-      <Exit
-        onClick={() => handleClickExit()}
-      >
-        &times;
-      </Exit>
-      <ThumbnailIcons>
-        {selectedStyle.photos
-        && selectedStyle.photos.map((photo, index) => (
-          <IconContainer
-            key={photo.url}
-            index={index}
-            onClick={() => setPlace(index)}
-            style={{
-              fontSize: '1.5rem', border: index === place ? 'solid black thin' : 'none', transform: index === place ? 'scale(1.025)' : '', transition: index === place ? 'transform 0.25s ease' : '', cursor: 'pointer', borderRadius: '50px', margin: '0.5em', boxShadow: index === place ? '5px 5px 5px #727272' : '',
-            }}
-          >
-            <Circle />
-          </IconContainer>
-        ))}
-      </ThumbnailIcons>
-    </>
-    )}
+          && (
+            <>
+              <Exit
+                onClick={() => handleClickExit()}
+              >
+                &times;
+              </Exit>
+              <ThumbnailIcons>
+                {selectedStyle.photos
+                && selectedStyle.photos.map((photo, index) => (
+                  <IconContainer
+                    key={photo.url}
+                    index={index}
+                    onClick={() => setPlace(index)}
+                    style={{
+                      fontSize: '1.5rem', border: index === place ? 'solid black thin' : 'none', transform: index === place ? 'scale(1.025)' : '', transition: index === place ? 'transform 0.25s ease' : '', cursor: 'pointer', borderRadius: '50px', margin: '0.5em', boxShadow: index === place ? '5px 5px 5px #727272' : '',
+                    }}
+                  >
+                    <Circle />
+                  </IconContainer>
+                ))}
+              </ThumbnailIcons>
+            </>
+          )}
+
         </MainWrapper>
       )}
 
@@ -201,17 +203,18 @@ const ImageGalleryContainer = styled.div`
   width: 100%;
   overflow: hidden;
 
- @media (min-width: 600px) {
+  order: 1;
+
+ @media (min-width: 700px) {
   max-width: 800px;
   max-height: 800px;
- }
 
   ${(props) => props.status === 'default' && css`
     display: contents;
     grid-columns: 1 / 4
     grid-rows: 1 / 2
-
   `};
+
   ${(props) => props.status === 'expanded' && css`
   height: 100%;
   width: 100%;
@@ -225,6 +228,7 @@ const ImageGalleryContainer = styled.div`
   align-items: center;
   align-content: center;
   `};
+
   ${(props) => props.status === 'zoomed' && css`
   width: 100%;
   height: 100%;
@@ -238,6 +242,7 @@ const ImageGalleryContainer = styled.div`
   align-items: center;
   align-content: center;
   `};
+ };
 `;
   // aspect-ratio: 4/5;
   // position: relative;
@@ -264,17 +269,11 @@ const MainWrapper = styled.div`
   display: flex;
   ${(props) => props.status === 'default' && css`
   max-width: 600px;
-  position: relative;
-  `};
-  ${(props) => props.status === 'expanded' && css`
-  position: absolute;
-  `};
-  ${(props) => props.status === 'zoomed' && css`
-    position: absolute;
   `};
 
   @media (min-width: 600px) {
     height: 100%;
+
     ${(props) => props.status === 'default' && css`
       width: 100%;
       max-width: 800px;
@@ -288,7 +287,13 @@ const MainWrapper = styled.div`
       max-width: initial;
       grid-column: 2 / 4;
       grid-row: 1/ 2;
-  `};
+    `};
+    ${(props) => props.status === 'expanded' && css`
+      max-height: 120vh;
+    `};
+    ${(props) => props.status === 'zoomed' && css`
+      max-height: 120vh;
+    `};
   }
 `;
 
@@ -338,7 +343,7 @@ const Main = styled.img`
   `};
   }
 `;
-//position: relative;
+// position: relative;
 // if image gallery was our main image container like before
 // grid-column: 1 / 8;
 // grid-row: 1/ 2;
@@ -372,16 +377,9 @@ const Main = styled.img`
 // second monitor
 
 const Side = styled.div`
-  display: flex;
-  flex-direction: column;
-  row-gap: 1.0rem;
-  align-items: flex-end;
-  justify-content: center;
-  align-content: center;
-  z-index: 3;
-  position: absolute;
+  display: none;
 
-  @media (min-width: 600px) {
+  @media (min-width: 700px) {
     grid-column: 1 / 2;
     grid-row: 1 / 2;
     place-self: center;
@@ -389,8 +387,17 @@ const Side = styled.div`
     max-width: 100%;
     height: 100%;
     padding-top: calc(1px + 0.1em);
+
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.0rem;
+    align-items: flex-end;
+    justify-content: flex-start;
+    align-content: center;
+    z-index: 3;
   };
 `;
+// position: absolute;
 
 const OldSide = styled.div`
   @media (min-width: 600px) {
@@ -425,7 +432,7 @@ const OldSide = styled.div`
 
 const Thumbnail = styled.img`
   aspect-ratio: 4/5;
-  max-width: 100%;
+  max-width: 80%;
   justify-content: center;
   z-index: 2;
   object-fit: cover;
@@ -443,16 +450,15 @@ const Thumbnail = styled.img`
   `};
 
   @media (min-width: 600px) {
-    max-width: 80%;
     max-height: 175px;
-    margin: 0px;
+    margin: 0px 1px;
   };
 
   @media (min-width: 900px) {
     max-height: 250px;
   };
 `;
-
+// max-width: 80%;
 
 const OldThumbnail = styled.img`
   @media (min-width: 600px) {
@@ -497,12 +503,17 @@ const Buttons = styled.button`
   align-self: center;
   position: absolute;
   ${(props) => props.scroll && css`
-    height: 1rem;
-    width: 1rem;
+    height: 2rem;
+    width: 3rem;
     align-self: center;
     top: 0;
     z-index: 4;
     position: relative;
+    background-color: initial;
+    &:hover {
+      background-color: rgba(225, 225, 225, 0.75);
+    };
+    font-size: 2rem;
   `};
   left: ${(props) => props.status === 'expanded' && '2%'};
 `;

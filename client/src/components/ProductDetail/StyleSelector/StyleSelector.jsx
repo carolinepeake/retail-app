@@ -55,7 +55,7 @@ export default StyleSelector;
 
 const StyleContainer = styled.div`
   display: block;
-  margin-right: 25%;
+  margin-right: 10%;
   margin-block-end: 0.5em;
 `;
 

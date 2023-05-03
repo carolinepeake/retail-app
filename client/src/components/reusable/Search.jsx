@@ -1,17 +1,18 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-function Search(props) {
+function Search({ setSearchTerm, searchTerm, placeholder, searchClosed, setSearchClosed, clickHandler }) {
   return (
-    <QuestionSearchBar props={props}>
+    <QuestionSearchBar searchClosed={searchClosed}>
       <Input
         type="search"
-        placeholder={props.placeholder}
-        searchTerm={props.searchTerm}
-        setSearchTerm={props.setSearchTerm}
+        placeholder={placeholder}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        searchClosed={searchClosed}
         onChange={(event) => setSearchTerm(event.target.value)}
       />
-      <SearchIcon type="submit" />
+      <SearchIcon type="submit" onClick={clickHandler} searchClosed={searchClosed}/>
     </QuestionSearchBar>
   );
 }
@@ -23,8 +24,28 @@ const QuestionSearchBar = styled.form`
   border-radius: 5px;
   color: #555;
   background-color: ${(props) => props.theme.backgroundColor};
-  margin: 0.5rem;
+  width: 100%;
+
+  @medi (min-width: 700px) AND (max-width: 900px) {
+    ${(props) => !props.searchClosed && css`
+      max-width: 150px;
+      width: 50%;
+    `};
+  };
+
+  @media (max-width: 900px) {
+    ${(props) => props.searchClosed && css`
+    border: none;
+    background-color: ${props.theme.navColor};
+    font-size: 14px;
+    padding: 0px;
+  `};
+  };
+
+
+
 `;
+// margin: 0.5rem;
 
 // TO-DO: make bigger on focus (for mobile)
 const Input = styled.input`
@@ -40,7 +61,22 @@ const Input = styled.input`
  ::placeholder {
    color: ${(props) => props.theme.inputPlaceholder};
   };
+
+
+
+  @media (max-width: 900px) {
+    ${(props) => props.searchClosed && css`
+      width: 0;
+      padding: 0px;
+    `};
+  };
+
 `;
+// ${(props) => !props.searchClosed && css`
+// width: 0;
+// padding: 3.5px 4px;
+// font-size: 12px;
+// `};
 // font-size: calc(10px + 1vw);
 
 const SearchIcon = styled.button`
@@ -56,7 +92,21 @@ const SearchIcon = styled.button`
   opacity: 0.7;
   &:hover {
     opacity: 1;
+    background-color: ${(props) => props.theme.backgroundColor};
   }
+
+  @media (max-width: 900px) {
+    ${(props) => props.searchClosed && css`
+      font-size: 14px;
+      display: flex;
+      height: 25px;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-end;
+      border: none;
+    `};
+  };
+
 `;
 
 export default Search;

@@ -55,6 +55,9 @@ function App() {
     inputPlaceholder: 'white',
   };
 
+  // TO-DO: name backup fonts
+    // choose one color and generate about 9 shades of it using a color swatch
+
 //   const HorizontalProgFill = styled.div`
 //   background: lightgrey;
 //   height: 0.5rem;
@@ -66,6 +69,10 @@ function App() {
 //   line-height: 1rem;
 //   width: ${(props) => props.width - 1}%
 // `;
+
+// CeraPro
+// Muli, sans-serif
+// Arial, sans-serif
 
   const toggleTheme = () => {
     setTheme((curr) => (curr === 'light' ? 'dark' : 'light'));

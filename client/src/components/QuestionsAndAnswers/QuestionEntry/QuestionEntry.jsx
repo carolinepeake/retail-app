@@ -144,52 +144,52 @@ function QuestionEntry({ question }) {
 
   return (
     <Entry>
-      <QBlock>
-        <Question>Question:</Question>
-        <QuestionHeader>
-          <QuestionBody id="question_header">{question.question_body}</QuestionBody>
-          <LeftSide>
-            <Helpful>
-              Helpful?
-              <Yes>
-                {clickedHelpful.current ? (
-                  <b>Yes</b>
-                ) : (
-                  <Clickable onClick={() => helpfulQuestion()}>Yes</Clickable>
-                )}
-              </Yes>
+      {/* <QBlock> */}
+      <Question>Question:</Question>
+      <QuestionHeader>
+        <QuestionBody id="question_header">{question.question_body}</QuestionBody>
+        <RightSide>
+          <Helpful>
+            <div style={{ paddingRight: '0.5em' }}>Helpful?</div>
+            <Yes>
               {clickedHelpful.current ? (
-                <b>{`(${helpfulness})`}</b>
+                <b>Yes</b>
               ) : (
-                <span>{`(${helpfulness})`}</span>
+                <Clickable onClick={() => helpfulQuestion()}>Yes</Clickable>
               )}
-            </Helpful>
-            <div>|</div>
-            <Report>
-              {clickedReport ? (
-                <Reported>Reported</Reported>
-              ) : (
-                <Clickable onClick={() => reportQuestion()}>
-                  Report
-                </Clickable>
-              )}
-            </Report>
-            <div>|</div>
-            <Add>
-              <Clickable onClick={() => answerQuestion()}>
-                Add Answer
+            </Yes>
+            {clickedHelpful.current ? (
+              <b>{`(${helpfulness})`}</b>
+            ) : (
+              <span>{`(${helpfulness})`}</span>
+            )}
+          </Helpful>
+          <div>|</div>
+          <Report>
+            {clickedReport ? (
+              <Reported>Reported</Reported>
+            ) : (
+              <Clickable onClick={() => reportQuestion()}>
+                Report
               </Clickable>
-            </Add>
-          </LeftSide>
-        </QuestionHeader>
-      </QBlock>
-      <AnswerBlock>
-        <Answer id="answer_header">Answer:</Answer>
-        <Answers>
-          {answersList()}
-          {moreAnswers()}
-        </Answers>
-      </AnswerBlock>
+            )}
+          </Report>
+          <div>|</div>
+          <Add>
+            <Clickable onClick={() => answerQuestion()}>
+              Add Answer
+            </Clickable>
+          </Add>
+        </RightSide>
+      </QuestionHeader>
+      {/* </QBlock> */}
+      {/* <AnswerBlock> */}
+      <Answer id="answer_header">Answer:</Answer>
+      <Answers>
+        {answersList()}
+        {moreAnswers()}
+      </Answers>
+      {/* </AnswerBlock> */}
       {showModal && (
         <AddAnswerModal
           setShowModal={setShowModal}
@@ -202,8 +202,19 @@ function QuestionEntry({ question }) {
 
 const Entry = styled.div`
   width: 100%;
-  padding-bottom: 1.0rem;
+  padding-bottom: 0.1rem;
   margin-top: 1.0rem;
+  border-bottom: currentColor solid thin;
+  display: grid;
+  grid-template-columns: max-content auto;
+  grid-auto-rows: auto;
+  grid-row-gap: 0.5rem;
+  @media (max-width: 300px) {
+    grid-column-gap: 0.5em;
+  };
+  @media (min-width: 300px) {
+    grid-column-gap: 1.0em;
+  };
 `;
 
 const QBlock = styled.div`
@@ -213,37 +224,52 @@ const QBlock = styled.div`
 `;
 
 const Question = styled.div`
-  width: 10%;
   text-align: start;
+  grid-row: 1/2;
+  grid-column: 1/2;
+  font-size: 1.0em;
+  display: flex;
+  align-items: flex-start;
 `;
+// width: 10%;
 
 const QuestionHeader = styled.div`
-  width: 100%;
+  grid-row: 1/2;
+  grid-column: 2/3;
   display: flex;
-  align-items: start;
+  align-items: flex-start;
   justify-content: space-between;
-  margin-left: 1.0rem;
+  flex-wrap: wrap;
+  align-content: center;
 `;
+// margin-left: 1.0rem;
+// width: 100%;
 
 const QuestionBody = styled.div`
   font-weight: bold;
   width: fit-content;
+  font-size: 1.17em;
+  padding-right: 1em;
 `;
 
-const LeftSide = styled.div`
+const RightSide = styled.div`
   display: flex;
   justify-content: flex-end;
-  font-size: 0.75rem;
+  font-size: 0.75em;
+  align-self: center;
+  margin-top: 0.1em;
+  flex-wrap: nowrap;
 `;
 
 const Helpful = styled.div`
   padding-right: 1em;
+  display: flex;
 `;
 
 const Yes = styled.span`
-  padding-left: 0.5em;
   padding-right: 0.25em;
 `;
+// padding-left: 0.5em;
 
 const Report = styled.div`
   padding: 0 1em;
@@ -266,9 +292,11 @@ const AnswerBlock = styled.div`
 `;
 
 const Answers = styled.div`
-  width: 100%;
-  padding-top: 0.25rem;
+  grid-row: 2/3;
+  grid-column: 2/3;
 `;
+// width: 100%;
+// padding-top: 0.25rem;
 
 // TO-DO: change max height from px
 const AnswersListContainer = styled.div`
@@ -276,22 +304,27 @@ const AnswersListContainer = styled.div`
   overflow-x: auto;
   overflow-y: auto;
   text-align: justify;
-  grid-column: 2;
-  padding-left: 0.5rem;
+  padding-bottom: 0.1rem;
 `;
 // background-color: ${(props) => props.theme.tertiaryColor};
 // border: 1px solid;
+// padding-left: 0.5rem;
+// grid-column: 2;
 
 const AnswerNone = styled.div`
-  grid-column: 2;
-  padding-left: 2.0rem;
-  margin-left: 0.5rem;
-  padding-left: 1.0rem;
+  padding-bottom: 1rem;
+  padding-left: 0;
 `;
+// grid-column: 2;
+// padding-left: 2.0rem;
+// margin-left: 0.5rem;
 
 const Answer = styled.div`
-  width: 10%;
+  grid-row: 2/3;
+  grid-column: 1/2;
+  font-size: 1.0em;
 `;
+// width: 10%;
 
 const Clickable = styled.u`
   cursor: pointer;
@@ -309,19 +342,24 @@ const Clickable = styled.u`
 
 const MoreAnswers = styled(Button)`
   display: flex;
-  grid-column: 2;
   cursor: pointer;
   background-color: ${(props) => props.theme.backgroundColor};
   };
   border: none;
+  font-family: inherit;
   font-weight: bold;
-  font-size: calc(8px + 0.5vw);
+  font-size: 0.75em;
   &:hover {
     text-decoration: underline;
-  }
-  padding: 0 0 0 1em;
-  margin-top: 0.5em;
+  };
+  padding: 0 0 1rem 0;
+  margin: 0;
 `;
+// grid-column: 2;
+// font-size: calc(8px + 0.5vw);
+// padding: 0 0 0 1em;
+// margin-top: 0.5em;
+// margin: 0.5em 0;
 
 const Arrow = styled.span`
   margin-top: -0.1rem;

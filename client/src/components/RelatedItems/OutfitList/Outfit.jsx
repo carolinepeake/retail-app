@@ -30,7 +30,7 @@ function Outfit({ outfit, index }) {
           <Button onClick={() => removeOutfit()}><AiOutlineCloseCircle /></Button>
         </ImageOutline>
         <Info style={{ paddingTop: '0.25rem' }}>{outfitDetails.category}</Info>
-        <Info style={{ fontSize: '1.0rem' }}>{outfitDetails.name}</Info>
+        <Info style={{ fontSize: '1.25rem' }}>{outfitDetails.name}</Info>
         <Info style={{ padding: '0.25rem' }}>
           $
           {outfitDetails.default_price}
@@ -78,8 +78,8 @@ const OutfitContainer = styled.div`
   grid-column: ${(props) => props.i};
   align-self: center;
   background-color: ${(props) => props.theme.backgroundColor};
-  mask-image: ${(props) => (props.i === 3 ? 'linear-gradient(to right, rgba(0,0,0,1), 40%, rgba(0,0,0,0) 80%)' : ' ')};
 `;
+// mask-image: ${(props) => (props.i === 3 ? 'linear-gradient(to right, rgba(0,0,0,1), 40%, rgba(0,0,0,0) 80%)' : ' ')};
 
 const Outline = styled.div`
   &:hover {
@@ -89,6 +89,8 @@ const Outline = styled.div`
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border: lightgrey solid thin;
 `;
 
 const ImageOutline = styled.div`
@@ -102,7 +104,7 @@ const Info = styled.div`
   display: inline-block;
   padding-left: 0.25rem;
   margin-right: auto;
-  font-size: 0.75rem;
+  font-size: 1.0rem;
 `;
 
 const Image = styled.img`

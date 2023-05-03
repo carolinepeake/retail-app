@@ -28,7 +28,7 @@ function Card({ data, i }) {
             <CardImage imageInfo={info.image.data} details={info.details} />
             <Text>
               <Cards style={{ paddingTop: '0.1rem'}}>{info.details.data.category}</Cards>
-              <Cards style={{ fontSize: '1.0rem' }}>{info.details.data.name}</Cards>
+              <Cards style={{ fontSize: '1.25rem' }}>{info.details.data.name}</Cards>
               <Cards style={{ padding: '0.25rem' }}>
                 $
                 {info.details.data.default_price}
@@ -67,12 +67,14 @@ const CardStyle = styled.div`
   display: flex;
   flex-direction: column;
   border: black solid medium transparent;
-  mask-image: ${(props) => (props.i === 3 ? 'linear-gradient(to right, rgba(0,0,0,1), 40%, rgba(0,0,0,0) 80%)' : ' ' )};
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border: lightgrey solid thin;
 `;
+// mask-image: ${(props) => (props.i === 3 ? 'linear-gradient(to right, rgba(0,0,0,1), 40%, rgba(0,0,0,0) 80%)' : ' ')};
 
 const Cards = styled.div`
   margin-right: auto;
-  font-size: 0.75rem;
+  font-size: 1.0rem;
   padding-left: 0.25rem;
 `;
 // margin-left: auto;

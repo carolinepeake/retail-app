@@ -205,6 +205,9 @@ const AddRevDiv = styled.div`
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   filter: drop-shadow(2px 4px 6px black);
   overflow: auto;
+  position: relative;
+  z-index: 6;
+  top: 1.5rem;
 `;
 
 const CloseDiv = styled.div`

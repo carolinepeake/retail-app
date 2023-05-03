@@ -91,6 +91,7 @@ const Row1 = styled.div`
   justify-content: space-between;
   align-items: flex-start;
   font-size: 1rem;
+  position: relative;
 `;
 
 const Row2 = styled.div`

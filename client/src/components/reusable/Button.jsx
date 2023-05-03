@@ -3,9 +3,21 @@ import styled, { css } from 'styled-components';
 const Button = styled.button`
   cursor: pointer;
   border: currentColor thin solid;
-  border-radius: 5px;
-  padding: calc(2px + 1.2vw) calc(8px + 1.2vw);
-  font-size: calc(6px + 1.2vw);
+  margin: 0.5em 0;
+  padding: 12px;
+  font-size: 12px;
+
+  @media (min-width: 400px) {
+    padding: 16px;
+    font-size: 16px;
+  };
+
+  @media (min-width: 600px) {
+    margin: 0;
+    padding: calc(2px + 1.2vw) calc(8px + 1.2vw);
+    font-size: calc(6px + 1.2vw);
+  };
+
   background-color: ${(props) => props.theme.secondaryColor};
   color: ${(props) => props.theme.fontColor};
   &:hover {
@@ -38,6 +50,7 @@ const Button = styled.button`
   `};
 `;
   // padding: calc(4px + 1.2vw) calc(10px + 1vw);
+  // border-radius: 5px;
 export default Button;
 
 // cut from primary:

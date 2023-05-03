@@ -99,6 +99,10 @@ const StarLabel = styled.div`
   display: flex;
   width: 30%;
   font-size: 0.9rem;
+
+  @media (min-width: 400px) AND (max-width: 600px) {
+    width: 10%;
+  };
 `;
 
 const StarBar = styled.div`

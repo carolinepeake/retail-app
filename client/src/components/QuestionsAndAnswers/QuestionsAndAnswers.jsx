@@ -33,7 +33,7 @@ function QuestionAndAnswers() {
                 question={question}
                 key={`${question.question_id}`}
               />
-              <hr />
+              {/* <hr /> */}
             </>
           ))
         )}
@@ -46,26 +46,27 @@ function QuestionAndAnswers() {
 export default QuestionAndAnswers;
 
 const Container = styled.div`
+  padding-right: 5%;
+  padding-left: 5%;
 
   @media (max-width: 600px) {
-    padding-left: 5%;
-    padding-right: 5%;
     padding-top: 5%;
   }
 
   @media (min-width: 600px) {
     margin-top: 1.5rem;
-    padding: 0 2.5%;
     justify-content: space-evenly;
   }
 `;
 
 const QuestionListContainer = styled.div`
-  max-height: 75vh;
+  max-height: 31em;
   overflow: auto;
   justify-content: center;
   scroll-behavior: smooth;
   background-color: ${(props) => props.theme.backgroundColor};
-  padding: 0.5em 1.0em 1.0em 1.0em;
-  margin-bottom: 0.5em;
+  padding: 0.5em 0 1.0em 0;
 `;
+// margin-bottom: 0.5em;
+// padding: 0.5em 1.0em 1.0em 1.0em;
+// max-height: 75vh;

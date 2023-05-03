@@ -128,13 +128,13 @@ const Cart = styled.div`
   margin-top: 1.0rem;
 `;
 // margin-right: 1em;
+// margin-right: 10%;
 
 const SelectSizeAndQuantityContainer = styled.form`
   flex-direction: row;
   align-content: space-between;
   display: flex;
   margin-bottom: 2.5%;
-  margin-right: 10%;
   justify-content: space-between;
   flex-basis: 2.5em;
   flex-grow: 1;
@@ -167,7 +167,6 @@ const Option = styled.option`
 
 const BagContainer = styled.div`
   display: flex;
-  margin-right: 10%;
   justify-content: space-between;
   margin-top: 2.5%;
   flex-basis: 2.5em;
@@ -203,7 +202,7 @@ const Star = styled(Button)`
   flex-shrink: 4;
   &:hover {
     color: ${(props) => props.theme.starFilled};
-    border-color: ${(props) => props.theme.inherit};
+    border-color: ${(props) => props.theme.fontColor};
   };
 `;
 

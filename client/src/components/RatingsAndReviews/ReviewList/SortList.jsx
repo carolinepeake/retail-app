@@ -43,8 +43,11 @@ const RevListHeader = styled.div`
   margin-block-end: 0.5em;
   margin-inline-start: 0px;
   margin-inline-end: 0px;
-  margin-left: 1em;
   display: flex;
+
+  @media (min-width 400px) {
+    margin-left: 1em;
+  };
 `;
 
 const Sort = styled.select`

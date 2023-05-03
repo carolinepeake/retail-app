@@ -1,11 +1,13 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
-function Features() {
+function Features({ collapsed }) {
   const { productInfo } = useGlobalContext();
   // const [features, setFeatures] = useState([]);
+
+
 
   // useEffect(() => {
 
@@ -43,7 +45,7 @@ function Features() {
   // ) : null;
 
   return (
-    <Container role="list">
+    <Container role="list" collapsed={collapsed}>
       { features }
     </Container>
   );
@@ -52,11 +54,11 @@ function Features() {
 const Container = styled.ul`
   list-style-type: none;
   font-size: 1.0rem;
-  display: flex;
+  display: ${(props) => (props.collapsed ? 'none' : 'flex')};
   flex-direction: column;
   align-items: flex-start;
 
-  @media (min-width: 600px) {
+  @media (min-width: 700px) {
     grid-column: 4 / span 2;
     grid-row: 2 / 3;
     padding-left: 2rem;
@@ -65,6 +67,7 @@ const Container = styled.ul`
     margin-top: 0px;
     border-left: black thin solid;
     margin-bottom: 0px;
+    display: flex;
   };
 
   @media (min-width: 1200px) {

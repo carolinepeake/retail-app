@@ -129,59 +129,90 @@ function RatingsAndReviews() {
 export default RatingsAndReviews;
 
 const Container = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 2.0rem 1fr;
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-bottom: 1.5rem;
 
   @media (max-width: 600px) {
-    padding-left: 5%;
-    padding-right: 5%;
     padding-top: 5%;
-  }
+  };
 
   @media (min-width: 600px) {
     margin-top: 1.5rem;
-    padding: 0 2.5% 1.5rem 2.5%
-  }
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 2.0rem 1fr;
+  };
 `;
 
 const RRTitle = styled(SectionHeader)`
-  grid-column: 1/4;
-  grid-row: 1;
+  width: 100%;
+
+  @media (min-width: 600px) {
+    grid-column: 1/4;
+    grid-row: 1;
+  };
 `;
 
 const ReviewListContainer = styled.div`
-  grid-column: 2/4;
+
+@media (max-width: 600px) {
+    width: 100%;
+  };
+
+  @media (min-width: 600px) {
+    grid-column: 2/4;
+    grid-row: 2;
+  };
 `;
 
 const ReviewTilesContainer = styled.div`
-  padding-left: 1em;
-  max-height: 31em;
-  overflow: auto;
+
+  @media (min-width: 600px) {
+    max-height: 31em;
+    overflow: auto;
+    padding-left: 1em;
+  };
 `;
 
 const MoreAddContainer = styled.div`
-  padding: 1em 0 1em 1em;
+  padding: 1em 0px;
   display: flex;
-  justify-content: space-around;
-  column-gap: 2.0rem;
+  flex-direction: column;
+
+  @media (min-width: 600px) {
+    flex-direction: row;
+    justify-content: space-around;
+    column-gap: 2.0rem;
+    padding: 1em 0 1em 1em;
+  }
+
 `;
+// @media (min-width: 400px) {
+//   padding: 1em 0 1em 1em;
+// };
 
 const BreakdownContainer = styled.div`
-  max-width: 400px;
+  max-width: 600px;
   margin-top: 0.5rem;
 
-  @media (max-width: 600px) {
+  @media (min-width: 400px) {
+    padding: 0 2.5%;
     margin 0 auto;
-    padding: 0 5%;
-  }
+  };
 
   @media (min-width: 600px) {
     grid-column: 1/2;
     grid-row: 2;
-    padding-right: 2.5%;
-  }
+    padding: 0 2.5% 0 0;
+    margin: 0;
+    max-width: 400px;
+  };
 `;
+// @media (max-width: 600px) {
+//   margin 0 auto;
+//   padding: 0 5%;
+// }
 
 // const BreakdownContainer = styled.div`
 //   padding: 1em;

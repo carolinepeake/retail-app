@@ -41,7 +41,7 @@ const Stars = styled.div`
   position: relative;
   margin-left: 0.25rem;
   margin-right: auto;
-  font-size: 0.75rem;
+  font-size: 1.0rem;
   color: ${(props) => props.theme.fontColor};
   margin-top: 0.25rem;
 `;
