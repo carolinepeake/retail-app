@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import CardsList from './RelatedList/CardsList';
+import CardsList2 from './RelatedList/CardsList2';
 import OutfitList from './OutfitList/OutfitList';
+import OutfitList2 from './OutfitList/OutfitList2';
 import SectionHeader from '../reusable/SectionHeader';
 
 function RelatedItems() {
@@ -10,11 +12,13 @@ function RelatedItems() {
       <Text>
         Related Items
       </Text>
-      <CardsList />
+      {/* <CardsList /> */}
+      <CardsList2 />
       <Text second>
         Outfit List
       </Text>
-      <OutfitList />
+      {/* <OutfitList /> */}
+      <OutfitList2 />
     </Container>
   );
 }
@@ -25,18 +29,27 @@ const Container = styled.div`
 
   @media (max-width: 600px) {
     padding-top: 5%;
-    display: grid;
-    grid-template-columns: 1fr 3fr 1.0rem 3fr 1fr;
-    grid-template-rows: 1.0rem 1fr 1.5em 1.0rem 1fr;
-  }
+  };
 
   @media (min-width: 600px) {
     margin-top: 1.5rem;
-    display: grid;
-    grid-template-columns: 1fr 3fr 2.0rem 4fr 2.0rem 4fr 2.0rem 3fr 1fr;
-    grid-template-rows: 2.0rem 1fr 1.5em 2.0rem 1fr;
-  }
+  };
 `;
+
+
+// @media (max-width: 600px) {
+//   padding-top: 5%;
+//   display: grid;
+//   grid-template-columns: 1fr 3fr 1.0rem 3fr 1fr;
+//   grid-template-rows: 1.0rem 1fr 1.5em 1.0rem 1fr;
+// }
+
+// @media (min-width: 600px) {
+//   margin-top: 1.5rem;
+//   display: grid;
+//   grid-template-columns: 1fr 3fr 2.0rem 4fr 2.0rem 4fr 2.0rem 3fr 1fr;
+//   grid-template-rows: 2.0rem 1fr 1.5em 2.0rem 1fr;
+// }
 // grid-template-columns: repeat(3, 4fr 1rem) 3fr 5% 5%;
 
 const Text = styled(SectionHeader)`

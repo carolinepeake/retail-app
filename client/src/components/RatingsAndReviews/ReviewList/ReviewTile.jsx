@@ -80,7 +80,7 @@ export default ReviewTile;
 const Container = styled.div`
   border-bottom: currentColor solid thin;
   overflow-wrap: anywhere;
-  background-color: ${(props) => props.theme.secondaryColor};
+  background-color: ${(props) => props.theme.backgroundColor};
   padding: 0.5rem;
   margin-top: 0.5rem;
 `;
@@ -105,7 +105,7 @@ const ReviewerName = styled.div`
 
 const Response = styled.div`
   padding: 1em;
-  background: lightgrey;
+  background-color: lightgrey;
 `;
 
 const PhotosDiv = styled.div`

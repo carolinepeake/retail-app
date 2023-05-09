@@ -151,6 +151,7 @@ const RRTitle = styled(SectionHeader)`
   @media (min-width: 600px) {
     grid-column: 1/4;
     grid-row: 1;
+    padding-bottom: 1.5em;
   };
 `;
 
@@ -158,6 +159,7 @@ const ReviewListContainer = styled.div`
 
 @media (max-width: 600px) {
     width: 100%;
+    margin-top: 1.5rem;
   };
 
   @media (min-width: 600px) {
@@ -167,6 +169,10 @@ const ReviewListContainer = styled.div`
 `;
 
 const ReviewTilesContainer = styled.div`
+
+@media (max-width: 600px) {
+  border-top: black solid 1px;
+};
 
   @media (min-width: 600px) {
     max-height: 31em;

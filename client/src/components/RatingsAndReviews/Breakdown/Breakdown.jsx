@@ -43,10 +43,10 @@ Breakdown.propTypes = {
 
 const BreakdownContainer = styled.div`
   background-color: ${(props) => props.theme.backgroundColor};
-
   @media (min-width: 400px) {
     padding: 0.5rem;
   };
 `;
+// font-family: "Lato","Verdana",sans-serif;
 
 export default Breakdown;

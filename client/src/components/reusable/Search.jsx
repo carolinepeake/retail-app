@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 
-function Search({ setSearchTerm, searchTerm, placeholder, searchClosed, setSearchClosed, clickHandler }) {
+function Search({ setSearchTerm, searchTerm, placeholder, searchClosed, setSearchClosed, clickHandler, theme }) {
   return (
     <QuestionSearchBar searchClosed={searchClosed}>
       <Input
@@ -11,8 +11,9 @@ function Search({ setSearchTerm, searchTerm, placeholder, searchClosed, setSearc
         setSearchTerm={setSearchTerm}
         searchClosed={searchClosed}
         onChange={(event) => setSearchTerm(event.target.value)}
+        theme={theme}
       />
-      <SearchIcon type="submit" onClick={clickHandler} searchClosed={searchClosed}/>
+      <SearchIcon type="submit" onClick={clickHandler} searchClosed={searchClosed} />
     </QuestionSearchBar>
   );
 }
@@ -26,25 +27,23 @@ const QuestionSearchBar = styled.form`
   background-color: ${(props) => props.theme.backgroundColor};
   width: 100%;
 
-  @medi (min-width: 700px) AND (max-width: 900px) {
+  @medi (min-width: 700px) AND (max-width: 1000px) {
     ${(props) => !props.searchClosed && css`
       max-width: 150px;
       width: 50%;
     `};
   };
 
-  @media (max-width: 900px) {
+  @media (max-width: 1000px) {
     ${(props) => props.searchClosed && css`
     border: none;
     background-color: ${props.theme.navColor};
-    font-size: 14px;
+    font-size: ${props.theme.input};
     padding: 0px;
   `};
   };
-
-
-
 `;
+// font-size: 14px;
 // margin: 0.5rem;
 
 // TO-DO: make bigger on focus (for mobile)
@@ -53,7 +52,7 @@ const Input = styled.input`
   background: transparent;
   margin: 0;
   padding: 7px 8px;
-  font-size: 14px;
+  font-size: ${(props) => props.theme.input};
   color: inherit;
   border: 1px solid transparent;
   border-radius: inherit;
@@ -62,16 +61,14 @@ const Input = styled.input`
    color: ${(props) => props.theme.inputPlaceholder};
   };
 
-
-
-  @media (max-width: 900px) {
+  @media (max-width: 1000px) {
     ${(props) => props.searchClosed && css`
       width: 0;
       padding: 0px;
     `};
   };
-
 `;
+// font-size: 14px;
 // ${(props) => !props.searchClosed && css`
 // width: 0;
 // padding: 3.5px 4px;
@@ -95,9 +92,9 @@ const SearchIcon = styled.button`
     background-color: ${(props) => props.theme.backgroundColor};
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 1000px) {
     ${(props) => props.searchClosed && css`
-      font-size: 14px;
+      font-size: ${props.theme.input};
       display: flex;
       height: 25px;
       flex-direction: column;
@@ -106,7 +103,7 @@ const SearchIcon = styled.button`
       border: none;
     `};
   };
-
 `;
+// font-size: 14px;
 
 export default Search;

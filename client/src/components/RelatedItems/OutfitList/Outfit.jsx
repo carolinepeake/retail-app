@@ -74,12 +74,18 @@ Outfit.propTypes = {
 //   margin-top: 0.5rem;
 // `;
 
-const OutfitContainer = styled.div`
-  grid-column: ${(props) => props.i};
-  align-self: center;
+const OutfitContainer = styled.li`
+  min-width: 220px;
+  position: relative;
   background-color: ${(props) => props.theme.backgroundColor};
+  aspect-ratio: 4/6;
 `;
 // mask-image: ${(props) => (props.i === 3 ? 'linear-gradient(to right, rgba(0,0,0,1), 40%, rgba(0,0,0,0) 80%)' : ' ')};
+// const OutfitContainer = styled.div`
+//   grid-column: ${(props) => props.i};
+//   align-self: center;
+//   background-color: ${(props) => props.theme.backgroundColor};
+// `;
 
 const Outline = styled.div`
   &:hover {
@@ -111,12 +117,13 @@ const Image = styled.img`
   display: block;
   // margin-left: auto;
   // margin-right: auto;
-  width: 100%;
+  width: 220px;
   aspect-ratio: 4/5;
   object-fit: cover;
   cursor: pointer;
   overflow: hidden;
 `;
+// width: 100%;
 
 const Button = styled.button`
   display: block;

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { IoLogoFacebook, IoLogoTwitter, IoLogoPinterest } from 'react-icons/io';
 import POStars from './POStars';
+import SocialMedia from './SocialMedia';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
 function ProductOverview() {
@@ -39,20 +39,9 @@ function ProductOverview() {
             <Price>{`$${selectedStyle.original_price}`}</Price>
           )}
       </PriceContainer>
-      <SocialMediaContainer>
-        <Like>Like it? Share it!</Like>
-        <ShareSocial>
-          <Logo facebook>
-            <IoLogoFacebook />
-          </Logo>
-          <Logo twitter>
-            <IoLogoTwitter />
-          </Logo>
-          <Logo pintrest>
-            <IoLogoPinterest />
-          </Logo>
-        </ShareSocial>
-      </SocialMediaContainer>
+
+      <SocialMedia />
+
     </OverviewContainer>
   );
 }
@@ -76,7 +65,11 @@ const OverviewContainer = styled.div`
   grid-row: 1/2;
   grid-column: 4;
   margin-right: 10%;
-  background-color: ${(props) => props.theme.backgroundColor}
+  background-color: ${(props) => props.theme.backgroundColor};
+
+  @media (min-width: 600px) AND (max-width: 800px) {
+    margin-right: 0;
+  };
 `;
 
 const ReadReviews = styled.h5`
@@ -84,6 +77,7 @@ const ReadReviews = styled.h5`
   margin-block-start: 0.5em;
   margin-block-end: 0em;
   text: underlined;
+  font-size: ${(props) => props.theme.tertiary};
 `;
 
 const ReviewsLink = styled.a`
@@ -105,70 +99,47 @@ const CategoryContainer = styled.h3`
   cursor: pointer;
   text-transform: uppercase;
   font-weight: normal;
-  font-size: 1rem;
+  font-size: ${(props) => props.theme.body};
+
+  @media (max-width: 600px) {
+    display: none;
+  };
 `;
+// font-size: 1rem;
 
 const ProductName = styled.h1`
   margin-top: 0px;
   margin-bottom: 0px;
+  font-size: ${(props) => props.theme.header};
+
+  @media (max-width: 600px) {
+    order: -1;
+  };
 `;
 
 // TO-DO: make social media container same size as price & style but separate by color
 
-const SocialMediaContainer = styled.div`
-  height: auto;
-  width: auto;
-  &:hover {
-    cursor: pointer;
-  };
-  display: flex;
-  flex-direction: column;
-  width: fit-content;
-  margin: 1.0rem 0;
-`;
-// margin-block-end: calc(8px + 0.5vw);
-//   margin-top: calc(8px + 0.5vw);
-//   margin-top: 0.5rem;
-//   margin-bottom: 0.5rem;
 
-const Like = styled.div`
-  font-size: 1rem;
-`;
-
-const Logo = styled.div`
-  flex: f1;
-  flex-basis: 2.0rem;
-  flex-grow: .75;
-  flex-shrink: 1;
-  padding-right: 0.5rem;
-  padding-top: 0.5rem;
-  &:hover {
-    color: ${(props) => props.facebook && 'blue'};
-    color: ${(props) => props.twitter && 'aqua'};
-    color: ${(props) => props.pintrest && 'red'};
-  };
-  display: flex;
-  justify-content: center;
-  font-size: calc(8px + 1.5vw);
-`;
-
-const ShareSocial = styled.div`
-  max-width: 7.5rem;
-  display: flex;
-  flex-basis: 2.0rem 7.5rem;
-  flex-shrink: 1;
-  flex-grow: .75;
-`;
 
 const PriceContainer = styled.div`
   grid-row: 1;
   grid-column: 4;
+  font-size: ${(props) => props.theme.body};
 `;
 
 const Price = styled.h4`
   font-weight: normal;
   margin-top: calc(10px + 0.5vw);
   margin-bottom: calc(4px + 0.25vw);
+  font-size: 1.5em;
+
+  @media (max-width: 900px) {
+    font-size: 1.5em;
+  };
 `;
+// font-size: ${(props) => props.theme.body};
+// @media (max-width: 700px) {
+//   font-size: 1.5em;
+// };
 
 export default ProductOverview;

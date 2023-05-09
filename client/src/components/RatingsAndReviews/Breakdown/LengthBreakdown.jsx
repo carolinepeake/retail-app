@@ -107,11 +107,11 @@ const HorizontalProgFill = styled.div`
   margin: 2px;
   color: #fff;
   text-align: center;
-  font-family: "Lato","Verdana",sans-serif;
   font-size: 0.75rem;
   line-height: 1rem;
   width: ${(props) => props.width - 1}%
 `;
+// font-family: "Lato","Verdana",sans-serif;
 
 const Bar = styled.div`
   background: lightgrey;

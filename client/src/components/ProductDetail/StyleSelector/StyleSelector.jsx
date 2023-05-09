@@ -57,6 +57,18 @@ const StyleContainer = styled.div`
   display: block;
   margin-right: 10%;
   margin-block-end: 0.5em;
+
+  @media (min-width: 400px) {
+    margin-right: 25%;
+  };
+
+  @media (min-width: 600px) {
+    margin-right: 10%;
+  };
+
+  @media (min-width: 1200px) {
+    margin-right: 25%;
+  };
 `;
 
 const StyleName = styled.h4`
@@ -72,6 +84,16 @@ const ThumbnailsContainer = styled.div`
   grid-row-gap: 1em;
   position: relative;
   z-index: 1;
+  grid-column-gap: 1.5em;
+
+  @media (min-width: 300px) {
+    grid-column-gap: 1.5em;
+  };
+
+  @media (min-width: 600px) {
+    padding-bottom: initial;
+    grid-column-gap: 1em;
+  };
 `;
 
 const ThumbnailContainer = styled.div`

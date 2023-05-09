@@ -32,9 +32,8 @@ function AddOutfit() {
 const Outline = styled.div`
   justify-self: stretch;
   aspect-ratio: 4/6;
-  height: 100%
-  min-width: 100%;
-  min-height: 100%;
+  min-width: 220px;
+  height: 100%;
   display: flex;
   mask-image: ${props => props.outfitIndex === props.outfits.length - 3 ? "linear-gradient(to right, rgba(0,0,0,1), 40%, rgba(0,0,0,0) 80%)" : " " };
 `;

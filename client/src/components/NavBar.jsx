@@ -36,13 +36,14 @@ function NavBar({ toggleTheme }) {
   };
 
   return (
-    <Background id="navbar">
+    <Background id="navbar" searchClosed={searchClosed}>
 
       <Logo modal>&#10058;</Logo>
 
       <GridItem onClick={() => toggleTheme()}>
         Toggle Dark Mode
       </GridItem>
+
       {navLinks.map((link) => (
         <GridItem
           key={link.label}
@@ -54,7 +55,7 @@ function NavBar({ toggleTheme }) {
       ))}
 
       <RightSide searchClosed={searchClosed}>
-        <Search placeholder="Search..." searchTerm={searchTerm} setSearchTerm={setSearchTerm} searchClosed={searchClosed} setSearchClosed={setSearchClosed} clickHandler={clickHandler} />
+        <Search placeholder="Search..." searchTerm={searchTerm} setSearchTerm={setSearchTerm} searchClosed={searchClosed} setSearchClosed={setSearchClosed} clickHandler={clickHandler} theme={{ input: '14px' }} />
 
         <CollapsedNav
           type="button"
@@ -71,7 +72,7 @@ function NavBar({ toggleTheme }) {
           {isExpanded
         && (
         <ExpandedNav>
-          <GridItem secondary first onClick={() => toggleTheme()} isExpanded={isExpanded} style={{ borderTop: 'black solid 2px' }}>
+          <GridItem secondary first onClick={() => toggleTheme()} isExpanded={isExpanded} style={{ borderTop: 'black solid 1px' }}>
             Toggle Dark Mode
           </GridItem>
           {navLinks.map((link, i) => (
@@ -107,23 +108,35 @@ const Background = styled.div`
   background-size: 100% 100%;
   background-repeat: no-repeat;
   height: auto;
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+
+  font-weight: 700;
+  font-stretch: ultra-condensed;
 
   padding: 0.5rem 5%;
 
-  display: flex;
-    justify-content: space-between;
-    align-content: center;
-    align-items: center;
-    font-weight: bold;
-
   @media (min-width: 700px) {
     padding: 0.75rem 2.5%;
+    flex-wrap: ${(props) => (props.searchClosed ? 'nowrap' : 'wrap')};
   };
 
-  @media (min-width: 900px) {
+  @media (min-width: 800px) {
+    flex-wrap: wrap;
+  };
+
+  @media (min-width: 1081px) {
+    flex-wrap: nowrap;
     padding: 0.75rem 5%;
   };
+
 `;
+
+// @media (min-width: 1044px) {
+//   padding: 0.75rem 5%;
+// };
 
 const Logo = styled(Button)`
     border: none;
@@ -142,11 +155,10 @@ const Logo = styled(Button)`
     @media (min-width: 900px) {
       padding: calc(1px + 0.5vw) calc(4px + 0.5vw);
       font-size: calc(10px + 1.2vw);
-      margin: initial;
     };
-
 `;
 // font-size: calc(28px + 1.2vw);
+// margin: initial;
 
 // breakpoint was previously 992 px
 const GridItem = styled.div`
@@ -156,6 +168,7 @@ const GridItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+  width: fit-content;
   cursor: pointer;
   &:hover {
     text-decoration: underline;
@@ -164,22 +177,63 @@ const GridItem = styled.div`
     text-decoration: ${(props) => props.theme.visitedColor}
   };
   font-size: calc(8px + .75vw);
+  padding: 0 0.25em;
   ${(props) => props.secondary && css`
     font-size: calc(10px + 1vw);
-    border-bottom: currentColor solid 2px;
-    padding: 5%;
-    background-color: ${(props) => props.theme.navColor};
+    border-top: grey solid 1px;
+    border-right: black solid 1px;
+    border-left: black solid 1px;
+    box-sizing: border-box;
+    padding: 1em;
+    width: 100%;
+    text-align: left;
+    background-color: ${props.theme.navColor};
     transition: transform 0.25s ease;
-    border-radius: ${(props) => props.i === props.navLinksLength - 1 && '0 0 5px 5px'};
-    border-radius: ${(props) => props.first && '5px 5px 0 0'};
     &:hover {
       transform: scale(1.025);
-      border-radius: 5px;
-      border: currentColor solid 2px;
-      border-top: currentColor solid 1px;
+      background-color: ${props.theme.submitButton};
+      text-decoration: none;
+      border: black solid 1px;
     };
   `};
 `;
+
+// const GridItem = styled.div`
+//   @media (max-width: 700px) {
+//     display: ${(props) => (props.isExpanded ? 'block' : 'none')};
+//     &:hover {
+//       transform: scale(1.025);
+//     };
+//   };
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-evenly;
+//   width: fit-content;
+//   cursor: pointer;
+//   &:hover {
+//     text-decoration: underline;
+//   };
+//   &:visited {
+//     text-decoration: ${(props) => props.theme.visitedColor}
+//   };
+//   font-size: calc(8px + .75vw);
+//   padding: 0 0.25em;
+//   ${(props) => props.secondary && css`
+//     font-size: calc(10px + 1vw);
+//     border-bottom: currentColor solid 2px;
+//     padding: 5%;
+//     background-color: ${props.theme.navColor};
+//     transition: transform 0.25s ease;
+//     border-radius: ${props.i === props.navLinksLength - 1 && '0 0 5px 5px'};
+//     border-radius: ${props.first && '5px 5px 0 0'};
+//     &:hover {
+//       transform: scale(1.025);
+//       border-radius: 5px;
+//       border: currentColor solid 2px;
+//       border-top: currentColor solid 1px;
+//     };
+//   `};
+// `;
 
 const RightSide = styled.div`
   width: fit-content;
@@ -191,23 +245,31 @@ const RightSide = styled.div`
   margin-left: 1em;
 
   @media (min-width: 700px) {
-    width: 150px;
     margin-left: 0px;
     ${(props) => props.searchClosed && css`
-      margin-left: 0px;
       width: fit-content;
+      width: 25px;
   `};
   };
 
-  @media (min-width: 900px) {
+  @media (min-width: 1000px) {
+    width: 150px;
+  };
+
+  @media (min-width: 1082px) {
     width: fit-content;
   };
 
 `;
-// width: 150px;
+
 // @media (min-width: 700px) {
-//   display: none;
-// };
+//   width: 150px;
+//   margin-left: 0px;
+//   ${(props) => props.searchClosed && css`
+//     margin-left: 0px;
+//     width: fit-content;
+// `};
+
 // positioning is a little off - change background color to see
 const CollapsedNav = styled.button`
   @media (min-width: 700px) {
@@ -234,19 +296,21 @@ const CollapsedNav = styled.button`
 `;
 // margin-left: 2px;
 
+// TO-DO: add animation to make expanding nav smooth
+// TO-DO: collapse nav when click away
+
 const ExpandedNav = styled.div`
   position: absolute;
-  z-index: 1;
+  z-index: 5;
   display: flex;
   right: 5%;
   top: 40px;
   flex-direction: column;
   margin-top: 0.5%;
-  width: calc(250px + 0.5vw);
-  border-radius: 5px;
-  border-right: black solid 2px;
-  border-left: black solid 2px;
+  border-bottom: black solid 1px;
 `;
+// width: calc(250px + 0.5vw);
+// border-radius: 5px;
 
 const IconBar = styled.span`
   display: block;

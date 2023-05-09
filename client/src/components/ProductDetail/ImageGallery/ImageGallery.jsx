@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import {
   MdArrowForwardIos, MdArrowBackIos, MdExpandMore, MdExpandLess,
 } from 'react-icons/md';
+import Thumbnails from './Thumbnails';
 
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
@@ -78,19 +79,19 @@ function ImageGallery({ status, setStatus }) {
     setStatus(() => 'default');
   }
 
-  let thumbnails = [];
-  if (selectedStyle.photos) {
-    thumbnails = selectedStyle.photos.map((photo, index) => (
-      <Thumbnail
-        src={photo.thumbnail_url}
-        key={photo.url}
-        index={index}
-        alt={`${selectedStyle.name} thumbnail`}
-        onClick={() => setPlace(index)}
-        place={place}
-      />
-    ));
-  }
+  // let thumbnails = [];
+  // if (selectedStyle.photos) {
+  //   thumbnails = selectedStyle.photos.map((photo, index) => (
+  //     <Thumbnail
+  //       src={photo.thumbnail_url}
+  //       key={photo.url}
+  //       index={index}
+  //       alt={`${selectedStyle.name} thumbnail`}
+  //       onClick={() => setPlace(index)}
+  //       place={place}
+  //     />
+  //   ));
+  // }
 
   return (
     <ImageGalleryContainer
@@ -98,7 +99,7 @@ function ImageGallery({ status, setStatus }) {
       ref={imageContainer}
     >
 
-      {status === 'default'
+      {/* {status === 'default'
         && (
         <Side
           full={() => thumbnails.length > 7}
@@ -127,7 +128,9 @@ function ImageGallery({ status, setStatus }) {
               </>
             )}
         </Side>
-        )}
+        )} */}
+
+
 
       {selectedStyle.photos
       && (
@@ -143,7 +146,7 @@ function ImageGallery({ status, setStatus }) {
             yPercent={yPerc}
           />
 
-          {status !== 'zoomed'
+          {/* {status !== 'zoomed'
           && (
             <>
               <Buttons
@@ -159,17 +162,18 @@ function ImageGallery({ status, setStatus }) {
                 <MdArrowForwardIos style={{ fontSize: '1.5rem', paddingTop: '0.25rem' }} />
               </Buttons>
             </>
-          )}
+          )} */}
 
           {status === 'expanded'
           && (
-            <>
-              <Exit
-                onClick={() => handleClickExit()}
-              >
-                &times;
-              </Exit>
-              <ThumbnailIcons>
+          // <>
+          <Exit
+            onClick={() => handleClickExit()}
+          >
+            &times;
+          </Exit>
+          )}
+          {/* <ThumbnailIcons>
                 {selectedStyle.photos
                 && selectedStyle.photos.map((photo, index) => (
                   <IconContainer
@@ -185,10 +189,47 @@ function ImageGallery({ status, setStatus }) {
                 ))}
               </ThumbnailIcons>
             </>
-          )}
+          )} */}
+
+          {/* <ThumbnailIcons>
+            {selectedStyle.photos
+                && selectedStyle.photos.map((photo, index) => (
+                  <IconContainer
+                    key={photo.url}
+                    index={index}
+                    onClick={() => setPlace(index)}
+                    style={{
+                      fontSize: '1.5rem', border: index === place ? 'solid black thin' : 'none', transform: index === place ? 'scale(1.025)' : '', transition: index === place ? 'transform 0.25s ease' : '', cursor: 'pointer', borderRadius: '50px', margin: '0.5em', boxShadow: index === place ? '5px 5px 5px #727272' : '',
+                    }}
+                  >
+                    <Circle />
+                  </IconContainer>
+                ))}
+          </ThumbnailIcons> */}
 
         </MainWrapper>
+
+
+
+      // <ThumbnailIcons>
+      // {selectedStyle.photos
+      //         && selectedStyle.photos.map((photo, index) => (
+      //           <IconContainer
+      //             key={photo.url}
+      //             index={index}
+      //             onClick={() => setPlace(index)}
+      //             style={{
+      //               fontSize: '1.5rem', border: index === place ? 'solid black thin' : 'none', transform: index === place ? 'scale(1.025)' : '', transition: index === place ? 'transform 0.25s ease' : '', cursor: 'pointer', borderRadius: '50px', margin: '0.5em', boxShadow: index === place ? '5px 5px 5px #727272' : '',
+      //             }}
+      //           >
+      //             <Circle />
+      //           </IconContainer>
+      //         ))}
+      // </ThumbnailIcons>
+
       )}
+
+<Thumbnails place={place} setPlace={setPlace} status={status} />
 
     </ImageGalleryContainer>
   );
@@ -199,27 +240,78 @@ ImageGallery.propTypes = {
   setStatus: PropTypes.func.isRequired,
 };
 
+// const ImageGalleryContainer = styled.div`
+//   width: 100%;
+//   overflow: hidden;
+
+//   order: 2;
+
+//  @media (min-width: 700px) {
+//   max-width: 800px;
+//   max-height: 800px;
+//   padding-bottom: 1.5em;
+
+//   ${(props) => props.status === 'default' && css`
+//     display: contents;
+//     grid-columns: 1 / 4
+//     grid-rows: 2 / 4
+//   `};
+
+//   ${(props) => props.status === 'expanded' && css`
+//   height: 100%;
+//   width: 100%;
+//   display: flex;
+//   grid-row: 1 / 4;
+//   grid-column: 2 / 5
+//   margin: auto;
+//   height: max-content;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   align-content: center;
+//   `};
+
+//   ${(props) => props.status === 'zoomed' && css`
+//   width: 100%;
+//   height: 100%;
+//   display: flex;
+//   grid-row: 1 / 3;
+//   grid-column: 2 / 5
+//   margin: auto;
+//   height: max-content;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   align-content: center;
+//   `};
+//  };
+// `;
+
 const ImageGalleryContainer = styled.div`
   width: 100%;
   overflow: hidden;
+  padding-bottom: 1.5em;
+  margin: 0 auto;
 
-  order: 1;
+ @media (min-width: 600px) {
+   flex: 1 2 400px;
+ };
 
- @media (min-width: 700px) {
-  max-width: 800px;
-  max-height: 800px;
+ @media (min-width: 800px) {
+  display: flex;
+  flex: 1 3 500px;
+};
 
-  ${(props) => props.status === 'default' && css`
-    display: contents;
-    grid-columns: 1 / 4
-    grid-rows: 1 / 2
+ ${(props) => props.status === 'default' && css`
+   max-height: 800px;
   `};
+
 
   ${(props) => props.status === 'expanded' && css`
   height: 100%;
   width: 100%;
   display: flex;
-  grid-row: 1 / 3;
+  grid-row: 1 / 4;
   grid-column: 2 / 5
   margin: auto;
   height: max-content;
@@ -244,6 +336,22 @@ const ImageGalleryContainer = styled.div`
   `};
  };
 `;
+// @media (min-width: 900px) {
+//   flex: 1 1 500px;
+//  };
+
+// @media (min-width: 900px) {
+//   order: 2;
+//   flex: 1 1 0;
+//  };
+
+// ${(props) => props.status === 'default' && css`
+// display: contents;
+// grid-columns: 1 / 4
+// grid-rows: 2 / 4
+// `};
+// };
+
   // aspect-ratio: 4/5;
   // position: relative;
 
@@ -259,6 +367,7 @@ const ImageGalleryContainer = styled.div`
 // position: relative;
 
 const MainWrapper = styled.div`
+  padding-bottom: 0.5em;
   object-fit: cover;
   overflow: hidden;
   position: relative;
@@ -267,26 +376,33 @@ const MainWrapper = styled.div`
   margin: 0 auto;
   z-index: 1;
   display: flex;
+  flex-direction: column;
   ${(props) => props.status === 'default' && css`
-  max-width: 600px;
+  @media (max-width: 800px) {
+    flex: 8 1 0;
+  };
+  @media (min-width: 800px) {
+    flex: 7 1 0;
+  };
   `};
 
   @media (min-width: 600px) {
     height: 100%;
 
+
     ${(props) => props.status === 'default' && css`
       width: 100%;
       max-width: 800px;
       grid-column: 2 / 4;
-      grid-row: 1/ 2;
+      grid-row: 2/ 3;
     `};
   }
 
-  @media (min-width: 900px) {
+  @media (min-width: 600px) {
     ${(props) => props.status === 'default' && css`
       max-width: initial;
       grid-column: 2 / 4;
-      grid-row: 1/ 2;
+      grid-row: 2/ 3;
     `};
     ${(props) => props.status === 'expanded' && css`
       max-height: 120vh;
@@ -300,7 +416,7 @@ const MainWrapper = styled.div`
 const Main = styled.img`
   object-fit: cover;
   overflow: hidden;
-  aspect-ratio: 4/5;
+  aspect-ratio: 4/6;
   width: 100%;
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
@@ -329,7 +445,6 @@ const Main = styled.img`
   `};
 
   @media (min-width: 600px) {
-    height: 100%;
     width: 100%;
     ${(props) => props.status === 'default' && css`
       width: 100%;
@@ -337,7 +452,7 @@ const Main = styled.img`
     `};
   }
 
-  @media (min-width: 900px) {
+  @media (min-width: 600px) {
     ${(props) => props.status === 'default' && css`
       max-width: inherit;
   `};
@@ -381,7 +496,7 @@ const Side = styled.div`
 
   @media (min-width: 700px) {
     grid-column: 1 / 2;
-    grid-row: 1 / 2;
+    grid-row: 2 / 3;
     place-self: center;
     position: initial;
     max-width: 100%;
@@ -541,17 +656,19 @@ const Exit = styled.button`
 `;
 
 const ThumbnailIcons = styled.div`
-  justify-content: space-between;
-  left: 1%;
-  top: 1.5%;
-  flex-direction: column;
+  justify-content: center;
+  padding-bottom: 1.5em;
+  flex-direction: row;
   z-index: 3;
   align-items: center;
-  position: absolute;
   display: flex;
   border-radius: 2.5px;
-  padding-right: 1em;
+
+  @media (min-width: 700px) {
+    display: none;
+  };
 `;
+// position: absolute;
 
 const IconContainer = styled.button`
   display: flex;

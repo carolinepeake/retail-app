@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import CardImage from './CardImage';
@@ -27,9 +27,9 @@ function Card({ data, i }) {
           <CardStyle onClick={() => changeItem()} i={i} outfitIndex={outfitIndex}>
             <CardImage imageInfo={info.image.data} details={info.details} />
             <Text>
-              <Cards style={{ paddingTop: '0.1rem'}}>{info.details.data.category}</Cards>
-              <Cards style={{ fontSize: '1.25rem' }}>{info.details.data.name}</Cards>
-              <Cards style={{ padding: '0.25rem' }}>
+              <Cards style={{ paddingTop: '0.1em' }}>{info.details.data.category}</Cards>
+              <Cards name>{info.details.data.name}</Cards>
+              <Cards style={{ padding: '0.25em' }}>
                 $
                 {info.details.data.default_price}
               </Cards>
@@ -55,13 +55,22 @@ Card.propTypes = {
   }).isRequired,
 };
 
-const CardContainer = styled.div`
-  grid-column: ${(props) => props.i};
-  grid-row: 1;
+// const CardContainer = styled.div`
+//   grid-column: ${(props) => props.i};
+//   grid-row: 1;
+//   position: relative;
+//   background-color: ${(props) => props.theme.backgroundColor};
+//   min-width: 235px;
+// `;
+// background-color: white;
+// font-family: "Lato","Verdana",sans-serif;
+
+const CardContainer = styled.li`
   position: relative;
   background-color: ${(props) => props.theme.backgroundColor};
+  min-width: 220px;
+  aspect-ratio: 4/6;
 `;
-// background-color: white;
 
 const CardStyle = styled.div`
   display: flex;
@@ -74,9 +83,19 @@ const CardStyle = styled.div`
 
 const Cards = styled.div`
   margin-right: auto;
-  font-size: 1.0rem;
-  padding-left: 0.25rem;
+  font-size: ${(props) => props.theme.secondary};
+  padding-left: 0.25em;
+  ${(props) => props.name && css`
+    font-size: ${props.theme.body};
+    font-weight: 500;
+  `};
 `;
+// font-size: 1.0rem;
+// padding-left: 0.25rem;
+// ${props => props.name && css`
+// font-size: 1.25rem;
+// fontWeight: '500'
+// `}
 // margin-left: auto;
 
 const Text = styled.div`

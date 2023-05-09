@@ -4,21 +4,13 @@ const Button = styled.button`
   cursor: pointer;
   border: currentColor thin solid;
   margin: 0.5em 0;
-  padding: 12px;
-  font-size: 12px;
+  font-family: futura-pt, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  padding: 1em;
+  font-size: ${(props) => props.theme.body};
 
-  @media (min-width: 400px) {
-    padding: 16px;
-    font-size: 16px;
-  };
-
-  @media (min-width: 600px) {
-    margin: 0;
-    padding: calc(2px + 1.2vw) calc(8px + 1.2vw);
-    font-size: calc(6px + 1.2vw);
-  };
-
-  background-color: ${(props) => props.theme.secondaryColor};
+  background-color: ${(props) => props.theme.backgroundColor};
   color: ${(props) => props.theme.fontColor};
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -32,11 +24,9 @@ const Button = styled.button`
     };
   `};
 
-
   ${(props) => props.select && css`
-    padding: calc(2px + 1.2vw) calc(6px + 1.2vw);
-    background-color: ${(props) => props.theme.secondaryColor};
-    color: ${(props) => props.theme.fontColor};
+    background-color: ${props.theme.backgroundColor};
+    color: ${props.theme.fontColor};
   `};
 
   ${(props) => props.modal && css`
@@ -49,8 +39,35 @@ const Button = styled.button`
     color: ${props.theme.submitButtonFont};
   `};
 `;
-  // padding: calc(4px + 1.2vw) calc(10px + 1vw);
+
+// font-size: 16px;
+
+// @media (min-width: 600px) {
+//   margin: 0;
+//   font-size: calc(10px + 1vw);
+// };
+
+// @media (min-width: 1500px) {
+//   font-size: 24px;
+// };
+
+// @media (min-width: 600px) {
+//   margin: 0;
+//   padding: calc(2px + 1.2vw) calc(8px + 1.2vw);
+//   font-size: calc(6px + 1.2vw);
+// };
+
+// ${(props) => props.select && css`
+// background-color: ${(props) => props.theme.secondaryColor};
+// color: ${(props) => props.theme.fontColor};
+// `};
+//   // padding: calc(4px + 1.2vw) calc(10px + 1vw);
   // border-radius: 5px;
+//   ${(props) => props.select && css`
+//   padding: calc(2px + 1.2vw) calc(6px + 1.2vw);
+//   background-color: ${(props) => props.theme.secondaryColor};
+//   color: ${(props) => props.theme.fontColor};
+// `};
 export default Button;
 
 // cut from primary:

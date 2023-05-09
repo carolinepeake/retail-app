@@ -6,7 +6,9 @@ import StyleSelector from './StyleSelector/StyleSelector';
 import ImageGallery from './ImageGallery/ImageGallery';
 import AddToCart from './AddToCart/AddToCart';
 import Features from './ProductOverview/Features';
+import ProductPath from './ProductOverview/ProductPath';
 import Button from '../reusable/Button';
+import Collapsable from '../reusable/Collapsable';
 
 import { useGlobalContext } from '../../contexts/GlobalStore';
 
@@ -16,48 +18,68 @@ import { useGlobalContext } from '../../contexts/GlobalStore';
 function ProductDetail() {
   const { productInfo } = useGlobalContext();
   const [status, setStatus] = useState('default');
-  const [collapsed, setCollapsed] = useState(true);
+  // const [collapsed, setCollapsed] = useState(true);
 
   return (
     <ProductSec id="product-details">
       {status === 'default'
         ? (
           <>
-            {/* <LeftColumn> */}
-            <ImageGallery
-              status={status}
-              setStatus={setStatus}
-            />
-            <Details>
-              <Collapsible
-                onClick={() => setCollapsed((prevCollapsed) => !prevCollapsed)}
-                collapsed={collapsed}
-              >
-                <span>
-                  Details
-                </span>
-                <span>
-                  +
-                </span>
-              </Collapsible>
-              {/* <Content> */}
-                <LeftBottom collapsed={collapsed}>
-                  {productInfo.slogan
+            <ProductPath />
+            <ProductContainer>
+              <ImageGallery
+                status={status}
+                setStatus={setStatus}
+              />
+              <RightColumn>
+
+                <ProductOverview />
+                <StyleSelector />
+                <AddToCart />
+
+                {/* <Details>
+                  <Collapsible
+                    onClick={() => setCollapsed((prevCollapsed) => !prevCollapsed)}
+                    collapsed={collapsed}
+                  >
+                    <span>
+                      Details
+                    </span>
+                    <span>
+                      +
+                    </span>
+                  </Collapsible>
+                  {/* <Content> */}
+                {/* <LeftBottom collapsed={collapsed}>
+                    {productInfo.slogan
             && <ProductSlogan>{productInfo.slogan}</ProductSlogan>}
-                  {productInfo.description
+                    {productInfo.description
             && <ProductDescription>{productInfo.description}</ProductDescription>}
-                </LeftBottom>
-                {productInfo.features && <Features collapsed={collapsed} />}
-              {/* </Content> */}
-            </Details>
-            {/* </LeftColumn> */}
-            <RightColumn>
-              {/* <TopRight> */}
-              <ProductOverview />
-              <StyleSelector />
-              <AddToCart />
-              {/* </TopRight> */}
-            </RightColumn>
+                  </LeftBottom>
+                  {productInfo.features && <Features collapsed={collapsed} />}
+                  {/* </Content> */}
+                {/* </Details> */}
+
+                <Collapsable header="Details">
+                  <LeftBottom>
+                    {productInfo.slogan
+            && <ProductSlogan>{productInfo.slogan}</ProductSlogan>}
+                    {productInfo.description
+            && <ProductDescription>{productInfo.description}</ProductDescription>}
+                  </LeftBottom>
+                  {productInfo.features && <Features />}
+                </Collapsable>
+
+                <Collapsable header="Shipping">
+                  <p>dal</p>
+                </Collapsable>
+
+                <Collapsable header="Returns">
+                  <p>dal</p>
+                </Collapsable>
+
+              </RightColumn>
+            </ProductContainer>
           </>
         ) : (
           <Expanded>
@@ -88,23 +110,22 @@ export default ProductDetail;
 const ProductSec = styled.div`
   padding-left: 5%;
   padding-right: 5%;
-
-  display: flex;
-  flex-direction: column;
-
   margin-top: 1.5rem;
-
-  @media (min-width: 700px) {
-    display: grid;
-    grid-template-columns: 10% minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) 10%;
-    grid-template-rows: max-content max-content;
-    column-gap: 1rem;
-    row-gap: 2rem;
-    max-width: 100%;
-
-    padding-top: 0;
-  }
 `;
+// display: flex;
+// flex-direction: column;
+
+// @media (min-width: 900px) {
+//   display: grid;
+//   grid-template-columns: 10% minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) 10%;
+//   grid-template-rows: max-content max-content max-content;
+//   column-gap: 1rem;
+//   row-gap: 1rem;
+//   max-width: 100%;
+
+//   padding-top: 0;
+// }
+
 // margin: 1.5rem 2.5% 0 2.5%;
 
 // @media (min-width: 1200px) {
@@ -127,22 +148,54 @@ const ProductSec = styled.div`
 // `;
 // grid-column: 1/4;
 
-const Details = styled.div`
-  order: 3;
+// const ProductContainer = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   flex: 1 1 0;
+// `;
 
-  @media (min-width: 700px) {
-    grid-column: 2 / 6;
-    grid-row: 2 / 3;
-    display: contents;
-  };
+const ProductContainer = styled.div`
+  width: 100%;
+  height: 100%;
+
+@media (min-width: 600px) {
+  display: flex;
+  flex-direction: row;
+};
 `;
+// flex: 1 1 0;
+
+const Details = styled.div`
+  padding-top: 1.5rem;
+`;
+
+// const Details = styled.div`
+//   order: 4;
+
+//   @media (min-width: 20000px) {
+//     grid-column: 2 / 6;
+//     grid-row: 3 / 4;
+//     display: contents;
+//   };
+// `;
 
 const Collapsible = styled(Button)`
   display: flex;
   justify-content: space-between;
   width: 100%;
+  height: 4em;
+  align-items: center;
+  border-left: none;
+  border-right: none;
+  &:hover {
+    box-shadow: none;
+  };
 
-  @media (min-width: 700px) {
+  ${(props) => !props.collapsed && css`
+    border-bottom: none;
+  `};
+
+  @media (min-width: 600px) {
     display: none;
   };
 `;
@@ -159,12 +212,12 @@ const LeftBottom = styled.div`
     display: none;
   `};
 
-  @media (min-width: 700px) {
+  @media (min-width: 600px) {
     max-width: 800px;
     display: flex;
     flex-direction: column;
     grid-column: 2 / 4;
-    grid-row: 2/3;
+    grid-row: 3/4;
     justify-content: space-between;
     justify-items: space-between;
     padding-right: 1.5rem;
@@ -196,68 +249,81 @@ const LeftBottom = styled.div`
 
 const RightColumn = styled.div`
   background-color: white;
-  padding-left: 0.25%;
+  flex: 1 1 300px;
+  box-sizing: border-box;
 
-  order: 2;
-
-
-  @media (min-width: 700px) {
-    max-height: 800px;
-    grid-column: 4 / span 2;
-    grid-row: 1 / 2;
+  @media (min-width: 600px) {
     display: flex;
     flex-direction: column;
     align-items: space-between;
     justify-content: space-evenly;
-  }
+    padding-left: 5%;
+  };
 
-  @media (min-width: 1200px) {
-    grid-column: 4 / span 2;
-    grid-row: 1 / 3
-    display: flex;
-    flex-direction: column;
-    align-items: space-between;
-    justify-content: space-between;
-  }
+  @media (min-width: 800px) {
+    flex: 1 1 300px;
+  };
 `;
+
+// const RightColumn = styled.div`
+//   background-color: white;
+//   padding-left: 0.25%;
+//   order: 3;
+//   @media (min-width: 2000px) {
+//     max-height: 800px;
+//     grid-column: 4 / span 2;
+//     grid-row: 2 / 3;
+//     display: flex;
+//     flex-direction: column;
+//     align-items: space-between;
+//     justify-content: space-evenly;
+//   }
+
+//   @media (min-width: 1200px) {
+//     grid-column: 4 / span 2;
+//     grid-row: 2 / 3;
+//     display: flex;
+//     flex-direction: column;
+//     align-items: space-between;
+//     justify-content: space-between;
+//   }
+// `;
 
 // height: calc(61.585vw);
 
 const ProductSlogan = styled.h3`
-  font-size: 1.0rem;
+  font-size: ${(props) => props.theme.body};
   display: block;
   margin-block-start: 0.5em;
   margin-block-end: 0em;
   font-weight: bold;
-  font-size: calc(10px + 1vw);
 
   @media (min-width: 700px) {
-    font-size: calc(10px + 1vw);
     margin-block-start: 0px;
     margin: 0px;
     padding-top: 0px;
     padding-bottom: 0px;
   }
 `;
+// font-size: calc(10px + 1vw);
 
 const ProductDescription = styled.p`
   display: block;
   margin-block-end: 1em;
   margin-block-start: 0.5em;
-  font-size: calc(10px + 1vw);
+  font-size: ${(props) => props.theme.body};
 
   @media (min-width: 700px) {
-    font-size: 1.0rem;
     margin-block-end: 0px;
     margin-block-start: 0px;
-    padding-top: 1.0rem;
+    padding-top: 1.0em;
   }
-
 `;
+// font-size: calc(10px + 1vw);
 
 const Expanded = styled.div`
   grid-column: 1/6;
-  grid-row: 1;
+  grid-row: 1/3;
   overflow: none;
   width: 100%;
   height: 100%;
