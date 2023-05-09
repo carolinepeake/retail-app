@@ -9,7 +9,7 @@ import {
 
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
-function Thumbnails({ place, setPlace }) {
+function Thumbnails({ place, setPlace, status }) {
   const { selectedStyle } = useGlobalContext();
 
   let thumbnails = [];
@@ -21,18 +21,25 @@ function Thumbnails({ place, setPlace }) {
         alt={`${selectedStyle.name} thumbnail`}
         onClick={() => setPlace(index)}
         place={place}
+        setPlace={setPlace}
         type="button"
+        status={status}
       >
-        <ThumbnailIcon />
+        <ThumbnailIcon status={status} place={place} index={index} />
         <ThumbnailImage
           src={photo.thumbnail_url}
+          status={status}
         />
       </ThumbnailContainer>
     ));
   }
 
   return (
-    <ThumbnailsContainer>
+    <ThumbnailsContainer
+      status={status}
+      place={place}
+      setPlace={setPlace}
+    >
       {thumbnails}
     </ThumbnailsContainer>
   );
@@ -41,7 +48,7 @@ function Thumbnails({ place, setPlace }) {
 export default Thumbnails;
 
 const ThumbnailsContainer = styled.div`
-  display: flex;
+  display: ${(props) => (props.status === 'zoomed' ? 'none' : 'flex')};
   flex-direction: row;
   gap: 0.75em;
   align-items: center;
@@ -53,15 +60,19 @@ const ThumbnailsContainer = styled.div`
 
 
   @media (min-width: 800px) {
-    order: -1;
-    flex-direction: column;
-    flex: 1 1 0;
-    margin-right: 2.5%;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 1.0em;
+    ${(props) => (props.status === 'default' && css`
+      order: -1;
+      flex-direction: column;
+      flex: 1 1 0;
+      align-items: flex-start;
+      justify-content: flex-end;
+      column-gap: 1.0em;
+      aspect-ratio: 4/56;
+      min-width: 70px;
+    `)};
   };
 `;
+// margin-right: 2.5%;
 
 // @media (min-width: 700px) {
 //   grid-column: 1 / 2;
@@ -77,23 +88,28 @@ const ThumbnailContainer = styled.button`
     display: flex;
     background-color: transparent;
     border: none;
+    overflow: hidden;
 
-    ${(props) => props.icon && css`
+    @media (max-width: 800px) {
+      justify-content: center;
+      align-items: center;
+      margin: 0.5em 0;
+      border-radius: 50px;
+      color: ${(props) => props.theme.submitButton};
+    };
+
+    @media (min-width: 800px) {
+      margin: 0;
+      padding: 0;
+    };
+
+    ${(props) => props.expanded && css`
       justify-content: center;
       align-items: center;
       margin: 0.5em 0;
       border-radius: 50px;
       color: ${props.theme.submitButton};
     `};
-
-    ${(props) => !(props.icon) && css`
-      margin: 0;
-      padding: 0;
-  `};
-
-    ${(props) => ((props.index === props.place) && css`
-      color: ${props.theme.submitButtonHover};
-   `)};
 `;
 // &:hover {
 //   opacity: 0.80;
@@ -130,11 +146,11 @@ const ThumbnailIcon = styled.span`
     };
 
     @media (min-width: 800px) {
-      display: none;
+      display: ${(props) => (props.status !== 'expanded' && 'none')};
     };
-
-
-
+    ${(props) => ((props.index === props.place) && css`
+    color: ${props.theme.submitButtonHover};
+ `)};
   `;
   // light grey
   // &:hover {
@@ -154,22 +170,27 @@ const ThumbnailImage = styled.img`
   max-width: 100%;
   justify-content: center;
   object-fit: cover;
-  max-height: 100px;
+  max-height: 90px;
   margin: 0 auto;
   display: none;
 
   @media (min-width: 800px) {
-    max-height: 100px;
-    margin: 0px 1px;
-    max-width: 80px;
-    display: initial;
-  };
-
-  @media (min-width: 800px) {
-    max-height: 100%;
-    max-width: 100%;
+    display: ${(props) => (props.status === 'default' ? 'block' : 'none')};
   };
 `;
+
+// @media (min-width: 800px) {
+//   max-height: 100px;
+//   margin: 0px 1px;
+//   max-width: 80px;
+//   display: ${(props) => (props.status === 'default' ? 'initial' : 'none')};
+// };
+
+// @media (min-width: 800px) {
+//   max-height: 100%;
+//   max-width: 100%;
+// };
+
 
 // const ThumbnailIcons = styled.div`
 // justify-content: center;

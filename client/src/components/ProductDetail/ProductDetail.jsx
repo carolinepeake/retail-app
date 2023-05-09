@@ -18,6 +18,7 @@ import { useGlobalContext } from '../../contexts/GlobalStore';
 function ProductDetail() {
   const { productInfo } = useGlobalContext();
   const [status, setStatus] = useState('default');
+  const [place, setPlace] = useState(0);
   // const [collapsed, setCollapsed] = useState(true);
 
   return (
@@ -30,6 +31,8 @@ function ProductDetail() {
               <ImageGallery
                 status={status}
                 setStatus={setStatus}
+                place={place}
+                setPlace={setPlace}
               />
               <RightColumn>
 
@@ -86,6 +89,8 @@ function ProductDetail() {
             <ImageGallery
               status={status}
               setStatus={setStatus}
+              place={place}
+              setPlace={setPlace}
             />
           </Expanded>
         )}
@@ -207,21 +212,14 @@ const Collapsible = styled(Button)`
 const LeftBottom = styled.div`
   height: 100%;
   max-width: 600px;
-  margin: 0 auto;
-  ${(props) => props.collapsed && css`
-    display: none;
-  `};
+  display: ${(props) => props.collapsed ? 'none' : 'flex'};
+  flex-direction: column;
+    justify-content: space-between;
+    justify-items: space-between;
+    padding-right: 0.5rem;
 
   @media (min-width: 600px) {
     max-width: 800px;
-    display: flex;
-    flex-direction: column;
-    grid-column: 2 / 4;
-    grid-row: 3/4;
-    justify-content: space-between;
-    justify-items: space-between;
-    padding-right: 1.5rem;
-    padding-left: 2rem;
   };
 
   @media (min-width: 1200px) {
@@ -229,12 +227,42 @@ const LeftBottom = styled.div`
     padding-right: 15%;
   };
 `;
+// justify-content: space-between;
+// justify-items: space-between;
+// margin: 0 auto;
 
-// @media (min-width: 1200px) {
-//   max-width: '';
-//   margin-left: 10%;
+
+// const LeftBottom = styled.div`
+//   height: 100%;
+//   max-width: 600px;
 //   margin: 0 auto;
-//   display: flex;
+//   ${(props) => props.collapsed && css`
+//     display: none;
+//   `};
+
+//   @media (min-width: 600px) {
+//     max-width: 800px;
+//     display: flex;
+//     flex-direction: column;
+//     grid-column: 2 / 4;
+//     grid-row: 3/4;
+//     justify-content: space-between;
+//     justify-items: space-between;
+//     padding-right: 1.5rem;
+//     padding-left: 2rem;
+//   };
+
+//   @media (min-width: 1200px) {
+//     max-width: initial;
+//     padding-right: 15%;
+//   };
+// `;
+
+// // @media (min-width: 1200px) {
+// //   max-width: '';
+// //   margin-left: 10%;
+// //   margin: 0 auto;
+// //   display: flex;
 //   flex-direction: column;
 // }
 
@@ -257,11 +285,20 @@ const RightColumn = styled.div`
     flex-direction: column;
     align-items: space-between;
     justify-content: space-evenly;
-    padding-left: 5%;
+    padding-left: 0.5em;
+  };
+
+  @media (min-width: 700px) {
+    padding-left: 1em;
   };
 
   @media (min-width: 800px) {
     flex: 1 1 300px;
+    max-width: 450px;
+  };
+
+  @media (min-width: 1200px) {
+    padding-left: 5%;
   };
 `;
 
@@ -292,33 +329,45 @@ const RightColumn = styled.div`
 // height: calc(61.585vw);
 
 const ProductSlogan = styled.h3`
-  font-size: ${(props) => props.theme.body};
   display: block;
-  margin-block-start: 0.5em;
   margin-block-end: 0em;
-  font-weight: bold;
-
-  @media (min-width: 700px) {
+  margin-top: 0px;
+  font-weight: 400;
+  font-size: 0.83em;
     margin-block-start: 0px;
     margin: 0px;
     padding-top: 0px;
     padding-bottom: 0px;
-  }
+
 `;
+// @media (min-width: 700px) {
+//   margin-block-start: 0px;
+//   margin: 0px;
+//   padding-top: 0px;
+//   padding-bottom: 0px;
+// }
+// margin-block-start: 0.5em;
 // font-size: calc(10px + 1vw);
+// font-size: ${(props) => props.theme.body};
 
 const ProductDescription = styled.p`
   display: block;
+  font-weight: 300;
   margin-block-end: 1em;
   margin-block-start: 0.5em;
-  font-size: ${(props) => props.theme.body};
-
-  @media (min-width: 700px) {
+  font-weight: 300;
+  font-size: 0.83rem;
     margin-block-end: 0px;
     margin-block-start: 0px;
-    padding-top: 1.0em;
-  }
+    padding-top: 0.75rem;
+    color: ${(props) => props.theme.minorFontColor};
 `;
+// font-size: ${(props) => props.theme.body};
+// @media (min-width: 700px) {
+//   margin-block-end: 0px;
+//   margin-block-start: 0px;
+//   padding-top: 1.0em;
+// }
 // font-size: calc(10px + 1vw);
 
 const Expanded = styled.div`

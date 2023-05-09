@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import StyledSelect from '../../reusable/StyledSelect';
 
 function SortList({
   sortOrder, setSortOrder, revCount, filteredRevsLength,
@@ -9,17 +10,21 @@ function SortList({
     setSortOrder(event.target.value);
   };
 
+  const options = [{ value: 'relevant', label: 'relevance', id: '00' }, { value: 'newest', label: 'newest', id: '01' }, { value: 'helpful', label: 'helpful', id: '03' }];
+
   return (
     <RevListHeader>
-      &nbsp;
-      {revCount === 2 ? 2 : filteredRevsLength}
-      &nbsp;
-      reviews, sorted by:
-      <Sort onChange={handleSortSelect} value={sortOrder}>
+      {/* &nbsp; */}
+      {/* {revCount === 2 ? 2 : filteredRevsLength} */}
+      <TotalCount> {`1 –– ${revCount} of ${filteredRevsLength} Reviews`}</TotalCount>
+      {/* &nbsp; */}
+      {/* reviews, sorted by: */}
+      {/* <Sort onChange={handleSortSelect} value={sortOrder}>
         <option value="relevant">Relevance</option>
         <option value="newest">Newest</option>
         <option value="helpful">Helpful</option>
-      </Sort>
+      </Sort> */}
+      <StyledSelect initialValue="relevant" options={options} handleSelect={setSortOrder} sortOrder={sortOrder} />
     </RevListHeader>
   );
 }
@@ -49,8 +54,17 @@ const RevListHeader = styled.div`
   @media (min-width 400px) {
     margin-left: 1em;
   };
+
+  justify-content: space-between;
+  padding: 0 0.5em;
+  align-items: center;
 `;
 // font-size: 1.0rem;
+
+const TotalCount = styled.h5`
+margin-block-start: 0px;
+margin-block-end: 0px;
+`;
 
 const Sort = styled.select`
   font: inherit;

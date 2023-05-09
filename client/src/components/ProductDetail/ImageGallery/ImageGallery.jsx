@@ -10,12 +10,13 @@ import Thumbnails from './Thumbnails';
 
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
-function ImageGallery({ status, setStatus }) {
+function ImageGallery({
+  status, setStatus, place, setPlace,
+}) {
   const { productInfo, selectedStyle } = useGlobalContext();
 
   const imageContainer = useRef(null);
 
-  const [place, setPlace] = useState(0);
   const [firstPhotoIndex, setFirstPhotoIndex] = useState(0);
 
   function handleClickArrow(n) {
@@ -45,8 +46,8 @@ function ImageGallery({ status, setStatus }) {
     const containerWidth = imageContainer.current.clientWidth;
     const x = e.pageX - imageContainer.current.offsetLeft;
     const y = e.pageY - imageContainer.current.offsetTop;
-    const xPercent = `${(x / (containerWidth / 100)) * 1.5}%`;
-    const yPercent = `${(y / (containerWidth / 100)) * 1.5}%`;
+    const xPercent = `${(x / (containerWidth / 100)) * 1.25}%`;
+    const yPercent = `${(y / (containerWidth / 100)) * 1.25}%`;
     setXPerc(() => xPercent);
     setYPerc(() => yPercent);
   }
@@ -75,28 +76,16 @@ function ImageGallery({ status, setStatus }) {
     }
   }
 
-  function handleClickExit() {
+  function handleClickExit(e) {
+    e.preventDefault();
     setStatus(() => 'default');
   }
-
-  // let thumbnails = [];
-  // if (selectedStyle.photos) {
-  //   thumbnails = selectedStyle.photos.map((photo, index) => (
-  //     <Thumbnail
-  //       src={photo.thumbnail_url}
-  //       key={photo.url}
-  //       index={index}
-  //       alt={`${selectedStyle.name} thumbnail`}
-  //       onClick={() => setPlace(index)}
-  //       place={place}
-  //     />
-  //   ));
-  // }
 
   return (
     <ImageGalleryContainer
       status={status}
-      ref={imageContainer}
+      place={place}
+      setPlace={setPlace}
     >
 
       {/* {status === 'default'
@@ -130,106 +119,63 @@ function ImageGallery({ status, setStatus }) {
         </Side>
         )} */}
 
-
-
       {selectedStyle.photos
       && (
-        <MainWrapper status={status}>
+        <MainWrapper
+          status={status}
+          ref={imageContainer}
+          place={place}
+        >
 
           <Main
             src={selectedStyle.photos[place || 0].url}
             alt={`${productInfo.name} in ${selectedStyle.name} style`}
             onClick={(e) => handleClickMain(e)}
             status={status}
+            place={place}
             onMouseMove={(e) => handlePanImage(e)}
             xPercent={xPerc}
             yPercent={yPerc}
+            setPlace={setPlace}
           />
 
-          {/* {status !== 'zoomed'
+          {status !== 'zoomed'
           && (
             <>
               <Buttons
-                style={{ left: '2%', display: place > 0 ? 'block' : 'none' }}
+                place={place}
+                setPlace={setPlace}
+                style={{ left: '0%', top: '45%', display: place > 0 ? 'block' : 'none' }}
                 onClick={() => handleClickArrow(-1)}
               >
-                <MdArrowBackIos style={{ fontSize: '1.5rem', paddingLeft: '0.5rem', paddingTop: '0.25rem' }} />
+                <MdArrowBackIos status={status} style={{ fontSize: status === 'expanded' ? '2.0rem' : '2.5rem', paddingLeft: '0.25rem', paddingTop: '0.25rem' }} />
               </Buttons>
               <Buttons
-                style={{ right: '2%', display: place < thumbnails.length - 1 ? 'block' : 'none' }}
+                style={{ right: '0%', top: '45%', display: place < selectedStyle.photos.length - 1 ? 'block' : 'none' }}
                 onClick={() => handleClickArrow(1)}
+                place={place}
+                setPlace={setPlace}
               >
-                <MdArrowForwardIos style={{ fontSize: '1.5rem', paddingTop: '0.25rem' }} />
+                <MdArrowForwardIos status={status} style={{ fontSize: status === 'expanded' ? '2.0rem' : '2.5rem', paddingTop: '0.25rem', paddingRight: '0.25rem' }} />
               </Buttons>
             </>
-          )} */}
+          )}
 
           {status === 'expanded'
           && (
-          // <>
           <Exit
-            onClick={() => handleClickExit()}
+            onClick={(e) => handleClickExit(e)}
           >
             &times;
           </Exit>
           )}
-          {/* <ThumbnailIcons>
-                {selectedStyle.photos
-                && selectedStyle.photos.map((photo, index) => (
-                  <IconContainer
-                    key={photo.url}
-                    index={index}
-                    onClick={() => setPlace(index)}
-                    style={{
-                      fontSize: '1.5rem', border: index === place ? 'solid black thin' : 'none', transform: index === place ? 'scale(1.025)' : '', transition: index === place ? 'transform 0.25s ease' : '', cursor: 'pointer', borderRadius: '50px', margin: '0.5em', boxShadow: index === place ? '5px 5px 5px #727272' : '',
-                    }}
-                  >
-                    <Circle />
-                  </IconContainer>
-                ))}
-              </ThumbnailIcons>
-            </>
-          )} */}
-
-          {/* <ThumbnailIcons>
-            {selectedStyle.photos
-                && selectedStyle.photos.map((photo, index) => (
-                  <IconContainer
-                    key={photo.url}
-                    index={index}
-                    onClick={() => setPlace(index)}
-                    style={{
-                      fontSize: '1.5rem', border: index === place ? 'solid black thin' : 'none', transform: index === place ? 'scale(1.025)' : '', transition: index === place ? 'transform 0.25s ease' : '', cursor: 'pointer', borderRadius: '50px', margin: '0.5em', boxShadow: index === place ? '5px 5px 5px #727272' : '',
-                    }}
-                  >
-                    <Circle />
-                  </IconContainer>
-                ))}
-          </ThumbnailIcons> */}
 
         </MainWrapper>
 
 
-
-      // <ThumbnailIcons>
-      // {selectedStyle.photos
-      //         && selectedStyle.photos.map((photo, index) => (
-      //           <IconContainer
-      //             key={photo.url}
-      //             index={index}
-      //             onClick={() => setPlace(index)}
-      //             style={{
-      //               fontSize: '1.5rem', border: index === place ? 'solid black thin' : 'none', transform: index === place ? 'scale(1.025)' : '', transition: index === place ? 'transform 0.25s ease' : '', cursor: 'pointer', borderRadius: '50px', margin: '0.5em', boxShadow: index === place ? '5px 5px 5px #727272' : '',
-      //             }}
-      //           >
-      //             <Circle />
-      //           </IconContainer>
-      //         ))}
-      // </ThumbnailIcons>
-
       )}
 
-<Thumbnails place={place} setPlace={setPlace} status={status} />
+      <Thumbnails place={place} setPlace={setPlace} status={status} />
 
     </ImageGalleryContainer>
   );
@@ -238,6 +184,8 @@ function ImageGallery({ status, setStatus }) {
 ImageGallery.propTypes = {
   status: PropTypes.string.isRequired,
   setStatus: PropTypes.func.isRequired,
+  place: PropTypes.number.isRequired,
+  setPlace: PropTypes.func.isRequired,
 };
 
 // const ImageGalleryContainer = styled.div`
@@ -289,21 +237,32 @@ ImageGallery.propTypes = {
 
 const ImageGalleryContainer = styled.div`
   width: 100%;
+  height: 100%;
   overflow: hidden;
   padding-bottom: 1.5em;
   margin: 0 auto;
 
  @media (min-width: 600px) {
    flex: 1 2 400px;
+   display: flex;
+   flex-direction: column;
+   ${(props) => props.status === 'default' && css`
+    column-gap: 1em;
+    height: 100%;
+    position: sticky;
+    top: 60px;
+    padding-bottom: 0px;
+  `};
  };
 
- @media (min-width: 800px) {
-  display: flex;
-  flex: 1 3 500px;
-};
 
  ${(props) => props.status === 'default' && css`
-   max-height: 800px;
+    max-height: 800px;
+
+    @media (min-width: 800px) {
+      flex: 1 3 500px;
+      aspect-ratio: 5/6;
+    };
   `};
 
 
@@ -336,6 +295,8 @@ const ImageGalleryContainer = styled.div`
   `};
  };
 `;
+
+
 // @media (min-width: 900px) {
 //   flex: 1 1 500px;
 //  };
@@ -352,8 +313,8 @@ const ImageGalleryContainer = styled.div`
 // `};
 // };
 
-  // aspect-ratio: 4/5;
-  // position: relative;
+// aspect-ratio: 4/5;
+// position: relative;
 
 // default
 // height: 100%;
@@ -378,13 +339,10 @@ const MainWrapper = styled.div`
   display: flex;
   flex-direction: column;
   ${(props) => props.status === 'default' && css`
-  @media (max-width: 800px) {
-    flex: 8 1 0;
-  };
-  @media (min-width: 800px) {
-    flex: 7 1 0;
-    height: initial;
-  };
+    @media (min-width: 800px) {
+      flex: 6 1 450px;
+      height: initial;
+    };
   `};
 
   @media (min-width: 600px) {
@@ -394,17 +352,10 @@ const MainWrapper = styled.div`
     ${(props) => props.status === 'default' && css`
       width: 100%;
       max-width: 800px;
-      grid-column: 2 / 4;
-      grid-row: 2/ 3;
     `};
   }
 
   @media (min-width: 600px) {
-    ${(props) => props.status === 'default' && css`
-      max-width: initial;
-      grid-column: 2 / 4;
-      grid-row: 2/ 3;
-    `};
     ${(props) => props.status === 'expanded' && css`
       max-height: 120vh;
     `};
@@ -419,9 +370,6 @@ const Main = styled.img`
   overflow: hidden;
   aspect-ratio: 4/6;
   width: 100%;
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  grid-template-rows: 100%;
   margin: 0 auto;
   z-index: 2;
   ${(props) => props.status === 'default' && css`
@@ -451,14 +399,12 @@ const Main = styled.img`
       width: 100%;
       max-width: 800px;
     `};
-  }
-
-  @media (min-width: 600px) {
-    ${(props) => props.status === 'default' && css`
-      max-width: inherit;
-  `};
-  }
+  };
 `;
+// @media (min-width: 600px) {
+//   ${(props) => props.status === 'default' && css`
+//     max-width: inherit;
+// `};
 // position: relative;
 // if image gallery was our main image container like before
 // grid-column: 1 / 8;
@@ -604,15 +550,13 @@ const OldThumbnail = styled.img`
 `;
 
 const Buttons = styled.button`
-  background-color: rgba(225, 225, 225, 0.75);
+  background-color: white;
   &:hover {
     background-color: rgba(225, 225, 225, 0.9);
-    cursor: pointer;
   };
   padding: 0;
   color: black;
   border: none;
-  border-radius: 5px;
   width: 3rem;
   height: 3rem;
   z-index: 3;
@@ -631,30 +575,38 @@ const Buttons = styled.button`
     };
     font-size: 2rem;
   `};
-  left: ${(props) => props.status === 'expanded' && '2%'};
+  ${(props) => (props.status === 'expanded' && css`
+    left: 2%;
+    line-height: 1.5em;
+    width: 1.5em;
+    height: 1.5em;
+    font-size: 2.5rem;
+  `)};
 `;
+// background-color: rgba(225, 225, 225, 0.75);
 // position: absolute (not scroll);
+// border-radius: 5px;
 
 const Exit = styled.button`
   position: absolute;
   right: 1%;
   top: 1%;
   z-index: 3;
-  background-color: rgba(225, 225, 225, 0.5);
-  border-radius: 2.5px;
-  font-size: calc(10px + 2vw);
-  padding: 0.1em 0.25em;
+  background-color: white;
+  &:hover {
+    background-color: rgba(225, 225, 225, 0.9);
+  };
+  font-size: 2.5rem;
   display: block;
   color: black;
-  &:hover {
-    background-color: rgba(225, 225, 225, 0.8);
-    cursor: pointer;
-  };
   border: none;
   width:1.5em;
   height: 1.5em;
-  line-height: 1em;
+  line-height: 1.5em;
 `;
+// border-radius: 2.5px;
+// font-size: calc(10px + 2vw);
+// padding: 0.1em 0.25em;
 
 const ThumbnailIcons = styled.div`
   justify-content: center;
@@ -694,3 +646,17 @@ const Circle = styled.span`
 `;
 
 export default ImageGallery;
+
+// left arrow &#8592;
+// up arrow &#8593;
+// right arrow &#8594;
+// down arrow &#8595;
+
+// x in a rectangular box &#8999;
+
+// up arrowhead / collapse arrow &#8963;
+
+// horizontal line &#9472;
+// plus 	&#43;
+// fullwidth hyphen minus 	&#65293;
+

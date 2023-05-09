@@ -203,6 +203,7 @@ function QuestionEntry({ question }) {
 const Entry = styled.div`
   width: 100%;
   padding-bottom: 0.1rem;
+  padding-right: 0.5em;
   margin-top: 1.0rem;
   border-bottom: currentColor solid thin;
   display: grid;
@@ -337,7 +338,7 @@ const Answers = styled.div`
 
 // TO-DO: change max height from px
 const AnswersListContainer = styled.div`
-  max-height: 150px;
+  max-height: 250px;
   overflow-x: auto;
   overflow-y: auto;
   text-align: justify;

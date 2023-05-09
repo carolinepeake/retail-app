@@ -132,13 +132,21 @@ const Cart = styled.div`
 
   @media (min-width: 600px) {
     margin-top: 0px;
-    margin-bottom: 2.0rem;
+    margin-bottom: 0px;
   };
 
   @media (min-width: 900px) {
-    margin-top: 1.0rem;
+    margin-bottom: 1.0rem;
   };
 `;
+// @media (min-width: 600px) {
+//   margin-top: 0px;
+//   margin-bottom: 2.0rem;
+// };
+// @media (min-width: 900px) {
+//   margin-top: 1.0rem;
+//   margin-bottom: 1.0rem;
+// };
 // margin-right: 1em;
 // margin-right: 10%;
 
@@ -163,7 +171,8 @@ const StyledSelect = styled(Button)`
   flex-basis: 9.8em;
   flex-grow: 3;
   flex-shrink: 1;
-  margin-right: 2em;
+  margin-right: 1em;
+  font-size: 1rem;
 
   ${(props) => props.quantity && css`
     flex-basis: 6em;
@@ -172,6 +181,7 @@ const StyledSelect = styled(Button)`
     margin-right: 0;
   `};
 `;
+// margin-right: 2em;
 // @media (min-width: 700px) {
 //   margin-right: 1em;
 //   padding: calc(2px + 1.2vw) calc(6px + 1.2vw);
@@ -189,7 +199,6 @@ const Option = styled.option`
 const BagContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-top: 2.5%;
   flex-basis: 2.5em;
   flex-grow: 1;
   flex-shrink: 1;
@@ -199,6 +208,7 @@ const BagContainer = styled.div`
     flex-basis: 1;
   };
 `;
+// margin-top: 2.5%;
 
 const AddToCartButton = styled(Button)`
   display: flex;
@@ -206,6 +216,7 @@ const AddToCartButton = styled(Button)`
   justify-content: space-between;
   align-items: center;
   position: relative;
+  font-size: 1rem;
 
   @media (min-width: 600px) {
     margin-right: calc(10px + 1vw);
@@ -265,6 +276,7 @@ const Star = styled(Button)`
     flex-basis: 2.5em;
     flex-grow: 1;
     flex-shrink: 4;
+    font-size: 1rem;
     &:hover {
       color: ${(props) => props.theme.starFilled};
       border-color: ${(props) => props.theme.fontColor};
@@ -295,6 +307,7 @@ const StarText = styled.span`
 const Error = styled.div`
   color: red;
   font-size: 0.75em;
+  font-weight: 300;
 `;
 
 export default AddToCart;

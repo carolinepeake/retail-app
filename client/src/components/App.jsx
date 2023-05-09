@@ -156,8 +156,8 @@ const StyledContainer = createGlobalStyle`
   };
 
   h1 {
-    2rem;
-    font-weight:500;
+    font-size: 2rem;
+    font-weight: 500;
   };
 
   h2 {
@@ -177,6 +177,11 @@ const StyledContainer = createGlobalStyle`
     font-weight: 400;
     margin-block-start: 1em;
     margin-block-end: 1em;
+  };
+
+  h5 {
+    font-size: ${(props) => props.theme.tertiary};
+    font-weight: 300;
   };
 
 

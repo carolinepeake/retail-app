@@ -68,7 +68,8 @@ const QuestionListContainer = styled.div`
   justify-content: center;
   scroll-behavior: smooth;
   background-color: ${(props) => props.theme.backgroundColor};
-  padding: 0.5em 0 1.0em 0;
+  padding: 0;
+  margin: 2em 0;
 `;
 // margin-bottom: 0.5em;
 // padding: 0.5em 1.0em 1.0em 1.0em;

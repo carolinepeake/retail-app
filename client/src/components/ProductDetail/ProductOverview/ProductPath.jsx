@@ -23,7 +23,7 @@ export default ProductPath;
 
 const Path = styled.div`
   order: -1;
-  font-weight: normal;
+  font-weight: 300;
   font-size: ${(props) => props.theme.tertiary};
   padding-bottom: 1em;
 `;
@@ -39,6 +39,9 @@ const Path = styled.div`
 
 const SubPath = styled.span`
   padding: 0 1em;
+  @media (min-width: 900px) {
+    padding: 0 0.5em;
+  };
   &:hover {
     text-decoration: underline;
   };

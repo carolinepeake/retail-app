@@ -25,10 +25,10 @@ function Collapsable({ children, header }) {
 }
 
 const Container = styled.div`
-  border-top: grey solid thin;
+  border-top: lightgrey solid thin;
   &:last-child {
     ${(props) => !props.collapsed && css`
-      border-bottom: grey solid thin;
+      border-bottom: lightgrey solid thin;
     `};
   };
 `;
@@ -46,6 +46,11 @@ const Header = styled(Button)`
   };
   padding-left: 0px;
   padding-right: 0px;
+  font-size: 1rem;
+  font-weight: 300;
+  ${(props) => !props.collapsed && css`
+    margin-bottom: 0px
+  `};
 `;
 // &::after {
 //   content: '\02795';

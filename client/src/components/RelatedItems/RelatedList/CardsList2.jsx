@@ -31,23 +31,25 @@ function CardsList() {
   return (
     <Container>
       <StyleCardList>
-        {/* {cardIndex !== 0 && productList.length >= 4
+        {cardIndex !== 0 && productList.length >= 4
           && (
           <LeftButton onClick={() => clickLeft()}>
-            <HiArrowSmLeft />
+            &#8592;
+            {/* <HiArrowSmLeft /> */}
           </LeftButton>
           )
           //  &lt; </LeftButton>
-           } */}
+           }
         {productList.map((data, i) => <Card data={data} key={i} i={i} />)}
         {productList.length === 0
           && <Text>No related items</Text>}
-        {/* {(cardIndex !== productList.length - 3 && productList.length >= 4)
+        {(cardIndex !== productList.length - 3 && productList.length >= 4)
           && (
           <RightButton onClick={() => clickRight()}>
-            <HiArrowSmRight />
+            {/* <HiArrowSmRight /> */}
+            &#8594;
           </RightButton>
-          )} */}
+          )}
       </StyleCardList>
     </Container>
   );
@@ -155,10 +157,7 @@ const LeftButton = styled.button`
     color: white;
   };
   color: ${(props) => props.theme.fontColor};
-  cursor: pointer;
   z-index: 1;
-  grid-column: 1;
-  grid-row: 1;
   padding: 0 0;
   height: calc(12px + 0.75vw);
 `;

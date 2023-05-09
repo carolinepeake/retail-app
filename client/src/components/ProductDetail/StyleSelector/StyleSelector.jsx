@@ -9,7 +9,7 @@ function StyleSelector() {
   return (
     <StyleContainer>
       <StyleName>
-        <b>{'Style > '}</b>
+        <b style={{ fontWeight: '500' }}>{'Style > '}</b>
         {selectedStyle.name}
       </StyleName>
       <ThumbnailsContainer>
@@ -74,7 +74,7 @@ const StyleContainer = styled.div`
 const StyleName = styled.h4`
   margin-block-start: 1em;
   margin-block-end: 1em;
-  font-weight: normal;
+  font-weight: 300;
 `;
 
 const ThumbnailsContainer = styled.div`
