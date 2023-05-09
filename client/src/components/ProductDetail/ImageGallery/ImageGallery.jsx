@@ -371,7 +371,7 @@ const MainWrapper = styled.div`
   object-fit: cover;
   overflow: hidden;
   position: relative;
-  aspect-ratio: 4/5;
+  aspect-ratio: 4/6;
   width: 100%;
   margin: 0 auto;
   z-index: 1;
@@ -383,11 +383,12 @@ const MainWrapper = styled.div`
   };
   @media (min-width: 800px) {
     flex: 7 1 0;
+    height: initial;
   };
   `};
 
   @media (min-width: 600px) {
-    height: 100%;
+    height: fit-content;
 
 
     ${(props) => props.status === 'default' && css`

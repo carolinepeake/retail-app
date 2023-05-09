@@ -100,10 +100,11 @@ const StarLabel = styled.div`
   width: 30%;
   font-size: 0.9rem;
 
-  @media (min-width: 400px) AND (max-width: 600px) {
+  @media (min-width: 500px) AND (max-width: 600px) {
     width: 10%;
   };
 `;
+// font-size: 0.9rem;
 
 const StarBar = styled.div`
   background: ${(props) => props.clickedBar ? props.theme.starFilled : 'grey'};
@@ -117,6 +118,11 @@ const StarBar = styled.div`
 const StarBarBackground = styled.div`
   background: ${(props) => props.theme.starBackground};
   height: 100%;
-  width: 70%;
   margin: auto 0;
+  width: 70%;
+
+  @media (min-width: 500px) AND (max-width: 600px) {
+    width: 90%;
+  };
+
 `;

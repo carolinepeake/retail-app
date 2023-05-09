@@ -140,13 +140,19 @@ const AnswerImage = styled.img`
   cursor: pointer;
 `;
 
-const AnswerFooter = styled.div`
+const AnswerFooter = styled.h6`
   display: flex;
-  font-size: 0.75em;
   justify-content: flex-start;
-  color: rgb(85 85 85);
   padding-top: 0.1em;
 `;
+
+// const AnswerFooter = styled.div`
+//   display: flex;
+//   font-size: 0.75em;
+//   justify-content: flex-start;
+//   color: rgb(85 85 85);
+//   padding-top: 0.1em;
+// `;
 // padding-top: 0.25em;
 
 const Answerer = styled.div`
@@ -168,8 +174,11 @@ const Report = styled.div`
   padding-left: 1em;
 `;
 
-const AnswerBody = styled.div`
+const AnswerBody = styled.p`
 `;
+
+// const AnswerBody = styled.div`
+// `;
 // padding-bottom: 0.5rem;
 
 const Clickable = styled.u`

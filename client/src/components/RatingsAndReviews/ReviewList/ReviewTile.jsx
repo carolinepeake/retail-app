@@ -92,11 +92,17 @@ const StarsDateName = styled.div`
 `;
   // margin-top: 1rem;
 
+//   const DateName = styled.h4`
+//   display: flex;
+//   justify-content: flex-end;
+// `;
+
 const DateName = styled.div`
   display: flex;
   justify-content: flex-end;
   background: ;
   font-size: 1rem;
+  font-weight: 400;
 `;
 
 const ReviewerName = styled.div`
@@ -123,12 +129,22 @@ const Summary = styled.h3`
   display: flex;
 `;
 
-const Body = styled.h3`
+const Body = styled.p`
   display: flex;
-  font-size: 0.9rem;
+  font-size: 1.0rem;
   margin: 1rem 0;
 `;
 
-const Recommend = styled.div`
+// const Body = styled.h3`
+//   display: flex;
+//   font-size: 0.9rem;
+//   margin: 1rem 0;
+// `;
+
+const Recommend = styled.h4`
   margin-bottom: 1rem;
 `;
+
+// const Recommend = styled.div`
+//   margin-bottom: 1rem;
+// `;

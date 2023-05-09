@@ -38,7 +38,8 @@ SortList.defaultProps = {
 export default SortList;
 
 const RevListHeader = styled.div`
-  font-size: 1.0rem;
+  font-size: 1.17em;
+  font-weight: 500;
   margin-block-start: 1em;
   margin-block-end: 0.5em;
   margin-inline-start: 0px;
@@ -49,17 +50,23 @@ const RevListHeader = styled.div`
     margin-left: 1em;
   };
 `;
+// font-size: 1.0rem;
 
 const Sort = styled.select`
   font: inherit;
-  font-weight: bold;
+  font-weight: 600;
   cursor: pointer;
   border-radius: 5px;
-  padding: 0.25em;
-  margin-left: 0.25em;
+  margin-left: 0px;
   margin-top: -0.25em;
   align-self: center;
+
+  border: none;
+  text-decoration: underline;
+  padding: 0.25em 0 0.25em 0;
 `;
 // text-decoration: underline;
 // background-color: inherit;
 // border: none;
+// padding: 0.25em;
+// margin-left: 0.25em;

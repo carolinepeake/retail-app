@@ -145,7 +145,7 @@ function QuestionEntry({ question }) {
   return (
     <Entry>
       {/* <QBlock> */}
-      <Question>Question:</Question>
+      <Question>Q:</Question>
       <QuestionHeader>
         <QuestionBody id="question_header">{question.question_body}</QuestionBody>
         <RightSide>
@@ -184,7 +184,7 @@ function QuestionEntry({ question }) {
       </QuestionHeader>
       {/* </QBlock> */}
       {/* <AnswerBlock> */}
-      <Answer id="answer_header">Answer:</Answer>
+      <Answer id="answer_header">A:</Answer>
       <Answers>
         {answersList()}
         {moreAnswers()}
@@ -215,6 +215,10 @@ const Entry = styled.div`
   @media (min-width: 300px) {
     grid-column-gap: 1.0em;
   };
+  @media (min-width: 600px) {
+    grid-column-gap: 0.5em;
+    grid-row-gap: 0px;
+  };
 `;
 
 const QBlock = styled.div`
@@ -223,15 +227,26 @@ const QBlock = styled.div`
   padding-bottom: 0.25rem;
 `;
 
-const Question = styled.div`
-  text-align: start;
+const Question = styled.h4`
+  text-align: center;
   grid-row: 1/2;
   grid-column: 1/2;
-  font-size: 1.0em;
   display: flex;
-  align-items: flex-start;
+  align-items: start;
+  font-size: 1.0em;
+  margin: 1.17rem 0;
 `;
+
+// const Question = styled.div`
+//   text-align: center;
+//   grid-row: 1/2;
+//   grid-column: 1/2;
+//   font-size: 1.0em;
+//   display: flex;
+//   align-items: flex-start;
+// `;
 // width: 10%;
+
 
 const QuestionHeader = styled.div`
   grid-row: 1/2;
@@ -245,21 +260,43 @@ const QuestionHeader = styled.div`
 // margin-left: 1.0rem;
 // width: 100%;
 
-const QuestionBody = styled.div`
-  font-weight: bold;
+const QuestionBody = styled.h3`
   width: fit-content;
-  font-size: 1.17em;
   padding-right: 1em;
 `;
 
-const RightSide = styled.div`
+// const QuestionBody = styled.div`
+//   font-weight: bold;
+//   width: fit-content;
+//   font-size: 1.17em;
+//   padding-right: 1em;
+// `;
+
+const RightSide = styled.h6`
   display: flex;
   justify-content: flex-end;
-  font-size: 0.75em;
   align-self: center;
-  margin-top: 0.1em;
   flex-wrap: nowrap;
 `;
+// margin-top: 0.1em;
+
+// const RightSide = styled.div`
+//   display: flex;
+//   justify-content: flex-end;
+//   font-size: 0.75em;
+//   align-self: center;
+//   margin-top: 0.1em;
+//   flex-wrap: nowrap;
+// `;
+
+// const RightSide = styled.div`
+//   display: flex;
+//   justify-content: flex-end;
+//   font-size: 0.75em;
+//   align-self: center;
+//   margin-top: 0.1em;
+//   flex-wrap: nowrap;
+// `;
 
 const Helpful = styled.div`
   padding-right: 1em;
@@ -311,19 +348,31 @@ const AnswersListContainer = styled.div`
 // padding-left: 0.5rem;
 // grid-column: 2;
 
-const AnswerNone = styled.div`
+const AnswerNone = styled.p`
   padding-bottom: 1rem;
   padding-left: 0;
 `;
+
+// const AnswerNone = styled.div`
+//   padding-bottom: 1rem;
+//   padding-left: 0;
+// `;
 // grid-column: 2;
 // padding-left: 2.0rem;
 // margin-left: 0.5rem;
 
-const Answer = styled.div`
+
+const Answer = styled.h4`
   grid-row: 2/3;
   grid-column: 1/2;
   font-size: 1.0em;
 `;
+
+// const Answer = styled.div`
+//   grid-row: 2/3;
+//   grid-column: 1/2;
+//   font-size: 1.0em;
+// `;
 // width: 10%;
 
 const Clickable = styled.u`

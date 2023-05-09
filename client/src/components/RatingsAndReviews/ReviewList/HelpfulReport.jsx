@@ -78,13 +78,20 @@ HelpfulReport.propTypes = {
 
 export default HelpfulReport;
 
-const HelpfulnessDiv = styled.div`
+const HelpfulnessDiv = styled.h6`
   display: flex;
   justify-content: flex-start;
   overflow-wrap: break-word;
   margin-bottom: 1rem;
-  font-size: 0.75rem;
 `;
+
+// const HelpfulnessDiv = styled.div`
+//   display: flex;
+//   justify-content: flex-start;
+//   overflow-wrap: break-word;
+//   margin-bottom: 1rem;
+//   font-size: 0.75rem;
+// `;
 
 const Helpful = styled.div`
   display: flex;

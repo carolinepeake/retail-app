@@ -32,7 +32,7 @@ const Container = styled.div`
   };
 
   @media (min-width: 600px) {
-    margin-top: 1.5rem;
+
   };
 `;
 
@@ -54,9 +54,9 @@ const Container = styled.div`
 
 const Text = styled(SectionHeader)`
   text-align:left;
-  grid-row: ${(props) => (props.second ? '4/5' : '1/2')};
-  grid-column: 1/11;
 `;
+// grid-row: ${(props) => (props.second ? '4/5' : '1/2')};
+//   grid-column: 1/11;
 
 // const Text1 = styled.div`
 //   font-size: large;

@@ -54,10 +54,13 @@ const Container = styled.div`
   }
 
   @media (min-width: 600px) {
-    margin-top: 1.5rem;
     justify-content: space-evenly;
   }
 `;
+// @media (min-width: 600px) {
+//   margin-top: 1.5rem;
+//   justify-content: space-evenly;
+// }
 
 const QuestionListContainer = styled.div`
   max-height: 31em;

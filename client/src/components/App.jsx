@@ -21,6 +21,8 @@ function App() {
     fontColor: '#000000',
     navBarFont: '#000000',
     minorFontColor: '#555',
+    //  color: rgb(85 85 85);
+    blueFontColor: 'rgb(55, 78, 98)',
     starBackground: 'lightgrey',
     starFilled: 'gold',
     submitButtonFont: '#000000',
@@ -130,6 +132,13 @@ function App() {
   );
 }
 
+// h1 = product name
+// h2 = section heading
+// h3 = question heading, review heading
+// h4 = review recommendation & "question", "answer", reviewer date/name
+// h6 = helpful links
+// p = review body, answer body
+
 const StyledContainer = createGlobalStyle`
   * {
     box-sizing: border-box;
@@ -147,15 +156,52 @@ const StyledContainer = createGlobalStyle`
   };
 
   h1 {
-    font-size: clamp(32px, 4vw, 42px);
+    2rem;
+    font-weight:500;
+  };
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 300;
+    margin-top: 3rem;
+    padding-bottom: 1.5rem;
+  };
+
+  h3 {
+    font-size: 1.17em;
+    font-weight: 600;
+  };
+
+  h4 {
+    font-size: 1rem;
+    font-weight: 400;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+  };
+
+
+  h6 {
+    font-size: 0.83rem;
+    font-weight: 300;
+    padding-top: 0.5em;
+    margin: auto 0;
+    color: ${(props) => props.theme.minorFont};
+    text-decoration: underline;
+    &:hover {
+      text-decoration: initial;
+    };
+    &:clicked {
+      color: ${(props) => props.theme.clicked};
+    };
   };
 
   p {
-
+    font-size: 1rem;
+    font-weight:300;
   };
 
   input {
-    font-size: clamp(14px, 1.6vw, 22px);
+    font-size: clamp(16px, 1.6vw, 22px);
   };
 
   button, select, link, a {
@@ -163,6 +209,22 @@ const StyledContainer = createGlobalStyle`
   };
 
 `;
+
+/* font-weight: bold is 600 */
+
+// helpful div:
+  // font-size: 0.83rem;
+  // font-weight: 300;
+  // color: ${(props) => props.theme.minorFont};
+  // &:clicked {
+    // color: ${(props) => props.theme.clicked};
+  // };
+  // &:hover {
+    // text-decoration: initial
+  // }
+
+
+
 
 // const StyledContainer = styled.div`
 //   font-family: futura-pt, sans-serif;

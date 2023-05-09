@@ -84,6 +84,7 @@ function RatingsAndReviews() {
       <RRTitle>
         Ratings & Reviews
       </RRTitle>
+      <GridContainer>
       <BreakdownContainer>
         <Breakdown
           productID={productID}
@@ -122,6 +123,7 @@ function RatingsAndReviews() {
           <AddRev revMeta={revMeta} productID={productID} productInfo={productInfo} />
         </MoreAddContainer>
       </ReviewListContainer>
+      </GridContainer>
     </Container>
   );
 }
@@ -138,20 +140,29 @@ const Container = styled.div`
   };
 
   @media (min-width: 600px) {
-    margin-top: 1.5rem;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: 2.0rem 1fr;
+
   };
 `;
+// @media (min-width: 600px) {
+//   margin-top: 1.5rem;
+//   display: grid;
+//   grid-template-columns: repeat(3, 1fr);
+//   grid-template-rows: 2.0rem 1fr;
+// };
 
 const RRTitle = styled(SectionHeader)`
   width: 100%;
+`;
+// @media (min-width: 600px) {
+//   grid-column: 1/4;
+//   grid-row: 1;
+//   padding-bottom: 1.5em;
+// };
 
+const GridContainer = styled.div`
   @media (min-width: 600px) {
-    grid-column: 1/4;
-    grid-row: 1;
-    padding-bottom: 1.5em;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
   };
 `;
 
@@ -164,7 +175,7 @@ const ReviewListContainer = styled.div`
 
   @media (min-width: 600px) {
     grid-column: 2/4;
-    grid-row: 2;
+    grid-row: 1;
   };
 `;
 
@@ -209,7 +220,7 @@ const BreakdownContainer = styled.div`
 
   @media (min-width: 600px) {
     grid-column: 1/2;
-    grid-row: 2;
+    grid-row: 1;
     padding: 0 2.5% 0 0;
     margin: 0;
     max-width: 400px;
