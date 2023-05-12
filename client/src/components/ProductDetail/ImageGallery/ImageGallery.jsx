@@ -145,13 +145,13 @@ function ImageGallery({
               <Buttons
                 place={place}
                 setPlace={setPlace}
-                style={{ left: '0%', top: '45%', display: place > 0 ? 'block' : 'none' }}
+                style={{ left: '0%', top: '44%', display: place > 0 ? 'block' : 'none' }}
                 onClick={() => handleClickArrow(-1)}
               >
                 <MdArrowBackIos status={status} style={{ fontSize: status === 'expanded' ? '2.0rem' : '2.5rem', paddingLeft: '0.25rem', paddingTop: '0.25rem' }} />
               </Buttons>
               <Buttons
-                style={{ right: '0%', top: '45%', display: place < selectedStyle.photos.length - 1 ? 'block' : 'none' }}
+                style={{ right: '0%', top: '44%', display: place < selectedStyle.photos.length - 1 ? 'block' : 'none' }}
                 onClick={() => handleClickArrow(1)}
                 place={place}
                 setPlace={setPlace}
@@ -245,7 +245,6 @@ const ImageGalleryContainer = styled.div`
  @media (min-width: 600px) {
    flex: 1 2 400px;
    display: flex;
-   flex-direction: column;
    ${(props) => props.status === 'default' && css`
     column-gap: 1em;
     height: 100%;
