@@ -1,4 +1,3 @@
-/* eslint-disable block-spacing */
 import React, { useState } from 'react';
 import styled, { css, keyframes } from 'styled-components';
 
@@ -21,7 +20,7 @@ function StyledSelect({
       value={option.value}
       i={i}
       key={option.id}
-      onClick={(e) => { setSelectedValue(e.target.value); setdropdownOpened(false);}}
+      onClick={(e) => { setSelectedValue(e.target.value); setDropdownOpened(false); }}
       selected={option.selected}
     >
       {option.label}
@@ -31,7 +30,7 @@ function StyledSelect({
   return (
     <CustomSelect
       dropdownOpened={dropdownOpened}
-    // disabled={disabled}
+      disabled={disabled}
       onMouseEnter={() => setDropdownOpened(true)}
       onMouseLeave={() => setDropdownOpened(false)}
     >
@@ -39,11 +38,11 @@ function StyledSelect({
       // onMouseMove={() => setDropdownOpened(!dropdownOpened)}
       > */}
       <InputWrapper>
-        <div>Sort by</div>
-        <div>{selectedValue}</div>
+        <SortyBy>Sort by</SortyBy>
+        <SelectedValue>{selectedValue}</SelectedValue>
         <DropdownIcon dropdownOpened={dropdownOpened}>
           &#8964;
-          </DropdownIcon>
+        </DropdownIcon>
       </InputWrapper>
       {/* <div>Sort by</div>
         <div>{selectedValue}</div> */}
@@ -105,9 +104,11 @@ const CustomSelect = styled.div`
 const InputWrapper = styled.div`
   display: flex;
   justify-content: space-around;
-  padding: 1.0em 0.5em 1.0em 0.5em;
+  align-items: center;
+  padding: 0.25em 0.25em 0.25em 1em;
   transition: 1s ease-in-out;
 `;
+
 // transition: 1s ease-in-out;
 // animation: 0.25sec linear normal forwards ${reverseCollapseDropdownArrowAnimation}, animation: 0.25sec linear normal forwards ${reverseCollapseDropdownArrowAnimation};
 // transition: 1s ease-in-out;
@@ -175,15 +176,32 @@ const InputWrapper = styled.div`
 //   };
 // `;
 
-const DropdownIcon = styled.div`
-  opacity: 0.7;
-  font-size: 40px;
-  height: 40px;
-  width: 40px;
-  ${InputWrapper}:hover & {
-    transform: translateY(20px) rotateX(-180deg);
-  };
+const SortyBy = styled.div`
+  padding-right: 0.25em;
+  height: 1em;
+  line-height: 1em;
 `;
+
+const SelectedValue = styled.div`
+  padding-right: 1.0em;
+  height: 1em;
+  font-weight: 600;
+  line-height: 1em;
+`;
+
+const DropdownIcon = styled.div`
+  ${InputWrapper}:hover & {
+    transform: translateY(0.5em) rotateX(-180deg);
+  };
+  font-size: 2em;
+  height: 1em;
+  width: 1em;
+  position: relative;
+  bottom: 0.25em;
+  font-weight: 600;
+  line-height: 1em;
+`;
+// opacity: 0.7;
 // translateY(-40)
 // rotate: x -180deg;
 // ${(props) => props.dropdownOpened && css`
@@ -215,29 +233,34 @@ const Dropdown = styled.div`
   flex-direction: column;
   display: ${(props) => (props.dropdownOpened ? 'flex' : 'none')};
   position: absolute;
-  height: 8em;
-  box-shadow: 5px 5px 5px #242424;
+  height: 6em;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.35);
+
   background-color: ${(props) => props.theme.backgroundColor};
   max-height: 10em;
   overflow-y: auto;
   overflow-x: hidden;
   width: 100%;
-  top: 4em;
-  border-radius: 5px;
-  border-left: lightgrey solid 1px;
-  border-right: lightgrey solid 1px;
+  top: 2.5em;
 `;
+// box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+// border-radius: 5px;
+// border-left: lightgrey solid 1px;
+// border-right: lightgrey solid 1px;
 // ${InputWrapper}:hover & {
 //   display: flex;
 // };
 
-
-
 const DropdownOption = styled.div`
   padding: 0.5em;
   height: 2em;
+  border-left: lightgrey solid 1px;
+  border-right: lightgrey solid 1px;
   border-top: lightgrey solid 1px;
-  border-bottom: lightgrey solid 1px;
+  &::last-of-type: {
+    border-bottom: lightgrey solid 1px;
+  }
+  transition: transform 0.25s ease;
   ${(props) => props.selected && css`
     font-weight: 400;
     &::before {
@@ -245,10 +268,14 @@ const DropdownOption = styled.div`
     };
   `};
   &:hover {
-    background-color: ${(props) => props.theme.submitButtonHover};
-    color: ${(props) => props.theme.submitButtonHoverFont};
+    transform: scale(1.025);
+    border: black solid 1px;
   };
   left: 2em;
+  position: relative;
+  z-index: 11;
 `;
+// background-color: ${(props) => props.theme.submitButtonHover};
+// color: ${(props) => props.theme.submitButtonHoverFont};
 
 export default StyledSelect;
