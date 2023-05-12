@@ -241,10 +241,12 @@ const ImageGalleryContainer = styled.div`
   overflow: hidden;
   padding-bottom: 1.5em;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
 
  @media (min-width: 600px) {
    flex: 1 2 400px;
-   display: flex;
+   flex-direction: column;
    ${(props) => props.status === 'default' && css`
     column-gap: 1em;
     height: 100%;
