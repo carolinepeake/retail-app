@@ -13,28 +13,40 @@ function App() {
 
   const themeLight = {
     backgroundColor: 'white',
-    secondaryBackgroundColor: '#f5f7f8',
+    // light blue
+    secondaryBackgroundColor: '#becbd2',
     navColor: '#f5f7f8',
-    tertiaryBackgroundColor: '#becbd2',
+    // navColor: '#e1eef5',
+    // light grey
+    tertiaryBackgroundColor: '#f5f7f8',
+    // blue steel
     secondaryColor: '#4d636f',
+    // dark steel
     tertiaryColor: '#3a4b53',
+    // black
     fontColor: '#000000',
-    navBarFont: '#000000',
+    // dark blue, also rgb(55, 78, 98)
+    secondaryFontColor: '#374e62',
+    navBarFont: '#374e62',
+    // dark grey, also rgb(85 85 85)
     minorFontColor: '#555',
-    //  color: rgb(85 85 85);
-    blueFontColor: 'rgb(55, 78, 98)',
     starBackground: 'lightgrey',
     starFilled: 'gold',
+    // white
     submitButtonFont: '#000000',
+    // light blue
     submitButton: '#becbd2',
+    // blue steel
     submitButtonHover: '#4d636f',
     submitButtonHoverFont: 'white',
+    // light grey
     disabledButton: '#f5f7f8',
     clicked: '#3a4b53',
     visitedColor: '#3a4b53',
     formError: '#ff0000',
     inputPlaceholder: '#bbb',
-    darkBlueHover: '#303e45',
+    darkBlueHover: '#374e62',
+    // backup #303e45
     body: 'clamp(16px, 1.8vw, 20px)',
     secondary: 'clamp(12px, 1.6vw, 18px)',
     tertiary: 'clamp(14px, 1.5vw, 16px)',
