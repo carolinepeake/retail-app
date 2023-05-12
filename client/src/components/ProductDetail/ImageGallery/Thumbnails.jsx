@@ -64,8 +64,8 @@ const ThumbnailsContainer = styled.div`
       order: -1;
       flex-direction: column;
       flex: 1 1 0;
-      align-items: flex-start;
-      justify-content: flex-end;
+      align-items: flex-end;
+      justify-content: flex-start;
       column-gap: 1.0em;
       aspect-ratio: 4/56;
       min-width: 70px;
