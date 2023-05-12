@@ -10,7 +10,7 @@ function SortList({
     setSortOrder(event.target.value);
   };
 
-  const options = [{ value: 'relevant', label: 'relevance', id: '00' }, { value: 'newest', label: 'newest', id: '01' }, { value: 'helpful', label: 'helpful', id: '03' }];
+  const options = [{ value: 'relevant', label: 'relevant', id: '00' }, { value: 'newest', label: 'newest', id: '01' }, { value: 'helpful', label: 'helpful', id: '02' }];
 
   return (
     <RevListHeader>
