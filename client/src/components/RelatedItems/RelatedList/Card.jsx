@@ -65,10 +65,10 @@ Card.propTypes = {
 // background-color: white;
 // font-family: "Lato","Verdana",sans-serif;
 
-const CardContainer = styled.li`
+const CardContainer = styled.div`
   position: relative;
   background-color: ${(props) => props.theme.backgroundColor};
-  min-width: 220px;
+  width: 220px;
   aspect-ratio: 4/6;
 `;
 
@@ -78,7 +78,11 @@ const CardStyle = styled.div`
   border: black solid medium transparent;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   border: lightgrey solid thin;
+
 `;
+
+// mask-image: ${(props) => (props.i === 3 ? 'linear-gradient(to right, rgba(0,0,0,1), 40%, rgba(0,0,0,0) 80%)' : ' ')};
+// mask-image: ${(props) => (props.i === 0 ? 'linear-gradient(to left, rgba(0,0,0,1), 40%, rgba(0,0,0,0) 80%)' : ' ')};
 // mask-image: ${(props) => (props.i === 3 ? 'linear-gradient(to right, rgba(0,0,0,1), 40%, rgba(0,0,0,0) 80%)' : ' ')};
 
 const Cards = styled.div`

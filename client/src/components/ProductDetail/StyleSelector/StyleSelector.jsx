@@ -23,8 +23,12 @@ function StyleSelector() {
             <ThumbnailImg
               src={style.photos[0].thumbnail_url}
               alt={style.name}
+
+              // style={{
+              //   boxShadow: selectedStyle.style_id === style.style_id ? '5px 5px 5px #727272' : '',
+              // }}
               style={{
-                boxShadow: selectedStyle.style_id === style.style_id ? '5px 5px 5px #727272' : '',
+                boxShadow: selectedStyle.style_id === style.style_id ? 'rgba(0, 0, 0, 0.65) 0px 5px 15px' : '',
               }}
             />
             {selectedStyle.style_id === style.style_id

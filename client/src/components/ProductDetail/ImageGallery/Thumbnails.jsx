@@ -1,5 +1,5 @@
 import React, {
-  useState
+  useState,
 } from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
@@ -17,9 +17,10 @@ function Thumbnails({ place, setPlace, status }) {
     thumbnails = selectedStyle.photos.map((photo, index) => (
       <ThumbnailContainer
         key={photo.thumbnail_url}
+        href={`#seq${index}`}
         index={index}
         alt={`${selectedStyle.name} thumbnail`}
-        onClick={() => setPlace(index)}
+        // onClick={() => setPlace(index)}
         place={place}
         setPlace={setPlace}
         type="button"
@@ -40,12 +41,16 @@ function Thumbnails({ place, setPlace, status }) {
       place={place}
       setPlace={setPlace}
     >
+     {/* <ScrollButton ></ScrollButton> */}
       {thumbnails}
     </ThumbnailsContainer>
   );
 }
 
 export default Thumbnails;
+
+// TO-DO: name image id correctly so in url states conextual id and not the entire image url
+// TO-DO: add active pseudo-class to thumbnails to change thumbnail style consistently with swiping
 
 const ThumbnailsContainer = styled.div`
   display: ${(props) => (props.status === 'zoomed' ? 'none' : 'flex')};
@@ -57,7 +62,6 @@ const ThumbnailsContainer = styled.div`
   z-index: 2;
   margin: 0 auto;
   box-sizing: border-box;
-
 
   @media (min-width: 800px) {
     ${(props) => (props.status === 'default' && css`
@@ -84,11 +88,12 @@ const ThumbnailsContainer = styled.div`
 //   padding-top: calc(1px + 0.1em);
 // };
 
-const ThumbnailContainer = styled.button`
+const ThumbnailContainer = styled.a`
     display: flex;
     background-color: transparent;
     border: none;
     overflow: hidden;
+    color: ${(props) => props.theme.submitButton};
 
     @media (max-width: 800px) {
       justify-content: center;
@@ -98,27 +103,59 @@ const ThumbnailContainer = styled.button`
       color: ${(props) => props.theme.submitButton};
     };
 
-    @media (min-width: 800px) {
-      margin: 0;
-      padding: 0;
-    };
-
-    ${(props) => props.expanded && css`
+    ${(props) => props.status === 'expanded' && css`
       justify-content: center;
       align-items: center;
       margin: 0.5em 0;
       border-radius: 50px;
       color: ${props.theme.submitButton};
     `};
+
+  &:focus {
+    color: ${(props) => props.theme.submitButtonHover};
+    border: black solid 5px;
+    transform: scale(1.05) ease;
+    padding: 1px;
+  };
+
+    &:link {
+      border: none;
+    };
+
+    &:visited {
+      color: ${(props) => props.theme.submitButtonHover};
+      border: black solid 5px;
+      transform: scale(1.05) ease;
+      padding: 1px;
+    };
+
+    &:hover {
+      box-shadow: box-shadow: 5px 5px 5px #727272;
+      transform:   transform: scale(1.05) ease;
+    };
+
+    &:active {
+      color: ${(props) => props.theme.submitButtonHover};
+      border: black solid 5px;
+      transform: scale(1.05) ease;
+      padding: 1px;
+    };
+
+    &:target {
+      color: ${(props) => props.theme.submitButtonHover};
+      border: black solid 5px;
+      transform: scale(1.05) ease;
+      padding: 1px;
+    };
 `;
 // &:hover {
 //   opacity: 0.80;
 //   box-shadow: 5px 5px 5px #727272;
 // };
 //   ${(props) => ((props.index === props.place) && css`
-    // border: 1px currentColor solid;
-    // padding: 1px;
-    // box-shadow: 5px 5px 5px #727272;
+// border: 1px currentColor solid;
+// padding: 1px;
+// box-shadow: 5px 5px 5px #727272;
 //   border: 2px black solid;
 //   padding: 1px;
 //   transform: scale(1.025);
@@ -151,19 +188,21 @@ const ThumbnailIcon = styled.span`
     ${(props) => ((props.index === props.place) && css`
     color: ${props.theme.submitButtonHover};
  `)};
+  &::active {
+    color: ${(props) => props.theme.submitButtonHover};
+  };
   `;
   // light grey
   // &:hover {
   //   background-color: rgba(225, 225, 225, 0.8);
-      // &:hover {
-      //   background-color: rgba(0, 0, 0, 0.8);
-      // };
+// &:hover {
+//   background-color: rgba(0, 0, 0, 0.8);
+// };
   // };
   // dark grey
   // &:hover {
   //   background-color: rgba(0, 0, 0, 0.8);
   // };
-
 
 const ThumbnailImage = styled.img`
   aspect-ratio: 4/5;
@@ -176,7 +215,12 @@ const ThumbnailImage = styled.img`
 
   @media (min-width: 800px) {
     display: ${(props) => (props.status === 'default' ? 'block' : 'none')};
-  };
+    ${(props) => (props.index === props.place) && css`
+      border: black solid 1px;
+      padding: 1px;
+      transform: scale(1.05);
+      transition: scale 0.2s ease;
+    `};
 `;
 
 // @media (min-width: 800px) {
@@ -190,7 +234,6 @@ const ThumbnailImage = styled.img`
 //   max-height: 100%;
 //   max-width: 100%;
 // };
-
 
 // const ThumbnailIcons = styled.div`
 // justify-content: center;

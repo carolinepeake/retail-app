@@ -9,6 +9,7 @@ import {
 import axios from 'axios';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import Card from './Card';
+import Carousel2 from '../../reusable/Carousel';
 
 function CardsList() {
   const {
@@ -29,14 +30,15 @@ function CardsList() {
   }
 
   return (
-    <Container>
-      <StyleCardList>
-        {cardIndex !== 0 && productList.length >= 4
+    <div>
+    {/* <Container> */}
+      {/* <StyleCardList> */}
+        {/* {cardIndex !== 0 && productList.length >= 4
           && (
           <LeftButton onClick={() => clickLeft()}>
             &#8592;
             {/* <HiArrowSmLeft /> */}
-          </LeftButton>
+        {/* </LeftButton>
           )
           //  &lt; </LeftButton>
            }
@@ -47,11 +49,16 @@ function CardsList() {
           && (
           <RightButton onClick={() => clickRight()}>
             {/* <HiArrowSmRight /> */}
-            &#8594;
+        {/* &#8594;
           </RightButton>
-          )}
-      </StyleCardList>
-    </Container>
+          )} */}
+
+        <Carousel2 sharedViewport >
+          {productList.map((data, i) => <Card data={data} key={i} i={i} />)}
+        </Carousel2>
+      {/* </StyleCardList> */}
+    {/* </Container> */}
+    </div>
   );
 }
 

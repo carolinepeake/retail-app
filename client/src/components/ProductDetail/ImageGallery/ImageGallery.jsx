@@ -1,7 +1,7 @@
 import React, {
-  useState, useRef,
+  useState, useRef, useEffect,
 } from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import PropTypes from 'prop-types';
 import {
   MdArrowForwardIos, MdArrowBackIos, MdExpandMore, MdExpandLess,
@@ -16,6 +16,10 @@ function ImageGallery({
   const { productInfo, selectedStyle } = useGlobalContext();
 
   const imageContainer = useRef(null);
+
+  const carousel = useRef(null);
+
+  const carouselViewport = useRef(null);
 
   const [firstPhotoIndex, setFirstPhotoIndex] = useState(0);
 
@@ -43,13 +47,16 @@ function ImageGallery({
   const [yPerc, setYPerc] = useState('');
 
   function getProportionalZoom(e) {
-    const containerWidth = imageContainer.current.clientWidth;
-    const x = e.pageX - imageContainer.current.offsetLeft;
-    const y = e.pageY - imageContainer.current.offsetTop;
-    const xPercent = `${(x / (containerWidth / 100)) * 1.25}%`;
-    const yPercent = `${(y / (containerWidth / 100)) * 1.25}%`;
-    setXPerc(() => xPercent);
-    setYPerc(() => yPercent);
+    if (imageContainer.current) {
+      const containerWidth = imageContainer.current.clientWidth;
+      const containerHeight = imageContainer.current.clientHeight;
+      const x = e.pageX - imageContainer.current.offsetLeft;
+      const y = e.pageY - imageContainer.current.offsetTop;
+      const xPercent = `${(x / (containerWidth / 100)) * 1.25}%`;
+      const yPercent = `${(y / (containerHeight / 100)) * 1.25}%`;
+      setXPerc(() => xPercent);
+      setYPerc(() => yPercent);
+    }
   }
 
   function handleClickMain(e) {
@@ -81,6 +88,30 @@ function ImageGallery({
     setStatus(() => 'default');
   }
 
+  function scrollHandler(e) {
+    e.preventDefault();
+
+    const carouselDimensions = carouselViewport.current
+      && carouselViewport.current.getBoundingClientRect();
+    const carouselOffsets = carousel.current && carousel.current.getBoundingClientRect();
+
+    const leftPadding = carouselDimensions && carouselDimensions.left;
+    const carouselItemWidth = carouselDimensions && carouselDimensions.width;
+
+    const leftOffset = carouselOffsets && carouselOffsets.left;
+
+    const currentItemIndex = Math.abs(Math.floor((leftOffset - leftPadding) / carouselItemWidth));
+
+    setPlace(currentItemIndex);
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', scrollHandler);
+    return () => {
+      window.removeEventListener('scroll', scrollHandler);
+    };
+  }, [carousel, carouselViewport]);
+
   return (
     <ImageGalleryContainer
       status={status}
@@ -94,8 +125,8 @@ function ImageGallery({
           full={() => thumbnails.length > 7}
           middle={place !== 0 && place !== thumbnails.length - 1}
           status={status}
-        >
-          {thumbnails.length <= 7
+        > */}
+      {/* {thumbnails.length <= 7
             ? thumbnails
             : (
               <>
@@ -121,47 +152,68 @@ function ImageGallery({
 
       {selectedStyle.photos
       && (
-        <MainWrapper
-          status={status}
-          ref={imageContainer}
-          place={place}
-        >
-
-          <Main
-            src={selectedStyle.photos[place || 0].url}
-            alt={`${productInfo.name} in ${selectedStyle.name} style`}
-            onClick={(e) => handleClickMain(e)}
-            status={status}
-            place={place}
-            onMouseMove={(e) => handlePanImage(e)}
-            xPercent={xPerc}
-            yPercent={yPerc}
-            setPlace={setPlace}
-          />
-
+        <>
           {status !== 'zoomed'
-          && (
-            <>
-              <Buttons
-                place={place}
-                setPlace={setPlace}
-                style={{ left: '0%', top: '44%', display: place > 0 ? 'block' : 'none' }}
-                onClick={() => handleClickArrow(-1)}
-              >
-                <MdArrowBackIos status={status} style={{ fontSize: status === 'expanded' ? '2.0rem' : '2.5rem', paddingLeft: '0.25rem', paddingTop: '0.25rem' }} />
-              </Buttons>
-              <Buttons
-                style={{ right: '0%', top: '44%', display: place < selectedStyle.photos.length - 1 ? 'block' : 'none' }}
-                onClick={() => handleClickArrow(1)}
-                place={place}
-                setPlace={setPlace}
-              >
-                <MdArrowForwardIos status={status} style={{ fontSize: status === 'expanded' ? '2.0rem' : '2.5rem', paddingTop: '0.25rem', paddingRight: '0.25rem' }} />
-              </Buttons>
-            </>
-          )}
+           && (
+           <AnimationContainer photosLength={selectedStyle.photos.length}>
 
-          {status === 'expanded'
+             <MainWrapper
+               id="carousel-container"
+               status={status}
+               place={place}
+               photosLength={selectedStyle.photos.length}
+               onScroll={(e) => scrollHandler(e)}
+               ref={carouselViewport}
+             >
+
+               <Carousel id="carousel" photosLength={selectedStyle.photos.length} place={place} status={status} ref={carousel}>
+                 {selectedStyle.photos.map((photo, index) => (
+                   <Slide
+                     key={photo.url}
+                     i={index}
+                     id={`seq${index}`}
+                     onClick={(e) => handleClickMain(e)}
+                     status={status}
+                     place={place}
+                     setPlace={setPlace}
+                   >
+                     <Main
+                  //  id={photo.url}
+                  //  src={selectedStyle.photos[place || 0].url}
+                       onClick={(e) => handleClickMain(e)}
+                       src={selectedStyle.photos[index].url}
+                       alt={`${productInfo.name} in ${selectedStyle.name} style photo number ${index}`}
+                       status={status}
+                       setStatus={setStatus}
+                       place={place}
+                       i={index}
+                     />
+                   </Slide>
+                 ))}
+
+               </Carousel>
+
+             </MainWrapper>
+
+             <Buttons
+               place={place}
+               setPlace={setPlace}
+               left
+               onClick={() => handleClickArrow(-1)}
+             >
+               <MdArrowBackIos status={status} style={{ fontSize: status === 'expanded' ? '2.0rem' : '2.5rem', paddingLeft: '0.25rem', paddingTop: '0.25rem' }} />
+             </Buttons>
+             <Buttons
+               onClick={() => handleClickArrow(1)}
+               place={place}
+               setPlace={setPlace}
+               photosLength={selectedStyle.photos.length}
+               right
+             >
+               <MdArrowForwardIos status={status} style={{ fontSize: status === 'expanded' ? '2.0rem' : '2.5rem', paddingTop: '0.25rem', paddingRight: '0.25rem' }} />
+             </Buttons>
+
+             {status === 'expanded'
           && (
           <Exit
             onClick={(e) => handleClickExit(e)}
@@ -169,10 +221,31 @@ function ImageGallery({
             &times;
           </Exit>
           )}
+           </AnimationContainer>
+           )}
 
-        </MainWrapper>
+          {status === 'zoomed'
+          && (
+          // <AnimationContainer>
+          <MainWrapper ref={imageContainer} status={status}>
+            <Main
+              src={selectedStyle.photos[place || 0].url}
+              onClick={(e) => handleClickMain(e)}
+              alt={`${productInfo.name} in ${selectedStyle.name} style photo number ${place}`}
+              status={status}
+              setStatus={setStatus}
+              place={place}
+              onMouseMove={(e) => handlePanImage(e)}
+              xPercent={xPerc}
+              yPercent={yPerc}
+            />
 
+          </MainWrapper>
+          //  </AnimationContainer>
 
+          )}
+
+        </>
       )}
 
       <Thumbnails place={place} setPlace={setPlace} status={status} />
@@ -188,182 +261,127 @@ ImageGallery.propTypes = {
   setPlace: PropTypes.func.isRequired,
 };
 
-// const ImageGalleryContainer = styled.div`
-//   width: 100%;
-//   overflow: hidden;
-
-//   order: 2;
-
-//  @media (min-width: 700px) {
-//   max-width: 800px;
-//   max-height: 800px;
-//   padding-bottom: 1.5em;
-
-//   ${(props) => props.status === 'default' && css`
-//     display: contents;
-//     grid-columns: 1 / 4
-//     grid-rows: 2 / 4
-//   `};
-
-//   ${(props) => props.status === 'expanded' && css`
-//   height: 100%;
-//   width: 100%;
-//   display: flex;
-//   grid-row: 1 / 4;
-//   grid-column: 2 / 5
-//   margin: auto;
-//   height: max-content;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-//   align-content: center;
-//   `};
-
-//   ${(props) => props.status === 'zoomed' && css`
-//   width: 100%;
-//   height: 100%;
-//   display: flex;
-//   grid-row: 1 / 3;
-//   grid-column: 2 / 5
-//   margin: auto;
-//   height: max-content;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-//   align-content: center;
-//   `};
-//  };
-// `;
-
 const ImageGalleryContainer = styled.div`
   width: 100%;
   height: 100%;
-  overflow: hidden;
   padding-bottom: 1.5em;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
 
- @media (min-width: 600px) {
-   flex: 1 2 400px;
-   flex-direction: column;
-   ${(props) => props.status === 'default' && css`
-    column-gap: 1em;
-    height: 100%;
-    position: sticky;
-    top: 60px;
-    padding-bottom: 0px;
-  `};
- };
+  @media (min-width: 600px) {
+    flex: 1 2 400px;
+  };
 
+  ${(props) => props.status === 'default' && css`
+    max-height: 820px;
 
- ${(props) => props.status === 'default' && css`
-    max-height: 800px;
+    @media (min-width: 600px) {
+      column-gap: 1em;
+      position: sticky;
+      top: 60px;
+      padding-bottom: 0px;
+    };
 
     @media (min-width: 800px) {
       flex: 1 3 500px;
       aspect-ratio: 5/6;
+      flex-direction: row;
     };
   `};
 
-
   ${(props) => props.status === 'expanded' && css`
-  height: 100%;
-  width: 100%;
-  display: flex;
-  grid-row: 1 / 4;
-  grid-column: 2 / 5
-  margin: auto;
-  height: max-content;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
+    margin: auto;
+    height: max-content;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
   `};
 
   ${(props) => props.status === 'zoomed' && css`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  grid-row: 1 / 3;
-  grid-column: 2 / 5
-  margin: auto;
-  height: max-content;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
+    margin: auto;
+    height: max-content;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
   `};
  };
 `;
-
-
-// @media (min-width: 900px) {
-//   flex: 1 1 500px;
-//  };
-
-// @media (min-width: 900px) {
-//   order: 2;
-//   flex: 1 1 0;
-//  };
-
-// ${(props) => props.status === 'default' && css`
-// display: contents;
-// grid-columns: 1 / 4
-// grid-rows: 2 / 4
-// `};
-// };
-
-// aspect-ratio: 4/5;
-// position: relative;
-
-// default
-// height: 100%;
-// display: grid;
-// grid-template-columns: repeat(7, minmax(0, 1fr));
-// grid-template-rows: 100%;
-// margin: 0 auto;
-// z-index: 1;
-// width: 100%;
 // overflow: hidden;
-// position: relative;
+
+const AnimationContainer = styled.div`
+  position: relative;
+`;
 
 const MainWrapper = styled.div`
-  padding-bottom: 0.5em;
+
+  margin: 0 auto;
+
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
   object-fit: cover;
   overflow: hidden;
   position: relative;
   aspect-ratio: 4/6;
-  width: 100%;
-  margin: 0 auto;
   z-index: 1;
-  display: flex;
-  flex-direction: column;
+  overflow-x: scroll;
+  --slide-count: ${(props) => props.photosLength};
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  &::-webkit-scrollbar {
+    display: none;
+  };
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
   ${(props) => props.status === 'default' && css`
-    @media (min-width: 800px) {
-      flex: 6 1 450px;
-      height: initial;
-    };
+  @media (min-width: 800px) {
+    flex: 6 1 450px;
+    height: initial;
+    overflow-x: hidden;
+  };
   `};
 
   @media (min-width: 600px) {
     height: fit-content;
 
-
     ${(props) => props.status === 'default' && css`
       width: 100%;
       max-width: 800px;
     `};
-  }
+  };
 
   @media (min-width: 600px) {
     ${(props) => props.status === 'expanded' && css`
       max-height: 120vh;
     `};
+
     ${(props) => props.status === 'zoomed' && css`
       max-height: 120vh;
+      max-width: 80vh;
     `};
-  }
+  };
+`;
+
+const Carousel = styled.ul`
+  display: flex;
+  ${(props) => props.status !== 'zoomed' && css`
+    margin: 0;
+    padding: 0;
+    width: ${(props) => `${props.photosLength}00%`};
+
+  `};
+`;
+// @media (min-width: 800px) {
+//   transition: translate 0.5s;
+//   translate: ${(props) => `calc((-100% / ${props.photosLength}) * ${props.place})`};
+// };
+const Slide = styled.li`
+  scroll-snap-align: start;
+  width: 100%;
+  height: 100%;
 `;
 
 const Main = styled.img`
@@ -371,20 +389,25 @@ const Main = styled.img`
   overflow: hidden;
   aspect-ratio: 4/6;
   width: 100%;
+  height: 100%;
   margin: 0 auto;
   z-index: 2;
+
   ${(props) => props.status === 'default' && css`
-  max-width: 600px;
-  transition: translate 0.25s smooth transform 0.25s ease;;
-  position: relative;
-  cursor: zoom-in;
+    max-width: 600px;
+    transition: translate 0.25s smooth transform 0.25s ease;
+    position: relative;
+    cursor: zoom-in;
+    @media (min-width: 600px) {
+      max-width: 800px;
+    };
   `};
+
   ${(props) => props.status === 'expanded' && css`
-  z-index: 2;
-  cursor: crosshair
+    cursor: crosshair
   `};
+
   ${(props) => props.status === 'zoomed' && css`
-    z-index: 2;
     transform: scale(2.5);
     transition: transform 0.25s ease;
     transform-origin: top left;
@@ -393,28 +416,7 @@ const Main = styled.img`
     translate: ${(props) => `-${props.xPercent}`} ${(props) => `-${props.yPercent}`};
     cursor: zoom-out;
   `};
-
-  @media (min-width: 600px) {
-    width: 100%;
-    ${(props) => props.status === 'default' && css`
-      width: 100%;
-      max-width: 800px;
-    `};
-  };
 `;
-// @media (min-width: 600px) {
-//   ${(props) => props.status === 'default' && css`
-//     max-width: inherit;
-// `};
-// position: relative;
-// if image gallery was our main image container like before
-// grid-column: 1 / 8;
-// grid-row: 1/ 2;
-
-// position: absolute ?
-
-// transform: translate(50% 50%) scale(0.4);
-// translate: ${(props) => `-${props.xPercent}`} ${(props) => `-${props.yPercent}`};
 
 // journal: needed to have display: grid (along with position: relative) to display image underneath thumbnail images with larger z-indexes, even though no grid-template columns or rows were set on the background image with display: grid;
 
@@ -460,97 +462,19 @@ const Side = styled.div`
     z-index: 3;
   };
 `;
-// position: absolute;
-
-const OldSide = styled.div`
-  @media (min-width: 600px) {
-    grid-column: 1 / 2;
-    grid-row: 1 / 2;
-    place-self: center;
-    position: initial;
-    max-width: 100%;
-    display: grid;
-    grid-auto-rows: 1fr;
-    margin: 0 0.75rem;
-  };
-  flex-direction: column;
-  margin: 2% auto 0 auto;
-  z-index: 3;
-  align-self: start;
-  position: absolute;
-  grid-column: 1 / 2
-  grid-row: 1/ 2;
-  max-width: 10%;
-  height: 100%;
-  margin: 0.75rem;
-  row-gap: 0.75rem;
-  align-items: stretch;
-  height: max-content;
-  display: flex;
-  ${(props) => (props.full && props.middle) && css`
-    height: 100%;
-    justify-items: space-evenly;
-  `};
-`;
-
-const Thumbnail = styled.img`
-  aspect-ratio: 4/5;
-  max-width: 80%;
-  justify-content: center;
-  z-index: 2;
-  object-fit: cover;
-  max-height: 100px;
-  cursor: pointer;
-  margin: 0 auto;
-  &:hover {
-    opacity: 0.80;
-  };
-  ${(props) => (props.place === props.index) && css`
-    transform: scale(1.025);
-    transition: transform 0.25s ease;
-    border: 2px black solid;
-    padding: 0.2em;
-  `};
-
-  @media (min-width: 600px) {
-    max-height: 175px;
-    margin: 0px 1px;
-  };
-
-  @media (min-width: 900px) {
-    max-height: 250px;
-  };
-`;
-// max-width: 80%;
-
-const OldThumbnail = styled.img`
-  @media (min-width: 600px) {
-    max-width: 80%;
-    aspect-ratio: 4/5;
-  };
-  max-width: 100%;
-  border: .5px black solid;
-  justify-content: center;
-  z-index: 2;
-  aspect-ratio: 1;
-  object-fit: cover;
-  max-height: 100px;
-  cursor: pointer;
-  margin: 0 auto;
-  &:hover {
-    opacity: 0.80;
-  };
-  @media (min-width: 900px) {
-    max-height: 250px;
-  };
-  ${(props) => (props.place === props.index) && css`
-    box-shadow: 7px 7px 5px #242424;
-    transform: scale(1.025);
-    transition: transform 0.25s ease;
-  `};
-`;
 
 const Buttons = styled.button`
+  display: none;
+  @media (min-width: 800px) {
+    ${(props) => props.left && css`
+      left: 0%;
+      display: ${props.place > 0 ? 'block' : 'none'};
+    `};
+    ${(props) => props.right && css`
+    right: 0%;
+    display: ${props.place < props.photosLength - 1 ? 'block' : 'none'};
+  `};
+  };
   background-color: white;
   &:hover {
     background-color: rgba(225, 225, 225, 0.9);
@@ -563,7 +487,9 @@ const Buttons = styled.button`
   z-index: 3;
   align-self: center;
   position: absolute;
+  top: 44%;
   ${(props) => props.scroll && css`
+    top: initial;
     height: 2rem;
     width: 3rem;
     align-self: center;
@@ -586,7 +512,6 @@ const Buttons = styled.button`
 `;
 // background-color: rgba(225, 225, 225, 0.75);
 // position: absolute (not scroll);
-// border-radius: 5px;
 
 const Exit = styled.button`
   position: absolute;
@@ -605,46 +530,6 @@ const Exit = styled.button`
   height: 1.5em;
   line-height: 1.5em;
 `;
-// border-radius: 2.5px;
-// font-size: calc(10px + 2vw);
-// padding: 0.1em 0.25em;
-
-const ThumbnailIcons = styled.div`
-  justify-content: center;
-  padding-bottom: 1.5em;
-  flex-direction: row;
-  z-index: 3;
-  align-items: center;
-  display: flex;
-  border-radius: 2.5px;
-
-  @media (min-width: 700px) {
-    display: none;
-  };
-`;
-// position: absolute;
-
-const IconContainer = styled.button`
-  display: flex;
-  align-content: center;
-  padding: 0.25rem;
-  &:hover {
-    background-color: rgba(225, 225, 225, 0.8);
-    cursor: pointer;
-  };
-  background-color: rgba(225, 225, 225, 0.01);
-`;
-
-const Circle = styled.span`
-  background-color: black;
-  border-radius: 50%;
-  z-Index: 4;
-  width: 0.35em;
-  height: 0.35em;
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-  };
-`;
 
 export default ImageGallery;
 
@@ -660,4 +545,3 @@ export default ImageGallery;
 // horizontal line &#9472;
 // plus 	&#43;
 // fullwidth hyphen minus 	&#65293;
-
