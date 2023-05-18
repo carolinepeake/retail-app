@@ -116,6 +116,11 @@ const ProductSec = styled.div`
   padding-left: 5%;
   padding-right: 5%;
   margin-top: 1.5rem;
+  @media (min-width: 1200px) {
+    max-width: fit-content;
+    margin-right: auto;
+    margin-left: auto;
+  }
 `;
 // display: flex;
 // flex-direction: column;
@@ -166,6 +171,9 @@ const ProductContainer = styled.div`
 @media (min-width: 600px) {
   display: flex;
   flex-direction: row;
+};
+@media (min-width: 1200px) {
+  column-gap: 1em;
 };
 `;
 // flex: 1 1 0;

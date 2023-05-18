@@ -1,5 +1,5 @@
 import React, {
-  useState,
+  useState, useEffect
 } from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
@@ -9,8 +9,25 @@ import {
 
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
-function Thumbnails({ place, setPlace, status }) {
+function Thumbnails({ place, setPlace, status, imageHeight }) {
   const { selectedStyle } = useGlobalContext();
+
+  const [thumbnailHeight, setThumbnailHeight] = useState(80);
+  const [thumbnailWidth, setThumbnailWidth] = useState(60);
+
+  function getThumbnailDimensions(boundaryHeight) {
+    const thumbnailH = (boundaryHeight - 16 * 7 - 80) / 7;
+    const thumbnailW = (thumbnailH / 6) * 4;
+    setThumbnailHeight(() => thumbnailH);
+    setThumbnailWidth(() => thumbnailW);
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', getThumbnailDimensions);
+    return () => {
+      window.removeEventListener('resize', getThumbnailDimensions);
+    };
+  }, []);
 
   let thumbnails = [];
   if (selectedStyle.photos) {
@@ -26,23 +43,34 @@ function Thumbnails({ place, setPlace, status }) {
         type="button"
         status={status}
       >
-        <ThumbnailIcon status={status} place={place} index={index} />
+        <ThumbnailIcon status={status} place={place} index={index}/>
         <ThumbnailImage
           src={photo.thumbnail_url}
           status={status}
+          place={place}
+          index={index}
+          thumbnailHeight={thumbnailHeight}
+          thumbnailWidth={thumbnailWidth}
         />
       </ThumbnailContainer>
     ));
   }
 
   return (
-    <ThumbnailsContainer
-      status={status}
-      place={place}
-      setPlace={setPlace}
-    >
-     {/* <ScrollButton ></ScrollButton> */}
-      {thumbnails}
+    <ThumbnailsContainer status={status}>
+      <ThumbnailsCarousel
+        status={status}
+        place={place}
+        setPlace={setPlace}
+      >
+        <ScrollBack status={status}>
+          <MdExpandLess />
+        </ScrollBack>
+        {thumbnails}
+        <ScrollForward status={status}>
+          <MdExpandMore />
+        </ScrollForward>
+      </ThumbnailsCarousel>
     </ThumbnailsContainer>
   );
 }
@@ -53,7 +81,20 @@ export default Thumbnails;
 // TO-DO: add active pseudo-class to thumbnails to change thumbnail style consistently with swiping
 
 const ThumbnailsContainer = styled.div`
-  display: ${(props) => (props.status === 'zoomed' ? 'none' : 'flex')};
+  display: ${(props) => (props.status === 'zoomed' ? 'none' : 'block')};
+  position: relative;
+  padding-block-start: 2.5rem;
+  padding-block-end: 2.5rem;
+  overflow: hidden;
+  @media (min-width: 800px) {
+    ${(props) => (props.status === 'default' && css`
+      order: -1;
+    `)};
+  };
+`;
+
+const ThumbnailsCarousel = styled.div`
+  display: inline-flex;
   flex-direction: row;
   gap: 0.75em;
   align-items: center;
@@ -62,20 +103,23 @@ const ThumbnailsContainer = styled.div`
   z-index: 2;
   margin: 0 auto;
   box-sizing: border-box;
+  overflow: hidden;
 
+  ${(props) => (props.status === 'default' && css`
+    width: 100%;
+  `)};
   @media (min-width: 800px) {
     ${(props) => (props.status === 'default' && css`
-      order: -1;
       flex-direction: column;
-      flex: 1 1 0;
+      flex: 1 1 70px;
       align-items: flex-end;
       justify-content: flex-start;
       column-gap: 1.0em;
-      aspect-ratio: 4/56;
-      min-width: 70px;
     `)};
   };
 `;
+// min-width: 70px;
+// aspect-ratio: 4/56;
 // margin-right: 2.5%;
 
 // @media (min-width: 700px) {
@@ -92,7 +136,6 @@ const ThumbnailContainer = styled.a`
     display: flex;
     background-color: transparent;
     border: none;
-    overflow: hidden;
     color: ${(props) => props.theme.submitButton};
 
     @media (max-width: 800px) {
@@ -102,6 +145,8 @@ const ThumbnailContainer = styled.a`
       border-radius: 50px;
       color: ${(props) => props.theme.submitButton};
     };
+
+
 
     ${(props) => props.status === 'expanded' && css`
       justify-content: center;
@@ -148,6 +193,13 @@ const ThumbnailContainer = styled.a`
       padding: 1px;
     };
 `;
+// overflow: hidden;
+// @media (min-width: 800px) {
+//   ${(props) => props.status === 'default' && css`
+//     height: 180px;
+//     width: 120px;
+//   `};
+// };
 // &:hover {
 //   opacity: 0.80;
 //   box-shadow: 5px 5px 5px #727272;
@@ -186,7 +238,7 @@ const ThumbnailIcon = styled.span`
       display: ${(props) => (props.status !== 'expanded' && 'none')};
     };
     ${(props) => ((props.index === props.place) && css`
-    color: ${props.theme.submitButtonHover};
+    background-color: ${props.theme.submitButton};
  `)};
   &::active {
     color: ${(props) => props.theme.submitButtonHover};
@@ -209,7 +261,7 @@ const ThumbnailImage = styled.img`
   max-width: 100%;
   justify-content: center;
   object-fit: cover;
-  max-height: 90px;
+
   margin: 0 auto;
   display: none;
 
@@ -221,8 +273,44 @@ const ThumbnailImage = styled.img`
       transform: scale(1.05);
       transition: scale 0.2s ease;
     `};
+
+    width: ${(props) => props.thumbnailWidth}px;
+    height: ${(props) => props.thumbnailHeight}px;
+  };
 `;
 
+const Scroll = styled.button`
+  position: absolute;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  font-size: 2em;
+  z-index: 2;
+  left: 50%;
+  transform: translateX(-50%);
+  color: ${(props) => props.theme.fontColor};
+  cursor: pointer;
+  display: none;
+  &:hover {
+
+  };
+  @media (min-width: 800px) {
+    display: ${(props) => props.status === 'default' && 'flex'};
+  };
+`;
+
+const ScrollBack = styled(Scroll)`
+  top: 0;
+`;
+
+const ScrollForward = styled(Scroll)`
+  bottom: 0;
+`;
+
+// max-height: 90px;
+// @media (min-width: 1200px) {
+//   max-height: 110px;
+// };
 // @media (min-width: 800px) {
 //   max-height: 100px;
 //   margin: 0px 1px;

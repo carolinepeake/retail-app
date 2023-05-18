@@ -1,5 +1,5 @@
 import React, {
-  useState, useRef, useEffect,
+  useState, useRef, useEffect, useLayoutEffect,
 } from 'react';
 import styled, { css, keyframes } from 'styled-components';
 import PropTypes from 'prop-types';
@@ -11,7 +11,7 @@ import Thumbnails from './Thumbnails';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
 function ImageGallery({
-  status, setStatus, place, setPlace,
+  status, setStatus, place = 0, setPlace,
 }) {
   const { productInfo, selectedStyle } = useGlobalContext();
 
@@ -20,6 +20,34 @@ function ImageGallery({
   const carousel = useRef(null);
 
   const carouselViewport = useRef(null);
+
+  const [imageHeight, setImageHeight] = useState(0);
+
+  useLayoutEffect(() => {
+    if (carouselViewport.current) {
+      const { height } = carouselViewport.current.getBoundingClientRect();
+      setImageHeight(height);
+    }
+  }, []);
+
+  useEffect(() => {
+    function handleResize() {
+      if (carouselViewport.current) {
+        console.log('carouselViewport.current: ', carouselViewport.current);
+        const { height } = carouselViewport.current.getBoundingClientRect();
+        setImageHeight(height);
+        console.log('height: ', height);
+      }
+    }
+
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const [firstPhotoIndex, setFirstPhotoIndex] = useState(0);
 
@@ -95,22 +123,30 @@ function ImageGallery({
       && carouselViewport.current.getBoundingClientRect();
     const carouselOffsets = carousel.current && carousel.current.getBoundingClientRect();
 
-    const leftPadding = carouselDimensions && carouselDimensions.left;
+    const leftPadding = carouselDimensions && carouselDimensions.x;
     const carouselItemWidth = carouselDimensions && carouselDimensions.width;
 
-    const leftOffset = carouselOffsets && carouselOffsets.left;
+    const leftOffset = carouselOffsets && carouselOffsets.x;
 
-    const currentItemIndex = Math.abs(Math.floor((leftOffset - leftPadding) / carouselItemWidth));
+    // console.log('leftOffset: ', leftOffset, 'leftPadding: ', leftPadding, 'carouselItemWidth: ', carouselItemWidth);
+
+    // console.log('result: ', (leftOffset - leftPadding) / Math.floor(carouselItemWidth));
+
+    const currentItemIndex = Math.floor(Math.abs((leftOffset - leftPadding) / Math.floor(carouselItemWidth))) || 0;
+
+    // console.log('result: ', (leftOffset - leftPadding) / Math.floor(carouselItemWidth));
 
     setPlace(currentItemIndex);
+
+    // console.log('currentItemIndex: ', currentItemIndex);
   }
 
-  useEffect(() => {
-    window.addEventListener('scroll', scrollHandler);
-    return () => {
-      window.removeEventListener('scroll', scrollHandler);
-    };
-  }, [carousel, carouselViewport]);
+  // useEffect(() => {
+  //   window.addEventListener('scroll', scrollHandler);
+  //   return () => {
+  //     window.removeEventListener('scroll', scrollHandler);
+  //   };
+  // }, [carousel, carouselViewport]);
 
   return (
     <ImageGalleryContainer
@@ -155,7 +191,7 @@ function ImageGallery({
         <>
           {status !== 'zoomed'
            && (
-           <AnimationContainer photosLength={selectedStyle.photos.length}>
+           <AnimationContainer photosLength={selectedStyle.photos.length} place={place}>
 
              <MainWrapper
                id="carousel-container"
@@ -248,7 +284,11 @@ function ImageGallery({
         </>
       )}
 
-      <Thumbnails place={place} setPlace={setPlace} status={status} />
+      {/* <ThumbnailsViewport> */}
+
+        <Thumbnails place={place} setPlace={setPlace} status={status} imageHeight={imageHeight}/>
+
+      {/* </ThumbnailsViewport> */}
 
     </ImageGalleryContainer>
   );
@@ -311,6 +351,8 @@ const ImageGalleryContainer = styled.div`
 
 const AnimationContainer = styled.div`
   position: relative;
+  height: fit-content;
+  flex: 1 1 500px;
 `;
 
 const MainWrapper = styled.div`
@@ -349,7 +391,13 @@ const MainWrapper = styled.div`
 
     ${(props) => props.status === 'default' && css`
       width: 100%;
-      max-width: 800px;
+      @media (min-width: 600px) {
+        max-height: 840px;
+      };
+      @media (min-height: 1200px) {
+        max-width: 800px;
+        max-height: 1200px;
+      }
     `};
   };
 
@@ -373,11 +421,14 @@ const Carousel = styled.ul`
     width: ${(props) => `${props.photosLength}00%`};
 
   `};
+  left: 0;
+  position: relative;
+  @media (min-width: 800px) {
+    transition: translate 0.5s;
+    translate: ${(props) => `calc((-100% / ${props.photosLength}) * ${props.place})`} 0;
+  };
 `;
-// @media (min-width: 800px) {
-//   transition: translate 0.5s;
-//   translate: ${(props) => `calc((-100% / ${props.photosLength}) * ${props.place})`};
-// };
+
 const Slide = styled.li`
   scroll-snap-align: start;
   width: 100%;
@@ -399,8 +450,12 @@ const Main = styled.img`
     position: relative;
     cursor: zoom-in;
     @media (min-width: 600px) {
-      max-width: 800px;
+      max-height: 840px;
     };
+    @media (min-height: 1200px) {
+      max-width: 800px;
+      max-height: 1200px;
+    }
   `};
 
   ${(props) => props.status === 'expanded' && css`
@@ -529,6 +584,17 @@ const Exit = styled.button`
   width:1.5em;
   height: 1.5em;
   line-height: 1.5em;
+`;
+
+const ThumbnailsViewport = styled.div`
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: absolute;
+  display: none;
+  @media (min-width: 800px) {
+    display: ${(props) => (props.status === 'default' ? 'block' : 'none')};
+  }
 `;
 
 export default ImageGallery;
