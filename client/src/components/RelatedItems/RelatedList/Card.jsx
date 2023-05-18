@@ -5,7 +5,9 @@ import { useGlobalContext } from '../../../contexts/GlobalStore';
 import CardImage from './CardImage';
 import CardStars from './CardStars';
 
-function Card({ data, i }) {
+function Card({ data, i,
+  // cardWidth, numberOfCards, card
+  index }) {
   const {
     setProductID, setCardIndex, cardIndex, outfitIndex
   } = useGlobalContext();
@@ -20,8 +22,13 @@ function Card({ data, i }) {
     // Reset card index when clicking on new item
     setCardIndex(0);
   }
+
+  const numVisible = 4;
+
   return (
-    <CardContainer i={i}>
+    <CardContainer i={i} numVisible={numVisible}
+    // cardWidth={cardWidth} numberOfCards={numberOfCards} card={card}
+    index={index} className="carousel-card">
       { info.details
         ? (
           <CardStyle onClick={() => changeItem()} i={i} outfitIndex={outfitIndex}>
@@ -68,9 +75,50 @@ Card.propTypes = {
 const CardContainer = styled.div`
   position: relative;
   background-color: ${(props) => props.theme.backgroundColor};
-  width: 220px;
+  margin: 0 auto;
   aspect-ratio: 4/6;
+  width: 100%;
+  height: 100%;
 `;
+// width: 220px;
+// flex-shrink: 0;
+// padding-right: ${(props) => (props.cardWidth / 5)}px;
+// width: ${(props) => props.card}px;
+// width: ${(props) => props.cardWidth}px;
+// &&:nth-child(n) {
+//   ${(props) => (((props.index + 1) % props.numberOfCards === 0) && css`
+//     padding-right: 0;
+//     width: ${props.actualCardWidth - (props.cardWidth / 5)}px;
+//   `)};
+// width: ${props.actualCardWidth - (props.cardWidth / 5)}px;
+// ${(props) => (((props.index + 1) % props.numberOfCards === 0) && css`
+//     padding-right: 0;
+//   `)};
+// padding-right: 1em;
+// width: 220px;
+//   @media (min-width: 1032px) {
+//     width: 240px;
+//   };
+
+// width: 90vw;
+// &&:last-of-type {
+//   margin-right: 0;
+// };
+// &&:${(props) => props.numVisible}-of-type {
+//   margin-right: 0;
+// };
+// @media (min-width: 400px) {
+//   width: calc(95vw / 2 - 1em);
+//   margin-right: 1em;
+//   margin-left: 0;
+// };
+// @media (min-width: 800px) {
+//   width: calc(95vw / 3 - 2em);
+//   margin-right: 2em;
+// }
+// @media (min-width: 1032px) {
+//   width: calc(95vw / 4 - 3em);
+// };
 
 const CardStyle = styled.div`
   display: flex;

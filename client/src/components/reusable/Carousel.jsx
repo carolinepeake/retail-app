@@ -6,7 +6,6 @@ import usePosition from '../utils/usePosition';
 import Button from './Button';
 
 function Carousel2({ children, sharedViewport }) {
-
   const ref = useRef(null);
   // // const position = usePosition(ref);
 
@@ -16,10 +15,8 @@ function Carousel2({ children, sharedViewport }) {
   // const carouselBox = ref.current.getBoundingClientRect();
   // const carouselWidth = carouselBox.width;
 
-
   // const cardBox = cardRef.current.clientWidth;
   // // should get gap too
-
 
   const {
     hasItemsOnLeft,
@@ -47,8 +44,6 @@ function Carousel2({ children, sharedViewport }) {
     </Slide>
   ));
 
-
-
   return (
     <Container>
 
@@ -57,6 +52,15 @@ function Carousel2({ children, sharedViewport }) {
         role="region"
         aria-label="Colors carousel"
       >
+        {/* <CarouselButton
+          hasItemsOnLeft={hasItemsOnLeft}
+          onClick={scrollLeft}
+          aria-label="Previous slide"
+          visible={visible}
+        >
+          &#8592;
+        </CarouselButton> */}
+
         <Carousel
           id="carousel"
           ref={ref}
@@ -64,6 +68,16 @@ function Carousel2({ children, sharedViewport }) {
         >
           {items}
         </Carousel>
+
+        {/* <CarouselButton
+          hasItemsOnRight={hasItemsOnRight}
+          onClick={scrollRight}
+          aria-label="Next slide"
+          length={items.length}
+        >
+          &#8594;
+        </CarouselButton> */}
+
       </CarouselContainer>
 
       <LeftCarouselButton
@@ -73,8 +87,7 @@ function Carousel2({ children, sharedViewport }) {
         visible={visible}
       >
         {/* <ArrowLeft> */}
-          &#8592;
-
+        &#8592;
 
         {/* </ArrowLeft> */}
       </LeftCarouselButton>
@@ -108,11 +121,11 @@ const Container = styled.div`
 `;
 
 const CarouselContainer = styled.div`
-
+  display: flex;
+  flex-gap: 2em;
 
   width: 100%;
   height: 100%;
-  display: block;
   object-fit: cover;
   overflow: hidden;
   overflow-x: scroll;
@@ -131,7 +144,9 @@ const CarouselContainer = styled.div`
     margin: 0 auto;
   };
 
+
 `;
+// display: block;
 
 const Carousel = styled.ul`
 
@@ -156,6 +171,18 @@ const Carousel = styled.ul`
     };
   };
 
+  ${(props) => props.sharedViewport && css`
+    width: ${(props) => `${props.length}00%`};
+    transition: translate 0.5s;
+    translate: ${(props) => `calc((-100% / ${props.length}) * ${props.visibleIndex})`};
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    margin-left: -1rem;
+    flex-row-gap: 1em;
+  `};
+
 
 
 `;
@@ -166,6 +193,9 @@ const Slide = styled.li`
     margin-left: 1rem;
     @media (min-width: 600px) {
       margin-left: 2rem;
+    };
+    &&:first-of-type {
+      margin-left: 1rem;
     };
   `};
   ${(props) => !props.sharedViewport && css`
@@ -188,10 +218,12 @@ const CarouselButton = styled(Button)`
   width: 1.5em;
   height: 1.5em;
   `;
+  // position: absolute;
 
-  const LeftCarouselButton = styled(CarouselButton)`
+const LeftCarouselButton = styled(CarouselButton)`
     left: 1.5em;
     transform: translate(-100%, -50%);
+    position: absolute;
 
     ${CarouselContainer}:hover & {
       transform: translate(0%, -50%);
@@ -202,7 +234,6 @@ const CarouselButton = styled(Button)`
 // visibility: ${(props) => (props.visible > 0 ? 'all' : 'hidden')};
 
 // visibility: ${(props) => (props.hasItemsOnLeft ? 'all' : 'hidden')};
-
 
 // const LeftCarouselButton = styled(CarouselButton)`
 // flex-order: 1;
@@ -215,6 +246,7 @@ const CarouselButton = styled(Button)`
 const RightCarouselButton = styled(CarouselButton)`
   right: 1.5em;
   transform: translate(100%, -50%);
+  position: absolute;
 
   ${CarouselContainer}:hover & {
     transform: translate(0%, -50%);
@@ -236,8 +268,7 @@ const RightCarouselButton = styled(CarouselButton)`
 
 // When clicking arrows:  move so that the the entire row of items is replaced, if possible
 // will need to get the width of the bounding rectangle or something similiar
-  // to see how many items are displayed
-  // (could also maybe do dynamically with calcualated values)
-
+// to see how many items are displayed
+// (could also maybe do dynamically with calcualated values)
 
 export default Carousel2;

@@ -2,6 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import CardsList from './RelatedList/CardsList';
 import CardsList2 from './RelatedList/CardsList2';
+import CardsList3 from './RelatedList/CardsList3';
+import CardsList4 from './RelatedList/CardsList4';
+import CardsList5 from './RelatedList/CardsList5';
+import CardsList6 from './RelatedList/CardsList6';
+import CardsList8 from './RelatedList/CardsList8';
 import OutfitList from './OutfitList/OutfitList';
 import OutfitList2 from './OutfitList/OutfitList2';
 import SectionHeader from '../reusable/SectionHeader';
@@ -13,7 +18,12 @@ function RelatedItems() {
         Related Items
       </Text>
       {/* <CardsList /> */}
-      <CardsList2 />
+      {/* <CardsList2 /> */}
+      {/* <CardsList3 /> */}
+      {/* <CardsList4 /> */}
+      {/* <CardsList5 /> */}
+      {/* <CardsList6 /> */}
+      <CardsList8 />
       <Text second>
         Outfit List
       </Text>
