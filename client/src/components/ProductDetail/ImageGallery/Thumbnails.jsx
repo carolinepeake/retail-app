@@ -9,39 +9,72 @@ import {
 
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
-function Thumbnails({ place, setPlace, status, imageHeight }) {
+function Thumbnails({ place, setPlace, status, firstPhotoIndex, setFirstPhotoIndex }) {
   const { selectedStyle } = useGlobalContext();
 
-  const [thumbnailHeight, setThumbnailHeight] = useState(80);
-  const [thumbnailWidth, setThumbnailWidth] = useState(60);
+  // const [thumbnailHeight, setThumbnailHeight] = useState(80);
+  // const [thumbnailWidth, setThumbnailWidth] = useState(60);
 
-  function getThumbnailDimensions(boundaryHeight) {
-    const thumbnailH = (boundaryHeight - 16 * 7 - 80) / 7;
-    const thumbnailW = (thumbnailH / 6) * 4;
-    setThumbnailHeight(() => thumbnailH);
-    setThumbnailWidth(() => thumbnailW);
-  }
+  // function getThumbnailDimensions(boundaryHeight) {
+  //   const thumbnailH = (boundaryHeight - 16 * 7 - 80) / 7;
+  //   const thumbnailW = (thumbnailH / 6) * 4;
+  //   setThumbnailHeight(() => thumbnailH);
+  //   setThumbnailWidth(() => thumbnailW);
+  // }
+
+  // useEffect(() => {
+  //   window.addEventListener('resize', getThumbnailDimensions);
+  //   return () => {
+  //     window.removeEventListener('resize', getThumbnailDimensions);
+  //   };
+  // }, []);
+
+  // const [scrollDistance, setScrollDistance] = useState(0);
+  const [forwardDisabled, setForwardDisabled] = useState(false);
+  const [backDisabled, setBackDisabled] = useState(true);
 
   useEffect(() => {
-    window.addEventListener('resize', getThumbnailDimensions);
-    return () => {
-      window.removeEventListener('resize', getThumbnailDimensions);
-    };
-  }, []);
+    if (firstPhotoIndex >= 1) {
+      setBackDisabled(false);
+    }
+    if (selectedStyle.photos) {
+      if (firstPhotoIndex >= selectedStyle.photos.length - 6) {
+        setForwardDisabled(true);
+      }
+    }
+  }, [firstPhotoIndex]);
+
+  function handleScroll(n) {
+    if (place === firstPhotoIndex && n === 1) {
+      setPlace((prev) => prev + 1);
+    }
+    if ((place === firstPhotoIndex + 5) && n === -1) {
+      setPlace((prev) => prev - 1);
+    }
+    setFirstPhotoIndex((prevI) => prevI + n);
+    if (firstPhotoIndex >= selectedStyle.photos.length - 6) {
+      setForwardDisabled(true);
+    }
+    if (firstPhotoIndex <= 0) {
+      setBackDisabled(true);
+    }
+    // setPlace((prev) => prev + n);
+  }
 
   let thumbnails = [];
   if (selectedStyle.photos) {
     thumbnails = selectedStyle.photos.map((photo, index) => (
       <ThumbnailContainer
         key={photo.thumbnail_url}
-        href={`#seq${index}`}
+        // href={`#seq${index}`}
         index={index}
         alt={`${selectedStyle.name} thumbnail`}
-        // onClick={() => setPlace(index)}
+        onClick={() => setPlace(index)}
         place={place}
         setPlace={setPlace}
         type="button"
         status={status}
+        length={selectedStyle.photos.length}
       >
         <ThumbnailIcon status={status} place={place} index={index}/>
         <ThumbnailImage
@@ -49,8 +82,8 @@ function Thumbnails({ place, setPlace, status, imageHeight }) {
           status={status}
           place={place}
           index={index}
-          thumbnailHeight={thumbnailHeight}
-          thumbnailWidth={thumbnailWidth}
+          // thumbnailHeight={thumbnailHeight}
+          // thumbnailWidth={thumbnailWidth}
         />
       </ThumbnailContainer>
     ));
@@ -58,19 +91,40 @@ function Thumbnails({ place, setPlace, status, imageHeight }) {
 
   return (
     <ThumbnailsContainer status={status}>
-      <ThumbnailsCarousel
-        status={status}
-        place={place}
-        setPlace={setPlace}
-      >
-        <ScrollBack status={status}>
-          <MdExpandLess />
-        </ScrollBack>
-        {thumbnails}
-        <ScrollForward status={status}>
-          <MdExpandMore />
-        </ScrollForward>
-      </ThumbnailsCarousel>
+
+      <ThumbnailsViewport length={thumbnails.length}>
+        <ThumbnailsCarousel
+          status={status}
+          place={place}
+          setPlace={setPlace}
+          length={thumbnails.length}
+          firstPhotoIndex={firstPhotoIndex}
+        >
+          {thumbnails}
+        </ThumbnailsCarousel>
+      </ThumbnailsViewport>
+
+      {thumbnails.length > 6 && (
+        <>
+          <ScrollForward
+            status={status}
+            disabled={forwardDisabled}
+            onClick={(e) => handleScroll(1, e)}
+          >
+            <MdExpandMore />
+          </ScrollForward>
+
+          <ScrollBack
+            status={status}
+            disabled={backDisabled}
+            onClick={(e) => handleScroll(-1, e)}
+          >
+            <MdExpandLess />
+          </ScrollBack>
+        </>
+      )}
+
+
     </ThumbnailsContainer>
   );
 }
@@ -83,18 +137,30 @@ export default Thumbnails;
 const ThumbnailsContainer = styled.div`
   display: ${(props) => (props.status === 'zoomed' ? 'none' : 'block')};
   position: relative;
-  padding-block-start: 2.5rem;
-  padding-block-end: 2.5rem;
-  overflow: hidden;
   @media (min-width: 800px) {
     ${(props) => (props.status === 'default' && css`
       order: -1;
+      flex: 1 1 0;
     `)};
   };
 `;
 
+const ThumbnailsViewport = styled.div`
+  overflow: hidden;
+  width: 100%;
+  @media (min-width: 800px) {
+    height: calc(100% - 5rem);
+    height: 90%;
+    position: relative;
+    top: ${(props) => (props.length > 6 ? '5%' : '0')};
+    margin-block-start: -7.5%;
+  }
+`;
+// margin-block-start: 2.5rem;
+// margin-block-end: 2.5rem;
+
 const ThumbnailsCarousel = styled.div`
-  display: inline-flex;
+  display: flex;
   flex-direction: row;
   gap: 0.75em;
   align-items: center;
@@ -111,13 +177,16 @@ const ThumbnailsCarousel = styled.div`
   @media (min-width: 800px) {
     ${(props) => (props.status === 'default' && css`
       flex-direction: column;
-      flex: 1 1 70px;
       align-items: flex-end;
       justify-content: flex-start;
-      column-gap: 1.0em;
+      height: max(100%, calc((100% / 6) * ${props.length}));
+      gap: 0;
+      transform: translateY(calc((-100% / ${props.length}) * ${props.firstPhotoIndex}));
+      transition: 0.5s ease;
     `)};
   };
 `;
+// column-gap: 1.0em;
 // min-width: 70px;
 // aspect-ratio: 4/56;
 // margin-right: 2.5%;
@@ -146,7 +215,13 @@ const ThumbnailContainer = styled.a`
       color: ${(props) => props.theme.submitButton};
     };
 
-
+    @media (min-width: 800px) {
+      ${(props) => props.status === 'default' && css`
+        padding-right: 15%;
+        padding-top: 15%;
+        height: calc(100% / ${props.length});
+      `};
+    };
 
     ${(props) => props.status === 'expanded' && css`
       justify-content: center;
@@ -261,23 +336,25 @@ const ThumbnailImage = styled.img`
   max-width: 100%;
   justify-content: center;
   object-fit: cover;
-
   margin: 0 auto;
   display: none;
 
   @media (min-width: 800px) {
     display: ${(props) => (props.status === 'default' ? 'block' : 'none')};
     ${(props) => (props.index === props.place) && css`
-      border: black solid 1px;
-      padding: 1px;
+      border: black solid 2px;
+      padding: 2px;
       transform: scale(1.05);
       transition: scale 0.2s ease;
     `};
 
-    width: ${(props) => props.thumbnailWidth}px;
-    height: ${(props) => props.thumbnailHeight}px;
+
   };
 `;
+// width: ${(props) => props.thumbnailWidth}px;
+// height: ${(props) => props.thumbnailHeight}px;
+
+
 
 const Scroll = styled.button`
   position: absolute;
@@ -286,7 +363,7 @@ const Scroll = styled.button`
   background-color: transparent;
   font-size: 2em;
   z-index: 2;
-  left: 50%;
+  left: 42.5%;
   transform: translateX(-50%);
   color: ${(props) => props.theme.fontColor};
   cursor: pointer;
@@ -294,6 +371,10 @@ const Scroll = styled.button`
   &:hover {
 
   };
+  &:disabled {
+    opacity: 0.3;
+    cursor: initial;
+  }
   @media (min-width: 800px) {
     display: ${(props) => props.status === 'default' && 'flex'};
   };

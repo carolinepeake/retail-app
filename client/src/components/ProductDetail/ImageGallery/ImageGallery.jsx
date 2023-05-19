@@ -1,10 +1,10 @@
 import React, {
   useState, useRef, useEffect, useLayoutEffect,
 } from 'react';
-import styled, { css, keyframes } from 'styled-components';
+import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import {
-  MdArrowForwardIos, MdArrowBackIos, MdExpandMore, MdExpandLess,
+  MdArrowForwardIos, MdArrowBackIos,
 } from 'react-icons/md';
 import Thumbnails from './Thumbnails';
 
@@ -55,20 +55,10 @@ function ImageGallery({
     if (place === firstPhotoIndex && n === -1) {
       setFirstPhotoIndex((prev) => prev - 1);
     }
-    if ((place === firstPhotoIndex + 6) && n === 1) {
+    if ((place === firstPhotoIndex + 5) && n === 1) {
       setFirstPhotoIndex((prev) => prev + 1);
     }
     setPlace((prev) => prev + n);
-  }
-
-  function handleScroll(n) {
-    if (place === firstPhotoIndex && n === 1) {
-      setPlace((prev) => prev + 1);
-    }
-    if ((place === firstPhotoIndex + 6) && n === -1) {
-      setPlace((prev) => prev - 1);
-    }
-    setFirstPhotoIndex((prevI) => prevI + n);
   }
 
   const [xPerc, setXPerc] = useState('');
@@ -235,6 +225,8 @@ function ImageGallery({
                place={place}
                setPlace={setPlace}
                left
+               firstPhotoIndex={firstPhotoIndex}
+               setFirstPhotoIndex={setFirstPhotoIndex}
                onClick={() => handleClickArrow(-1)}
              >
                <MdArrowBackIos status={status} style={{ fontSize: status === 'expanded' ? '2.0rem' : '2.5rem', paddingLeft: '0.25rem', paddingTop: '0.25rem' }} />
@@ -245,6 +237,8 @@ function ImageGallery({
                setPlace={setPlace}
                photosLength={selectedStyle.photos.length}
                right
+               firstPhotoIndex={firstPhotoIndex}
+               setFirstPhotoIndex={setFirstPhotoIndex}
              >
                <MdArrowForwardIos status={status} style={{ fontSize: status === 'expanded' ? '2.0rem' : '2.5rem', paddingTop: '0.25rem', paddingRight: '0.25rem' }} />
              </Buttons>
@@ -284,11 +278,7 @@ function ImageGallery({
         </>
       )}
 
-      {/* <ThumbnailsViewport> */}
-
-        <Thumbnails place={place} setPlace={setPlace} status={status} imageHeight={imageHeight}/>
-
-      {/* </ThumbnailsViewport> */}
+        <Thumbnails place={place} setPlace={setPlace} status={status} firstPhotoIndex={firstPhotoIndex} setFirstPhotoIndex={setFirstPhotoIndex}/>
 
     </ImageGalleryContainer>
   );
@@ -327,6 +317,7 @@ const ImageGalleryContainer = styled.div`
       flex: 1 3 500px;
       aspect-ratio: 5/6;
       flex-direction: row;
+      column-gap: 0;
     };
   `};
 
@@ -352,7 +343,7 @@ const ImageGalleryContainer = styled.div`
 const AnimationContainer = styled.div`
   position: relative;
   height: fit-content;
-  flex: 1 1 500px;
+  flex: 6 1 0;
 `;
 
 const MainWrapper = styled.div`
@@ -413,20 +404,22 @@ const MainWrapper = styled.div`
   };
 `;
 
+// might need to put the declaration block for !zoomed inside the media query
 const Carousel = styled.ul`
   display: flex;
-  ${(props) => props.status !== 'zoomed' && css`
-    margin: 0;
-    padding: 0;
-    width: ${(props) => `${props.photosLength}00%`};
-
-  `};
   left: 0;
   position: relative;
+
   @media (min-width: 800px) {
     transition: translate 0.5s;
     translate: ${(props) => `calc((-100% / ${props.photosLength}) * ${props.place})`} 0;
   };
+
+  ${(props) => props.status !== 'zoomed' && css`
+    margin: 0;
+    padding: 0;
+    width: ${props.photosLength}00%;
+  `};
 `;
 
 const Slide = styled.li`
