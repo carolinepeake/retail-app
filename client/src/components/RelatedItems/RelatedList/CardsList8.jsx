@@ -130,14 +130,13 @@ const CarouselContent = styled.div`
   display: inline-flex;
   transition: transform 0.5s;
   position: relative;
-  left: -1em;
   transform: translateX(${(props) => props.translate});
   .carousel-item {
     padding-right: ${(props) => (props.cardWidth / 5)}px;
   };
-
-
 `;
+ // left: -1em;
+
 // @media (min-width: 400px) {
 //   left: 0;
 // }

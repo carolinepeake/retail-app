@@ -225,6 +225,10 @@ const StyledContainer = createGlobalStyle`
     cursor: pointer;
   };
 
+  ol, ul {
+    list-style-type: none;
+  }
+
 `;
 
 /* font-weight: bold is 600 */
