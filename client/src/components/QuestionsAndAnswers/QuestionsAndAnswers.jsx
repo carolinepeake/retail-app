@@ -28,13 +28,10 @@ function QuestionAndAnswers() {
           <div>Be the first to ask a question!</div>
         ) : (
           filteredQuestions.map((question) => (
-            <>
-              <QuestionEntry
-                question={question}
-                key={`${question.question_id}`}
-              />
-              {/* <hr /> */}
-            </>
+            <QuestionEntry
+              question={question}
+              key={`${question.question_id}`}
+            />
           ))
         )}
       </QuestionListContainer>

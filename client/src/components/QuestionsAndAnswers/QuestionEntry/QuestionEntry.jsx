@@ -104,12 +104,12 @@ function QuestionEntry({ question }) {
       );
     }
     const list = topAnswers.map((answer, idx) => (
-      <>
+      // <>
         <AnswerEntry answer={answer} key={answer.id} />
-        {/* {idx !== topAnswers.length - 1 ? (
+        /* {idx !== topAnswers.length - 1 ? (
           <hr style={{ width: '90%' }} />) : (
-          null) } */}
-      </>
+          null) }
+       </> */
     ));
     return (
       <AnswersListContainer
