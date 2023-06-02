@@ -12,7 +12,6 @@ function LengthBreakdown({ revMeta, productInfo }) {
   return (
     <div>
       {/* <h4>Product Characteristics</h4> */}
-      {/* <br /> */}
       {Object.entries(revMeta.characteristics).map((charEntry) => (
         <div key={charEntry[1].id}>
           <div>
@@ -58,7 +57,6 @@ function LengthBreakdown({ revMeta, productInfo }) {
               </DescDiv>
             </Row2>
           </BarsContainter>
-          {/* <br /> */}
         </div>
       ))}
     </div>
@@ -103,7 +101,7 @@ const Row2 = styled.div`
 
 const HorizontalProgFill = styled.div`
   background: lightgrey;
-  height: 0.5rem;
+  height: 10px;
   margin: 2px;
   color: #fff;
   text-align: center;

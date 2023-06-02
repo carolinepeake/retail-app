@@ -5,7 +5,13 @@ import Summary from './Summary';
 import RatingBreakdown from './RatingBreakdown';
 import LengthBreakdown from './LengthBreakdown';
 
-function Breakdown({ productID, productInfo, revMeta, filterReviews }) {
+import { useGlobalContext } from '../../../contexts/GlobalStore';
+
+function Breakdown({ filterReviews, reviews }) {
+  const {
+    productID, productInfo, revMeta,
+  } = useGlobalContext();
+
   if (!revMeta.product_id) {
     return (
       <div />
@@ -29,17 +35,17 @@ function Breakdown({ productID, productInfo, revMeta, filterReviews }) {
   );
 }
 
-Breakdown.propTypes = {
-  revMeta: PropTypes.shape({
-    characteristics: PropTypes.shape({}),
-    product_id: PropTypes.string,
-    ratings: PropTypes.shape({}),
-    recommended: PropTypes.shape({
-      true: PropTypes.string,
-      false: PropTypes.string,
-    }),
-  }).isRequired,
-};
+// Breakdown.propTypes = {
+//   revMeta: PropTypes.shape({
+//     characteristics: PropTypes.shape({}),
+//     product_id: PropTypes.string,
+//     ratings: PropTypes.shape({}),
+//     recommended: PropTypes.shape({
+//       true: PropTypes.string,
+//       false: PropTypes.string,
+//     }),
+//   }).isRequired,
+// };
 
 const BreakdownContainer = styled.div`
   background-color: ${(props) => props.theme.backgroundColor};
