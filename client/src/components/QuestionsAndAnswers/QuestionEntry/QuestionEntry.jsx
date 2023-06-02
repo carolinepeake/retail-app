@@ -1,6 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import axios from 'axios';
 import AnswerEntry from './AnswerEntry';
 import AddAnswerModal from './AddAnswerModal';
@@ -105,8 +105,8 @@ function QuestionEntry({ question }) {
     }
     const list = topAnswers.map((answer, idx) => (
       // <>
-        <AnswerEntry answer={answer} key={answer.id} />
-        /* {idx !== topAnswers.length - 1 ? (
+      <AnswerEntry answer={answer} key={answer.id} />
+      /* {idx !== topAnswers.length - 1 ? (
           <hr style={{ width: '90%' }} />) : (
           null) }
        </> */
@@ -121,183 +121,173 @@ function QuestionEntry({ question }) {
     );
   }
 
-  function moreAnswers() {
-    if (allAnswers.length <= 2) {
-      return null;
+  // TO-DO: make this a CSS change so can animate it to make it appear smooth; also animate the chevron
+  // fix underlining on hover
+  // make sure can get rid of grid css
+  // make sure conditional logic for more answers buttons works correctly
+  const [moreAnswersShown, setMoreAnswersShown] = useState(false);
+
+  useEffect(() => {
+    if (topAnswers.length >= allAnswers.length) {
+      setMoreAnswersShown(true);
     }
-    if (topAnswers.length < allAnswers.length) {
-      return (
-        <MoreAnswers onClick={() => changeNumAnswers(2)}>
-          <i className="fa-solid fa-chevron-down" />
-          <Arrow>&#9662;</Arrow>
-          <span>&nbsp; See More Answers</span>
-        </MoreAnswers>
-      );
-    }
-    return (
-      <MoreAnswers type="button" onClick={() => changeNumAnswers(-100)}>
-        <i className="fa-solid fa-chevron-up" />
-        <span>Collapse Answers</span>
-      </MoreAnswers>
-    );
+  }, [question.question_id]);
+
+  const moreAnswersButtonText = moreAnswersShown ? 'Collapse Answers' : 'See More Answers';
+
+  function handleClickMoreAnswers() {
+    const newAnswersNum = moreAnswersShown ? -100 : 2;
+    changeNumAnswers(newAnswersNum);
+    setMoreAnswersShown((prev) => !prev);
   }
+
+  const moreAnswers = (
+    <MoreAnswers type="button" moreAnswersShown={moreAnswersShown} onClick={(e) => handleClickMoreAnswers(e)}>
+      {/* <i className="fa-solid fa-chevron-down" /> */}
+      <MoreAnswersButtonText
+        moreAnswersButtonText={moreAnswersButtonText}
+      >
+        {moreAnswersButtonText}
+      </MoreAnswersButtonText>
+      <Arrow moreAnswersShown={moreAnswersShown}>&#9662;</Arrow>
+    </MoreAnswers>
+  );
+
+  // function moreAnswers() {
+  //   if (allAnswers.length <= 2) {
+  //     return null;
+  //   }
+  //   if (topAnswers.length < allAnswers.length) {
+  //     return (
+  //       <MoreAnswers type="button" onClick={() => changeNumAnswers(2)}>
+  //         <i className="fa-solid fa-chevron-down" />
+  //         <Arrow>&#9662;</Arrow>
+  //         <MoreAnswersButtonText>&nbsp; See More Answers</MoreAnswersButtonText>
+  //       </MoreAnswers>
+  //     );
+  //   }
+  //   return (
+  //     <MoreAnswers type="button" onClick={() => changeNumAnswers(-100)}>
+  //       <i className="fa-solid fa-chevron-up" />
+  //       <Arrow moreAnswersShown>&#9662;</Arrow>
+  //       <span>Collapse Answers</span>
+  //     </MoreAnswers>
+  //   );
+  // }
 
   return (
     <Entry>
-      {/* <QBlock> */}
-      <Question>Q:</Question>
-      <QuestionHeader>
-        <QuestionBody id="question_header">{question.question_body}</QuestionBody>
-        <RightSide>
-          <Helpful>
-            <div style={{ paddingRight: '0.5em' }}>Helpful?</div>
-            <Yes>
+      <A>
+        <Question>Q:</Question>
+        <QuestionHeader>
+          <QuestionBody id="question_header">{question.question_body}</QuestionBody>
+          <RightSide>
+            <Helpful>
+              <div style={{ paddingRight: '0.5em' }}>Helpful?</div>
+              <Yes>
+                {clickedHelpful.current ? (
+                  <b>Yes</b>
+                ) : (
+                  <Clickable onClick={() => helpfulQuestion()}>Yes</Clickable>
+                )}
+              </Yes>
               {clickedHelpful.current ? (
-                <b>Yes</b>
+                <b>{`(${helpfulness})`}</b>
               ) : (
-                <Clickable onClick={() => helpfulQuestion()}>Yes</Clickable>
+                <span>{`(${helpfulness})`}</span>
               )}
-            </Yes>
-            {clickedHelpful.current ? (
-              <b>{`(${helpfulness})`}</b>
-            ) : (
-              <span>{`(${helpfulness})`}</span>
-            )}
-          </Helpful>
-          <div>|</div>
-          <Report>
-            {clickedReport ? (
-              <Reported>Reported</Reported>
-            ) : (
-              <Clickable onClick={() => reportQuestion()}>
-                Report
+            </Helpful>
+            <div>|</div>
+            <Report>
+              {clickedReport ? (
+                <Reported>Reported</Reported>
+              ) : (
+                <Clickable onClick={() => reportQuestion()}>
+                  Report
+                </Clickable>
+              )}
+            </Report>
+            <div>|</div>
+            <Add>
+              <Clickable onClick={() => answerQuestion()}>
+                Add Answer
               </Clickable>
-            )}
-          </Report>
-          <div>|</div>
-          <Add>
-            <Clickable onClick={() => answerQuestion()}>
-              Add Answer
-            </Clickable>
-          </Add>
-        </RightSide>
-      </QuestionHeader>
-      {/* </QBlock> */}
-      {/* <AnswerBlock> */}
-      <Answer id="answer_header">A:</Answer>
-      <Answers>
-        {answersList()}
-        {moreAnswers()}
-      </Answers>
-      {/* </AnswerBlock> */}
-      {showModal && (
+            </Add>
+          </RightSide>
+        </QuestionHeader>
+      </A>
+      <B>
+        <Answer id="answer_header">A:</Answer>
+        <Answers>
+          {answersList()}
+          {allAnswers.length > 2 && moreAnswers}
+        </Answers>
+        {showModal && (
         <AddAnswerModal
           setShowModal={setShowModal}
           question={question}
+          showModal={showModal}
         />
-      )}
+        )}
+      </B>
     </Entry>
   );
 }
 
 const Entry = styled.div`
-  width: 100%;
-  padding-bottom: 0.1rem;
-  padding-right: 0.5em;
-  margin-top: 1.0rem;
   border-bottom: currentColor solid thin;
-  display: grid;
-  grid-template-columns: max-content auto;
-  grid-auto-rows: auto;
-  grid-row-gap: 0.5rem;
-  @media (max-width: 300px) {
-    grid-column-gap: 0.5em;
+  &&:first-child {
+    border-top: currentColor solid thin;
   };
-  @media (min-width: 300px) {
-    grid-column-gap: 1.0em;
-  };
-  @media (min-width: 600px) {
-    grid-column-gap: 0.5em;
-    grid-row-gap: 0px;
-  };
+  padding-top: 0.83em;
+  margin-right: 0.5em;
 `;
 
-const QBlock = styled.div`
+const A = styled.div`
   display: flex;
-  align-items: start;
+  align-items: center;
   padding-bottom: 0.25rem;
+  margin-bottom: 0.5em;
+  justify-content: flex-start;
 `;
 
 const Question = styled.h4`
-  text-align: center;
-  grid-row: 1/2;
-  grid-column: 1/2;
   display: flex;
   align-items: start;
   font-size: 1.0em;
-  margin: 1.17rem 0;
+  margin-block-end: 0;
+  padding-right: 1rem;
+  margin-block-start: 0;
+  padding-top: 0.5rem;
+  align-self: start;
 `;
-
-// const Question = styled.div`
-//   text-align: center;
-//   grid-row: 1/2;
-//   grid-column: 1/2;
-//   font-size: 1.0em;
-//   display: flex;
-//   align-items: flex-start;
-// `;
-// width: 10%;
-
 
 const QuestionHeader = styled.div`
-  grid-row: 1/2;
-  grid-column: 2/3;
   display: flex;
-  align-items: flex-start;
   justify-content: space-between;
   flex-wrap: wrap;
-  align-content: center;
+  width: 100%;
+  align-self: start;
 `;
-// margin-left: 1.0rem;
-// width: 100%;
 
 const QuestionBody = styled.h3`
   width: fit-content;
   padding-right: 1em;
+  margin-block-end: 0;
+  margin-block-start: 0;
+  padding-top: 0.5rem;
+  font-weight: 600;
 `;
-
-// const QuestionBody = styled.div`
-//   font-weight: bold;
-//   width: fit-content;
-//   font-size: 1.17em;
-//   padding-right: 1em;
-// `;
 
 const RightSide = styled.h6`
   display: flex;
   justify-content: flex-end;
   align-self: center;
   flex-wrap: nowrap;
+  margin-block-end: 0;
+  margin-block-start: 0;
+  text-decoration: none;
 `;
-// margin-top: 0.1em;
-
-// const RightSide = styled.div`
-//   display: flex;
-//   justify-content: flex-end;
-//   font-size: 0.75em;
-//   align-self: center;
-//   margin-top: 0.1em;
-//   flex-wrap: nowrap;
-// `;
-
-// const RightSide = styled.div`
-//   display: flex;
-//   justify-content: flex-end;
-//   font-size: 0.75em;
-//   align-self: center;
-//   margin-top: 0.1em;
-//   flex-wrap: nowrap;
-// `;
 
 const Helpful = styled.div`
   padding-right: 1em;
@@ -307,7 +297,6 @@ const Helpful = styled.div`
 const Yes = styled.span`
   padding-right: 0.25em;
 `;
-// padding-left: 0.5em;
 
 const Report = styled.div`
   padding: 0 1em;
@@ -324,57 +313,33 @@ const Add = styled.div`
   padding-left: 1em;
 `;
 
-const AnswerBlock = styled.div`
+const B = styled.div`
   display: flex;
-  padding-top: 0.25rem;
 `;
 
 const Answers = styled.div`
-  grid-row: 2/3;
-  grid-column: 2/3;
+  padding-bottom: 1rem;
+  font-size: 1.0em;
 `;
-// width: 100%;
-// padding-top: 0.25rem;
 
-// TO-DO: change max height from px
 const AnswersListContainer = styled.div`
-  max-height: 250px;
-  overflow-x: auto;
+  max-height: 25em;
+  overflow-x: hidden;
   overflow-y: auto;
   text-align: justify;
   padding-bottom: 0.1rem;
 `;
-// background-color: ${(props) => props.theme.tertiaryColor};
-// border: 1px solid;
-// padding-left: 0.5rem;
-// grid-column: 2;
 
 const AnswerNone = styled.p`
   padding-bottom: 1rem;
   padding-left: 0;
+  margin-block-end: 0.5em;
 `;
-
-// const AnswerNone = styled.div`
-//   padding-bottom: 1rem;
-//   padding-left: 0;
-// `;
-// grid-column: 2;
-// padding-left: 2.0rem;
-// margin-left: 0.5rem;
-
 
 const Answer = styled.h4`
-  grid-row: 2/3;
-  grid-column: 1/2;
   font-size: 1.0em;
+  padding-right: 1rem;
 `;
-
-// const Answer = styled.div`
-//   grid-row: 2/3;
-//   grid-column: 1/2;
-//   font-size: 1.0em;
-// `;
-// width: 10%;
 
 const Clickable = styled.u`
   cursor: pointer;
@@ -386,9 +351,6 @@ const Clickable = styled.u`
     color: ${(props) => props.theme.clicked};
   };
 `;
-// &:hover {
-//   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-// }
 
 const MoreAnswers = styled(Button)`
   display: flex;
@@ -398,24 +360,27 @@ const MoreAnswers = styled(Button)`
   border: none;
   font-family: inherit;
   font-weight: bold;
-  font-size: 0.75em;
+  font-size: 0.83em;
   &:hover {
+    box-shadow: none;
+  };
+  padding: 0
+  margin: 0;
+  transition: 1s ease-in-out;
+`;
+
+const MoreAnswersButtonText = styled.span`
+  padding-right: 0.25em;
+  ${MoreAnswers}&:hover {
     text-decoration: underline;
   };
-  padding: 0 0 1rem 0;
-  margin: 0;
 `;
-// grid-column: 2;
-// font-size: calc(8px + 0.5vw);
-// padding: 0 0 0 1em;
-// margin-top: 0.5em;
-// margin: 0.5em 0;
 
 const Arrow = styled.span`
   margin-top: -0.1rem;
+  ${(props) => props.moreAnswersShown && css`
+    transform: translateY(0.5em) rotateX(-180deg);
+  `};
 `;
-
-// margin-top: 1em;
-// margin-left: 1em;
 
 export default QuestionEntry;

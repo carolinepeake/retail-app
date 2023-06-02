@@ -14,7 +14,6 @@ function ReviewTile({ review }) {
 
   return (
     <Container>
-      {/* <br /> */}
       <StarsDateName>
         <StarCount review={review} />
         <DateName>
@@ -33,17 +32,14 @@ function ReviewTile({ review }) {
         {review.body}
         {/* need to add conditional formatting for past 250 words */}
       </Body>
-      {/* <br /> */}
       {review.recommend
       && <Recommend> &#10003; I recommend this product</Recommend>}
-      {/* <br /> */}
 
       <PhotosDiv>
         {review.photos.map((photo) => (
           <RevImg key={photo.id} alt="" src={photo.url} />
         ))}
       </PhotosDiv>
-      {/* <br /> */}
 
       {review.response
         && (
@@ -53,12 +49,10 @@ function ReviewTile({ review }) {
             <br />
             <div>{review.response}</div>
           </Response>
-          {/* <br /> */}
         </div>
         )}
 
       <HelpfulReport review={review} />
-      {/* <br /> */}
     </Container>
   );
 }
@@ -81,8 +75,9 @@ const Container = styled.div`
   border-bottom: currentColor solid thin;
   overflow-wrap: anywhere;
   background-color: ${(props) => props.theme.backgroundColor};
-  padding: 0.5rem;
+  padding: 0.5rem 0 0.5rem 0.5rem;
   margin-top: 0.5rem;
+  margin-right: 0.5rem;
 `;
 
 const StarsDateName = styled.div`
@@ -116,7 +111,7 @@ const Response = styled.div`
 
 const PhotosDiv = styled.div`
   display: flex;
-
+  flex-wrap: wrap;
 `;
 
 const RevImg = styled.img`
@@ -135,16 +130,6 @@ const Body = styled.p`
   margin: 1rem 0;
 `;
 
-// const Body = styled.h3`
-//   display: flex;
-//   font-size: 0.9rem;
-//   margin: 1rem 0;
-// `;
-
 const Recommend = styled.h4`
   margin-bottom: 1rem;
 `;
-
-// const Recommend = styled.div`
-//   margin-bottom: 1rem;
-// `;

@@ -57,8 +57,8 @@ function usePosition(ref) {
     // let newScrollPosition;
 
     const newScrollPosition = element.offsetLeft
-        + element.getBoundingClientRect().width / 2
-        - currentNode.getBoundingClientRect().width / 2;
+      + element.getBoundingClientRect().width / 2
+      - currentNode.getBoundingClientRect().width / 2;
 
     currentNode.scroll({
       left: newScrollPosition,
@@ -76,6 +76,7 @@ function usePosition(ref) {
     prevElement,
   ]);
 
+  // did I mean to return an object and not an array (I think so b/c destructured syntax?)
   return {
     hasItemsOnLeft: prevElement !== null,
     hasItemsOnRight: nextElement !== null,
