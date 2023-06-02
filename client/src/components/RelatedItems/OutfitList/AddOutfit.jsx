@@ -35,9 +35,8 @@ const Outline = styled.div`
   min-width: 220px;
   height: 100%;
   display: flex;
-  mask-image: ${props => props.outfitIndex === props.outfits.length - 3 ? "linear-gradient(to right, rgba(0,0,0,1), 40%, rgba(0,0,0,0) 80%)" : " " };
 `;
-
+// mask-image: ${props => props.outfitIndex === props.outfits.length - 3 ? "linear-gradient(to right, rgba(0,0,0,1), 40%, rgba(0,0,0,0) 80%)" : " " };
 
 const AddOutfitButton = styled(Button)`
   min-width: 100%;
