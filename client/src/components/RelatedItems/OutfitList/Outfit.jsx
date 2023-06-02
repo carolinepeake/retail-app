@@ -1,6 +1,6 @@
 /* eslint-disable no-unneeded-ternary */
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import CardStars from '../RelatedList/CardStars';
@@ -29,9 +29,9 @@ function Outfit({ outfit, index }) {
           <Image src={outfitImage ? outfitImage : defaultImage} />
           <Button onClick={() => removeOutfit()}><AiOutlineCloseCircle /></Button>
         </ImageOutline>
-        <Info style={{ paddingTop: '0.25rem' }}>{outfitDetails.category}</Info>
-        <Info style={{ fontSize: '1.25rem' }}>{outfitDetails.name}</Info>
-        <Info style={{ padding: '0.25rem' }}>
+        <Info style={{ paddingTop: '0.1em' }}>{outfitDetails.category}</Info>
+        <Info name style={{ paddingTop: '0.05em' }}>{outfitDetails.name}</Info>
+        <Info style={{ padding: '0.25em' }}>
           $
           {outfitDetails.default_price}
         </Info>
@@ -108,9 +108,13 @@ const ImageOutline = styled.div`
 
 const Info = styled.div`
   display: inline-block;
-  padding-left: 0.25rem;
+  padding-left: 0.25em;
   margin-right: auto;
-  font-size: 1.0rem;
+  font-size: ${(props) => props.theme.cardText};
+  ${(props) => props.name && css`
+    font-size: ${props.theme.cardTitle};
+    font-weight: 500;
+  `};
 `;
 
 const Image = styled.img`
