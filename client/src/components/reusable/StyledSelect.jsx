@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import styled, { css, keyframes } from 'styled-components';
+import styled, { css } from 'styled-components';
+import { useGlobalContext } from '../../contexts/GlobalStore';
+import DropdownChevron from './DropdownChevron';
 
 function StyledSelect({
   placeholder,
@@ -9,11 +11,16 @@ function StyledSelect({
   disabled = false,
   initialDropdownPosition = false,
 }) {
+  const {
+    setSortOrder,
+  } = useGlobalContext();
+
   const [dropdownOpened, setDropdownOpened] = useState(initialDropdownPosition);
   const [selectedValue, setSelectedValue] = useState(initialValue);
 
   function handleClick(value) {
     setSelectedValue(value);
+    setSortOrder(() => value);
     handleSelect(value);
     setDropdownOpened(false);
   }
@@ -45,25 +52,8 @@ function StyledSelect({
       <InputWrapper>
         <SortBy>Sort by</SortBy>
         <SelectedValue>{selectedValue}</SelectedValue>
-        <DropdownIcon dropdownOpened={dropdownOpened}>
-          &#8964;
-        </DropdownIcon>
+        <DropdownChevron dropdownOpened={dropdownOpened} />
       </InputWrapper>
-      {/* <Input
-          // placeholder={placeholder}
-          // value={selectedValue || placeholder || ''}
-          // selectedValue={selectedValue}
-          // dropdownOpened={dropdownOpened}
-          // onChange={(event) => setSelectedValue(event.target.value)}
-        />{selectedValue} */}
-      {/* <DropdownIcon>
-        {/* type="button"
-        onClick={clickHandler}
-        dropdownOpened={dropdownOpened} */}
-      {/* &#8963; */}
-      {/* &#8964;
-        </DropdownIcon> */}
-      {/* </InputWrapper> */}
       <Dropdown dropdownOpened={dropdownOpened}>
         {dropdownOptions}
       </Dropdown>
@@ -74,7 +64,7 @@ function StyledSelect({
 // TO-DO: make bigger on focus (for mobile)
 
 const CustomSelect = styled.div`
-  border: 1px solid currentColor;
+  border: thin solid currentColor;
   border-radius: 5px;
   color: ${(props) => props.theme.secondaryFontColor};
   font-size: 1rem;
@@ -87,7 +77,6 @@ const CustomSelect = styled.div`
   position: relative;
   width: 12.0em;
 `;
-// color: #555;
 
 const InputWrapper = styled.div`
   display: flex;
@@ -96,49 +85,6 @@ const InputWrapper = styled.div`
   padding: 0.25em 0.25em 0.25em 1em;
   transition: 1s ease-in-out;
 `;
-
-// const CustomSelect = styled.form`
-//   display: flex;
-//   justify-content: space-between;
-//   padding: 2px;
-//   border: 1px solid currentColor;
-//   border-radius: 5px;
-//   color: #555;
-//   background-color: ${(props) => props.theme.backgroundColor};
-//   width: 100%;
-// font-size: 14px;
-// margin: 0.5rem;
-// `;
-
-// const InputWrapper = styled.div`
-//   width: 100%;
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: space-around;
-//   position: relative;
-//   border: currentColor solid 1px;
-//   border-radius: 5px;
-//   cursor: pointer;
-//   background-color: ${(props) => props.theme.backgroundColor};
-//   &:hover {
-//     border-color: ${(props) => props.theme.visitedColor};
-//   };
-//   transition: 1s ease-in-out;
-// `;
-
-// const Input = styled.div`
-//   border: none;
-//   background: transparent;
-//   margin: 0;
-//   padding: 7px 8px;
-//   font-size: ${(props) => props.theme.input};
-//   color: ${(props) => props.theme.fontColor};
-//   border: 1px solid transparent;
-//   border-radius: inherit;
-//  ::placeholder {
-//    color: ${(props) => props.theme.inputPlaceholder};
-//   };
-// `;
 
 const SortBy = styled.div`
   padding-right: 0.25em;
@@ -155,50 +101,35 @@ const SelectedValue = styled.div`
   width: 5.0em;
 `;
 
-const DropdownIcon = styled.div`
-  font-size: 2em;
-  opacity: 0.7;
-  height: 1em;
-  width: 1em;
-  position: relative;
-  bottom: 0.25em;
-  font-weight: 400;
-  line-height: 1em;
-  ${(props) => props.dropdownOpened && css`
-    transform: translateY(0.5em) rotateX(-180deg);
-    opacity: 1;
-  `};
-`;
-// ${InputWrapper}:hover & {};
-
 const Dropdown = styled.div`
-  z-index: 4;
+  z-index: 10;
   flex-direction: column;
   display: ${(props) => (props.dropdownOpened ? 'flex' : 'none')};
   position: absolute;
-  background-color: ${(props) => props.theme.navColor};
+  background-color: ${(props) => props.theme.navBgColor};
   max-height: 10em;
   top: calc(2.5em + 1.5px);
-  border-bottom: lightgrey solid 1px;
-  width: 100%
+  width: 100%;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-bottom: ${(props) => props.theme.fontColor} solid 1px;
+  border-top: ${(props) => props.theme.fontColor} solid 1px;
 `;
 // box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.35);
-// box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 // border-radius: 5px;
-// ${InputWrapper}:hover & {
-//   display: flex;
-// };
 // overflow-y: auto;
 // overflow-x: hidden;
 
 const DropdownOption = styled.div`
   padding: 0.75em 0.5em 0.75em 4.5em;
   line-height: 1em;
-  border-left: lightgrey solid 1px;
-  border-right: lightgrey solid 1px;
+  border-left: ${(props) => props.theme.fontColor} solid 1px;
+  border-right: ${(props) => props.theme.fontColor} solid 1px;
   border-top: lightgrey solid 1px;
   transition: transform 0.25s ease;
   font-weight: 400;
+  &::last-child {
+
+  };
   &:hover {
     color: ${(props) => props.theme.fontColor};
     border: currentColor solid 1px;
@@ -206,7 +137,6 @@ const DropdownOption = styled.div`
     background-color: ${(props) => props.theme.submitButton};
   };
   ${(props) => (props.selectedValue === props.value) && css`
-    border: currentColor solid 1px;
     font-weight: 600;
     padding-left: 0.5em;
     &::before {
@@ -216,15 +146,12 @@ const DropdownOption = styled.div`
     };
     ${Dropdown}:hover && {
       color: ${props.theme.fontColor};
-      border: lightgrey solid 1px;
+      border: ${props.theme.fontColor} solid 1px;
       &:hover {
-        border: currentColor solid 1px;
+        border: ${props.theme.fontColor} solid 1px;
       };
     };
   `};
 `;
-// color: ${(props) => props.theme.submitButtonFont};
-// color: ${(props) => props.theme.submitButtonHoverFont};
-// background-color: ${(props) => props.theme.submitButtonHover};
 
 export default StyledSelect;
