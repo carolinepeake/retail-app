@@ -27,21 +27,9 @@ const Path = styled.div`
   font-size: ${(props) => props.theme.tertiary};
   padding-bottom: 1em;
 `;
-// font-size: 0.83em;
-// padding-bottom: 0.83em;
-
-
-// @media (min-width: 900px) {
-//   grid-column: 1/4;
-//   grid-row: 1/1;
-//   padding-bottom: 0;
-// };
 
 const SubPath = styled.span`
-  padding: 0 1em;
-  @media (min-width: 900px) {
-    padding: 0 0.5em;
-  };
+  padding: 0 0.5em;
   &:hover {
     text-decoration: underline;
   };
@@ -50,7 +38,3 @@ const SubPath = styled.span`
   };
   cursor: pointer;
 `;
-// margin: 1.5rem 2.5% 0 2.5%;
-
-// @media (min-width: 1200px) {
-// }
