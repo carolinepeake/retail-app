@@ -39,14 +39,13 @@ const StarsContainer = styled.h5`
   font-weight: 300;
 `;
 
-
 const BaseStar = styled.span`
   position: relative;
 `;
 
 const FilledStar = styled.div`
   position: absolute;
-  top: 0px;
+  top: 0.5em;
   left: 0px;
   display: flex;
   width: ${(props) => props.size}%;
@@ -54,6 +53,5 @@ const FilledStar = styled.div`
   flex-direction: row;
   color: ${(props) => props.theme.starFilled};
 `;
-
 
 export default POStars;
