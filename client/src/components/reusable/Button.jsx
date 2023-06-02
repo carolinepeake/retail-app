@@ -1,15 +1,13 @@
 import styled, { css } from 'styled-components';
 
+// To-DO: make reusable styles for all diff clickable components
+
 const Button = styled.button`
-  cursor: pointer;
   border: currentColor thin solid;
   margin: 0.5em 0;
-  font-family: futura-pt, sans-serif;
-  font-style: normal;
-  font-weight: 500;
   padding: 1em;
   font-size: ${(props) => props.theme.body};
-
+  font-weight: 500;
   background-color: ${(props) => props.theme.backgroundColor};
   color: ${(props) => props.theme.fontColor};
   &:hover {
@@ -30,46 +28,43 @@ const Button = styled.button`
   `};
 
   ${(props) => props.modal && css`
+    background-color: ${props.theme.submitButton};
+    color: ${props.theme.submitButtonFont};
     &:hover {
       background-color: ${props.theme.submitButtonHover};
       color: ${props.theme.submitButtonHoverFont};
       box-shadow: initial;
     };
-    background-color: ${props.theme.submitButton};
-    color: ${props.theme.submitButtonFont};
+  `};
+
+  ${(props) => props.close && css`
+    position: absolute;
+    right: 0.5em;
+    top: 0.5em;
+    z-index: 22;
+    color: ${props.theme.darkBlueHover};
+    background-color: transparent;
+    &:hover {
+      box-shadow: none;
+      transform: scale(1.05);
+      transition: scale 0.2s ease;
+      font-weight: 600;
+    };
+    font-size: 1.5em;
+    display: inline-flex;
+    border: none;
+    width: 1.5em;
+    height: 1.5em;
+    line-height: 1.5em;
+    border-radius: 5px;
+    aspect-ratio: 1/1;
+    border: none;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0.5em;
   `};
 `;
-
-// font-size: 16px;
-
-// @media (min-width: 600px) {
-//   margin: 0;
-//   font-size: calc(10px + 1vw);
-// };
-
-// @media (min-width: 1500px) {
-//   font-size: 24px;
-// };
-
-// @media (min-width: 600px) {
-//   margin: 0;
-//   padding: calc(2px + 1.2vw) calc(8px + 1.2vw);
-//   font-size: calc(6px + 1.2vw);
-// };
-
-// ${(props) => props.select && css`
-// background-color: ${(props) => props.theme.secondaryColor};
-// color: ${(props) => props.theme.fontColor};
-// `};
-//   // padding: calc(4px + 1.2vw) calc(10px + 1vw);
-  // border-radius: 5px;
-//   ${(props) => props.select && css`
-//   padding: calc(2px + 1.2vw) calc(6px + 1.2vw);
-//   background-color: ${(props) => props.theme.secondaryColor};
-//   color: ${(props) => props.theme.fontColor};
-// `};
+// background-color: ${props.theme.iconHoverBackgroundColor};
+// color: ${props.theme.fontColor};
 export default Button;
-
-// cut from primary:
-// border-radius: 10px;
-// padding: calc(7.5px + 0.75vw);
