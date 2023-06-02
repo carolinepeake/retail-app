@@ -2,14 +2,19 @@ import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
+import StarButton from './StarButton';
 import CardImage from './CardImage';
 import CardStars from './CardStars';
 
-function Card({ data, i,
+function Card({
+  data,
+  i,
   // cardWidth, numberOfCards, card
-  index }) {
+  index,
+  length,
+}) {
   const {
-    setProductID, setCardIndex, cardIndex, outfitIndex
+    setProductID, setCardIndex, cardIndex, outfitIndex,
   } = useGlobalContext();
   const [info, setInfo] = useState(data);
 
@@ -26,16 +31,21 @@ function Card({ data, i,
   const numVisible = 4;
 
   return (
-    <CardContainer i={i} numVisible={numVisible}
+    <CardContainer
+      i={i}
+      numVisible={numVisible}
     // cardWidth={cardWidth} numberOfCards={numberOfCards} card={card}
-    index={index} className="carousel-card">
+      index={index}
+      className="carousel-card"
+    >
       { info.details
         ? (
           <CardStyle onClick={() => changeItem()} i={i} outfitIndex={outfitIndex}>
-            <CardImage imageInfo={info.image.data} details={info.details} />
+            <StarButton details={info.details} />
+            <CardImage imageInfo={info.image.data} />
             <Text>
               <Cards style={{ paddingTop: '0.1em' }}>{info.details.data.category}</Cards>
-              <Cards name>{info.details.data.name}</Cards>
+              <Cards name style={{ paddingTop: '0.05em' }}>{info.details.data.name}</Cards>
               <Cards style={{ padding: '0.25em' }}>
                 $
                 {info.details.data.default_price}
@@ -47,7 +57,7 @@ function Card({ data, i,
         : <div /> }
     </CardContainer>
   );
-};
+}
 
 Card.propTypes = {
   data: PropTypes.shape({
@@ -62,24 +72,15 @@ Card.propTypes = {
   }).isRequired,
 };
 
-// const CardContainer = styled.div`
-//   grid-column: ${(props) => props.i};
-//   grid-row: 1;
-//   position: relative;
-//   background-color: ${(props) => props.theme.backgroundColor};
-//   min-width: 235px;
-// `;
-// background-color: white;
-// font-family: "Lato","Verdana",sans-serif;
-
 const CardContainer = styled.div`
   position: relative;
   background-color: ${(props) => props.theme.backgroundColor};
   margin: 0 auto;
-  aspect-ratio: 4/6;
   width: 100%;
   height: 100%;
 `;
+// aspect-ratio: 4/6;
+
 // width: 220px;
 // flex-shrink: 0;
 // padding-right: ${(props) => (props.cardWidth / 5)}px;
@@ -124,24 +125,31 @@ const CardStyle = styled.div`
   display: flex;
   flex-direction: column;
   border: black solid medium transparent;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   border: lightgrey solid thin;
-
+  justify-content: flex-end;
+  height: 100%;
+  position: relative;
 `;
+// box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
-// mask-image: ${(props) => (props.i === 3 ? 'linear-gradient(to right, rgba(0,0,0,1), 40%, rgba(0,0,0,0) 80%)' : ' ')};
-// mask-image: ${(props) => (props.i === 0 ? 'linear-gradient(to left, rgba(0,0,0,1), 40%, rgba(0,0,0,0) 80%)' : ' ')};
-// mask-image: ${(props) => (props.i === 3 ? 'linear-gradient(to right, rgba(0,0,0,1), 40%, rgba(0,0,0,0) 80%)' : ' ')};
+// mask-image: ${(props) => (props.i === 3 ?
+// 'linear-gradient(to right, rgba(0,0,0,1), 40%, rgba(0,0,0,0) 80%)' : ' ')};
+// mask-image: ${(props) => (props.i === 0 ?
+// 'linear-gradient(to left, rgba(0,0,0,1), 40%, rgba(0,0,0,0) 80%)' : ' ')};
+// mask-image: ${(props) => (props.i === 3 ?
+// 'linear-gradient(to right, rgba(0,0,0,1), 40%, rgba(0,0,0,0) 80%)' : ' ')};
 
 const Cards = styled.div`
   margin-right: auto;
-  font-size: ${(props) => props.theme.secondary};
+  font-size: ${(props) => props.theme.tertiary};
   padding-left: 0.25em;
   ${(props) => props.name && css`
     font-size: ${props.theme.body};
     font-weight: 500;
   `};
 `;
+// font-size: ${props.theme.cardTitle};
+// font-size: ${(props) => props.theme.cardText};
 // font-size: 1.0rem;
 // padding-left: 0.25rem;
 // ${props => props.name && css`
@@ -157,6 +165,7 @@ const Text = styled.div`
     text-decoration: underline;
   }
   cursor: pointer;
+  margin-top: 0.2em;
 `;
 
 export default Card;
