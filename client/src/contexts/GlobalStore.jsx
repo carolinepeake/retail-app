@@ -7,11 +7,23 @@ export const GlobalContext = React.createContext();
 export function useGlobalContext() {
   return React.useContext(GlobalContext);
 }
+// TO-DO: test performance of requesting 2 questions and reviews initially
+// and then requesting more as the user scrolls through the pages of reviews
+// v. requesting all reviews initially
+// think about how can store state info in url query parameters so as not to require round trip to backend to share/persist state
 
 export function GlobalContextProvider({ children }) {
   GlobalContextProvider.propTypes = {
     children: PropTypes.node.isRequired,
   };
+
+  // Works when ready to hook up API with URL
+  // setProductID(window.location.pathname || 40348);
+
+  // const params = new URL(document.location).searchParams;
+  // const product = params.get('productId');
+  // console.log('product: ', product);
+  // const [productID, setProductID] = useState(product || 40344);
 
   const [productID, setProductID] = useState(40344);
   const [productInfo, setProductInfo] = useState({});
@@ -20,16 +32,19 @@ export function GlobalContextProvider({ children }) {
 
   const [questions, setQuestions] = useState([]);
   const [filteredQuestions, setFilteredQuestions] = useState([]);
-  const [numQuestions, setNumQuestions] = useState();
+  const [numQuestions, setNumQuestions] = useState(100);
 
   const [reviews, setReviews] = useState([]);
+  const [revMeta, setRevMeta] = useState({});
+  const [sortOrder, setSortOrder] = useState('relevant');
+  const [numReviews, setNumReviews] = useState(100);
+  const [revPage, setRevPage] = useState(1);
 
   const [outfits, setOutfits] = useState([]);
   const [currOutfit, setCurrOutfit] = useState({});
   const [cardIndex, setCardIndex] = useState(0);
   const [outfitIndex, setOutfitIndex] = useState(0);
   const [productList, setProductList] = useState([]);
-  const [revMeta, setRevMeta] = useState({});
 
   useEffect(() => {
     function getProductInfo() {
@@ -47,13 +62,51 @@ export function GlobalContextProvider({ children }) {
     function getQuestions() {
       axios
         .get('/questions', {
-          params: { product_id: productID, count: 1000 },
+          params: {
+            product_id: productID,
+            count: numQuestions,
+          },
         })
         .then((results) => {
           setQuestions(results.data.results);
+          // should prolly deal with thiis conditionally in the component instead
+          setFilteredQuestions(results.data.results);
         })
         .catch((err) => {
           console.log(err);
+        });
+    }
+
+    function getReviews() {
+      axios
+        .get('/reviews', {
+          params: {
+            product_id: productID,
+            count: numReviews,
+            page: revPage,
+            sort: sortOrder,
+          },
+        })
+        .then((result) => {
+          setReviews(result.data.results);
+        })
+        .catch((err) => {
+          console.log('Error getting reviews: ', err);
+        });
+    }
+
+    function getReviewsMetaData() {
+      axios
+        .get('/reviews/meta', {
+          params: {
+            product_id: productID,
+          },
+        })
+        .then((result) => {
+          setRevMeta(result.data);
+        })
+        .catch((err) => {
+          console.log('Error getting reviews meta data: ', err);
         });
     }
 
@@ -63,10 +116,11 @@ export function GlobalContextProvider({ children }) {
         behavior: 'smooth',
       });
     }
-    getQuestions();
 
     getProductInfo();
-    setNumQuestions(2);
+    getQuestions();
+    getReviews();
+    getReviewsMetaData();
     scrollToTop();
   }, [productID]);
 
@@ -81,6 +135,27 @@ export function GlobalContextProvider({ children }) {
     })
       .catch((err) => console.error('error getting product styles', err));
   }, [productID]);
+
+  useEffect(() => {
+    function updateReviews() {
+      axios
+        .get('/reviews', {
+          params: {
+            product_id: productID,
+            count: numReviews,
+            page: revPage,
+            sort: sortOrder,
+          },
+        })
+        .then((result) => {
+          setReviews(result.data.results);
+        })
+        .catch((err) => {
+          console.log('Error getting reviews: ', err);
+        });
+    }
+    updateReviews();
+  }, [sortOrder, numReviews, revPage]);
 
   useEffect(() => {
     setProductList([]);
@@ -133,12 +208,16 @@ export function GlobalContextProvider({ children }) {
     filteredQuestions,
     numQuestions,
     reviews,
+    revMeta,
+    sortOrder,
+    numReviews,
+    revPage,
     outfits,
     currOutfit,
     cardIndex,
     outfitIndex,
     productList,
-    revMeta];
+  ];
 
   const value = useMemo(() => ({
     productID,
@@ -157,6 +236,14 @@ export function GlobalContextProvider({ children }) {
     setNumQuestions,
     reviews,
     setReviews,
+    revMeta,
+    setRevMeta,
+    numReviews,
+    setNumReviews,
+    revPage,
+    setRevPage,
+    sortOrder,
+    setSortOrder,
     outfits,
     setOutfits,
     currOutfit,
@@ -167,9 +254,9 @@ export function GlobalContextProvider({ children }) {
     setOutfitIndex,
     productList,
     setProductList,
-    revMeta,
-    setRevMeta,
   }), dependencies);
+
+  // window.history.replaceState(null, '', `?productId=${productID}`);
 
   return (
     <GlobalContext.Provider value={value}>
