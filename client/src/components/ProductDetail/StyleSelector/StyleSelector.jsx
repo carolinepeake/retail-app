@@ -23,12 +23,8 @@ function StyleSelector() {
             <ThumbnailImg
               src={style.photos[0].thumbnail_url}
               alt={style.name}
-
-              // style={{
-              //   boxShadow: selectedStyle.style_id === style.style_id ? '5px 5px 5px #727272' : '',
-              // }}
               style={{
-                boxShadow: selectedStyle.style_id === style.style_id ? 'rgba(0, 0, 0, 0.65) 0px 5px 15px' : '',
+                boxShadow: selectedStyle.style_id === style.style_id ? '5px 5px 5px #727272' : '',
               }}
             />
             {selectedStyle.style_id === style.style_id
@@ -76,7 +72,7 @@ const StyleContainer = styled.div`
 `;
 
 const StyleName = styled.h4`
-  margin-block-start: 1em;
+  margin-block-start: 0.5em;
   margin-block-end: 1em;
   font-weight: 300;
 `;
@@ -116,6 +112,6 @@ const ThumbnailImg = styled.img`
     opacity: 0.80;
   };
   transform: scale(1.025);
-  transition: transform 0.25s ease;
+  transition: scale 0.25s ease;
   border: solid black thin;
 `;
