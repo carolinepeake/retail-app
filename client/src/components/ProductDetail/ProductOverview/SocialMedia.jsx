@@ -24,36 +24,31 @@ function SocialMedia({ mobile }) {
 const SocialMediaContainer = styled.div`
 height: auto;
 width: auto;
+font-size: 1em;
 &:hover {
   cursor: pointer;
 };
 display: ${(props) => (props.mobile ? 'none' : 'flex')};
 flex-direction: column;
 width: fit-content;
-margin: 1.0rem 0;
+margin: 1.0em 0;
 
 @media (max-width: 600px) {
   display: ${(props) => (props.mobile ? 'block' : 'none')};
   margin: 0 auto;
-  margin-bottom: 3rem;
+  margin-bottom: 3em;
 };
 `;
-// margin-block-end: calc(8px + 0.5vw);
-//   margin-top: calc(8px + 0.5vw);
-//   margin-top: 0.5rem;
-//   margin-bottom: 0.5rem;
 
 const Like = styled.div`
-font-size: 1rem;
 `;
 
 const Logo = styled.div`
 flex: f1;
-flex-basis: 2.0rem;
+flex-basis: 2.0em;
 flex-grow: 1;
 flex-shrink: 1;
-padding-right: 0.5rem;
-padding-top: 0.5rem;
+padding: 0.25em;
 &:hover {
   color: ${(props) => props.facebook && 'blue'};
   color: ${(props) => props.twitter && 'aqua'};
@@ -61,13 +56,12 @@ padding-top: 0.5rem;
 };
 display: flex;
 justify-content: center;
-font-size: 1rem;
 `;
 
 const ShareSocial = styled.div`
-max-width: 7.5rem;
+max-width: 7.5em;
 display: flex;
-flex-basis: 2.0rem 7.5rem;
+flex-basis: 2.0em 7.5em;
 flex-shrink: 1;
 flex-grow: 1;
 `;
