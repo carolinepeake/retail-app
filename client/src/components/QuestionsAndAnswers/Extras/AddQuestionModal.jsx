@@ -66,55 +66,64 @@ function AddQuestionModal({ setShowModal }) {
       onClick={(event) => closeModal(event)}
     >
       <ModalContainer>
-        <CloseButtonDiv>
-          <CloseButtonButton onClick={() => setShowModal(false)}>
-            &#10006;
-          </CloseButtonButton>
-        </CloseButtonDiv>
+        <Button close onClick={() => setShowModal(false)}>
+          &#x2715;
+        </Button>
         <Header>
-          <div>Ask Your Question</div>
-          <div>{`About the ${productInfo.name}`}</div>
+          <AskAQuestion>Ask a Question</AskAQuestion>
+          <ProductName>
+            {/* About the  */}
+            {productInfo.name}
+          </ProductName>
         </Header>
         <Form>
-          <FormField htmlFor="name">
-            Username
-            <Required>*</Required>
-          </FormField>
-          <FormEntry
-            onChange={(event) => setName(event.target.value)}
-            maxLength="60"
-            type="text"
-            id="name"
-            name="name"
-            placeholder="Example: jackson11!"
-          />
-          <Disclaimer>
-            For privacy reasons, do not use your full name or email
-            address.
-          </Disclaimer>
-          <FormField htmlFor="email">
-            Email
-            <Required>*</Required>
-          </FormField>
-          <FormEntry
-            onChange={(event) => setEmail(event.target.value)}
-            maxLength="60"
-            type="text"
-            id="email"
-            placeholder="jack@email.com"
-          />
-          <Disclaimer>
-            For authentication reasons, you will not be emailed.
-          </Disclaimer>
           <FormField htmlFor="body">
             Question
             <Required>*</Required>
           </FormField>
           <InputQuestion
             onChange={(event) => setBody(event.target.value)}
+            rows="6"
             maxLength="1000"
             placeholder="Ask your question"
           />
+          <br />
+          <FormField htmlFor="name">
+            Username
+            <Required>*</Required>
+          </FormField>
+          <div>
+            <FormEntry
+              onChange={(event) => setName(event.target.value)}
+              maxLength="60"
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Example: jackson11!"
+            />
+            <Disclaimer>
+              For privacy reasons, do not use your full name or email
+              address.
+            </Disclaimer>
+          </div>
+          <br />
+          <FormField htmlFor="email">
+            Email
+            <Required>*</Required>
+          </FormField>
+          <div>
+            <FormEntry
+              onChange={(event) => setEmail(event.target.value)}
+              maxLength="60"
+              type="text"
+              id="email"
+              placeholder="jack@email.com"
+            />
+            <Disclaimer>
+              For authentication reasons, you will not be emailed.
+            </Disclaimer>
+          </div>
+          <br />
           {!validInput ? (
             <Disclaimer>
               <div>1. Not all fields have been provided.</div>
@@ -126,9 +135,9 @@ function AddQuestionModal({ setShowModal }) {
           <FooterButton type="submit" modal onClick={() => askQuestion()}>
             Submit
           </FooterButton>
-          <FooterButton onClick={() => setShowModal(false)}>
+          {/* <FooterButton onClick={() => setShowModal(false)}>
             Cancel
-          </FooterButton>
+          </FooterButton> */}
         </Footer>
       </ModalContainer>
     </ModalBackground>
@@ -138,122 +147,165 @@ function AddQuestionModal({ setShowModal }) {
 const ModalBackground = styled.div`
   width: 100vw;
   height: 100vh;
-  background-color: ${(props) => props.theme.backgroundColor};
+  background-color: rgba(0, 0, 0, 0.3);
   position: fixed;
   display: flex;
   justify-content: center;
   align-items: center;
   left: 0%;
   top: 0%;
+  z-index: 51;
+  @media (min-width: 50rem) {
+    z-index: 20;
+  };
 `;
 
 const ModalContainer = styled.div`
-  width: 60vw;
-  max-height: 90vh;
-  border-radius: 5x;
-  background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  width: 100vw;
+  max-height: 100vh;
+  z-index: 52;
+  padding: 2.5em;
   display: flex;
   flex-direction: column;
-  padding: 25px;
+  align-items: center;
   background-color: ${(props) => props.theme.backgroundColor};
-  color: ${(props) => props.theme.fontColor};
+  overflow: auto;
+  position: relative;
+
+  @media (min-width: 40rem) {
+    width: 70vw;
+    border: 1px solid;
+    max-height: 90vh;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  };
+
+  @media (min-width: 50rem) {
+    max-height: 80vh;
+    width: 60vw;
+    z-index: 21;
+    top: 1.5rem;
+  };
 `;
 
-const CloseButtonDiv = styled.div`
+const Header = styled.div`
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  @media (min-width: 40rem) {
+    width: 90%;
+  };
+
+  @media (min-width: 50rem) {
+    width: 80%;
+  };
 `;
 
-const CloseButtonButton = styled.button`
-  padding: calc(6px + 0.375vw);
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  color: ${(props) => props.theme.fontColor};
-  font-size: calc(8px + 0.5vw);
+const AskAQuestion = styled.h2`
+  margin-top: 0px;
+`;
+
+const ProductName = styled.h4`
+  margin-top: 0px;
+  font-size: 1.5em;
 `;
 
 const Form = styled.div`
-  display: grid;
-  grid-template-columns: 15% 75%;
-  gap: 5%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+
+  @media (min-width: 40rem) {
+    width: 90%;
+  };
+
+  @media (min-width: 50rem) {
+    width: 80%;
+  };
 `;
 
 const FormField = styled.label`
   font-size: 1.0rem;
-  grid-column: 1;
   cursor: initial;
 `;
 
 const FormEntry = styled.input`
-  grid-column: 2;
   cursor: initial;
+  margin-top: 0.25em;
+  display: block;
+  width: 100%;
   color: ${(props) => props.theme.fontColor};
-  background-color: ${(props) => props.theme.tertiaryColor};
-  ::placeholder,
-  ::-webkit-input-placeholder {
-    opacity: 0.2;
-    color: ${(props) => props.theme.fontColor};
-  }
-  :-ms-input-placeholder {
-    color: ${(props) => props.theme.fontColor};
-  }
+  &:focus {
+    background-color: ${(props) => props.theme.navBgColor};
+  };
+  background-color: ${(props) => props.theme.backgroundColor};
+  ::placeholder {
+    color: ${(props) => props.theme.inputPlaceholder};
+  };
   border: currentColor solid thin;
+  padding: 0.5em;
+  font-family: inherit;
+  font-size: ${(props) => props.theme.input};
 `;
 
-// TO-DO: make size (height) responsive
 const InputQuestion = styled.textarea`
   resize: none;
-  height: 125px;
-  font-family: Arial;
+  margin-top: 0.25em;
+  display: block;
+  width: 100%;
+  font-family: inherit;
   color: ${(props) => props.theme.fontColor};
-  background-color: ${(props) => props.theme.tertiaryColor};
-  ::placeholder,
-  ::-webkit-input-placeholder {
-    opacity: 0.2;
-    color: ${(props) => props.theme.fontColor};
-  }
-  :-ms-input-placeholder {
-    color: ${(props) => props.theme.fontColor};
-  }
+  &:focus {
+    background-color: ${(props) => props.theme.navBgColor};
+  };
+  background-color: ${(props) => props.theme.backgroundColor};
+  ::placeholder {
+    color: ${(props) => props.theme.inputPlaceholder};
+  };
   border: currentColor solid thin;
+  border-radius: 5px;
+  padding: 0.5em;
+  font-size: ${(props) => props.theme.input};
 `;
 
 const Footer = styled.div`
   display: flex;
-  flex: none;
-  justify-content: center;
-  margin-top: 20%;
-  column-gap: 2rem;
+  flex-direction: column;
+  padding-top: 1.5em;
+  width: 100%;
+
+  @media (min-width: 40rem) {
+    width: 90%;
+  };
+
+  @media (min-width: 50rem) {
+    width: 80%;
+  };
+
+  @media (min-width: 600px) {
+    flex-direction: row;
+    column-gap: 2rem;
+    justify-content: space-evenly;
+    align-items: center;
+  };
 `;
 
 const FooterButton = styled(Button)`
   flex: 1;
+  margin: 0.5rem 0;
+
+  @media (min-width: 600px) {
+    margin: 0;
+  };
 `;
-// padding: calc(6px + 0.375vw);
-//   margin: calc(4px + 0.25vw);
-//   font-size: calc(8px + 0.5vw);
-//   &:hover {
-//     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-//   }
-// width: 12rem;
-// height: 2.5rem;
-// margin: .5rem;
 
 const Required = styled.sup`
   color: ${(props) => props.theme.formError}
 `;
 
-const Disclaimer = styled.div`
-  font-size: 0.75rem;
-  grid-column: 2;
-  font-style: italic;
-  color: ${(props) => props.theme.formError}
-`;
-
-const Header = styled.header`
-  margin-bottom: 0.6rem;
+const Disclaimer = styled.h5`
+  font-style: oblique;
 `;
 
 export default AddQuestionModal;

@@ -105,50 +105,19 @@ function AddAnswerModal({ setShowModal, question }) {
       onClick={(event) => closeModal(event)}
     >
       <ModalContainer>
-        <CloseButtonDiv>
-          <CloseButtonButton onClick={() => setShowModal(false)}>
-            &#10006;
-          </CloseButtonButton>
-        </CloseButtonDiv>
+        <Button close onClick={() => setShowModal(false)}>
+          &#x2715;
+        </Button>
         <Header>
-          <div>
-            <b>Submit your answer</b>
-          </div>
-          <div>
-            <b>{`${productInfo.name} : ${question.question_body}`}</b>
-          </div>
+          <AddAnswer>
+            Submit your Answer
+          </AddAnswer>
+          <ProductName>
+            {`${productInfo.name} : ${question.question_body}`}
+          </ProductName>
         </Header>
         <Form id="form">
-          <FormField htmlFor="name">
-            Username
-            <Required>*</Required>
-          </FormField>
-          <FormEntry
-            onChange={(event) => setName(event.target.value)}
-            maxLength="60"
-            type="text"
-            id="name"
-            name="name"
-            placeholder="Example: jackson11!"
-          />
-          <Disclaimer>
-            For privacy reasons, do not use your full name or email
-            address.
-          </Disclaimer>
-          <FormField htmlFor="email">
-            Email
-            <Required>*</Required>
-          </FormField>
-          <FormEntry
-            onChange={(event) => setEmail(event.target.value)}
-            maxLength="60"
-            type="text"
-            id="email"
-            placeholder="jack@email.com"
-          />
-          <Disclaimer>
-            For authentication reasons, you will not be emailed.
-          </Disclaimer>
+
           <FormField htmlFor="body">
             Answer
             <Required>*</Required>
@@ -156,27 +125,66 @@ function AddAnswerModal({ setShowModal, question }) {
           <InputAnswer
             onChange={(event) => setBody(event.target.value)}
             maxLength="1000"
+            rows="6"
             placeholder="Enter your answer"
           />
+          <br />
           {preview.length < 5 ? (
-            <>
-              <FormField>
-                <div>Photos(optional)</div>
-                <div>Max 5</div>
-              </FormField>
+            <FormField htmlFor="photos">
+              Photos
               <FileInput
                 onChange={(event) => handlePreviews(event)}
                 type="file"
                 id="photos"
                 accept="image/png, image/jpeg"
               />
-            </>
+              <Disclaimer>
+                Optional, Max 5
+              </Disclaimer>
+            </FormField>
           ) : null}
           <PhotoPreviews>
             {preview.map((photo) => (
               <ImagePreview src={photo} alt="" key={photo} />
             ))}
           </PhotoPreviews>
+          <br />
+          <FormField htmlFor="name">
+            Username
+            <Required>*</Required>
+          </FormField>
+          <div>
+            <FormEntry
+              onChange={(event) => setName(event.target.value)}
+              maxLength="60"
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Example: jackson11!"
+            />
+            <Disclaimer>
+              For privacy reasons, do not use your full name or email
+              address.
+            </Disclaimer>
+          </div>
+          <br />
+          <FormField htmlFor="email">
+            Email
+            <Required>*</Required>
+          </FormField>
+          <div>
+            <FormEntry
+              onChange={(event) => setEmail(event.target.value)}
+              maxLength="60"
+              type="text"
+              id="email"
+              placeholder="jack@email.com"
+            />
+            <Disclaimer>
+              For authentication reasons, you will not be emailed.
+            </Disclaimer>
+          </div>
+          <br />
           {!validInput ? (
             <Disclaimer>
               <div>
@@ -194,9 +202,9 @@ function AddAnswerModal({ setShowModal, question }) {
           <FooterButton modal onClick={() => askQuestion()}>
             Submit
           </FooterButton>
-          <FooterButton onClick={() => setShowModal(false)}>
+          {/* <FooterButton onClick={() => setShowModal(false)}>
             Cancel
-          </FooterButton>
+          </FooterButton> */}
         </Footer>
       </ModalContainer>
     </ModalBackground>
@@ -207,140 +215,198 @@ const ModalBackground = styled.div`
   width: 100vw;
   height: 100vh;
   position: fixed;
+  background-color: rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
   align-items: center;
   left: 0%;
   top: 0%;
+  z-index: 51;
+  @media (min-width: 50rem) {
+    z-index: 20;
+  };
 `;
 
 const ModalContainer = styled.div`
-  width: 60vw;
-  max-height: 90vh;
-  border-radius: 5px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  width: 100vw;
+  max-height: 100vh;
+  z-index: 52;
+  padding: 2.5em;
   display: flex;
   flex-direction: column;
-  padding: 25px;
+  align-items: center;
   background-color: ${(props) => props.theme.backgroundColor};
-  color: ${(props) => props.theme.fontColor};
+  overflow: auto;
+  position: relative;
+
+  @media (min-width: 40rem) {
+    width: 70vw;
+    border: 1px solid;
+    max-height: 90vh;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  };
+
+  @media (min-width: 50rem) {
+    max-height: 80vh;
+    width: 60vw;
+    z-index: 21;
+    top: 1.5rem;
+  };
 `;
 
-const CloseButtonDiv = styled.div`
+const Header = styled.header`
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  @media (min-width: 40rem) {
+    width: 90%;
+  };
+
+  @media (min-width: 50rem) {
+    width: 80%;
+  };
+  margin-bottom: 0.5rem;
 `;
 
-const CloseButtonButton = styled.button`
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  color: ${(props) => props.theme.fontColor};
-  font-size: calc(8px + 0.5vw);
-  padding: calc(6px + 0.375vw);
+const AddAnswer = styled.h2`
+  margin-top: 0px;
+`;
+
+const ProductName = styled.h4`
+  margin-top: 0px;
+  font-size: 1.5em;
 `;
 
 const Form = styled.div`
-  display: grid;
-  grid-template-columns: 20% 75%;
-  gap: 5%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+
+  @media (min-width: 40rem) {
+    width: 90%;
+  };
+
+  @media (min-width: 50rem) {
+    width: 80%;
+  };
 `;
 
 const FormField = styled.label`
   font-size: 1rem;
-  grid-column: 1;
   cursor: initial;
 `;
 
 const FormEntry = styled.input`
-  grid-column: 2;
+  display: block;
+  width: 100%;
+  margin-top: 0.25em;
   cursor: initial;
   color: ${(props) => props.theme.fontColor};
-  background-color: ${(props) => props.theme.tertiaryColor};
-  ::placeholder,
-  ::-webkit-input-placeholder {
-    opacity: 0.2;
-    color: ${(props) => props.theme.fontColor};
-  }
-  :-ms-input-placeholder {
-    color: ${(props) => props.theme.fontColor};
-  }
+  background-color: ${(props) => props.theme.backgroundColor};
+  ::placeholder {
+    color: ${(props) => props.theme.inputPlaceholder};
+  };
+  &:focus {
+    background-color: ${(props) => props.theme.navBgColor};
+  };
   border: currentColor solid thin;
+  padding: 0.5em;
+  font-family: inherit;
+  font-size: ${(props) => props.theme.input};
 `;
 
 const InputAnswer = styled.textarea`
   resize: none;
-  height: 125px;
-  font-family: Arial;
+  display: block;
+  width: 100%;
+  margin-top: 0.25em;
+  font-family: inherit;
   color: ${(props) => props.theme.fontColor};
-  background-color: ${(props) => props.theme.tertiaryColor};
-  ::placeholder,
-  ::-webkit-input-placeholder {
-    opacity: 0.2;
-    color: ${(props) => props.theme.fontColor};
-  }
-  :-ms-input-placeholder {
-    color: ${(props) => props.theme.fontColor};
-  }
+  background-color: ${(props) => props.theme.backgroundColor};
+  ::placeholder {
+    color: ${(props) => props.theme.inputPlaceholder};
+  };
   border: currentColor solid thin;
+  border-radius: 5px;
+  padding: 0.5em;
+  font-size: ${(props) => props.theme.input};
+  &:focus {
+    background-color: ${(props) => props.theme.navBgColor};
+  };
 `;
 
 const Footer = styled.div`
   display: flex;
-  flex: none;
-  justify-content: center;
-  margin-top: 20%;
+  flex-direction: column;
+  padding-top: 1.5em;
+  width: 100%;
+
+  @media (min-width: 40rem) {
+    width: 90%;
+  };
+
+  @media (min-width: 50rem) {
+    width: 80%;
+  };
+
+  @media (min-width: 600px) {
+    flex-direction: row;
+    column-gap: 2rem;
+    justify-content: space-evenly;
+    align-items: center;
+  };
 `;
 
-const FooterButton = styled(Button);
-// padding: calc(6px + 0.375vw);
-// margin: calc(4px + 0.25vw);
-// padding: calc(6px + 0.375vw);
-// font-size: calc(8px + 0.5vw);
-// &:hover {
-//   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-// }
-// width: 5.5rem;
-// height: 2.5rem;
+const FooterButton = styled(Button)`
+  flex: 1;
+  margin: 0.5rem 0;
+
+  @media (min-width: 600px) {
+    margin: 0;
+  };
+`;
 
 const Required = styled.sup`
   color: ${(props) => props.theme.formError};
 `;
 
-const Disclaimer = styled.div`
-  font-size: .75rem;
-  grid-column: 2;
-  font-style: italic;
+const Disclaimer = styled.h5`
+  font-style: oblique;
 `;
 
 const PhotoPreviews = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  grid-column: 1 / 3;
 `;
 
 const ImagePreview = styled.img`
   width:20%;
-  height: 20%;
+  height: 100%;
   margin-right: 1%;
 `;
 
-const Header = styled.header`
-  margin-bottom: 0.5rem;
-`;
-
 const FileInput = styled.input`
+  display: block;
+  width: 100%;
   color: ${(props) => props.theme.fontColor};
-  cursor: pointer;
+  margin-top: 0.25em;
   ::file-selector-button {
     color: ${(props) => props.theme.fontColor};
-    background-color: ${(props) => props.theme.tertiaryColor};
+    background-color: ${(props) => props.theme.navBgColor};
     cursor: pointer;
-  }
-  font-size: calc(8px + 0.5vw);
-  padding: calc(6px + 0.375vw);
-  font: inherit;
+    padding: 0.5em 1em;
+    margin-right: 0.5em;
+    border: 1px solid ${(props) => props.theme.fontColor};
+    border-radius: 5px;
+  };
+  ::placeholder {
+    color: ${(props) => props.theme.inputPlaceholder};
+  };
+  font-size: 1em;
+  font-family: inherit;
 `;
 
 export default AddAnswerModal;
