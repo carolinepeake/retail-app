@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import Button from './Button';
 
+// To-DO: replace '+' and '-' with unicode characters
+
 function Collapsable({ children, header }) {
   const [collapsed, setCollapsed] = useState(true);
 
@@ -34,7 +36,6 @@ const Container = styled.div`
 `;
 
 const Header = styled(Button)`
-  background-color: ${(props) => props.theme.backgroundColor};
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -44,42 +45,20 @@ const Header = styled(Button)`
   &:hover {
     box-shadow: none;
   };
-  padding-left: 0px;
-  padding-right: 0px;
-  font-size: 1rem;
+  padding-left: 0;
+  padding-right: 0;
+  font-size: 1em;
   font-weight: 300;
   ${(props) => !props.collapsed && css`
     margin-bottom: 0px
   `};
 `;
-// &::after {
-//   content: '\02795';
-//   font-size: 13px;
-//   color: ${(props) => props.theme.fontColor};
-//   float: right;
-//   margin-left: 5px;
-// };
-// content: ${(props) => props.collapsed ? ' "\02795" ' : ' "\2796" '};
-
-// padding: 18px;
-// text-align: left;
-// outline: none;
-// font-size: 15px;
-// cursor: pointer;
-
-// @media (min-width: 900px) {
-//   display: none;
-// };
 
 const Content = styled.div`
-
+  font-size: 0.83em;
   ${(props) => props.collapsed && css`
     display: none;
   `};
 `;
-
-// @media (min-width: 900px) {
-//   display: block;
-// };
 
 export default Collapsable;
