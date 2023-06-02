@@ -101,7 +101,7 @@ function Characteristics({ revMeta, charVal, setCharVal, charObj, setCharObj }) 
       <div>
         Product characteristics*
       </div>
-      <br />
+
       {Object.keys(revMeta.characteristics).map((char) => (
         <CharDiv key={char}>
           <div>
@@ -113,7 +113,7 @@ function Characteristics({ revMeta, charVal, setCharVal, charObj, setCharObj }) 
               : charVal[char]
             }
           </div>
-          <div onChange={(event) => handleCharChange(event.target.value, char)}>
+          <RadioButtonsContainer onChange={(event) => handleCharChange(event.target.value, char)}>
             <input type="radio" value={1} name={char} />
             {/* remember to make above input required */}
             1
@@ -125,7 +125,7 @@ function Characteristics({ revMeta, charVal, setCharVal, charObj, setCharObj }) 
             4
             <input type="radio" value={5} name={char} />
             5
-          </div>
+          </RadioButtonsContainer>
         </CharDiv>
       ))}
     </div>
@@ -144,4 +144,9 @@ export default Characteristics;
 
 const CharDiv = styled.div`
   margin-left: 1rem;
+  margin-top: 0.5em;
+`;
+
+const RadioButtonsContainer = styled.div`
+  margin-top: 0.25em;
 `;

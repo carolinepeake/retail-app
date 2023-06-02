@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import PropTypes from 'prop-types';
 import StarRating from './StarRating';
 import Characteristics from './Characteristics';
 import AddPhotos from './AddPhotos';
 import Button from '../../reusable/Button';
 
-function AddRev({ revMeta, productID, productInfo }) {
+import { useGlobalContext } from '../../../contexts/GlobalStore';
+
+function AddRev() {
+  const {
+    productID, productInfo, revMeta,
+  } = useGlobalContext();
+
   const [addClicked, setAddClicked] = useState(false);
   const [starRating, setStarRating] = useState({
     meaning: '',
@@ -73,29 +78,30 @@ function AddRev({ revMeta, productID, productInfo }) {
       {addClicked && (
       <AddRevBackground id="AddRevBackground" onClick={(event) => handleBackgroundClick(event)}>
         <AddRevDiv>
-          <CloseDiv onClick={() => setAddClicked(false)}>
-            &#10006;
-          </CloseDiv>
+          <Button close onClick={() => setAddClicked(false)}>
+            &#x2715;
+          </Button>
           <AddRevHeader>
-            <h2>Write a Review</h2>
-            <div>
-              About the&nbsp;
+            <WriteAReview>Write a Review</WriteAReview>
+            <ProductName>
+              {/* About the&nbsp; */}
               {productInfo.name}
-            </div>
+            </ProductName>
           </AddRevHeader>
           <FormContainer onSubmit={(event) => handleSubmit(event)}>
 
             <StarRating starRating={starRating} setStarRating={setStarRating} />
             <br />
 
-            <RecommendProdLabel htmlFor="recommendProd" onChange={(event) => setRecommendProd(event.target.value === 'true')}>
-              Do you recommend this product?*&nbsp;
-              <div>
-                <input required type="radio" value="true" name="ovRating" />
+            <RecommendProdLabel label="recommendProd" onChange={(event) => setRecommendProd(event.target.value === 'true')}>
+              Do you recommend this product?
+              <Required>*</Required>
+              <RadioButtonsContainer>
+                <input required type="radio" value="true" name="ovRating" id="recommendProd" />
                 Yes
-                <input type="radio" value="false" name="ovRating" />
+                <input type="radio" value="false" name="ovRating" id="recommendProd" />
                 No
-              </div>
+              </RadioButtonsContainer>
             </RecommendProdLabel>
             <br />
 
@@ -110,56 +116,75 @@ function AddRev({ revMeta, productID, productInfo }) {
             <br />
 
             <RevSummaryDiv>
-              <div>Review summary</div>
-              <TextAreaDiv
-                placeholder="Example: Best purchase ever!"
-                maxLength="60"
-                rows="1"
-                onChange={(event) => setRevSum(event.target.value)}
-              />
+              <CustomLabel label="revSum">
+                Review Summary
+                <TextAreaDiv
+                  placeholder="Example: Best purchase ever!"
+                  maxLength="60"
+                  rows="1"
+                  id="revSum"
+                  onChange={(event) => setRevSum(event.target.value)}
+                />
+              </CustomLabel>
             </RevSummaryDiv>
             <br />
 
             <RevBodyDiv>
-              <div>Review body*</div>
-              <TextAreaDiv
-                placeholder="Why did you like the product or not?"
-                minLength="50"
-                maxLength="1000"
-                rows="6"
-                onChange={(event) => setRevBody(event.target.value)}
-                required
-              />
+              <CustomLabel label="revBody">
+                Review body
+                <Required>*</Required>
+                <TextAreaDiv
+                  placeholder="Why did you like the product or not?"
+                  minLength="50"
+                  maxLength="1000"
+                  rows="6"
+                  onChange={(event) => setRevBody(event.target.value)}
+                  required
+                  id="revBody"
+                />
+              </CustomLabel>
             </RevBodyDiv>
             <br />
 
             <AddPhotos />
             <br />
 
-            What is your nickname?*
-            <TextAreaDiv
-              maxLength="60"
-              placeholder="Example: jackson11!"
-              rows="1"
-              onChange={(event) => setNickname(event.target.value)}
-              required
-            />
+            <CustomLabel label="nickname">
+              What is your nickname?
+              <Required>*</Required>
+              <TextInput
+                type="text"
+                as="input"
+                maxLength="60"
+                placeholder="Example: jackson11!"
+                rows="1"
+                onChange={(event) => setNickname(event.target.value)}
+                required
+                id="nickname"
+              />
+            </CustomLabel>
             <br />
 
-            Your email*
-            <TextAreaDiv
-              maxLength="60"
-              placeholder="Example: jackson11@email.com"
-              rows="1"
-              onChange={(event) => setEmail(event.target.value)}
-              required
-            />
+            <CustomLabel label="email">
+              Your Email
+              <Required>*</Required>
+              <TextInput
+                type="text"
+                as="input"
+                maxLength="60"
+                placeholder="Example: jackson11@email.com"
+                rows="1"
+                onChange={(event) => setEmail(event.target.value)}
+                required
+                id="email"
+              />
+            </CustomLabel>
             <AuthTag>For authentication reasons, you will not be emailed</AuthTag>
             <br />
 
             <ButtonContainer>
               <ButtonDiv modal type="submit">Submit</ButtonDiv>
-              <ButtonDiv type="button" onClick={() => setAddClicked(false)}> Cancel </ButtonDiv>
+              {/* <ButtonDiv type="button" onClick={() => setAddClicked(false)}> Cancel </ButtonDiv> */}
             </ButtonContainer>
 
           </FormContainer>
@@ -170,11 +195,11 @@ function AddRev({ revMeta, productID, productInfo }) {
   );
 }
 
-AddRev.propTypes = {
-  revMeta: PropTypes.shape({
-    product_id: PropTypes.string,
-  }).isRequired,
-};
+// AddRev.propTypes = {
+//   revMeta: PropTypes.shape({
+//     product_id: PropTypes.string,
+//   }).isRequired,
+// };
 
 export default AddRev;
 
@@ -191,54 +216,116 @@ const AddRevBackground = styled.div`
   align-items: center;
   left: 0%;
   top: 0%;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 51;
+  @media (min-width: 50rem) {
+    z-index: 20;
+  };
 `;
 
 const AddRevDiv = styled.div`
-  width: 60vw;
-  max-height: 80vh;
-  padding: 25px;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid;
-  background-color: ${(props) => props.theme.secondaryColor};
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  filter: drop-shadow(2px 4px 6px black);
-  overflow: auto;
-  position: relative;
-  z-index: 6;
-  top: 1.5rem;
-`;
-
-const CloseDiv = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  font-size: 1.0rem;
-  cursor: pointer;
-`;
-
-const AddRevHeader = styled.div`
-  padding: 0em 1em 1em;
+  width: 100vw;
+  max-height: 100vh;
+  z-index: 52;
+  padding: 2.5em;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: ${(props) => props.theme.backgroundColor};
+  overflow: auto;
+  position: relative;
+
+  @media (min-width: 40rem) {
+    width: 70vw;
+    max-height: 90vh;
+    border: 1px solid;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  };
+
+  @media (min-width: 50rem) {
+    max-height: 80vh;
+    width: 60vw;
+    z-index: 21;
+    top: 1.5rem;
+  };
+`;
+// filter: drop-shadow(2px 4px 6px black);
+
+const AddRevHeader = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  @media (min-width: 40rem) {
+    width: 90%;
+  };
+
+  @media (min-width: 50rem) {
+    width: 80%;
+  };
+`;
+
+const WriteAReview = styled.h2`
+  margin-top: 0px;
+`;
+
+const ProductName = styled.h4`
+  margin-top: 0px;
+  font-size: 1.5em;
 `;
 
 const FormContainer = styled.form`
   display: flex;
-  padding: 1em;
   flex-direction: column;
   position: relative;
+  width: 100%;
+
+  @media (min-width: 40rem) {
+    width: 90%;
+  };
+
+  @media (min-width: 50rem) {
+    width: 80%;
+  };
+`;
+
+const RadioButtonsContainer = styled.div`
+  margin-top: 0.25em;
 `;
 
 const RecommendProdLabel = styled.label`
+`;
 
+const CustomLabel = styled.label`
+  display: block;
 `;
 
 const TextAreaDiv = styled.textarea`
   resize: none;
-  font-family: Arial;
+  display: block;
+  width: 100%;
+  font-family: inherit;
   color: ${(props) => props.theme.fontColor};
+  background-color: ${(props) => props.theme.backgroundColor};
+  margin-top: 0.25em;
+  padding: 0.5em;
+  border: 1px solid currentColor;
+  border-radius: 5px;
+  font-size: ${(props) => props.theme.input};
+  ::placeholder {
+    color: ${(props) => props.theme.inputPlaceholder};
+  };
+  &:focus {
+    background-color: ${(props) => props.theme.navBgColor};
+  };
+`;
+
+const TextInput = styled(TextAreaDiv)`
+  border-radius: 0px;
+`;
+
+const Required = styled.sup`
+  color: ${(props) => props.theme.formError}
 `;
 
 const RevSummaryDiv = styled.div`
@@ -251,18 +338,29 @@ const RevBodyDiv = styled.div`
   flex-direction: column;
 `;
 
-const AuthTag = styled.div`
-  font-size: 1.0rem;
+const AuthTag = styled.h5`
   font-style: oblique;
-  font-weight: lighter;
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
-  justify-content: space-around;
-  padding: 1.5em;
+  flex-direction: column;
+  padding-top: 1.0em;
+
+  @media (min-width: 600px) {
+    flex-direction: row;
+    column-gap: 2rem;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 1.0em 0 1.0em 0;
+  };
 `;
 
 const ButtonDiv = styled(Button)`
-  width 40%;
+  flex: 1;
+  margin: 0.5rem 0;
+
+  @media (min-width: 600px) {
+    margin: 0;
+  };
 `;

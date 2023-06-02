@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 import PropTypes from 'prop-types';
-import { useGlobalContext } from '../../../contexts/GlobalStore';
 
 function StarRating({ starRating, setStarRating }) {
   const handleClickStar = (rating) => {
@@ -18,19 +16,18 @@ function StarRating({ starRating, setStarRating }) {
       meaning = 'Good';
     } else if (numVal === 5) {
       meaning = 'Great';
-    };
+    }
 
     setStarRating({
-      meaning, numVal
+      meaning, numVal,
     });
   };
 
   return (
     <div>
       Overall star rating*&nbsp;
-      <br />
       <div>{starRating.meaning}</div>
-      <div onChange={(event) => handleClickStar(event.target.value)}>
+      <RadioButtonsContainer onChange={(event) => handleClickStar(event.target.value)}>
 
         <StarInput required type="radio" name="starRating" value={1} />
         1
@@ -42,7 +39,7 @@ function StarRating({ starRating, setStarRating }) {
         4
         <StarInput type="radio" name="starRating" value={5} />
         5
-      </div>
+      </RadioButtonsContainer>
     </div>
   );
 }
@@ -52,13 +49,13 @@ StarRating.propTypes = {
     meaning: PropTypes.string,
     numVal: PropTypes.number,
   }).isRequired,
+  setStarRating: PropTypes.func.isRequired,
 };
 
 export default StarRating;
 
-const AddButton = styled.button`
-  padding: calc(7.5px + 0.75vw);
-  font-size: calc(10px + 1vw);
+const RadioButtonsContainer = styled.div`
+  margin-top: 0.25em;
 `;
 
 const StarInput = styled.input`

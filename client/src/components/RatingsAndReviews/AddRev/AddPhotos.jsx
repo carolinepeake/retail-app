@@ -34,15 +34,16 @@ function AddPhotos() {
   return (
     <div>
       <div>Upload your photos</div>
-      <input
+      <FileInput
         type="file"
         id="photos"
         accept="image/png, image/jpeg"
         onChange={(event) => handleAddPhotos(event)}
-        style={{ fontSize: 'calc(10px + 1vw)', font: 'inherit', padding: 'calc(2.5px + 0.25vw)'}}
       />
       <br />
-      <AddButton />
+      {/* <AddButton disabled>
+        Add Photos
+      </AddButton> */}
     </div>
   );
 }
@@ -56,7 +57,25 @@ function AddPhotos() {
 export default AddPhotos;
 
 const AddButton = styled(Button)`
-  padding: calc(7.5px + 0.75vw);
+`;
+
+const FileInput = styled.input`
+  color: ${(props) => props.theme.fontColor};
+  margin-top: 0.25em;
+  ::file-selector-button {
+    color: ${(props) => props.theme.fontColor};
+    background-color: ${(props) => props.theme.navBgColor};
+    cursor: pointer;
+    padding: 0.5em 1em;
+    margin-right: 0.5em;
+    border: 1px solid ${(props) => props.theme.fontColor};
+    border-radius: 5px;
+  };
+  ::placeholder {
+    color: ${(props) => props.theme.inputPlaceholder};
+  };
+  font-size: 1em;
+  font-family: inherit;
 `;
 
 const AddPhotosBackground = styled.div`
