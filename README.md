@@ -173,8 +173,8 @@ Standardizing the application's spacing, font, and the sizing and styling of som
 4.  Ratings & Reviews
 
   <details>
-    <summary> Ratings & Reviews Screenshot </summary>
-
+    <summary> Ratings & Reviews Screenshot
+    </summary>
         <img width="950" align="center" alt="ratings and reviews" src="https://user-images.githubusercontent.com/100883305/233085585-5bdfec2f-ac1d-46e8-a786-4a4383b41fa5.png">
       </details>
    <br>The ratings and reviews section shows all reviews for the current product being displayed, as well as a breakdown of the ratings and product characteristics. The list of reviews can be sorted by relevance, helpfulness, or date. The user can also filter reviews by their star ratings. A user may add their own review to the list. Reviews can also be marked as helpful or reported.
