@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import AddQuestionModal from './AddQuestionModal';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import Button from '../../reusable/Button';
+import ShowMoreListItems from '../../reusable/LargeList/ShowMoreListItems';
 
-function ExtraButtons() {
+function ExtraButtons({ setItemsPerPage }) {
   const [showModal, setShowModal] = useState(false);
-  const { questions, numQuestions, setNumQuestions } = useGlobalContext();
+  const { filteredQuestions, numQuestions, setNumQuestions, questions } = useGlobalContext();
 
   function increaseQuestions() {
     const container = document.getElementById('scrollable-container');
@@ -20,36 +22,41 @@ function ExtraButtons() {
 
   return (
     <ButtonContainer>
-      {numQuestions < questions.length ? (
-        <QuestionsButton type="button" onClick={() => increaseQuestions()}>
-          More Questions
-        </QuestionsButton>
-      ) : null}
+      {/* {numQuestions < questions.length && ( */}
+      {filteredQuestions.length > 2
+      && (
+        <ShowMoreListItems setItemsPerPage={setItemsPerPage} itemText="Questions" />
+      //   <QuestionsButton type="button" onClick={() => increaseQuestions()}>
+      //     More Questions
+      //   </QuestionsButton>
+      )}
       <QuestionsButton type="button" modal onClick={() => setShowModal(true)}>
         Ask a Question +
       </QuestionsButton>
-      {showModal ? (
+      {showModal && (
         <AddQuestionModal setShowModal={setShowModal} />
-      ) : null}
+      )}
     </ButtonContainer>
   );
 }
 
+ExtraButtons.propTypes = {
+  setItemsPerPage: PropTypes.func.isRequired,
+};
+
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
+  padding-top: 1.0em;
 
   @media (min-width: 600px) {
     flex-direction: row;
     column-gap: 2rem;
     justify-content: space-evenly;
     align-items: center;
+    padding: 1.0em 0 1.0em 0;
   };
 `;
-
-  // margin-left: 1rem;
-  // margin-right: 1rem;
-  // margin-top: 0.3rem;
 
 const QuestionsButton = styled(Button)`
   flex: 1;
@@ -59,8 +66,5 @@ const QuestionsButton = styled(Button)`
     margin: 0;
   };
 `;
-// padding: 12px;
-// padding: calc(7.5px + 0.75vw);
-// font-size: 12px;
-// padding: calc(4px + 1.2vw) calc(10px + 1vw);
+
 export default ExtraButtons;
