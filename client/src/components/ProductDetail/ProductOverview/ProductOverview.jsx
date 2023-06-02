@@ -74,9 +74,6 @@ const OverviewContainer = styled.div`
   };
 `;
 
-// grid-row: 1/2;
-// grid-column: 4;
-
 const ReadReviews = styled.h5`
   display: inline-block;
   margin-block-start: 0.5em;
@@ -97,37 +94,28 @@ const ReviewsLink = styled.a`
 `;
 
 const CategoryContainer = styled.h3`
-  margin-bottom: calc(4px + 0.25vw); ;
+  margin-bottom: calc(0.2136em + 0.25vw);
   &:hover {
     text-decoration: underline;
   }
   cursor: pointer;
   text-transform: uppercase;
-  font-size: 1.17rem;
+  font-size: 1.17em;
   font-weight: 300;
 
   @media (max-width: 600px) {
     display: none;
   };
 `;
-// font-size: 1rem;
-// font-size: ${(props) => props.theme.body};
 
 const ProductName = styled.h1`
   margin-top: 0px;
   margin-bottom: 0px;
-  font-size: 2rem;
-  font-weight: 500;
 
   @media (max-width: 600px) {
     order: -1;
   };
 `;
-// font-size: ${(props) => props.theme.header};
-
-// TO-DO: make social media container same size as price & style but separate by color
-
-
 
 const PriceContainer = styled.div`
   grid-row: 1;
@@ -137,17 +125,9 @@ const PriceContainer = styled.div`
 `;
 
 const Price = styled.h4`
-  margin-top: calc(10px + 0.5vw);
-  margin-bottom: calc(4px + 0.25vw);
-  font-size: 1.5em;
-
-  @media (max-width: 900px) {
-    font-size: 1.5em;
-  };
+  margin-top: calc(0.534em + 0.5vw);
+  margin-bottom: calc(0.2136em + 0.25vw);
+  font-size: 1.17em;
 `;
-// font-size: ${(props) => props.theme.body};
-// @media (max-width: 700px) {
-//   font-size: 1.5em;
-// };
 
 export default ProductOverview;

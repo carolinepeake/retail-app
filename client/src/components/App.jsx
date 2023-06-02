@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
+import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import ProductDetail from './ProductDetail/ProductDetail';
 import RelatedItems from './RelatedItems/RelatedItems';
 import RatingsAndReviews from './RatingsAndReviews/RatingsAndReviews';
@@ -14,29 +14,43 @@ function App() {
   const themeLight = {
     backgroundColor: 'white',
     // light blue
+    // secondaryBackgroundColor: 'rgb(210,218,236)',
     secondaryBackgroundColor: '#becbd2',
-    navColor: '#f5f7f8',
-    // navColor: '#e1eef5',
+    // same as above but 0.3 transparency
+    // iconHoverBackgroundColor: 'rgb(210,218,236,0.3)',
+    iconHoverBackgroundColor: 'rgba(190, 203, 210, 0.3)',
     // light grey
+    // navBgColor: 'rgb(209,217,235)',
+    navBgColor: '#f5f7f8',
+    // light grey
+    // tertiaryBackgroundColor: 'rgb(195,205,229)',
     tertiaryBackgroundColor: '#f5f7f8',
-    // blue steel
+    // blue steel logo rgb(77, 99, 111, 0.7)
+    // secondaryColor: 'rgb(32,45,74)',
     secondaryColor: '#4d636f',
     // dark steel
     tertiaryColor: '#3a4b53',
-    // black
     fontColor: '#000000',
-    // dark blue, also rgb(55, 78, 98)
+    // dark blue
+    // secondaryFontColor: 'rgb(25,34,56)',
     secondaryFontColor: '#374e62',
-    navBarFont: '#374e62',
-    // dark grey, also rgb(85 85 85)
+    // navFontColor: 'rgb(32,45,74)',
+    navFontColor: '#4d636f',
+    // navActiveFontColor: 'rgb(25,34,56)',
+    navActiveFontColor: '#374e62',
+    // dark grey
     minorFontColor: '#555',
     starBackground: 'lightgrey',
     starFilled: 'gold',
-    // white
     submitButtonFont: '#000000',
     // light blue
+    // submitButton: 'rgb(157,208,219)',
+    // 'rgb(155,216,244)',
+    // 'rgb(168,183,217)',
+    // 'rgb(128,150,200)',
     submitButton: '#becbd2',
     // blue steel
+    // submitButtonHover: 'rgb(63,88,145)',
     submitButtonHover: '#4d636f',
     submitButtonHoverFont: 'white',
     // light grey
@@ -45,18 +59,21 @@ function App() {
     visitedColor: '#3a4b53',
     formError: '#ff0000',
     inputPlaceholder: '#bbb',
+    // darkBlueHover: 'rgb(25,34,56)',
     darkBlueHover: '#374e62',
     // backup #303e45
-    body: 'clamp(16px, 1.8vw, 20px)',
+    body: 'clamp(1rem, calc(0.875rem + 0.268vw), 1.25rem)',
+    // check to see if using this
     secondary: 'clamp(12px, 1.6vw, 18px)',
-    tertiary: 'clamp(14px, 1.5vw, 16px)',
-    header: 'clamp(32px, 4vw, 42px)',
-    input: 'clamp(14px, 1.5vw, 22px)',
+    tertiary: '0.83em',
+    header: '2em',
+    // might just want to use tertiary
+    input: '0.875em',
+    button: '1em',
+    // check to see if got rid of these
+    cardTitle: 'clamp(16px, 1.6vw, 18px)',
+    cardText: 'clamp(12px, 1.4vw, 14px)',
   };
-  // body: 'clamp(16px, 2vw, 24px)',
-  // secondary: 'clamp(14px, 1.8vw, 20px)',
-  // header: 'clamp(32px, 4vw, 42px)',
-  // input: 'clamp(14px, 1.5vw, 22px)',
 
   const themeDark = {
     backgroundColor: '#4d636f',
@@ -78,28 +95,12 @@ function App() {
     visitedColor: '#3a4b53',
     formError: '#ff0000',
     inputPlaceholder: 'white',
-    body: 'clamp(16px, 1.8vw, 20px)',
+    body: 'clamp(1rem, calc(0.875rem + 0.268vw), 1.25rem)',
     secondary: 'clamp(14px, 1.6vw, 18px)',
-    tertiary: 'clamp(14px, 1.5vw, 16px)',
+    tertiary: '0.83em',
     header: 'clamp(32px, 4vw, 42px)',
     input: 'clamp(14px, 1.6vw, 22px)',
   };
-
-  // const themeFont = {
-  //   body: 'clamp (16px 2vw 24px)',
-  //  secondary: 'clamp(14px 1rem - 4px 20px)',
-  //  header: 'clamp (22px 1.5vw 42px)'
-  //  input: 'minmax(16px 1.8vw 22px)'
-
-  //   @media (min-width: 900px) {
-  //     font-size: calc(7px + 1vw);
-  //   };
-
-  //   @media (min-width: 1500px) {
-  //     font-size: 24px;
-  //   };
-  // };
-
   // TO-DO: name backup fonts
   // choose one color and generate about 9 shades of it using a color swatch
 
@@ -129,8 +130,6 @@ function App() {
       <StyledContainer id="styled-container" />
       <GlobalContextProvider>
         <NavBar
-          // theme={theme}
-          theme={{ input: '14px' }}
           toggleTheme={toggleTheme}
         />
         <ProductDetail />
@@ -139,17 +138,9 @@ function App() {
         <RatingsAndReviews />
         <SocialMedia mobile />
       </GlobalContextProvider>
-      {/* </StyledContainer> */}
     </ThemeProvider>
   );
 }
-
-// h1 = product name
-// h2 = section heading
-// h3 = question heading, review heading
-// h4 = review recommendation & "question", "answer", reviewer date/name
-// h6 = helpful links
-// p = review body, answer body
 
 const StyledContainer = createGlobalStyle`
   * {
@@ -162,21 +153,19 @@ const StyledContainer = createGlobalStyle`
     font-weight: 300;
     background-color: ${(props) => props.theme.backgroundColor};
     color: ${(props) => props.theme.fontColor};
-    font-size: clamp(16px, 1.8vw, 20px);
+    font-size: clamp(1rem, calc(0.875rem + 0.268vw), 1.25rem);
     margin: 0px;
     padding: 0px;
   };
 
   h1 {
-    font-size: 2rem;
+    font-size: 2em;
     font-weight: 500;
   };
 
   h2 {
-    font-size: 1.5rem;
+    font-size: 1.5em;
     font-weight: 300;
-    margin-top: 3rem;
-    padding-bottom: 1.5rem;
   };
 
   h3 {
@@ -185,7 +174,7 @@ const StyledContainer = createGlobalStyle`
   };
 
   h4 {
-    font-size: 1rem;
+    font-size: clamp(1rem, calc(1rem + 0.2vw), 1.25rem);
     font-weight: 400;
     margin-block-start: 1em;
     margin-block-end: 1em;
@@ -194,15 +183,16 @@ const StyledContainer = createGlobalStyle`
   h5 {
     font-size: ${(props) => props.theme.tertiary};
     font-weight: 300;
+    padding-top: 0.5em;
+    margin: auto 0;
+    color: ${(props) => props.theme.minorFontColor};
   };
 
-
   h6 {
-    font-size: 0.83rem;
+    font-size: 0.83em;
     font-weight: 300;
     padding-top: 0.5em;
     margin: auto 0;
-    color: ${(props) => props.theme.minorFont};
     text-decoration: underline;
     &:hover {
       text-decoration: initial;
@@ -213,8 +203,8 @@ const StyledContainer = createGlobalStyle`
   };
 
   p {
-    font-size: 1rem;
-    font-weight:300;
+    font-size: 1em;
+    font-weight: 300;
   };
 
   input {
@@ -223,56 +213,26 @@ const StyledContainer = createGlobalStyle`
 
   button, select, link, a {
     cursor: pointer;
+    font-family: futura-pt, sans-serif;
+    font-style: normal;
+    font-weight: 300;
+  };
+
+  button {
+    font-size: clamp(1rem, calc(0.875rem + 0.268vw), 1.25rem);
+    font-weight: 500;
   };
 
   ol, ul {
     list-style-type: none;
   }
-
 `;
-
-/* font-weight: bold is 600 */
-
-// helpful div:
-  // font-size: 0.83rem;
-  // font-weight: 300;
-  // color: ${(props) => props.theme.minorFont};
-  // &:clicked {
-    // color: ${(props) => props.theme.clicked};
-  // };
-  // &:hover {
-    // text-decoration: initial
-  // }
-
-
-
-
-// const StyledContainer = styled.div`
-//   font-family: futura-pt, sans-serif;
-//   font-style: normal;
+// h2 {
+//   font-size: 1.5em;
 //   font-weight: 300;
-//   background-color: ${(props) => props.theme.backgroundColor};
-//   color: ${(props) => props.theme.fontColor};
-//   font-size: clamp (16px 2vw 24px);
-// `;
-// font-size: 16px;
-
-//   @media (min-width: 600px) {
-//     font-size: calc(10px + 1vw);
-//   };
-
-//   @media (min-width: 1500px) {
-//     font-size: 24px;
-//   };
-// font-size: calc(6px + 1.2vw);
-// font-size: calc(10px + 1vw);
-
-// font-family: 'Roboto Condensed', sans-serif;
-// font-family: 'CeraPro', sans-serif;
-// font-family: futura-pt, sans-serif;
-
-// font-size: calc(10px + 0.390625vw);
-// font-size: calc(8px + 0.5vw);
+//   margin-top: 3rem;
+//   padding-bottom: 1.5rem;
+// };
 
 // should add in safe on the property it belongs so content is not rendered overscreen and unreachable
 
