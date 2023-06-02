@@ -8,8 +8,5 @@ const SectionHeading = styled.div`
   margin-top: 3rem;
 `;
 // font-size:  ${(props) => props.theme.body};
-// font-size: 1rem;
-// padding-bottom: 0.5rem;
-// margin-bottom: 0.5rem;
 
 export default SectionHeading;
