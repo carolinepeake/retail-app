@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 import ProductOverview from './ProductOverview/ProductOverview';
 import StyleSelector from './StyleSelector/StyleSelector';
@@ -7,19 +7,18 @@ import ImageGallery from './ImageGallery/ImageGallery';
 import AddToCart from './AddToCart/AddToCart';
 import Features from './ProductOverview/Features';
 import ProductPath from './ProductOverview/ProductPath';
-import Button from '../reusable/Button';
 import Collapsable from '../reusable/Collapsable';
 
 import { useGlobalContext } from '../../contexts/GlobalStore';
 
-// Works when ready to hook up API with URL
-// setProductID(window.location.pathname || 40348);
+const RETURN_TEXT = 'Returns must be made within 30 days for refunds to process to the original form of payment.';
+const STANDARD_DELIVERY_TEXT = 'For most orders, allow 4-9 business days for delivery. For delivery to Alaska or Hawaii, please allow 10-15 business days for delivery.';
+const TWO_DAY_DELIVERY_TEXT = 'Order must be submitted before 12:00pm EST Monday-Friday.';
 
 function ProductDetail() {
   const { productInfo } = useGlobalContext();
   const [status, setStatus] = useState('default');
   const [place, setPlace] = useState(0);
-  // const [collapsed, setCollapsed] = useState(true);
 
   return (
     <ProductSec id="product-details">
@@ -34,53 +33,32 @@ function ProductDetail() {
                 place={place}
                 setPlace={setPlace}
               />
-              <RightColumn>
 
+              <RightColumn>
                 <ProductOverview />
                 <StyleSelector />
                 <AddToCart />
 
-                {/* <Details>
-                  <Collapsible
-                    onClick={() => setCollapsed((prevCollapsed) => !prevCollapsed)}
-                    collapsed={collapsed}
-                  >
-                    <span>
-                      Details
-                    </span>
-                    <span>
-                      +
-                    </span>
-                  </Collapsible>
-                  {/* <Content> */}
-                {/* <LeftBottom collapsed={collapsed}>
+                <div>
+                  <Collapsable header="Details">
                     {productInfo.slogan
-            && <ProductSlogan>{productInfo.slogan}</ProductSlogan>}
+                  && <ProductSlogan>{productInfo.slogan}</ProductSlogan>}
                     {productInfo.description
-            && <ProductDescription>{productInfo.description}</ProductDescription>}
-                  </LeftBottom>
-                  {productInfo.features && <Features collapsed={collapsed} />}
-                  {/* </Content> */}
-                {/* </Details> */}
+                  && <ProductDescription>{productInfo.description}</ProductDescription>}
+                    {productInfo.features && <Features />}
+                  </Collapsable>
 
-                <Collapsable header="Details">
-                  <LeftBottom>
-                    {productInfo.slogan
-            && <ProductSlogan>{productInfo.slogan}</ProductSlogan>}
-                    {productInfo.description
-            && <ProductDescription>{productInfo.description}</ProductDescription>}
-                  </LeftBottom>
-                  {productInfo.features && <Features />}
-                </Collapsable>
+                  <Collapsable header="Shipping">
+                    <ProductSlogan>Standard</ProductSlogan>
+                    <ProductDescription>{STANDARD_DELIVERY_TEXT}</ProductDescription>
+                    <ProductSlogan>Two Day Delivery</ProductSlogan>
+                    <ProductDescription>{TWO_DAY_DELIVERY_TEXT}</ProductDescription>
+                  </Collapsable>
 
-                <Collapsable header="Shipping">
-                  <p>dal</p>
-                </Collapsable>
-
-                <Collapsable header="Returns">
-                  <p>dal</p>
-                </Collapsable>
-
+                  <Collapsable header="Returns">
+                    <ProductDescription style={{ marginBlockStart: '0px', paddingTop: '0.75em' }}>{RETURN_TEXT}</ProductDescription>
+                  </Collapsable>
+                </div>
               </RightColumn>
             </ProductContainer>
           </>
@@ -98,71 +76,18 @@ function ProductDetail() {
   );
 }
 
-// mobile:
-{ /* <MainImage></MainImage>
-<Thumbnails></Thumbnails>
-<Title></Title>
-<Category></Category>
-<Price></Price>
-<Stars></Reviews>
-<Social></Social>
-<Style></Style>
-<AddtoBag></AddtoBag>
-<ExpandDescription> */ }
-
 export default ProductDetail;
 
 const ProductSec = styled.div`
   padding-left: 5%;
   padding-right: 5%;
   margin-top: 1.5rem;
+
   @media (min-width: 1200px) {
-    max-width: fit-content;
     margin-right: auto;
     margin-left: auto;
   }
 `;
-// display: flex;
-// flex-direction: column;
-
-// @media (min-width: 900px) {
-//   display: grid;
-//   grid-template-columns: 10% minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) 10%;
-//   grid-template-rows: max-content max-content max-content;
-//   column-gap: 1rem;
-//   row-gap: 1rem;
-//   max-width: 100%;
-
-//   padding-top: 0;
-// }
-
-// margin: 1.5rem 2.5% 0 2.5%;
-
-// @media (min-width: 1200px) {
-// }
-
-// changed aspect ratio on image, grid columns maybe,
-// moved thumbnails side from within main image,
-// added margin to left of product details
-
-// const LeftColumn = styled.div`
-
-//   @media (min-width: 600px) {
-//     height: 100%;
-//     width: 100%;
-//     display: flex;
-//     grid-column: 1/4;
-//     grid-row: 1;
-//     flex-direction: column;
-//   }
-// `;
-// grid-column: 1/4;
-
-// const ProductContainer = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   flex: 1 1 0;
-// `;
 
 const ProductContainer = styled.div`
   width: 100%;
@@ -171,122 +96,14 @@ const ProductContainer = styled.div`
 @media (min-width: 600px) {
   display: flex;
   flex-direction: row;
-};
-@media (min-width: 1200px) {
-  column-gap: 1em;
+  justify-content: space-evenly;
 };
 `;
-// flex: 1 1 0;
-
-const Details = styled.div`
-  padding-top: 1.5rem;
-`;
-
-// const Details = styled.div`
-//   order: 4;
-
-//   @media (min-width: 20000px) {
-//     grid-column: 2 / 6;
-//     grid-row: 3 / 4;
-//     display: contents;
-//   };
-// `;
-
-const Collapsible = styled(Button)`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  height: 4em;
-  align-items: center;
-  border-left: none;
-  border-right: none;
-  &:hover {
-    box-shadow: none;
-  };
-
-  ${(props) => !props.collapsed && css`
-    border-bottom: none;
-  `};
-
-  @media (min-width: 600px) {
-    display: none;
-  };
-`;
-
-// const Content = styled.div`
-
-// `;
-
-const LeftBottom = styled.div`
-  height: 100%;
-  max-width: 600px;
-  display: ${(props) => props.collapsed ? 'none' : 'flex'};
-  flex-direction: column;
-    justify-content: space-between;
-    justify-items: space-between;
-    padding-right: 0.5rem;
-
-  @media (min-width: 600px) {
-    max-width: 800px;
-  };
-
-  @media (min-width: 1200px) {
-    max-width: initial;
-    padding-right: 15%;
-  };
-`;
-// justify-content: space-between;
-// justify-items: space-between;
-// margin: 0 auto;
-
-
-// const LeftBottom = styled.div`
-//   height: 100%;
-//   max-width: 600px;
-//   margin: 0 auto;
-//   ${(props) => props.collapsed && css`
-//     display: none;
-//   `};
-
-//   @media (min-width: 600px) {
-//     max-width: 800px;
-//     display: flex;
-//     flex-direction: column;
-//     grid-column: 2 / 4;
-//     grid-row: 3/4;
-//     justify-content: space-between;
-//     justify-items: space-between;
-//     padding-right: 1.5rem;
-//     padding-left: 2rem;
-//   };
-
-//   @media (min-width: 1200px) {
-//     max-width: initial;
-//     padding-right: 15%;
-//   };
-// `;
-
-// // @media (min-width: 1200px) {
-// //   max-width: '';
-// //   margin-left: 10%;
-// //   margin: 0 auto;
-// //   display: flex;
-//   flex-direction: column;
-// }
-
-// const TopRight = styled.div`
-
-//   @media (min-width: 600px) {
-//     grid-column: 4 / span 2;
-//     grid-row: 1;
-//     display: contents;
-//   }
-// `;
 
 const RightColumn = styled.div`
-  background-color: white;
+  background-color: ${(props) => props.theme.backgroundColor};
   flex: 1 1 300px;
-  box-sizing: border-box;
+  max-width: 450px;
 
   @media (min-width: 600px) {
     display: flex;
@@ -299,97 +116,35 @@ const RightColumn = styled.div`
   @media (min-width: 700px) {
     padding-left: 1em;
   };
-
-  @media (min-width: 800px) {
-    flex: 1 1 300px;
-    max-width: 450px;
-  };
-
-  @media (min-width: 1200px) {
-    padding-left: 5%;
-  };
 `;
-
-// const RightColumn = styled.div`
-//   background-color: white;
-//   padding-left: 0.25%;
-//   order: 3;
-//   @media (min-width: 2000px) {
-//     max-height: 800px;
-//     grid-column: 4 / span 2;
-//     grid-row: 2 / 3;
-//     display: flex;
-//     flex-direction: column;
-//     align-items: space-between;
-//     justify-content: space-evenly;
-//   }
-
-//   @media (min-width: 1200px) {
-//     grid-column: 4 / span 2;
-//     grid-row: 2 / 3;
-//     display: flex;
-//     flex-direction: column;
-//     align-items: space-between;
-//     justify-content: space-between;
-//   }
-// `;
-
-// height: calc(61.585vw);
 
 const ProductSlogan = styled.h3`
   display: block;
   margin-block-end: 0em;
   margin-top: 0px;
   font-weight: 400;
-  font-size: 0.83em;
-    margin-block-start: 0px;
-    margin: 0px;
-    padding-top: 0px;
-    padding-bottom: 0px;
-
+  font-size: 1.0em;
+  margin-block-start: 0px;
+  margin: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
 `;
-// @media (min-width: 700px) {
-//   margin-block-start: 0px;
-//   margin: 0px;
-//   padding-top: 0px;
-//   padding-bottom: 0px;
-// }
-// margin-block-start: 0.5em;
-// font-size: calc(10px + 1vw);
-// font-size: ${(props) => props.theme.body};
 
 const ProductDescription = styled.p`
+  padding-left: 0.5em;
   display: block;
   font-weight: 300;
+  font-size: 1.0em;
   margin-block-end: 1em;
-  margin-block-start: 0.5em;
-  font-weight: 300;
-  font-size: 0.83rem;
-    margin-block-end: 0px;
-    margin-block-start: 0px;
-    padding-top: 0.75rem;
-    color: ${(props) => props.theme.minorFontColor};
+  margin-block-start: 0px;
+  padding-top: 0.75em;
+  color: ${(props) => props.theme.minorFontColor};
 `;
-// font-size: ${(props) => props.theme.body};
-// @media (min-width: 700px) {
-//   margin-block-end: 0px;
-//   margin-block-start: 0px;
-//   padding-top: 1.0em;
-// }
-// font-size: calc(10px + 1vw);
 
 const Expanded = styled.div`
-  grid-column: 1/6;
-  grid-row: 1/3;
   overflow: none;
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
 `;
-
-// details
-// ul
-// list-style-type
-// disclosure-closed
-// disclosure-open
