@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled, { css } from 'styled-components';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import Button from '../../reusable/Button';
-import SocialMedia from '../ProductOverview/SocialMedia';
 
 function AddToCart() {
   const { selectedStyle } = useGlobalContext();
@@ -10,7 +9,6 @@ function AddToCart() {
   const [isSizeSelected, setIsSizeSelected] = useState(false);
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [inStock, setInStock] = useState(false);
-  // const [selectedSize, setSelectedSize] = useState('Select Size');
   const [selectedSku, setSelectedSku] = useState({});
   const [stock, setStock] = useState([]);
   const [error, setError] = useState(false);
@@ -24,6 +22,7 @@ function AddToCart() {
         }
         return <Option key={sku} value={JSON.stringify({ sku, quantity, size })}>{size}</Option>;
       }
+      return null;
     });
     return options;
   }
@@ -139,16 +138,6 @@ const Cart = styled.div`
     margin-bottom: 1.0rem;
   };
 `;
-// @media (min-width: 600px) {
-//   margin-top: 0px;
-//   margin-bottom: 2.0rem;
-// };
-// @media (min-width: 900px) {
-//   margin-top: 1.0rem;
-//   margin-bottom: 1.0rem;
-// };
-// margin-right: 1em;
-// margin-right: 10%;
 
 const SelectSizeAndQuantityContainer = styled.form`
   flex-direction: row;
@@ -181,15 +170,6 @@ const StyledSelect = styled(Button)`
     margin-right: 0;
   `};
 `;
-// margin-right: 2em;
-// @media (min-width: 700px) {
-//   margin-right: 1em;
-//   padding: calc(2px + 1.2vw) calc(6px + 1.2vw);
-//   font-size: calc(6px + 1.2vw);
-//   height: 100%;
-// };
-
-// can combine flex-basis, grow, and shrink into one line shorthand
 
 const Option = styled.option`
   min-height: 0;
@@ -208,7 +188,6 @@ const BagContainer = styled.div`
     flex-basis: 1;
   };
 `;
-// margin-top: 2.5%;
 
 const AddToCartButton = styled(Button)`
   display: flex;
@@ -226,36 +205,13 @@ const AddToCartButton = styled(Button)`
     padding: calc(1px + 1.2vw) calc(6px + 1.2vw);
   };
 `;
-// @media (min-width: 700px) {
-//   margin-right: calc(10px + 1vw);
-//   flex-basis: 12em;
-//   flex-grow: 4;
-//   flex-shrink: 1;
-
-//   padding: calc(1px + 1.2vw) calc(6px + 1.2vw);
-//   font-size: calc(6px + 1.2vw);
-// };
-// @media (max-width: 600px) {
-//   flex-basis: 1;
-//   position: initial;
-//   margin-right: 0;
-//   flex-basis: 1;
-//   flex-grow: 1;
-//   flex: 1;
-//   width: 100%;
-//   padding: calc(2px + 1.2vw) calc(8px + 1.2vw);
-// font-size: calc(6px + 1.2vw);
 
 const AddToCartText = styled.div`
   display: inline-block;
   padding: 1px 0;
 `;
-// @media (min-width: 700px) {
-//   font-size: calc(6px + 1.2vw);
-// };
 
 const Star = styled(Button)`
-
   @media (max-width: 600px) {
     border: none;
     font-size: 0.83em;
@@ -295,15 +251,7 @@ const StarText = styled.span`
     display: ${(props) => (props.small ? 'none' : 'initial')};
   };
 `;
-// @media (max-width: 700px) {
-//   font-size: 0.83em;
-//   padding-left: 1em;
-//   padding-top: 1em;
-//   text-decoration: underline;
-//   &:hover {
-//     text-decoration: none;
-//   };
-// };
+
 const Error = styled.div`
   color: red;
   font-size: 0.75em;

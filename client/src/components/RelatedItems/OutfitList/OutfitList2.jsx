@@ -25,22 +25,8 @@ function OutfitList2() {
     }
   }
 
-  function fillEmpty() {
-    const emptyCells = [];
-    for (let i = 0; i < (3 - outfits.length); i += 1) {
-      emptyCells.push(<EmptyOutfit key={i} />);
-    }
-    return emptyCells;
-  }
-
   return (
     <Container>
-      {/* <LeftBox> */}
-      {/* {(outfitIndex !== 0 && outfits.length >= 3) */}
-      {/* // ? <LeftButton /> : ( */}
-      {/* &&  <LeftButton onClick={() => clickLeft()}> &lt; </LeftButton>} */}
-      {/* // )} */}
-      {/* </LeftBox> */}
       <StyleList>
         {/* {(outfitIndex !== 0 && outfits.length >= 3)
           && <LeftButton onClick={() => clickLeft()}> &lt; </LeftButton>} */}
@@ -50,11 +36,6 @@ function OutfitList2() {
         {/* {(outfitIndex !== outfits.length - 2 && outfits.length >= 3)
           && <RightButton onClick={() => clickRight()}> &gt; </RightButton>} */}
       </StyleList>
-      {/* <RightBox> */}
-      {/* {/* {((outfits.length >= 4 && outfitIndex === outfits.length - 4) || (outfitIndex === 0 && outfits.length > 3))
-          ? <RightButton onClick={() => clickRight()}> &gt; </RightButton>
-          : <RightButton /> } */}
-      {/* </RightBox> */}
     </Container>
   );
 }
@@ -62,9 +43,8 @@ function OutfitList2() {
 const Container = styled.div`
   background-color: ${(props) => props.theme.backgroundColor};
   height: 100%;
-  width: 100%;
   padding: 0;
-  overflow-x: scroll;
+  overflow-x: auto;
   scrollbar-width: 0px;
   --slide-count: 1;
   @media (min-width: 600) {
@@ -79,6 +59,8 @@ const Container = styled.div`
   @media (min-width: 1500) {
     --slide-count: 5;
   };
+  margin-left: 5%;
+  margin-right: 5%;
 `;
 // height: 400px;
 // width: 235px;
@@ -106,21 +88,6 @@ const StyleList = styled.ul`
   @media (min-width: 600px) {
     column-gap: 2em;
   };
-`;
-
-const LeftBox = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  float: left;
-  align-items: center;
-  flex-grow: 1;
-`;
-
-const RightBox = styled.div`
-  display: flex;
-  float: left;
-  align-items: center;
-  flex-grow: 1;
 `;
 
 const LeftButton = styled.button`
@@ -192,24 +159,6 @@ const RightButton = styled.button`
 //   }
 //   color: ${(props) => props.theme.fontColor};
 //   cursor: pointer;
-// `;
-
-const EmptyOutfit = styled.div`
-  border: black solid medium transparent;
-  width: 100%;
-  height: 100%
-`;
-
-// const EmptyOutfit = styled.div`
-//   width: 225px;
-//   height: 225px;
-//   border: black solid medium transparent;
-// `;
-
-// const EmptyOutfit = styled.div`
-//   width: 225px;
-//   height: 225px;
-//   border: 15px solid transparent;
 // `;
 
 export default OutfitList2;
