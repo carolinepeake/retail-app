@@ -122,21 +122,18 @@ function AnswerEntry({ answer }) {
 }
 
 const Answer = styled.div`
-  padding-bottom: 1rem;
   font-size: 1.0em;
 `;
-// padding-left: 0.5rem;
 
-const AnswerPhotos = styled.span`
+const AnswerPhotos = styled.div`
   display: flex;
-  justify-content: flex-start;
-  padding-bottom: 0.5rem;
+  flex-wrap: wrap;
 `;
 
 const AnswerImage = styled.img`
-  width: 20%;
-  height: 20%;
-  padding-right: 0.5rem;
+  width: 25%;
+  height: 25%;
+  padding: .5em;
   cursor: pointer;
 `;
 
@@ -144,19 +141,15 @@ const AnswerFooter = styled.h6`
   display: flex;
   justify-content: flex-start;
   padding-top: 0.1em;
+  text-decoration: none;
 `;
-
-// const AnswerFooter = styled.div`
-//   display: flex;
-//   font-size: 0.75em;
-//   justify-content: flex-start;
-//   color: rgb(85 85 85);
-//   padding-top: 0.1em;
-// `;
-// padding-top: 0.25em;
 
 const Answerer = styled.div`
   padding-right: 1em;
+  line-height: 1.5em;
+  display: flex;
+  justify-content: center;
+  color: ${(props) => props.theme.minorFontColor};
 `;
 
 const Helpful = styled.div`
@@ -168,18 +161,14 @@ const Helpful = styled.div`
 const Yes = styled.span`
   padding-right: 0.25em;
 `;
-// padding-left: 0.5em;
 
 const Report = styled.div`
   padding-left: 1em;
 `;
 
 const AnswerBody = styled.p`
+  margin-block-end: 0.5em;
 `;
-
-// const AnswerBody = styled.div`
-// `;
-// padding-bottom: 0.5rem;
 
 const Clickable = styled.u`
   cursor: pointer;
@@ -191,14 +180,10 @@ const Clickable = styled.u`
     color: ${(props) => props.theme.clicked};
   };
 `;
-// &:hover {
-//   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-// }
 
 const Reported = styled.span`
   font-weight: bold;
   color: ${(props) => props.theme.clicked};
 `;
-// margin-left: 1em;
 
 export default AnswerEntry;

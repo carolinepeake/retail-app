@@ -54,9 +54,9 @@ function HelpfulReport({ review }) {
         Helpful?
         <YesButton helpfulClicked={helpfulClicked} onClick={() => handleHelpfulClick()}>
           <span>Yes</span>
-          &nbsp;
-          {`(${helpfulness})`}
         </YesButton>
+        &nbsp;
+        {`(${helpfulness})`}
       </Helpful>
       <div>|</div>
       <ReportButton reportClicked={reportClicked} onClick={() => handleReport()}>
@@ -82,16 +82,9 @@ const HelpfulnessDiv = styled.h6`
   display: flex;
   justify-content: flex-start;
   overflow-wrap: break-word;
-  margin-bottom: 1rem;
+  margin-bottom: 1em;
+  text-decoration: none;
 `;
-
-// const HelpfulnessDiv = styled.div`
-//   display: flex;
-//   justify-content: flex-start;
-//   overflow-wrap: break-word;
-//   margin-bottom: 1rem;
-//   font-size: 0.75rem;
-// `;
 
 const Helpful = styled.div`
   display: flex;
@@ -101,7 +94,7 @@ const Helpful = styled.div`
 const YesButton = styled.span`
   display: flex;
   cursor: ${(props) => (!props.helpfulClicked ? 'pointer' : 'default')};
-  font-weight: ${(props) => (!props.helpfulClicked ? 'normal' : 'bold')};
+  font-weight: ${(props) => (!props.helpfulClicked ? '300' : 'bold')};
   text-decoration: ${(props) => (!props.helpfulClicked ? 'underline' : 'normal')};
   margin-left: 0.5rem;
   &:hover {
@@ -112,7 +105,7 @@ const YesButton = styled.span`
 const ReportButton = styled.div`
   display: flex;
   cursor: ${(props) => (!props.reportClicked ? 'pointer' : 'default')};
-  font-weight: ${(props) => (!props.reportClicked ? 'normal' : 'bold')};
+  font-weight: ${(props) => (!props.reportClicked ? '300' : 'bold')};
   text-decoration: ${(props) => (!props.reportClicked ? 'underline' : 'normal')};
   &:hover {
     text-decoration: initial;
