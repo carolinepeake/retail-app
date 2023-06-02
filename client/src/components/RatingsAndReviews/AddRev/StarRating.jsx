@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-function StarRating({ starRating, setStarRating }) {
-  const handleClickStar = (rating) => {
-    const numVal = parseInt(rating, 10);
+function StarRating({ rating, setRating }) {
+  const handleClickStar = (starRating) => {
+    const numVal = parseInt(starRating, 10);
     let meaning;
     if (numVal === 1) {
       meaning = 'Poor';
@@ -18,7 +18,7 @@ function StarRating({ starRating, setStarRating }) {
       meaning = 'Great';
     }
 
-    setStarRating({
+    setRating({
       meaning, numVal,
     });
   };
@@ -26,18 +26,18 @@ function StarRating({ starRating, setStarRating }) {
   return (
     <div>
       Overall star rating*&nbsp;
-      <div>{starRating.meaning}</div>
+      <div>{rating.meaning}</div>
       <RadioButtonsContainer onChange={(event) => handleClickStar(event.target.value)}>
 
-        <StarInput required type="radio" name="starRating" value={1} />
+        <StarInput required type="radio" name="rating" value={1} />
         1
-        <StarInput type="radio" name="starRating" value={2} />
+        <StarInput type="radio" name="rating" value={2} />
         2
-        <StarInput type="radio" name="starRating" value={3} />
+        <StarInput type="radio" name="rating" value={3} />
         3
-        <StarInput type="radio" name="starRating" value={4} />
+        <StarInput type="radio" name="rating" value={4} />
         4
-        <StarInput type="radio" name="starRating" value={5} />
+        <StarInput type="radio" name="rating" value={5} />
         5
       </RadioButtonsContainer>
     </div>
@@ -45,11 +45,11 @@ function StarRating({ starRating, setStarRating }) {
 }
 
 StarRating.propTypes = {
-  starRating: PropTypes.shape({
+  rating: PropTypes.shape({
     meaning: PropTypes.string,
     numVal: PropTypes.number,
   }).isRequired,
-  setStarRating: PropTypes.func.isRequired,
+  setRating: PropTypes.func.isRequired,
 };
 
 export default StarRating;

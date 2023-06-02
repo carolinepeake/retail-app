@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 // const cloudinary = require('cloudinary').v2;
 // require('dotenv').config();
-import Button from '../../reusable/Button';
+// import Button from '../../reusable/Button';
 
-function AddPhotos() {
-  //
+function AddPhotos({ preview, setPreview }) {
   // cloudinary.config({
   //   cloud_name: process.env.CLOUDINARY_NAME,
   //   api_key: process.env.CLOUDINARY_API_KEY,
@@ -25,11 +24,23 @@ function AddPhotos() {
   //   }
   // };
 
+  function handlePreviews(event) {
+    if (event.target.files.length === 0) {
+      return;
+    }
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      const base64image = reader.result;
+      setPreview([...preview, base64image]);
+    };
+  }
+
   // TO-DO: implement add photos functionality
-  const handleAddPhotos = function handleAddPhotos(event) {
-    //
-    console.log(event.target.files);
-  };
+  // function handleAddPhotos() {
+  //   console.log(preview);
+  // };
 
   return (
     <div>
@@ -38,26 +49,27 @@ function AddPhotos() {
         type="file"
         id="photos"
         accept="image/png, image/jpeg"
-        onChange={(event) => handleAddPhotos(event)}
+        onChange={(event) => handlePreviews(event)}
       />
       <br />
-      {/* <AddButton disabled>
+      <PhotoPreviews>
+        {preview.map((photo) => (
+          <ImagePreview src={photo} alt="" key={photo} />
+        ))}
+      </PhotoPreviews>
+      {/* <AddButton disabled onClick={() => handleAddPhotos()}>
         Add Photos
       </AddButton> */}
     </div>
   );
 }
 
-// AddPhotos.propTypes = {
-//   revMeta: PropTypes.shape({
-//     product_id: PropTypes.string,
-//   }).isRequired,
-// };
+AddPhotos.propTypes = {
+  preview: PropTypes.arrayOf(PropTypes.string).isRequired,
+  setPreview: PropTypes.func.isRequired,
+};
 
 export default AddPhotos;
-
-const AddButton = styled(Button)`
-`;
 
 const FileInput = styled.input`
   color: ${(props) => props.theme.fontColor};
@@ -78,13 +90,29 @@ const FileInput = styled.input`
   font-family: inherit;
 `;
 
-const AddPhotosBackground = styled.div`
-  height: 100vw;
-  width: 100vw;
-  background: #1fe0;
-  position: fixed;
+const PhotoPreviews = styled.div`
   display: flex;
+  flex-direction: row;
   justify-content: center;
-  align-items: center;
-  top: 0; left: 0;
+  margin-top: 1.0em;
 `;
+
+const ImagePreview = styled.img`
+  width:20%;
+  height: 100%;
+  margin-right: 1%;
+`;
+
+// const AddButton = styled(Button)`
+// `;
+
+// const AddPhotosBackground = styled.div`
+//   height: 100vw;
+//   width: 100vw;
+//   background: #1fe0;
+//   position: fixed;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   top: 0; left: 0;
+// `;

@@ -39,7 +39,9 @@ function AddAnswerModal({ setShowModal, question }) {
     return true;
   }
 
-  function askQuestion() {
+  function askQuestion(e) {
+    e.preventDefault();
+
     if (!validateInput()) {
       setValidInput(false);
       return;
@@ -89,6 +91,7 @@ function AddAnswerModal({ setShowModal, question }) {
     reader.readAsDataURL(file);
     reader.onloadend = () => {
       const base64image = reader.result;
+      console.log('base64image: ', base64image);
       setPreview([...preview, base64image]);
     };
   }
@@ -131,7 +134,7 @@ function AddAnswerModal({ setShowModal, question }) {
           <br />
           {preview.length < 5 ? (
             <FormField htmlFor="photos">
-              Photos
+              Upload Your Photos
               <FileInput
                 onChange={(event) => handlePreviews(event)}
                 type="file"
@@ -139,7 +142,7 @@ function AddAnswerModal({ setShowModal, question }) {
                 accept="image/png, image/jpeg"
               />
               <Disclaimer>
-                Optional, Max 5
+                Optional, max 5
               </Disclaimer>
             </FormField>
           ) : null}
@@ -199,7 +202,7 @@ function AddAnswerModal({ setShowModal, question }) {
           ) : null}
         </Form>
         <Footer id="footer">
-          <FooterButton modal onClick={() => askQuestion()}>
+          <FooterButton modal onClick={(e) => askQuestion(e)}>
             Submit
           </FooterButton>
           {/* <FooterButton onClick={() => setShowModal(false)}>
@@ -380,6 +383,7 @@ const PhotoPreviews = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  margin-top: 1.0em;
 `;
 
 const ImagePreview = styled.img`

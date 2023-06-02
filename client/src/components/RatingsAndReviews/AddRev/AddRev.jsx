@@ -14,17 +14,20 @@ function AddRev() {
   } = useGlobalContext();
 
   const [addClicked, setAddClicked] = useState(false);
-  const [starRating, setStarRating] = useState({
+  const [rating, setRating] = useState({
     meaning: '',
     numVal: 0,
   });
-  const [recommendProd, setRecommendProd] = useState();
+  const [recommend, setRecommend] = useState();
   const [charVal, setCharVal] = useState({});
   const [charObj, setCharObj] = useState({});
-  const [revSum, setRevSum] = useState('');
-  const [revBody, setRevBody] = useState('');
-  const [nickname, setNickname] = useState('');
+  const [summary, setSummary] = useState('');
+  const [body, setBody] = useState('');
+  const [preview, setPreview] = useState([]);
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+
+  const [validInput, setValidInput] = useState(true);
 
   if (!revMeta.product_id) {
     return (
@@ -36,33 +39,70 @@ function AddRev() {
     setAddClicked((prevAddClicked) => !prevAddClicked);
   };
 
-  const postRev = function postRev(newReview) {
-    axios.post('/reviews', newReview)
-      .then((result) => {
-        console.log('A new review was posted to the API:\n', result);
-      })
-      .catch((err) => {
-        console.log('there was an error posting review to API:\n', err);
-      });
-  };
+  function validateInput() {
+    function validateEmail(emailName) {
+      const regex = /\S+@\S+\.\S+/;
+      return regex.test(emailName);
+    }
 
-  const handleSubmit = function handleSubmit(event) {
+    if (name === '' || email === '' || body === '') {
+      return false;
+    }
+
+    if (!validateEmail(email)) {
+      return false;
+    }
+    return true;
+  }
+
+  function handleSubmit(event) {
     event.preventDefault();
-    const newRevObj = {
+
+    if (!validateInput()) {
+      setValidInput(false);
+      return;
+    }
+
+    const revBody = {
       product_id: productID,
-      rating: starRating,
-      summary: revSum,
-      body: revBody,
-      recommend: recommendProd,
-      name: nickname,
+      rating,
+      summary,
+      body,
+      recommend,
+      name,
       email,
       photos: [],
       characteristics: charObj,
     };
-    postRev(newRevObj);
-    setAddClicked(false);
-    // console.log(newRevObj);
-  };
+
+    const promises = [];
+    for (let i = 0; i < preview.length; i += 1) {
+      const promise = axios.post('/cloudinary/upload', {
+        image: preview[i],
+      });
+      promises.push(promise);
+    }
+
+    Promise.all(promises)
+      .then(async (results) => {
+        await results.forEach((result) => {
+          revBody.photos.push(result.data.url);
+        });
+
+        axios
+          .post('/reviews', revBody)
+          .then((result) => {
+            console.log('A new review was posted to the API:\n', result);
+            setAddClicked(false);
+          })
+          .catch((err) => {
+            console.log('there was an error posting review to API:\n', err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   const handleBackgroundClick = function handleBackgroundClick(event) {
     if (event.target.id === 'AddRevBackground') {
@@ -90,16 +130,16 @@ function AddRev() {
           </AddRevHeader>
           <FormContainer onSubmit={(event) => handleSubmit(event)}>
 
-            <StarRating starRating={starRating} setStarRating={setStarRating} />
+            <StarRating rating={rating} setRating={setRating} />
             <br />
 
-            <RecommendProdLabel label="recommendProd" onChange={(event) => setRecommendProd(event.target.value === 'true')}>
+            <RecommendProdLabel label="recommend" onChange={(event) => setRecommend(event.target.value === 'true')}>
               Do you recommend this product?
               <Required>*</Required>
               <RadioButtonsContainer>
-                <input required type="radio" value="true" name="ovRating" id="recommendProd" />
+                <input required type="radio" value="true" name="ovRating" id="recommend" />
                 Yes
-                <input type="radio" value="false" name="ovRating" id="recommendProd" />
+                <input type="radio" value="false" name="ovRating" id="recommend" />
                 No
               </RadioButtonsContainer>
             </RecommendProdLabel>
@@ -116,21 +156,21 @@ function AddRev() {
             <br />
 
             <RevSummaryDiv>
-              <CustomLabel label="revSum">
+              <CustomLabel label="summary">
                 Review Summary
                 <TextAreaDiv
                   placeholder="Example: Best purchase ever!"
                   maxLength="60"
                   rows="1"
-                  id="revSum"
-                  onChange={(event) => setRevSum(event.target.value)}
+                  id="summary"
+                  onChange={(event) => setSummary(event.target.value)}
                 />
               </CustomLabel>
             </RevSummaryDiv>
             <br />
 
             <RevBodyDiv>
-              <CustomLabel label="revBody">
+              <CustomLabel label="body">
                 Review body
                 <Required>*</Required>
                 <TextAreaDiv
@@ -138,18 +178,18 @@ function AddRev() {
                   minLength="50"
                   maxLength="1000"
                   rows="6"
-                  onChange={(event) => setRevBody(event.target.value)}
+                  onChange={(event) => setBody(event.target.value)}
                   required
-                  id="revBody"
+                  id="body"
                 />
               </CustomLabel>
             </RevBodyDiv>
             <br />
 
-            <AddPhotos />
+            <AddPhotos preview={preview} setPreview={setPreview} />
             <br />
 
-            <CustomLabel label="nickname">
+            <CustomLabel label="name">
               What is your nickname?
               <Required>*</Required>
               <TextInput
@@ -158,9 +198,9 @@ function AddRev() {
                 maxLength="60"
                 placeholder="Example: jackson11!"
                 rows="1"
-                onChange={(event) => setNickname(event.target.value)}
+                onChange={(event) => setName(event.target.value)}
                 required
-                id="nickname"
+                id="name"
               />
             </CustomLabel>
             <br />
@@ -181,6 +221,19 @@ function AddRev() {
             </CustomLabel>
             <AuthTag>For authentication reasons, you will not be emailed</AuthTag>
             <br />
+
+            {!validInput ? (
+              <ErrorsContainer>
+                <div>
+                  1. Not all mandatory fields have been provided.
+                </div>
+                <div>2. Email is not in the correct email format.</div>
+                <div>
+                  3. The images selected are invalid or unable to be
+                  uploaded.
+                </div>
+              </ErrorsContainer>
+            ) : null}
 
             <ButtonContainer>
               <ButtonDiv modal type="submit">Submit</ButtonDiv>
@@ -340,6 +393,12 @@ const RevBodyDiv = styled.div`
 
 const AuthTag = styled.h5`
   font-style: oblique;
+`;
+
+const ErrorsContainer = styled.div`
+  color: ${(props) => props.theme.formError}
+  font-style: oblique;
+  font-size: 0.83em;
 `;
 
 const ButtonContainer = styled.div`
