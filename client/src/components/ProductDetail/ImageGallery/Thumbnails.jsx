@@ -76,7 +76,7 @@ function Thumbnails({
   return (
     <ThumbnailsContainer status={status}>
 
-      <ThumbnailsViewport length={thumbnails.length}>
+      <ThumbnailsViewport length={thumbnails.length} status={status}>
         <ThumbnailsCarousel
           status={status}
           place={place}
