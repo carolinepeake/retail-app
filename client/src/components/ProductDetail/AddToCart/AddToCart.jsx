@@ -77,7 +77,8 @@ function AddToCart() {
               as="select"
               ref={sizeDropdown}
               select
-              style={{ borderColor: error ? 'red' : 'black' }}
+              error={error}
+              // style={{ borderColor: error ? 'red' : 'black' }}
             // value={selectedSize}
               onChange={(e) => handleChangeSize(e)}
             >
@@ -149,7 +150,6 @@ const SelectSizeAndQuantityContainer = styled.form`
   flex-grow: 1;
   flex-shrink: 1;
 
-
   @media (min-width: 600px) {
     margin-bottom: 2.5%;
   };
@@ -162,6 +162,7 @@ const StyledSelect = styled(Button)`
   flex-shrink: 1;
   margin-right: 1em;
   font-size: 1rem;
+  border-color: ${(props) => props.error && 'red'};
 
   ${(props) => props.quantity && css`
     flex-basis: 6em;
@@ -179,13 +180,15 @@ const Option = styled.option`
 const BagContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  flex-basis: 2.5em;
+  flex-basis: 1
   flex-grow: 1;
   flex-shrink: 1;
+  flex-direction: column;
 
-  @media (max-width: 600px) {
-    flex-direction: column;
-    flex-basis: 1;
+  @media (min-width: 600px) {
+    flex-direction: row;
+    flex-basis: 2.5em;
+    margin-bottom: 2.5%;
   };
 `;
 
