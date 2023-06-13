@@ -13,7 +13,7 @@ function ProductOverview() {
         && (
           <div>
             <POStars />
-            <ReadReviews className="readReviews">
+            <ReadReviews>
               <ReviewsLink href="#ratings-and-reviews">{`Read all ${reviews.length} reviews`}</ReviewsLink>
             </ReadReviews>
           </div>
@@ -78,18 +78,21 @@ const ReadReviews = styled.h5`
   display: inline-block;
   margin-block-start: 0.5em;
   margin-block-end: 0em;
-  text: underlined;
-  font-size: ${(props) => props.theme.tertiary};
-  font-weight: 300;
 `;
 
 const ReviewsLink = styled.a`
+  &:link {
+    text-decoration: underline;
+  };
+  &:visited {
+    color: ${(props) => props.theme.fontColor};
+    text-decoration: none;
+  };
   &:hover {
     text-decoration: none;
   };
-  color: black;
-  &:visited {
-    color: initial;
+  &:active {
+    color: ${(props) => props.theme.visitedColor};
   };
 `;
 
