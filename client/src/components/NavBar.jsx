@@ -4,7 +4,9 @@ import styled, { css } from 'styled-components';
 import Search from './reusable/Search';
 import Button from './reusable/Button';
 
-//TO-DO: add scroll event listener for nav sections
+// TO-DO: add scroll event listener for nav sections
+// TO-DO: add animation to make expanding nav smooth
+// TO-DO: collapse nav when click away
 
 function NavBar({ toggleTheme }) {
   NavBar.propTypes = {
@@ -20,21 +22,14 @@ function NavBar({ toggleTheme }) {
   // stop propagation?
   // https://www.aleksandrhovhannisyan.com/blog/responsive-navbar-tutorial/
 
-  const toggleNavbarVisibility = () => {
-    const isNavBarExpanded = !isExpanded;
-    setIsExpanded(isNavBarExpanded);
-    // navbarToggle.setAttribute("aria-expanded", isNavBarExpanded);
+  const toggleNavbarVisibility = (e) => {
+    e.preventDefault();
+    setIsExpanded((prev) => !prev);
   };
 
-  function scrollTo(event) {
-    const scrollTarget = event.target.getAttribute('data-target');
-    const target = document.getElementById(scrollTarget);
-    target.scrollIntoView({ block: 'center', behavior: 'smooth' });
-  }
-
-  const clickHandler = (e) => {
-    setSearchClosed((prev) => !prev);
+  const toggleSearchBarVisibility = (e) => {
     e.preventDefault();
+    setSearchClosed((prev) => !prev);
   };
 
   return (
@@ -42,16 +37,16 @@ function NavBar({ toggleTheme }) {
 
       <Logo modal>&#10058;</Logo>
 
-      <GridItem onClick={() => toggleTheme()}>
+      <GridItem
+        onClick={() => toggleTheme()}
+      >
         Toggle Dark Mode
       </GridItem>
 
       {navLinks.map((link) => (
         <GridItem
           key={link.label}
-          data-target={link.target}
-          onClick={(event) => scrollTo(event)}
-          // href={`#${link.target}`}
+          href={`#${link.target}`}
         >
           {link.label}
         </GridItem>
@@ -63,7 +58,7 @@ function NavBar({ toggleTheme }) {
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           searchClosed={searchClosed}
-          clickHandler={clickHandler}
+          clickHandler={toggleSearchBarVisibility}
         />
 
         <CollapsedNav
@@ -71,8 +66,8 @@ function NavBar({ toggleTheme }) {
           id="navbar-toggle"
           aria-controls="navbar-menu"
           aria-label="Toggle menu"
-          aria-expanded="false"
-          onClick={() => toggleNavbarVisibility()}
+          aria-expanded={isExpanded}
+          onClick={(e) => toggleNavbarVisibility(e)}
           searchClosed={searchClosed}
         >
           <IconBar />
@@ -81,18 +76,18 @@ function NavBar({ toggleTheme }) {
           {isExpanded
         && (
         <ExpandedNav>
-          <GridItem secondary first onClick={() => toggleTheme()} isExpanded={isExpanded} style={{ borderTop: 'black solid 1px' }}>
+          <GridItem
+            secondary
+            onClick={() => toggleTheme()}
+            isExpanded={isExpanded}
+          >
             Toggle Dark Mode
           </GridItem>
-          {navLinks.map((link, i) => (
+          {navLinks.map((link) => (
             <GridItem
-              data-target={link.target}
-              onClick={(event) => scrollTo(event)}
               isExpanded={isExpanded}
               secondary
-              i={i}
-              navLinksLength={navLinks.length}
-              // href={`#${link.target}`}
+              href={`#${link.target}`}
             >
               {link.label}
             </GridItem>
@@ -139,26 +134,31 @@ const Background = styled.div`
 `;
 
 const Logo = styled(Button)`
-    border: none;
-    border-radius: 50px;
-    margin: 0;
-    background-color: ${(props) => props.theme.backgroundColor};
-    color:  ${(props) => props.theme.navFontColor};
-    &:hover {
-      background-color: ${(props) => props.theme.secondaryBackgroundColor};
-      color: ${(props) => props.theme.navActiveFontColor};
-      box-shadow: initial;
-    };
-    font-size: calc(24px + 1.2vw);
-    padding: 0px calc(4px + 0.25vw);
+  border: none;
+  border-radius: 50px;
+  margin: 0;
+  background-color: ${(props) => props.theme.backgroundColor};
+  color:  ${(props) => props.theme.navFontColor};
+  &:hover {
+    background-color: ${(props) => props.theme.secondaryBackgroundColor};
+    color: ${(props) => props.theme.navActiveFontColor};
+    box-shadow: initial;
+  };
+  font-size: calc(24px + 1.2vw);
+  padding: 0px calc(4px + 0.25vw);
 
-    @media (min-width: 900px) {
-      padding: calc(1px + 0.5vw) calc(4px + 0.5vw);
-      font-size: calc(10px + 1.2vw);
-    };
+  @media (min-width: 900px) {
+    padding: calc(1px + 0.5vw) calc(4px + 0.5vw);
+    font-size: calc(10px + 1.2vw);
+  };
 `;
 
-const GridItem = styled.div`
+const GridItem = styled.a`
+  font-family: futura-pt, sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: ultra-condensed;
+  font-size: clamp(0.875rem, calc(0.5rem + 0.75vw), 1.25rem);
   @media (max-width: 50rem) {
     display: ${(props) => (props.isExpanded ? 'block' : 'none')};
   };
@@ -168,31 +168,36 @@ const GridItem = styled.div`
   width: fit-content;
   padding: 0 0.25em;
   cursor: pointer;
-  &:hover {
-    text-decoration: underline;
-    color: ${(props) => props.theme.navActiveFontColor};
+  &:link {
+    color: ${(props) => props.theme.navFontColor};
+    text-decoration: none;
   };
   &:visited {
     color: ${(props) => props.theme.visitedColor};
   };
-
+  &:hover {
+    text-decoration: underline;
+    color: ${(props) => props.theme.navActiveFontColor};
+    ${(props) => props.secondary && css`
+      transform: scale(1.025);
+      background-color: ${props.theme.submitButton};
+      text-decoration: none;
+      border: ${props.theme.fontColor} solid 1px;
+    `};
+  };
+  &:active {
+    color: ${(props) => props.theme.visitedColor};
+  };
   ${(props) => props.secondary && css`
     font-size: calc(0.625em + 1vw);
     border-top: grey solid 1px;
     border-right: ${props.theme.fontColor} solid 1px;
     border-left: ${props.theme.fontColor} solid 1px;
-    box-sizing: border-box;
     padding: 1em;
     width: 100%;
     text-align: left;
     background-color: ${props.theme.navBgColor};
     transition: transform 0.25s ease;
-    &:hover {
-      transform: scale(1.025);
-      background-color: ${props.theme.submitButton};
-      text-decoration: none;
-      border: ${props.theme.fontColor} solid 1px;
-    };
   `};
 `;
 
@@ -234,7 +239,6 @@ const RightSide = styled.div`
   };
 `;
 
-// positioning is a little off - change background color to see
 const CollapsedNav = styled.button`
   border: none;
   border-radius: 5px;
@@ -264,20 +268,17 @@ const CollapsedNav = styled.button`
     display: none;
   };
 `;
-//color: ${(props) => props.theme.secondaryBackgroundColor};
-
-// TO-DO: add animation to make expanding nav smooth
-// TO-DO: collapse nav when click away
 
 const ExpandedNav = styled.div`
+  display: flex;
+  flex-direction: column;
   position: absolute;
   z-index: 5;
-  display: flex;
   right: 5%;
   top: 40px;
-  flex-direction: column;
   margin-top: 0.5%;
   border-bottom: ${(props) => props.theme.fontColor} solid 1px;
+  border-top: ${(props) => props.theme.fontColor} solid 1px;
 `;
 
 const IconBar = styled.span`
