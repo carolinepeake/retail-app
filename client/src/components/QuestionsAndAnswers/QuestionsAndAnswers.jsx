@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { useGlobalContext } from '../../contexts/GlobalStore';
 import QuestionEntry from './QuestionEntry/QuestionEntry';
@@ -13,6 +13,8 @@ function QuestionAndAnswers() {
     numQuestions, filteredQuestions, setNumQuestions, questions,
   } = useGlobalContext();
 
+  const ref = useRef(null);
+
   const [pageNum, setPageNum] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(2);
 
@@ -24,6 +26,12 @@ function QuestionAndAnswers() {
     }
   }
 
+  // should forwarf ref instead of passing this function
+  // to avoid creating a new function every render
+  function scrollToListTop() {
+    ref.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
   const startingSlice = (pageNum - 1) * itemsPerPage;
 
   return (
@@ -32,7 +40,7 @@ function QuestionAndAnswers() {
         Questions & Answers
       </SectionHeader>
       <QuestionSearch />
-      <QuestionListHeader>
+      <QuestionListHeader ref={ref}>
         <ListTotalCount
           listLength={filteredQuestions.length}
           itemsPerPage={itemsPerPage}
@@ -62,15 +70,16 @@ function QuestionAndAnswers() {
           ))
         )}
       </QuestionListContainer>
-      {itemsPerPage > 2 && (
+      {(itemsPerPage > 2 && filteredQuestions.length > 10) && (
         <ListNavigation
           listLength={filteredQuestions.length}
           setPageNum={setPageNum}
           pageNum={pageNum}
           itemsPerPage={itemsPerPage}
+          scrollToListTop={scrollToListTop}
         />
       )}
-      <ExtraButtons setItemsPerPage={setItemsPerPage} />
+      <ExtraButtons setItemsPerPage={setItemsPerPage} scrollToListTop={scrollToListTop} />
     </Container>
   );
 }
@@ -80,12 +89,10 @@ export default QuestionAndAnswers;
 const Container = styled.div`
   padding-right: 5%;
   padding-left: 5%;
-
-  @media (max-width: 600px) {
-    padding-top: 5%;
-  }
+  padding-bottom: 5%;
 
   @media (min-width: 600px) {
+    padding-bottom: 0;
     justify-content: space-evenly;
   }
 `;

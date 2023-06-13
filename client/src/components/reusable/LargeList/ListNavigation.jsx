@@ -13,18 +13,22 @@ function ListNavigation({
   setPageNum,
   pageNum,
   itemsPerPage,
+  scrollToListTop,
 }) {
   function handleClick(e) {
     const newValue = Number(e.target.value);
     setPageNum(newValue);
+    scrollToListTop();
   }
 
   function handleClickBack() {
     setPageNum((prev) => prev - 1);
+    scrollToListTop();
   }
 
   function handleClickForward() {
     setPageNum((prev) => prev + 1);
+    scrollToListTop();
   }
 
   const totalPages = Math.ceil(listLength / itemsPerPage);

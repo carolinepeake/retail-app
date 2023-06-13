@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useGlobalContext } from '../../contexts/GlobalStore';
 import SortList from './ReviewList/SortList';
@@ -38,6 +38,14 @@ function RatingsAndReviews() {
     setFilteredRevs(reviews);
   }, [reviews]);
 
+  const ref = useRef(null);
+
+  // should forwarf ref instead of passing this function
+  // to avoid creating a new function every render
+  function scrollToListTop() {
+    ref.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
   return (
     <Container id="ratings-and-reviews">
       <RRTitle>
@@ -50,7 +58,7 @@ function RatingsAndReviews() {
             reviews={reviews}
           />
         </BreakdownContainer>
-        <ReviewListContainer>
+        <ReviewListContainer ref={ref}>
 
           <SortList
             itemsPerPage={itemsPerPage}
@@ -64,7 +72,7 @@ function RatingsAndReviews() {
             pageNum={pageNum}
           />
 
-          {itemsPerPage > 2
+          {(itemsPerPage > 2 && filteredRevs.length > 10)
           // items per page when list expanded ^
           && (
             <ListNavigation
@@ -72,6 +80,7 @@ function RatingsAndReviews() {
               setPageNum={setPageNum}
               pageNum={pageNum}
               itemsPerPage={itemsPerPage}
+              scrollToListTop={scrollToListTop}
             />
           )}
 
@@ -81,6 +90,7 @@ function RatingsAndReviews() {
               <ShowMoreListItems
                 setItemsPerPage={setItemsPerPage}
                 itemText="Reviews"
+                scrollToListTop={scrollToListTop}
               />
             )}
             <AddRev />
@@ -104,10 +114,11 @@ const Container = styled.div`
   padding-left: 5%;
   padding-right: 5%;
   padding-bottom: 1.5rem;
+  padding-bottom: 5%;
 
-  @media (max-width: 600px) {
-    padding-top: 5%;
-  };
+  @media (min-width: 600px) {
+    padding-bottom: 0;
+  }
 `;
 
 const RRTitle = styled(SectionHeader)`

@@ -5,12 +5,13 @@ import Button from '../Button';
 
 // TO-DO: add animation so expanding list is a smoother transition
 
-function ShowMoreListItems({ setItemsPerPage, itemText }) {
+function ShowMoreListItems({ setItemsPerPage, itemText, scrollToListTop }) {
   const [listExpanded, setListExpanded] = useState(false);
 
   function toggleMoreItems() {
     if (listExpanded === true) {
       setItemsPerPage(2);
+      scrollToListTop();
     } else {
       setItemsPerPage(10);
     }

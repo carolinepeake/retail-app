@@ -6,7 +6,7 @@ import { useGlobalContext } from '../../../contexts/GlobalStore';
 import Button from '../../reusable/Button';
 import ShowMoreListItems from '../../reusable/LargeList/ShowMoreListItems';
 
-function ExtraButtons({ setItemsPerPage }) {
+function ExtraButtons({ setItemsPerPage, scrollToListTop }) {
   const [showModal, setShowModal] = useState(false);
   const { filteredQuestions, numQuestions, setNumQuestions, questions } = useGlobalContext();
 
@@ -25,7 +25,7 @@ function ExtraButtons({ setItemsPerPage }) {
       {/* {numQuestions < questions.length && ( */}
       {filteredQuestions.length > 2
       && (
-        <ShowMoreListItems setItemsPerPage={setItemsPerPage} itemText="Questions" />
+        <ShowMoreListItems setItemsPerPage={setItemsPerPage} itemText="Questions" scrollToListTop={scrollToListTop} />
       //   <QuestionsButton type="button" onClick={() => increaseQuestions()}>
       //     More Questions
       //   </QuestionsButton>
