@@ -6,6 +6,10 @@ const SectionHeading = styled.div`
   padding-bottom: 0.5em;
   margin-bottom: 0.5em;
   margin-top: 3rem;
+
+  @media (max-width: 600px) {
+    padding-top: 2.5%;
+  }
 `;
 // font-size:  ${(props) => props.theme.body};
 
