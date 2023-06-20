@@ -1,29 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-// const cloudinary = require('cloudinary').v2;
-// require('dotenv').config();
 // import Button from '../../reusable/Button';
 
 function AddPhotos({ preview, setPreview }) {
-  // cloudinary.config({
-  //   cloud_name: process.env.CLOUDINARY_NAME,
-  //   api_key: process.env.CLOUDINARY_API_KEY,
-  //   api_secret: process.env.CLOUDINARY_API_SECRET,
-  // });
-
-  // const uploadFile = async (req, res) => {
-  //   try {
-  //     const file = req.body.image;
-  //     const uploadedResponse = await cloudinary.uploader.upload(file, {
-  //       upload_preset: 'retail-app',
-  //     });
-  //     res.status(201).send(uploadedResponse);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
   function handlePreviews(event) {
     if (event.target.files.length === 0) {
       return;
@@ -33,6 +13,7 @@ function AddPhotos({ preview, setPreview }) {
     reader.readAsDataURL(file);
     reader.onloadend = () => {
       const base64image = reader.result;
+      console.log('base64image: ', base64image);
       setPreview([...preview, base64image]);
     };
   }

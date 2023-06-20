@@ -39,7 +39,7 @@ function ProductDetail() {
                 <StyleSelector />
                 <AddToCart />
 
-                <div>
+                <div style={{ marginTop: '0.5em' }}>
                   <Collapsable header="Details">
                     {productInfo.slogan
                   && <ProductSlogan>{productInfo.slogan}</ProductSlogan>}
@@ -82,6 +82,13 @@ const ProductSec = styled.div`
   padding-left: 5%;
   padding-right: 5%;
   margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 5%;
+
+  @media (min-width: 600px) {
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
 
   @media (min-width: 1200px) {
     margin-right: auto;

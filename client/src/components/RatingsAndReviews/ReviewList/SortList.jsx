@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import ListTotalCount from '../../reusable/LargeList/ListTotalCount';
@@ -8,11 +8,17 @@ import { useGlobalContext } from '../../../contexts/GlobalStore';
 const options = [{ value: 'relevant', label: 'relevant', id: '00' }, { value: 'newest', label: 'newest', id: '01' }, { value: 'helpful', label: 'helpful', id: '02' }];
 
 function SortList({
-  itemsPerPage, listLength, pageNum,
+  itemsPerPage, listLength, pageNum, setPageNum,
 }) {
   const {
-    setSortOrder,
+    setSortOrder, sortOrder,
   } = useGlobalContext();
+
+  useEffect(() => {
+    if (pageNum > 1) {
+      setPageNum(() => 1);
+    }
+  }, [sortOrder]);
 
   return (
     <RevListHeader>
@@ -35,6 +41,7 @@ SortList.propTypes = {
   itemsPerPage: PropTypes.number.isRequired,
   listLength: PropTypes.number,
   pageNum: PropTypes.number.isRequired,
+  setPageNum: PropTypes.func.isRequired,
 };
 
 SortList.defaultProps = {

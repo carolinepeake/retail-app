@@ -36,15 +36,17 @@ function RatingsAndReviews() {
 
   useEffect(() => {
     setFilteredRevs(reviews);
+    setItemsPerPage(2);
+    setPageNum(1);
   }, [reviews]);
 
-  const ref = useRef(null);
+  const revRef = useRef(null);
 
   // should forwarf ref instead of passing this function
   // to avoid creating a new function every render
-  function scrollToListTop() {
-    ref.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
+  const scrollToListTop = () => {
+    revRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   return (
     <Container id="ratings-and-reviews">
@@ -58,22 +60,28 @@ function RatingsAndReviews() {
             reviews={reviews}
           />
         </BreakdownContainer>
-        <ReviewListContainer ref={ref}>
+        <ReviewListContainer ref={revRef}>
 
-          <SortList
-            itemsPerPage={itemsPerPage}
-            listLength={filteredRevs.length}
-            pageNum={pageNum}
-          />
+          {reviews.length === 0
+            ? <div>Be the first to write a review!</div>
+            : (
+              <>
+                <SortList
+                  itemsPerPage={itemsPerPage}
+                  listLength={filteredRevs.length}
+                  pageNum={pageNum}
+                  setPageNum={setPageNum}
+                />
 
-          <ReviewsList
-            filteredRevs={filteredRevs}
-            itemsPerPage={itemsPerPage}
-            pageNum={pageNum}
-          />
+                <ReviewsList
+                  filteredRevs={filteredRevs}
+                  itemsPerPage={itemsPerPage}
+                  pageNum={pageNum}
+                />
+              </>
+            )}
 
           {(itemsPerPage > 2 && filteredRevs.length > 10)
-          // items per page when list expanded ^
           && (
             <ListNavigation
               listLength={filteredRevs.length}
@@ -88,21 +96,16 @@ function RatingsAndReviews() {
             {(filteredRevs.length > 2)
             && (
               <ShowMoreListItems
+                itemsPerPage={itemsPerPage}
                 setItemsPerPage={setItemsPerPage}
                 itemText="Reviews"
                 scrollToListTop={scrollToListTop}
+                setPageNum={setPageNum}
               />
             )}
             <AddRev />
           </MoreAddContainer>
-          {/* <LargeList
-            listLength={filteredReviews.length}
-            pageNum={pageNum}
-            itemsPerPage={itemsPerPage}
-            children={ReviewsList}
-          /> */}
         </ReviewListContainer>
-        {/* <LargeList filteredReviews={filteredRevs} /> */}
       </GridContainer>
     </Container>
   );

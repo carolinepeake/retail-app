@@ -22,6 +22,7 @@ module.exports.postAnswer = (req, res) => {
     )
     .then((result) => {
       res.status(201).send(result.data);
+       // API does not send back posted data
     })
     .catch((err) => {
       res.status(400).send(err);

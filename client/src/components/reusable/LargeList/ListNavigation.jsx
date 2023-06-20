@@ -39,7 +39,8 @@ function ListNavigation({
     <ListNavContainer>
 
       <ScrollButton
-        onClick={(e) => handleClickBack(e)}
+        // onClick={(e) => handleClickBack(e)}
+        onClick={() => handleClickBack()}
         disabled={pageNum === 1}
       >
         <MdArrowBackIos style={{ transform: 'translateX(25%)' }} />
@@ -67,6 +68,7 @@ ListNavigation.propTypes = {
   pageNum: PropTypes.number.isRequired,
   setPageNum: PropTypes.func.isRequired,
   itemsPerPage: PropTypes.number.isRequired,
+  scrollToListTop: PropTypes.func.isRequired,
 };
 
 const ListNavContainer = styled.div`

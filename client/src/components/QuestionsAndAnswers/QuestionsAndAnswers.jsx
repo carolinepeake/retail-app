@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { useGlobalContext } from '../../contexts/GlobalStore';
 import QuestionEntry from './QuestionEntry/QuestionEntry';
@@ -10,37 +10,33 @@ import ListTotalCount from '../reusable/LargeList/ListTotalCount';
 
 function QuestionAndAnswers() {
   const {
-    numQuestions, filteredQuestions, setNumQuestions, questions,
+    filteredQuestions, questions,
   } = useGlobalContext();
-
-  const ref = useRef(null);
-
-  const [pageNum, setPageNum] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(2);
-
-  function handleScroll(e) {
-    // within 0.9 of the bottom
-    const bottom = 0.9 * (e.target.scrollHeight - e.target.scrollTop) <= e.target.clientHeight;
-    if (bottom) {
-      setNumQuestions((prev) => prev + 2);
-    }
-  }
 
   // should forwarf ref instead of passing this function
   // to avoid creating a new function every render
-  function scrollToListTop() {
-    ref.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
+  // might not happen with ref?
+  const questRef = useRef(null);
+  const scrollToListTop = () => {
+    questRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
+  const [pageNum, setPageNum] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(2);
   const startingSlice = (pageNum - 1) * itemsPerPage;
+
+  useEffect(() => {
+    setPageNum(1);
+    setItemsPerPage(2);
+  }, [questions]);
 
   return (
     <Container id="question-and-answers">
       <SectionHeader>
         Questions & Answers
       </SectionHeader>
-      <QuestionSearch />
-      <QuestionListHeader ref={ref}>
+      <QuestionSearch pageNum={pageNum} itemsPerPage={itemsPerPage} />
+      <QuestionListHeader ref={questRef}>
         <ListTotalCount
           listLength={filteredQuestions.length}
           itemsPerPage={itemsPerPage}
@@ -49,26 +45,17 @@ function QuestionAndAnswers() {
         />
       </QuestionListHeader>
       <QuestionListContainer>
-        {/* {numQuestions === 0 ? (
-          <div>Be the first to ask a question!</div>
-        ) : (
-          filteredQuestions.map((question) => (
-            <QuestionEntry
-              question={question}
-              key={`${question.question_id}`}
-            />
-          ))
-        )} */}
-        {filteredQuestions === 0 ? (
-          <div>Be the first to ask a question!</div>
-        ) : (
-          filteredQuestions.slice(startingSlice, (startingSlice + itemsPerPage)).map((question) => (
-            <QuestionEntry
-              question={question}
-              key={`${question.question_id}`}
-            />
-          ))
-        )}
+        {questions.length === 0
+          ? <div>Be the first to ask a question!</div>
+          : (
+            filteredQuestions.slice(startingSlice, (startingSlice + itemsPerPage)).map((q) => (
+              <QuestionEntry
+                question={q}
+                key={`${q.question_id}`}
+              />
+            ))
+          )}
+        {/* <QuestionsList itemsPerPage={itemsPerPage} pageNum={pageNum} /> */}
       </QuestionListContainer>
       {(itemsPerPage > 2 && filteredQuestions.length > 10) && (
         <ListNavigation
@@ -79,7 +66,12 @@ function QuestionAndAnswers() {
           scrollToListTop={scrollToListTop}
         />
       )}
-      <ExtraButtons setItemsPerPage={setItemsPerPage} scrollToListTop={scrollToListTop} />
+      <ExtraButtons
+        itemsPerPage={itemsPerPage}
+        setItemsPerPage={setItemsPerPage}
+        scrollToListTop={scrollToListTop}
+        setPageNum={setPageNum}
+      />
     </Container>
   );
 }

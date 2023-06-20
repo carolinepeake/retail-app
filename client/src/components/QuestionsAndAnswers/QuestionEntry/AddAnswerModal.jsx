@@ -44,6 +44,7 @@ function AddAnswerModal({ setShowModal, question }) {
 
     if (!validateInput()) {
       setValidInput(false);
+      console.log('add answer input failed validation');
       return;
     }
 
@@ -71,11 +72,12 @@ function AddAnswerModal({ setShowModal, question }) {
 
         axios
           .post('/answers', postBody)
-          .then(() => {
+          .then((result) => {
+            console.log('answer posted successfully', result);
             setShowModal(false);
           })
           .catch((err) => {
-            console.log(err);
+            console.log('there was an error adding answer: ', err);
           });
       })
       .catch((err) => {

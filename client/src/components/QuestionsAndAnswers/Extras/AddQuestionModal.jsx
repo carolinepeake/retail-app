@@ -33,9 +33,11 @@ function AddQuestionModal({ setShowModal }) {
     return true;
   }
 
-  function askQuestion() {
+  function askQuestion(e) {
+    e.preventDefault();
     if (!validateInput()) {
       setValidInput(false);
+      console.log('add question input failed validation');
       return;
     }
     const postBody = {
@@ -46,11 +48,12 @@ function AddQuestionModal({ setShowModal }) {
     };
     axios
       .post('/questions', postBody)
-      .then(() => {
+      .then((result) => {
+        console.log('question posted successfully', result);
         setShowModal(false);
       })
       .catch((err) => {
-        console.log(err);
+        console.log('there was an error adding question: ', err);
       });
   }
 
@@ -132,7 +135,7 @@ function AddQuestionModal({ setShowModal }) {
           ) : null}
         </Form>
         <Footer>
-          <FooterButton type="submit" modal onClick={() => askQuestion()}>
+          <FooterButton type="submit" modal onClick={(e) => askQuestion(e)}>
             Submit
           </FooterButton>
           {/* <FooterButton onClick={() => setShowModal(false)}>

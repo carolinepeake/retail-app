@@ -10,9 +10,10 @@ cloudinary.config({
 module.exports.uploadFile = async (req, res) => {
   try {
     const file = req.body.image;
-    const uploadedResponse = await cloudinary.uploader.upload(file, {
-      upload_preset: 'retail-app',
-    });
+    // const uploadedResponse = await cloudinary.uploader.upload(file, {
+    //   upload_preset: 'retail-app',
+    // });
+    const uploadedResponse = await cloudinary.uploader.upload(file);
     res.status(201).send(uploadedResponse);
   } catch (err) {
     console.log(err);

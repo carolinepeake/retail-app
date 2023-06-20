@@ -5,7 +5,7 @@ import RelatedItems from './RelatedItems/RelatedItems';
 import RatingsAndReviews from './RatingsAndReviews/RatingsAndReviews';
 import QuestionsAndAnswers from './QuestionsAndAnswers/QuestionsAndAnswers';
 import SocialMedia from './ProductDetail/ProductOverview/SocialMedia';
-import NavBar from './NavBar';
+import NavBar from './NavBar/NavBar';
 import { GlobalContextProvider } from '../contexts/GlobalStore';
 
 function App() {
@@ -75,32 +75,64 @@ function App() {
     cardText: 'clamp(12px, 1.4vw, 14px)',
   };
 
+  // TO-DO: make borders of thumbnails font color
+  // TO-DO: make search icon font color, make search bar input correct size, color, and bg color
+  // TO-DO: remove border on related cards
+  // TO-DO: change font color on sort select
+  // TO-DO: style scroll bar
+  // TO-DO: fix arrow button colors
   const themeDark = {
-    backgroundColor: '#4d636f',
-    secondaryBackgroundColor: '#4d636f',
-    tertiaryBackgroundColor: '#becbd2',
-    secondaryColor: '#3a4b53',
+    // submit button: rgb(48, 62, 69)
+    // submit button hover: rgb(62, 79, 89);
+//     #090e11
+// rgb(9,14,17)
+//     #0e1418
+// rgb(14,20,24)
+    // #1c2931
+    // should maybe make a default background color
+    backgroundColor: '#090e11',
+    // make input backgrounds, maybe submit buttons, maybe nav links
+    // rgb(28,41,49)',
+    secondaryBackgroundColor: '#becbd2',
+    iconHoverBackgroundColor: 'rgba(190, 203, 210, 0.3)',
+    tertiaryBackgroundColor: '#3a4b53',
+    secondaryColor: '#4d636f',
     tertiaryColor: '#3a4b53',
-    navColor: '#3a4b53',
-    navBarFont: '#fff',
-    fontColor: 'white',
-    minorFontColor: 'white',
+    navBgColor: 'rgb(28,41,49)',
+    // '#3a4b53',
+    navFontColor: '#f5f7f8',
+    navActiveFontColor: '#becbd2',
+    fontColor: 'rgb(232, 230, 227)',
+    secondaryFontColor: '#becbd2',
+    minorFontColor: 'rgb(178, 172, 162)',
+    // #f5f7f8',
     starBackground: '#3a4b53',
     starFilled: 'gold',
-    submitButtonFont: '#000000',
-    submitButton: '#becbd2',
+    submitButtonFont: 'white',
+    submitButton: '#3a4b53',
+    // #4d636f',
+    // submitButton: '#becbd2',
+    // submitButton: 'rgb(28,41,49)',
     submitButtonHover: '#becbd2',
     submitButtonHoverFont: '#000000',
     disabledButton: '#f5f7f8',
-    visitedColor: '#3a4b53',
+    clicked: '#becbd2',
+    visitedColor: '#becbd2',
     formError: '#ff0000',
-    inputPlaceholder: 'white',
+    inputPlaceholder: '#f5f7f8',
+    // currently same as light theme
+    darkBlueHover: '#374e62',
     body: 'clamp(1rem, calc(0.875rem + 0.268vw), 1.25rem)',
     secondary: 'clamp(14px, 1.6vw, 18px)',
     tertiary: '0.83em',
     header: 'clamp(32px, 4vw, 42px)',
     input: 'clamp(14px, 1.6vw, 22px)',
+    button: '1em',
+    // check to see if got rid of these
+    cardTitle: 'clamp(16px, 1.6vw, 18px)',
+    cardText: 'clamp(12px, 1.4vw, 14px)',
   };
+  // star totals horizontal bars second color in dark mode: #3a4b53
   // TO-DO: name backup fonts
   // choose one color and generate about 9 shades of it using a color swatch
 
@@ -145,6 +177,11 @@ function App() {
 const StyledContainer = createGlobalStyle`
   * {
     box-sizing: border-box;
+  };
+
+  html {
+    scroll-padding-top: 6rem;
+    scroll-behavior: smooth;
   };
 
   body {
@@ -216,6 +253,7 @@ const StyledContainer = createGlobalStyle`
     font-family: futura-pt, sans-serif;
     font-style: normal;
     font-weight: 300;
+    box-sizing: border-box;
   };
 
   button {

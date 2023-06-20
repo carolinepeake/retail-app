@@ -26,12 +26,14 @@ module.exports.getReviewsMeta = (req, res) => {
 };
 
 module.exports.postReview = (req, res) => {
+  console.log(req.body);
   axios.post('https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/reviews', req.body)
     .then((result) => {
-      res.send(result.data);
+      // API does not send back posted data
+      res.status(201).send(result.data);
     })
     .catch((err) => {
-      console.error('There was an error in the getReviews controller function:\n', err);
+      console.error('There was an error in the postReview controller function:\n', err);
       res.sendStatus(400);
     });
 };
@@ -40,7 +42,7 @@ module.exports.putReviewHelpful = (req, res) => {
   console.log(req.params);
   axios.put(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/reviews/${req.params.review_id}/helpful`)
     .then((result) => {
-      res.send(result.data);
+      res.status(204).send(result.data);
     })
     .catch((err) => {
       console.error('There was an error in the putReviewHelpful controller function:\n', err);
@@ -52,7 +54,7 @@ module.exports.putReviewReport = (req, res) => {
   console.log(req.params);
   axios.put(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/reviews/${req.params.review_id}/report`)
     .then((result) => {
-      res.send(result.data);
+      res.status(204).send(result.data);
     })
     .catch((err) => {
       console.error('There was an error in the putReviewReport controller function:\n', err);

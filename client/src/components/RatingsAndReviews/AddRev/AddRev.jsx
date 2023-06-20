@@ -10,7 +10,7 @@ import { useGlobalContext } from '../../../contexts/GlobalStore';
 
 function AddRev() {
   const {
-    productID, productInfo, revMeta,
+    productID, productInfo, revMeta, reviews, setReviews,
   } = useGlobalContext();
 
   const [addClicked, setAddClicked] = useState(false);
@@ -18,7 +18,7 @@ function AddRev() {
     meaning: '',
     numVal: 0,
   });
-  const [recommend, setRecommend] = useState();
+  const [recommend, setRecommend] = useState(false);
   const [charVal, setCharVal] = useState({});
   const [charObj, setCharObj] = useState({});
   const [summary, setSummary] = useState('');
@@ -29,11 +29,11 @@ function AddRev() {
 
   const [validInput, setValidInput] = useState(true);
 
-  if (!revMeta.product_id) {
-    return (
-      <div />
-    );
-  }
+  // if (!revMeta.product_id) {
+  //   return (
+  //     <div />
+  //   );
+  // }
 
   const handleAddRev = function handleAddRev() {
     setAddClicked((prevAddClicked) => !prevAddClicked);
@@ -60,12 +60,13 @@ function AddRev() {
 
     if (!validateInput()) {
       setValidInput(false);
+      console.log('add review input failed validation');
       return;
     }
 
     const revBody = {
       product_id: productID,
-      rating,
+      rating: rating.numVal,
       summary,
       body,
       recommend,
@@ -87,12 +88,22 @@ function AddRev() {
       .then(async (results) => {
         await results.forEach((result) => {
           revBody.photos.push(result.data.url);
+          console.log('photos: ', result.data.url);
         });
 
         axios
           .post('/reviews', revBody)
           .then((result) => {
             console.log('A new review was posted to the API:\n', result);
+            // setReviews([{
+            //   rating,
+            //   summary,
+            //   recommend,
+            //   response: null,
+            //   body,
+            //   reviewer_name: name,
+            //   helpfulness:
+            // }, ...reviews]);
             setAddClicked(false);
           })
           .catch((err) => {
@@ -236,7 +247,7 @@ function AddRev() {
             ) : null}
 
             <ButtonContainer>
-              <ButtonDiv modal type="submit">Submit</ButtonDiv>
+              <ButtonDiv modal type="submit" onClick={(e) => handleSubmit(e)}>Submit</ButtonDiv>
               {/* <ButtonDiv type="button" onClick={() => setAddClicked(false)}> Cancel </ButtonDiv> */}
             </ButtonContainer>
 

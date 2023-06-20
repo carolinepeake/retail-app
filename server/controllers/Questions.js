@@ -23,13 +23,8 @@ module.exports.getQuestions = (req, res) => {
 };
 
 module.exports.postQuestion = (req, res) => {
-  console.log(req.body);
-  const postBody = {
-    body: req.body.body,
-    name: req.body.name,
-    email: req.body.email,
-    product_id: req.body.product_id,
-  };
+  console.log('post question request body: ', req.body);
+  const postBody = req.body;
 
   axios
     .post(
@@ -38,6 +33,7 @@ module.exports.postQuestion = (req, res) => {
     )
     .then((result) => {
       res.status(201).send(result.data);
+      // API does not send back posted data
     })
     .catch((err) => {
       res.status(400).send(err);
@@ -53,6 +49,7 @@ module.exports.helpfulQuestion = (req, res) => {
     )
     .then((result) => {
       res.status(204).send(result.data);
+      // API does not send back posted data
     })
     .catch((err) => {
       res.status(400).send(err);
@@ -68,6 +65,7 @@ module.exports.reportQuestion = (req, res) => {
     )
     .then((result) => {
       res.status(204).send(result.data);
+      // API does not send back posted data
     })
     .catch((err) => {
       res.status(400).send(err);

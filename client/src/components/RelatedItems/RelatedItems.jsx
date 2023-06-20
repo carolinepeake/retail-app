@@ -28,9 +28,11 @@ function RelatedItems() {
 }
 
 const Container = styled.div`
-  @media (max-width: 600px) {
-    padding-top: 5%;
-  };
+  padding-bottom: 5%;
+
+  @media (min-width: 600px) {
+    padding-bottom: 0;
+  }
 `;
 
 const Text = styled(SectionHeader)`

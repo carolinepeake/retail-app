@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { useGlobalContext } from '../../contexts/GlobalStore';
 import DropdownChevron from './DropdownChevron';
 
 function StyledSelect({
-  placeholder,
-  options,
-  handleSelect,
+  placeholder = 'Select Dropdown Option',
+  options = [],
   initialValue = null,
   disabled = false,
   initialDropdownPosition = false,
@@ -21,13 +21,12 @@ function StyledSelect({
   function handleClick(value) {
     setSelectedValue(value);
     setSortOrder(() => value);
-    handleSelect(value);
     setDropdownOpened(false);
   }
 
-  // TO-DO: props validation to ensure options is irriterable
+  // TO-DO: use props validation to ensure options is irriterable
 
-  const dropdownOptions = options ? options.map((option, i) => (
+  const dropdownOptions = options.map((option, i) => (
     <DropdownOption
       type="button"
       value={option.value}
@@ -36,11 +35,12 @@ function StyledSelect({
       key={option.id}
       onClick={(e) => handleClick(option.value, e)}
       selectedValue={selectedValue}
+      placeholder={placeholder}
      // selected={option.selected}
     >
       {option.label}
     </DropdownOption>
-  )) : null;
+  ));
 
   return (
     <CustomSelect
@@ -60,6 +60,40 @@ function StyledSelect({
     </CustomSelect>
   );
 }
+
+StyledSelect.propTypes = {
+  placeholder: PropTypes.string,
+  options: PropTypes.arrayOf(PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.array,
+    PropTypes.shape({
+      id: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
+      ]),
+      value: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
+      ]),
+      label: PropTypes.string,
+    }),
+  ])),
+  initialValue: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.any,
+  ]),
+  disabled: PropTypes.bool,
+  initialDropdownPosition: PropTypes.bool,
+};
+
+StyledSelect.defaultProps = {
+  placeholder: 'Select Dropdown Option',
+  options: [],
+  initialValue: null,
+  disabled: false,
+  initialDropdownPosition: false,
+};
 
 // TO-DO: make bigger on focus (for mobile)
 

@@ -6,29 +6,47 @@ import { useGlobalContext } from '../../../contexts/GlobalStore';
 import Button from '../../reusable/Button';
 import ShowMoreListItems from '../../reusable/LargeList/ShowMoreListItems';
 
-function ExtraButtons({ setItemsPerPage, scrollToListTop }) {
-  const [showModal, setShowModal] = useState(false);
-  const { filteredQuestions, numQuestions, setNumQuestions, questions } = useGlobalContext();
+// TO-DO: extract this component and use for QA and RR
 
-  function increaseQuestions() {
+function ExtraButtons({
+  itemsPerPage,
+  setItemsPerPage,
+  scrollToListTop,
+  setPageNum,
+}) {
+  const [showModal, setShowModal] = useState(false);
+  const {
+    filteredQuestions,
+    numQuestions,
+    setNumQuestions,
+  } = useGlobalContext();
+
+  // previously used to increase scroll container by 2 each time it was clicked
+  // could do this until reach 10 and then show all questions with 10 per page
+  // should return the id canceling the setTimeout?
+  const increaseQuestions = () => {
+    // useRef?
     const container = document.getElementById('scrollable-container');
+    // prev + 2?
     setNumQuestions(numQuestions + 2);
 
     const prevMaxHeight = container.scrollHeight;
     setTimeout(() => {
       container.scrollTop = prevMaxHeight;
     }, 0);
-  }
+  };
 
   return (
     <ButtonContainer>
-      {/* {numQuestions < questions.length && ( */}
       {filteredQuestions.length > 2
       && (
-        <ShowMoreListItems setItemsPerPage={setItemsPerPage} itemText="Questions" scrollToListTop={scrollToListTop} />
-      //   <QuestionsButton type="button" onClick={() => increaseQuestions()}>
-      //     More Questions
-      //   </QuestionsButton>
+        <ShowMoreListItems
+          itemsPerPage={itemsPerPage}
+          setItemsPerPage={setItemsPerPage}
+          itemText="Questions"
+          scrollToListTop={scrollToListTop}
+          setPageNum={setPageNum}
+        />
       )}
       <QuestionsButton type="button" modal onClick={() => setShowModal(true)}>
         Ask a Question +
@@ -41,7 +59,10 @@ function ExtraButtons({ setItemsPerPage, scrollToListTop }) {
 }
 
 ExtraButtons.propTypes = {
+  itemsPerPage: PropTypes.number.isRequired,
   setItemsPerPage: PropTypes.func.isRequired,
+  setPageNum: PropTypes.func.isRequired,
+  scrollToListTop: PropTypes.func.isRequired,
 };
 
 const ButtonContainer = styled.div`

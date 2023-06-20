@@ -2,6 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 
+// TO-DO: make toggle (whatever the small info banner thing is called)
+// appear above "X" when hovered that says "clear search"
+// TO-DO:
+
 function Search({
   searchTerm,
   setSearchTerm,
@@ -9,15 +13,28 @@ function Search({
   searchClosed,
   clickHandler,
 }) {
+  // const handleSearch = () => {
+  //   const searchResults = [];
+  //   // array of strings to search as prop
+  //   Object.values(questions).forEach((question) => {
+  //     const searchBody = question.question_body.toLowerCase();
+  //     if (searchBody.includes(searchTerm)) {
+  //       searchResults.push(question);
+  //     }
+  //     setFilteredQuestions(searchResults);
+  //     return searchResults;
+  //   });
+  // };
+
   return (
     <QuestionSearchBar searchClosed={searchClosed}>
       <Input
         type="search"
         placeholder={placeholder}
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
+        value={searchTerm}
+        // setSearchTerm={setSearchTerm}
         searchClosed={searchClosed}
-        onChange={(event) => setSearchTerm(event.target.value)}
+        onChange={(event) => setSearchTerm(event.target.value.toLowerCase())}
       />
       <SearchIcon type="submit" onClick={clickHandler} searchClosed={searchClosed} />
     </QuestionSearchBar>
@@ -29,12 +46,13 @@ Search.propTypes = {
   setSearchTerm: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
   searchClosed: PropTypes.bool,
-  clickHandler: PropTypes.func.isRequired,
+  clickHandler: PropTypes.func,
 };
 
 Search.defaultProps = {
   placeholder: 'Search...',
   searchClosed: false,
+  clickHandler: (e) => e.preventDefault(),
 };
 
 const QuestionSearchBar = styled.form`
@@ -80,6 +98,8 @@ const Input = styled.input`
 `;
 
 const SearchIcon = styled.button`
+  position: relative;
+  z-index: 6;
   width: 2em;
   padding: 1em;
   margin: 0;
@@ -89,6 +109,7 @@ const SearchIcon = styled.button`
   background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' class='bi bi-search' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'%3E%3C/path%3E%3C/svg%3E") no-repeat center;
   cursor: pointer;
   color: ${(props) => props.theme.navFontColor};
+  fill: ${(props) => props.theme.navFontColor};
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -96,6 +117,7 @@ const SearchIcon = styled.button`
   aspect-ratio: 1;
   &:hover {
     color: ${(props) => props.theme.navActiveFontColor};
+    fill: ${(props) => props.theme.navActiveFontColor};
     background-color: ${(props) => props.theme.iconHoverBackgroundColor};
   };
 `;

@@ -8,7 +8,7 @@ function AddOutfit() {
     productID, outfits, setOutfits, currOutfit, setOutfitIndex, outfitIndex
   } = useGlobalContext();
 
-  const add = async() => {
+  const add = async () => {
     for (let i = 0; i < outfits.length; i += 1) {
       if (outfits[i].details.data.id === productID) {
         return;
