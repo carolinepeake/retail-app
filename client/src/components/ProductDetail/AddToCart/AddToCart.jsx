@@ -78,7 +78,6 @@ function AddToCart() {
               ref={sizeDropdown}
               select
               error={error}
-              // style={{ borderColor: error ? 'red' : 'black' }}
             // value={selectedSize}
               onChange={(e) => handleChangeSize(e)}
             >
@@ -107,7 +106,7 @@ function AddToCart() {
             </StyledSelect>
           )}
       </SelectSizeAndQuantityContainer>
-      <Error style={{ display: error ? 'block' : 'none' }}>Please Select a Size</Error>
+      <Error>Please Select a Size</Error>
       <BagContainer>
         <AddToCartButton type="submit" modal onClick={(e) => handleAddToBag(e)}>
           <AddToCartText>Add to Cart</AddToCartText>
@@ -259,6 +258,7 @@ const Error = styled.div`
   color: red;
   font-size: 0.75em;
   font-weight: 300;
+  display: ${(props) => (props.error ? 'block' : 'none')};
 `;
 
 export default AddToCart;
