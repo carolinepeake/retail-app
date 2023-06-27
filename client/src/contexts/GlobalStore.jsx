@@ -45,11 +45,9 @@ export function GlobalContextProvider({ children }) {
   const [numReviews, setNumReviews] = useState(100);
   const [revPage, setRevPage] = useState(1);
 
-  // can use productInfo
+  // should just store productId and get product info when need it,
+  // but will store product info in outfits too, for now
   const [outfits, setOutfits] = useState([]);
-  const [currOutfit, setCurrOutfit] = useState({});
-  const [cardIndex, setCardIndex] = useState(0);
-  const [outfitIndex, setOutfitIndex] = useState(0);
   const [productList, setProductList] = useState([]);
 
   function getProductInfo() {
@@ -61,15 +59,19 @@ export function GlobalContextProvider({ children }) {
       })
       .then((results) => {
         setProductInfo(results.data);
+      })
+      .catch((err) => {
+        console.error('error getting product info for product ', id, ': ', err);
       });
   }
 
   function getStyles() {
-    axios.get('/styles', {
+    return axios.get('/styles', {
       params: {
         product_id: productID,
       },
     }).then((stylesResult) => {
+      // stylesResult.data.results)
       setSelectedStyle(stylesResult.data.results[0]);
       setStyles(stylesResult.data.results);
     })
@@ -114,16 +116,17 @@ export function GlobalContextProvider({ children }) {
       });
   }
 
-  function getReviewsMetaData() {
-    axios
+  function getReviewsMetaData(id) {
+    return axios
       .get('/reviews/meta', {
         params: {
-          product_id: productID,
+          product_id: id,
         },
       })
       .then((result) => {
         setRevMeta(result.data);
         console.log('reviews meta: ', result.data);
+        return result.data;
       })
       .catch((err) => {
         console.log('Error getting reviews meta data: ', err);
@@ -164,15 +167,23 @@ export function GlobalContextProvider({ children }) {
         (results.data).forEach((id) => {
           const details = axios.get('/relatedItem', { params: { productID: id } });
           const image = axios.get('/relatedImage', { params: { productID: id } });
-          const stars = axios.get('/relatedStars', { params: { productID: id } });
-          return Promise.all([details, image, stars])
+          // axios.get('/styles', { params: { product_id: id } }).then((stylesResult) => stylesResult.data.results);
+          const stars = axios.get('/relatedStars', { params: { product_id: id } });
+          // getReviewsMetaData(id);
+          Promise.all([
+            details,
+            image,
+            stars,
+          ])
             .then((object) => {
               const tempObj = {
                 details: object[0],
                 image: object[1],
                 stars: object[2],
               };
+              console.log('temp obj: ', tempObj);
               setProductList((oldList) => [...oldList, tempObj]);
+              console.log('product list: ', productList);
             })
             .catch((err) => {
               console.log(err);
@@ -180,22 +191,6 @@ export function GlobalContextProvider({ children }) {
         });
       })
       .catch((error) => console.log('Error here:', error));
-    // Get data for current product ID for user to add outfit
-    const details = axios.get('/relatedItem', { params: { productID } });
-    const image = axios.get('/relatedImage', { params: { productID } });
-    const stars = axios.get('/relatedStars', { params: { productID } });
-    Promise.all([details, image, stars])
-      .then((object) => {
-        const outfitObj = {
-          details: object[0],
-          image: object[1],
-          stars: object[2],
-        };
-        setCurrOutfit(outfitObj);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   }
 
   function scrollToTop() {
@@ -210,7 +205,7 @@ export function GlobalContextProvider({ children }) {
     getStyles();
     getQuestions();
     getReviews();
-    getReviewsMetaData();
+    getReviewsMetaData(productID);
     getRelated();
     scrollToTop();
   }, [productID]);
@@ -234,9 +229,6 @@ export function GlobalContextProvider({ children }) {
     numReviews,
     revPage,
     outfits,
-    currOutfit,
-    cardIndex,
-    outfitIndex,
     productList,
   ];
 
@@ -269,12 +261,6 @@ export function GlobalContextProvider({ children }) {
     setSortOrder,
     outfits,
     setOutfits,
-    currOutfit,
-    setCurrOutfit,
-    cardIndex,
-    setCardIndex,
-    outfitIndex,
-    setOutfitIndex,
     productList,
     setProductList,
   }), dependencies);
