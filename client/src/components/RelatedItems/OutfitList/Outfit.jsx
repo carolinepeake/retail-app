@@ -3,16 +3,17 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
-import CardStars from '../RelatedList/CardStars';
+import Stars from '../RelatedList/Stars';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
 function Outfit({ outfit, index }) {
   const {
     outfits, setOutfits, outfitIndex,
   } = useGlobalContext();
-  const outfitImage = outfit.image.data.results[0].photos[0].thumbnail_url;
-  const outfitDetails = outfit.details.data;
-  const outfitStars = outfit.stars.data;
+  // const outfitImage = outfit.image.data.results[0].photos[0].thumbnail_url;
+  const outfitImage = outfit.photo;
+  // const outfitDetails = outfit.details.data;
+  // const outfitStars = outfit.stars.data;
   const defaultImage = 'https://www.escapeauthority.com/wp-content/uploads/2116/11/No-image-found.jpg';
 
   function removeOutfit() {
@@ -29,40 +30,48 @@ function Outfit({ outfit, index }) {
           <Image src={outfitImage ? outfitImage : defaultImage} />
           <Button onClick={() => removeOutfit()}><AiOutlineCloseCircle /></Button>
         </ImageOutline>
-        <Info style={{ paddingTop: '0.1em' }}>{outfitDetails.category}</Info>
-        <Info name style={{ paddingTop: '0.05em' }}>{outfitDetails.name}</Info>
+        <Info style={{ paddingTop: '0.1em' }}>
+          {/* {outfitDetails.category} */}
+          {outfit.category}
+        </Info>
+        <Info name style={{ paddingTop: '0.05em' }}>
+          {/* {outfitDetails.name} */}
+          {outfit.name}
+        </Info>
         <Info style={{ padding: '0.25em' }}>
           $
-          {outfitDetails.default_price}
+          {/* {outfitDetails.default_price} */}
+          {outfit.price}
         </Info>
-        <CardStars reviewID={outfitStars} />
+        {/* <Stars reviewID={outfitStars} /> */}
+        <Stars rating={outfit.rating} />
       </Outline>
     </OutfitContainer>
   );
 }
 
-Outfit.propTypes = {
-  outfit: PropTypes.shape({
-    image: PropTypes.shape({
-      data: PropTypes.shape({
-        results: PropTypes.arrayOf(PropTypes.shape({
-          photos: PropTypes.arrayOf(PropTypes.shape({
-            thumbnail_url: PropTypes.string,
-          })),
-        })),
-      }),
-    }),
-    details: PropTypes.shape({
-      data: PropTypes.shape({
-        name: PropTypes.string,
-        category: PropTypes.string,
-        default_price: PropTypes.string,
-      }),
+// Outfit.propTypes = {
+//   outfit: PropTypes.shape({
+//     image: PropTypes.shape({
+//       data: PropTypes.shape({
+//         results: PropTypes.arrayOf(PropTypes.shape({
+//           photos: PropTypes.arrayOf(PropTypes.shape({
+//             thumbnail_url: PropTypes.string,
+//           })),
+//         })),
+//       }),
+//     }),
+//     details: PropTypes.shape({
+//       data: PropTypes.shape({
+//         name: PropTypes.string,
+//         category: PropTypes.string,
+//         default_price: PropTypes.string,
+//       }),
 
-    }),
-  }).isRequired,
-  index: PropTypes.number.isRequired,
-};
+//     }),
+//   }).isRequired,
+//   index: PropTypes.number.isRequired,
+// };
 
 // const Outline = styled.div`
 //   display: flex;

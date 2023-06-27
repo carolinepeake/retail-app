@@ -2,25 +2,36 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from '../../reusable/Button';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
+import { calcAverageRating } from '../../utils/useAverageRating';
 
 function AddOutfit() {
   const {
-    productID, outfits, setOutfits, currOutfit, setOutfitIndex, outfitIndex
+    productID, productInfo, revMeta, selectedStyle, outfits, setOutfits,
   } = useGlobalContext();
 
+  // will want to make outfits array of productIds only, eventually
+  // if (outfits.includes(productId))
   const add = async () => {
     for (let i = 0; i < outfits.length; i += 1) {
-      if (outfits[i].details.data.id === productID) {
+      if (outfits[i].id === productID) {
         return;
       }
     }
-    const newOutfit = currOutfit;
-    const tempArray = [...outfits, newOutfit];
+
+    const outfit = {
+      id: productID,
+      name: productInfo.name,
+      category: productInfo.category,
+      price: productInfo.default_price,
+      rating: calcAverageRating(revMeta.ratings),
+      photo: selectedStyle.photos[0].thumbnail_url,
+    };
+    const tempArray = [...outfits, outfit];
     await setOutfits(tempArray);
   };
 
   return (
-    <Outline outfitIndex={outfitIndex} outfits={outfits}>
+    <Outline outfits={outfits}>
       <AddOutfitButton onClick={() => add()}>
         +
         <Text>Add Outfit</Text>
