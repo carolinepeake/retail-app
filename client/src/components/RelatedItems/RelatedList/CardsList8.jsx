@@ -7,6 +7,7 @@ import Card from './Card';
 import Button from '../../reusable/Button';
 
 function CardsList8() {
+  // for now includes stars and product info data, will eventually just be product id
   const {
     productList,
   } = useGlobalContext();
@@ -103,14 +104,14 @@ function CardsList8() {
         index={index}
       >
 
-        {productList.map((slide, i) => (
+        {productList.map((product, i) => (
           <CardContainer
             className="carousel-item"
             index={index}
             key={i}
             length={productList.length}
           >
-            <Card className="carousel-card" data={slide} index={index} />
+            <Card className="carousel-card" image={product.image[0]} product={product} index={index} />
           </CardContainer>
         ))}
 

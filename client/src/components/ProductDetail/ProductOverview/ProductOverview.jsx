@@ -3,16 +3,22 @@ import styled from 'styled-components';
 import POStars from './POStars';
 import SocialMedia from './SocialMedia';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
+import { calcAverageRating } from '../../utils/useAverageRating';
 
 function ProductOverview() {
-  const { productInfo, reviews, selectedStyle } = useGlobalContext();
+  const { productInfo, reviews, revMeta, selectedStyle } = useGlobalContext();
+
+  let rating;
+  if (revMeta.ratings) {
+    rating = calcAverageRating(revMeta.ratings);
+  }
 
   return (
     <OverviewContainer>
       {reviews.length > 0
         && (
           <div>
-            <POStars />
+            <POStars rating={rating} />
             <ReadReviews>
               <ReviewsLink href="#ratings-and-reviews">{`Read all ${reviews.length} reviews`}</ReviewsLink>
             </ReadReviews>
@@ -46,26 +52,13 @@ function ProductOverview() {
   );
 }
 
-// ProductOverview.propTypes = {
-//   data: PropTypes.shape({
-//     details: PropTypes.shape({
-//       data: PropTypes.shape({
-//         id: PropTypes.number,
-//         name: PropTypes.string,
-//         category: PropTypes.string,
-//         default_price: PropTypes.string,
-//       }),
-//     }),
-//   }).isRequired,
-// };
-
 const OverviewContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-right: 10%;
   background-color: ${(props) => props.theme.backgroundColor};
 
-  @media (min-width: 600px) AND (max-width: 1000px) {
+  @media (min-width: 600px) {
     margin-right: 0px;
   };
 

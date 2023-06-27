@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { calcAverageRating } from '../../utils/useAverageRating';
 
 function Summary({ revMeta }) {
   const recommendPercentage = Math.trunc(
@@ -9,20 +10,7 @@ function Summary({ revMeta }) {
     + parseInt(revMeta.recommended.true, 10))) * 100,
   );
 
-  const aveRatingCalc = (ratingsObj) => {
-    let totalRatings = 0;
-    let totalVotes = 0;
-    const entries = Object.entries(ratingsObj);
-    entries.forEach((entry) => {
-      const rating = parseInt(entry[0], 10);
-      const votes = parseInt(entry[1], 10);
-      totalVotes += votes;
-      totalRatings += rating * votes;
-    });
-    return Math.round((totalRatings / totalVotes) * 100) / 100;
-  };
-
-  const aveRating = aveRatingCalc(revMeta.ratings);
+  const aveRating = calcAverageRating(revMeta.ratings);
 
   return (
     <div>
