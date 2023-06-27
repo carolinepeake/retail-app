@@ -4,11 +4,7 @@ require('dotenv').config();
 axios.defaults.headers.common.Authorization = process.env.AUTH_TOKEN;
 
 module.exports.getRelated = (req, res) => {
-  axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/products/${req.query.productID}/related`, {
-    headers: {
-      Authorization: process.env.AUTH_TOKEN,
-    },
-  })
+  axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/products/${req.query.productID}/related`)
     .then((result) => {
       res.send(result.data);
     })
@@ -39,13 +35,10 @@ module.exports.getRelatedItem = (req, res) => {
   //     res.sendStatus(400);
   //   });
 
-  axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/products/${req.query.productID}`, {
-    headers: {
-      Authorization: process.env.AUTH_TOKEN,
-    },
-  })
+  axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/products/${req.query.productID}`)
     .then((result) => {
       res.send(result.data);
+      console.log('related product: ', result);
     })
     .catch((err) => {
       console.log(err);
@@ -55,15 +48,9 @@ module.exports.getRelatedItem = (req, res) => {
 
 // can re-use getStyles controllers
 module.exports.getRelatedImage = (req, res) => {
-  // console.log('Get Image:', req.query);
   if (req.query.productID) {
-    axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/products/${req.query.productID}/styles`, {
-      headers: {
-        Authorization: process.env.AUTH_TOKEN,
-      },
-    })
+    axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/products/${req.query.productID}/styles`)
       .then((result) => {
-        // console.log('Related Image:', result);
         res.send(result.data);
       })
       .catch((err) => {
@@ -74,21 +61,32 @@ module.exports.getRelatedImage = (req, res) => {
 };
 
 // can re-use getRevMeta controller
+// module.exports.getRelatedStars = (req, res) => {
+//   // console.log('Get Image:', req.query);
+//   if (req.query.productID) {
+//     axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/reviews/?product_id=${req.query.productID}`, {
+//       headers: {
+//         Authorization: process.env.AUTH_TOKEN,
+//       },
+//     })
+//       .then((result) => {
+//         console.log('Related Stars:', result);
+//         res.send(result.data);
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//         res.sendStatus(400);
+//       });
+//   }
+// };
+
 module.exports.getRelatedStars = (req, res) => {
-  // console.log('Get Image:', req.query);
-  if (req.query.productID) {
-    axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/reviews/?product_id=${req.query.productID}`, {
-      headers: {
-        Authorization: process.env.AUTH_TOKEN,
-      },
+  axios.get('https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/reviews/meta', { params: req.query })
+    .then((result) => {
+      res.send(result.data);
     })
-      .then((result) => {
-        // console.log('Related Image:', result);
-        res.send(result.data);
-      })
-      .catch((err) => {
-        console.log(err);
-        res.sendStatus(400);
-      });
-  }
+    .catch((err) => {
+      console.error('There was an error in the getReviewsMeta controller function:\n', err);
+      res.sendStatus(400);
+    });
 };
