@@ -2,25 +2,26 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-
-function CardImage({ imageInfo }) {
-  const [image, setImage] = useState(imageInfo);
+function CardImage({ imageUrl }) {
+  // const [image, setImage] = useState(imageInfo);
 
   const defaultImage = 'https://www.escapeauthority.com/wp-content/uploads/2116/11/No-image-found.jpg';
-  useEffect(() => {
-    setImage(imageInfo);
-  }, [imageInfo]);
+  // useEffect(() => {
+  //   setImage(imageInfo);
+  // }, [imageInfo]);
+
+  // src={imageInfo[0].photos[0].thumbnail_url ? image.results[0].photos[0].thumbnail_url
 
   return (
     <Outline>
-      <ImageCard src={image.results[0].photos[0].thumbnail_url ? image.results[0].photos[0].thumbnail_url : defaultImage} alt="RelatedProductImage" />
+      <ImageCard src={imageUrl || defaultImage} alt="RelatedProductImage" />
     </Outline>
   );
 }
 
-CardImage.propTypes = {
-  imageInfo: PropTypes.shape({}).isRequired,
-};
+// CardImage.propTypes = {
+//   imageInfo: PropTypes.arrayOf().isRequired,
+// };
 
 const Outline = styled.div`
   position: relative;
