@@ -31,8 +31,9 @@ function OutfitList2() {
         {/* {(outfitIndex !== 0 && outfits.length >= 3)
           && <LeftButton onClick={() => clickLeft()}> &lt; </LeftButton>} */}
         {outfits.map((outfit, i) => <Outfit outfit={outfit} key={i} index={i} />)}
-        {(outfits.length <= 3 || (outfits.length >= 3 && (outfits.length - outfitIndex === 2 || outfits.length - outfitIndex === 3)))
-         && <AddOutfit /> }
+        {/* {(outfits.length <= 3 || (outfits.length >= 3 && (outfits.length - outfitIndex === 2 || outfits.length - outfitIndex === 3)))
+         && <AddOutfit /> } */}
+        <AddOutfit />
         {/* {(outfitIndex !== outfits.length - 2 && outfits.length >= 3)
           && <RightButton onClick={() => clickRight()}> &gt; </RightButton>} */}
       </StyleList>

@@ -10,10 +10,7 @@ function Outfit({ outfit, index }) {
   const {
     outfits, setOutfits, outfitIndex,
   } = useGlobalContext();
-  // const outfitImage = outfit.image.data.results[0].photos[0].thumbnail_url;
   const outfitImage = outfit.photo;
-  // const outfitDetails = outfit.details.data;
-  // const outfitStars = outfit.stars.data;
   const defaultImage = 'https://www.escapeauthority.com/wp-content/uploads/2116/11/No-image-found.jpg';
 
   function removeOutfit() {
@@ -30,20 +27,16 @@ function Outfit({ outfit, index }) {
           <Image src={outfitImage ? outfitImage : defaultImage} />
           <Button onClick={() => removeOutfit()}><AiOutlineCloseCircle /></Button>
         </ImageOutline>
-        <Info style={{ paddingTop: '0.1em' }}>
-          {/* {outfitDetails.category} */}
+        <Info category>
           {outfit.category}
         </Info>
-        <Info name style={{ paddingTop: '0.05em' }}>
-          {/* {outfitDetails.name} */}
+        <Info name>
           {outfit.name}
         </Info>
-        <Info style={{ padding: '0.25em' }}>
+        <Info price>
           $
-          {/* {outfitDetails.default_price} */}
           {outfit.price}
         </Info>
-        {/* <Stars reviewID={outfitStars} /> */}
         <Stars rating={outfit.rating} />
       </Outline>
     </OutfitContainer>
@@ -123,6 +116,13 @@ const Info = styled.div`
   ${(props) => props.name && css`
     font-size: ${props.theme.cardTitle};
     font-weight: 500;
+    paddingTop: 0.05em;
+  `};
+  ${(props) => props.category && css`
+    paddingTop: 0.1em;
+  `};
+  ${(props) => props.price && css`
+    padding: 0.25em;
   `};
 `;
 
