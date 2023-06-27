@@ -2,11 +2,10 @@ import React, {
   useState, useEffect,
 } from 'react';
 import styled, { css } from 'styled-components';
-import {
-  MdExpandMore, MdExpandLess,
-} from 'react-icons/md';
 
 import { useGlobalContext } from '../../../contexts/GlobalStore';
+
+// TO-DO: uninstall react-icons/md
 
 function Thumbnails({
   place,
@@ -95,7 +94,8 @@ function Thumbnails({
             disabled={forwardDisabled}
             onClick={(e) => handleScroll(1, e)}
           >
-            <MdExpandMore />
+            <ArrowBackground />
+            <ArrowIcon next />
           </ScrollForward>
 
           <ScrollBack
@@ -103,7 +103,8 @@ function Thumbnails({
             disabled={backDisabled}
             onClick={(e) => handleScroll(-1, e)}
           >
-            <MdExpandLess />
+            <ArrowBackground />
+            <ArrowIcon prev />
           </ScrollBack>
         </>
       )}
@@ -283,28 +284,41 @@ const ThumbnailImage = styled.img`
 `;
 
 const Scroll = styled.button`
+  display: none;
   position: absolute;
   padding: 0;
   border: none;
   background-color: transparent;
-  font-size: 2em;
+  background-color: ${(props) => props.theme.navBgColor};
+  line-height: 1;
+  font-size: 1em;
+  aspect-ratio: 1;
+  height: 1.5em;
+  @media (min-width: 700px) {
+    font-size: 1.17em;
+  };
+  @media (min-width: 800px) {
+    display: ${(props) => props.status === 'default' && 'flex'};
+  };
+  @media (min-width: 900px) {
+    font-size: 1.5em;
+  };
+
   z-index: 2;
   left: 42.5%;
   transform: translateX(-50%);
   color: ${(props) => props.theme.fontColor};
   cursor: pointer;
-  display: none;
-  &:hover {
 
+  &:hover {
+    background-color: rgba(225, 225, 225, 0.9);
   };
   &:disabled {
     opacity: 0.3;
     cursor: initial;
   }
-  @media (min-width: 800px) {
-    display: ${(props) => props.status === 'default' && 'flex'};
-  };
 `;
+// background-color: ${(props) => props.theme.navBgColor};
 
 const ScrollBack = styled(Scroll)`
   top: 0;
@@ -312,4 +326,42 @@ const ScrollBack = styled(Scroll)`
 
 const ScrollForward = styled(Scroll)`
   bottom: 0;
+`;
+
+const ArrowBackground = styled.span`
+  aspect-ratio: 1;
+  display: flex;
+  position: relative;
+  height:100%;
+`;
+
+const ArrowIcon = styled.span`
+  position: absolute;
+  height: 100%;
+  width: 100%;
+
+  ${(props) => props.prev && css`
+    &::before {
+      content: '〈';
+      right: 50%;
+      position: absolute;
+      top: 12.5%;
+      width: max-content;
+      transform: rotate(0.25turn) translate(-25%,-50%);
+      font-family: futura-pt, sans-serif;
+      box-sizing: border-box;
+    }
+  `};
+
+  ${(props) => props.next && css`
+    top: 50%;
+    &::before {
+      content: '﹀';
+      position: absolute;
+      height: 25%;
+      width: 100%;
+      transform: translate(-50%,-50%);
+      font-family: futura-pt, sans-serif;
+    }
+  `};
 `;

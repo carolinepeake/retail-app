@@ -3,9 +3,6 @@ import React, {
 } from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
-import {
-  MdArrowForwardIos, MdArrowBackIos,
-} from 'react-icons/md';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import Thumbnails from './Thumbnails';
 import useUnsplashUrl from '../../utils/useUnsplash';
@@ -141,19 +138,11 @@ function ImageGallery({
                      onClick={(e) => handleClickMain(e)}
                      status={status}
                      setStatus={setStatus}
-                    //  place={place}
-                    //  setPlace={setPlace}
                    >
                      <Main
-                  //  id={photo.url}
-                  //  src={selectedStyle.photos[place || 0].url}
-                      //  onClick={(e) => handleClickMain(e)}
-                      //  src={selectedStyle.photos[index].url}
                        src={photo.url}
                        alt={`${productInfo.name} in ${selectedStyle.name} style photo number ${index}`}
                        status={status}
-                      //  setStatus={setStatus}
-                      //  i={index}
                      />
                    </Slide>
                  ))}
@@ -170,7 +159,8 @@ function ImageGallery({
                setFirstPhotoIndex={setFirstPhotoIndex}
                onClick={() => handleClickArrow(-1)}
              >
-               <MdArrowBackIos status={status} style={{ fontSize: status === 'expanded' ? '2.0rem' : '2.5rem', paddingLeft: '0.25rem', paddingTop: '0.25rem' }} />
+               <ArrowBackground />
+               <ArrowIcon prev />
              </Buttons>
              <Buttons
                onClick={() => handleClickArrow(1)}
@@ -181,7 +171,8 @@ function ImageGallery({
                firstPhotoIndex={firstPhotoIndex}
                setFirstPhotoIndex={setFirstPhotoIndex}
              >
-               <MdArrowForwardIos status={status} style={{ fontSize: status === 'expanded' ? '2.0rem' : '2.5rem', paddingTop: '0.25rem', paddingRight: '0.25rem' }} />
+               <ArrowBackground />
+               <ArrowIcon next />
              </Buttons>
 
              {status === 'expanded'
@@ -189,7 +180,8 @@ function ImageGallery({
           <Exit
             onClick={(e) => handleClickExit(e)}
           >
-            &#10005;
+            {/* &#10005; */}
+            &#9587;
           </Exit>
           )}
            </AnimationContainer>
@@ -200,7 +192,6 @@ function ImageGallery({
           <MainWrapper ref={imageContainer} status={status}>
             <Main
               src={selectedStyle.photos[place || 0].url}
-              // src={photo.url}
               onClick={(e) => handleClickMain(e)}
               alt={`${productInfo.name} in ${selectedStyle.name} style photo number ${place}`}
               status={status}
@@ -226,8 +217,6 @@ function ImageGallery({
     </ImageGalleryContainer>
   );
 }
-
-// &times;
 
 ImageGallery.propTypes = {
   status: PropTypes.string.isRequired,
@@ -274,16 +263,6 @@ const ImageGalleryContainer = styled.div`
     align-content: center;
   `};
 `;
-
-// ${(props) => props.status === 'zoomed' && css`
-// margin: auto;
-// height: max-content;
-// justify-content: center;
-// align-items: center;
-// align-content: center;
-// `};
-
-// overflow: hidden;
 
 const AnimationContainer = styled.div`
   position: relative;
@@ -340,19 +319,7 @@ const MainWrapper = styled.div`
     };
   `};
 `;
-// ${(props) => props.status === 'expanded' && css`
-//       @media (min-width: 600px) {
-//         max-height: 120vh;
-//       };
-//     `};
-// ${(props) => props.status === 'zoomed' && css`
-// @media (min-width: 600px) {
-//   max-width: 80vh;
-//   max-height: 120vh;
-// };
-// `};
 
-// might need to put the declaration block for !zoomed inside the media query
 const Carousel = styled.ul`
   display: flex;
   left: 0;
@@ -361,7 +328,7 @@ const Carousel = styled.ul`
   padding: 0;
   width: ${(props) => props.photosLength}00%;
 
-  @media (min-width: 800px) {
+  @media (min-width: 600px) {
     transition: translate 0.5s;
     translate: ${(props) => `calc((-100% / ${props.photosLength}) * ${props.place})`} 0;
   };
@@ -415,8 +382,6 @@ const Main = styled.img`
 
 // MVP journal: cannot select by fields in a mongodb document that is simply referenced by objectID in another schema.  you have to run the populate method to get the fields of the nested schema to populate in the outer model, and cannot then find by a certain field or value. instead, have to denormalize the data when you design your schemas.
 
-// fill is a css property you can use to color in icons
-
 // to make font-size responsive, set the root font-size to be a porportion of the view width, i.e. html {
 // font-size: () => 15px + 0.3vw;  // not 100% on my syntax but that's the jist
 // },
@@ -436,29 +401,38 @@ const Main = styled.img`
 
 const Buttons = styled.button`
   display: none;
-  @media (min-width: 800px) {
+  @media (min-width: 600px) {
     ${(props) => props.left && css`
       left: 0%;
       display: ${props.place > 0 ? 'block' : 'none'};
     `};
     ${(props) => props.right && css`
-    right: 0%;
-    display: ${props.place < props.photosLength - 1 ? 'block' : 'none'};
-  `};
+      right: 0%;
+      display: ${props.place < props.photosLength - 1 ? 'block' : 'none'};
+    `};
   };
-  background-color: white;
+  z-index: 3;
+  align-self: center;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: ${(props) => props.theme.navBgColor};
   &:hover {
     background-color: rgba(225, 225, 225, 0.9);
   };
   padding: 0;
   color: black;
   border: none;
-  width: 3rem;
-  height: 3rem;
-  z-index: 3;
-  align-self: center;
-  position: absolute;
-  top: 44%;
+  line-height: 1;
+  font-size: 1em;
+  aspect-ratio: 1;
+  height: 2em;
+  @media (min-width: 700px) {
+    font-size: 1.17em;
+  };
+  @media (min-width: 900px) {
+    font-size: 1.5em;
+  };
   ${(props) => props.scroll && css`
     top: initial;
     height: 2rem;
@@ -473,33 +447,69 @@ const Buttons = styled.button`
     };
     font-size: 2rem;
   `};
-  ${(props) => (props.status === 'expanded' && css`
-    left: 2%;
-    line-height: 1.5em;
-    width: 1.5em;
-    height: 1.5em;
-    font-size: 2.5rem;
-  `)};
 `;
-// background-color: rgba(225, 225, 225, 0.75);
-// position: absolute (not scroll);
+
+const ArrowBackground = styled.span`
+  aspect-ratio: 1;
+  display: flex;
+  position: relative;
+`;
+
+const ArrowIcon = styled.span`
+  ${(props) => props.prev && css`
+    &::before {
+      content: '〈';
+      right: 75%;
+      position: absolute;
+      top: 50%;
+      height: 50%;
+      width: 50%;
+      transform: translate(50%,-50%);
+      padding: 0 6.25%;
+      font-family: futura-pt, sans-serif;
+      box-sizing: border-box;
+    }
+  `};
+
+  ${(props) => props.next && css`
+    &::before {
+      content: ' 〉';
+      left: 50%;
+      position: absolute;
+      top: 50%;
+      height: 50%;
+      width: 25%;
+      transform: translate(-50%,-50%);
+      padding: 0 12.5%;
+      font-family: futura-pt, sans-serif;
+    }
+  `};
+`;
 
 const Exit = styled.button`
   position: absolute;
-  right: 1%;
-  top: 1%;
+  right: 0;
+  top: 0;
   z-index: 3;
-  background-color: white;
+  background-color: ${(props) => props.theme.navBgColor};
   &:hover {
     background-color: rgba(225, 225, 225, 0.9);
   };
-  font-size: 2.5rem;
   display: block;
   color: black;
   border: none;
-  width:1.5em;
-  height: 1.5em;
-  line-height: 1.5em;
+  padding: 0;
+  line-height: 1;
+  font-size: 1em;
+  aspect-ratio: 1;
+  height: 2em;
+  align-self: center;
+  @media (min-width: 700px) {
+    font-size: 1.17em;
+  };
+  @media (min-width: 800px) {
+    font-size: 1.5em;
+  };
 `;
 
 export default ImageGallery;
