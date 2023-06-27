@@ -17,24 +17,25 @@ function ExtraButtons({
   const [showModal, setShowModal] = useState(false);
   const {
     filteredQuestions,
-    numQuestions,
-    setNumQuestions,
+    // numQuestions,
+    // setNumQuestions,
   } = useGlobalContext();
 
   // previously used to increase scroll container by 2 each time it was clicked
   // could do this until reach 10 and then show all questions with 10 per page
   // should return the id canceling the setTimeout?
-  const increaseQuestions = () => {
-    // useRef?
-    const container = document.getElementById('scrollable-container');
-    // prev + 2?
-    setNumQuestions(numQuestions + 2);
 
-    const prevMaxHeight = container.scrollHeight;
-    setTimeout(() => {
-      container.scrollTop = prevMaxHeight;
-    }, 0);
-  };
+  // const increaseQuestions = () => {
+  //   // useRef?
+  //   const container = document.getElementById('scrollable-container');
+  //   // prev + 2?
+  //   setNumQuestions(numQuestions + 2);
+
+  //   const prevMaxHeight = container.scrollHeight;
+  //   setTimeout(() => {
+  //     container.scrollTop = prevMaxHeight;
+  //   }, 0);
+  // };
 
   return (
     <ButtonContainer>

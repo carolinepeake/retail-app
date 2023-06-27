@@ -75,7 +75,6 @@ function AddQuestionModal({ setShowModal }) {
         <Header>
           <AskAQuestion>Ask a Question</AskAQuestion>
           <ProductName>
-            {/* About the  */}
             {productInfo.name}
           </ProductName>
         </Header>
