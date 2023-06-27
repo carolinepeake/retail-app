@@ -4,7 +4,6 @@ import styled, { css } from 'styled-components';
 import Search from '../reusable/Search';
 import Button from '../reusable/Button';
 import LinksList from './LinksList';
-// import ConditionalWrapper from '../reusable/ConditionalWrapper';
 
 // TO-DO: add scroll event listener for nav sections
 // TO-DO: add animation to make expanding nav smooth
@@ -19,14 +18,12 @@ function NavBar({ toggleTheme }) {
   const [searchClosed, setSearchClosed] = useState(true);
 
   const [isExpanded, setIsExpanded] = useState(false);
-  const navLinks = [{ target: 'product-details', label: 'Product Details' }, { target: 'related-items', label: 'Related Items' }, { target: 'question-and-answers', label: 'Questions & Answers' }, { target: 'ratings-and-reviews', label: 'Ratings & Reviews' }];
 
   // stop propagation?
   // https://www.aleksandrhovhannisyan.com/blog/responsive-navbar-tutorial/
 
   const toggleNavbarVisibility = () => {
     setIsExpanded((prev) => !prev);
-    // console.log('toggling nav');
   };
 
   const toggleSearchBarVisibility = (e) => {
@@ -48,23 +45,6 @@ function NavBar({ toggleTheme }) {
       <Logo modal>&#10058;</Logo>
 
       <LinksList isExpanded={isExpanded} toggleTheme={toggleTheme} />
-
-      {/* {navLinks.map((link) => (
-        <GridItem
-          key={link.label}
-          href={`#${link.target}`}
-          isExpanded={isExpanded}
-        >
-          {link.label}
-        </GridItem>
-      ))}
-
-      <GridItem
-        onClick={() => toggleTheme()}
-        isExpanded={isExpanded}
-      >
-        Toggle Dark Mode
-      </GridItem> */}
 
       <RightSide searchClosed={searchClosed}>
         <Search
@@ -90,25 +70,6 @@ function NavBar({ toggleTheme }) {
           {isExpanded
         && (
         <ExpandedNav>
-          {/* {navLinks.map((link) => (
-            <GridItem
-              key={link.label}
-              href={`#${link.target}`}
-              secondary
-              isExpanded={isExpanded}
-            >
-              {link.label}
-            </GridItem>
-          ))}
-
-          <GridItem
-            onClick={() => toggleTheme()}
-            secondary
-            isExpanded={isExpanded}
-            className="last"
-          >
-            Toggle Dark Mode
-          </GridItem> */}
           <LinksList isExpanded={isExpanded} toggleTheme={toggleTheme} secondary />
         </ExpandedNav>
         )}
@@ -120,7 +81,6 @@ function NavBar({ toggleTheme }) {
       <AppBackground
         id="appBackground"
         onClick={(event) => closeModal(event)}
-        // onClick={(e) => toggleNavbarVisibility(e)}
       />
       )}
 
@@ -159,72 +119,6 @@ const Background = styled.div`
     padding: 0.75em 5%;
   };
 `;
-
-const GridItem = styled.a`
-  font-family: futura-pt, sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-stretch: ultra-condensed;
-  font-size: clamp(0.875rem, calc(0.5rem + 0.75vw), 1.25rem);
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  width: fit-content;
-  padding: 0 0.25em;
-  cursor: pointer;
-  &:link {
-    color: ${(props) => props.theme.navFontColor};
-    text-decoration: none;
-  };
-  &:visited {
-    color: ${(props) => props.theme.visitedColor};
-  };
-  &:hover {
-    text-decoration: underline;
-    color: ${(props) => props.theme.navActiveFontColor};
-  };
-  &:active {
-    color: ${(props) => props.theme.visitedColor};
-  };
-  @media (max-width: 50rem) {
-    display: ${(props) => (props.isExpanded ? 'block' : 'none')};
-    font-size: calc(0.625em + 1vw);
-    border-bottom: grey solid 1px;
-    padding: 1em;
-    width: 100%;
-    text-align: left;
-    background-color: ${(props) => props.theme.navBgColor};
-    transition: transform 0.25s ease;
-    &.last {
-     border-bottom: none;
-    }
-    &:hover {
-      transform: scale(1.025);
-      background-color: ${(props) => props.theme.submitButton};
-      text-decoration: none;
-      border: ${(props) => props.theme.fontColor} solid 1px;
-    }
-  };
-`;
-// @media (max-width: 50rem) {
-
-//   font-size: calc(0.625em + 1vw);
-//   border-bottom: grey solid 1px;
-//   padding: 1em;
-//   width: 100%;
-//   text-align: left;
-//   background-color: ${(props) => props.theme.navBgColor};
-//   transition: transform 0.25s ease;
-//   &.last {
-//    border-bottom: none;
-//   }
-//   &:hover {
-//     transform: scale(1.025);
-//     background-color: ${(props) => props.theme.submitButton};
-//     text-decoration: none;
-//     border: ${(props) => props.theme.fontColor} solid 1px;
-//   }
-// };
 
 const Logo = styled(Button)`
   position: relative;
@@ -315,8 +209,6 @@ const CollapsedNav = styled.button`
     display: none;
   };
 `;
-// z-index: 49;
-// position: relative;
 
 const AppBackground = styled.div`
   width: 100vw;
@@ -347,17 +239,6 @@ const ExpandedNav = styled.div`
     display: none;
   }
 `;
-// @media (min-width: 50rem) {
-//   flex-direction: row;
-//   justify-content: space-evenly;
-//   margin-left: 9.5px;
-//   position: static;
-//   width: 100%;
-//   border: none;
-//   box-shadow: none;
-// }
-
-// width: minmax(300px 20em 90vw);
 
 const IconBar = styled.span`
   display: block;

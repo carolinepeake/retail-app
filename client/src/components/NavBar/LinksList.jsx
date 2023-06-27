@@ -6,7 +6,11 @@ function LinksList({ toggleTheme, isExpanded = false, secondary = false }) {
   LinksList.propTypes = {
     toggleTheme: PropTypes.func.isRequired,
     isExpanded: PropTypes.bool.isRequired,
-    secondary: PropTypes.bool.isRequired,
+    secondary: PropTypes.bool,
+  };
+
+  LinksList.defaultProps = {
+    secondary: false,
   };
 
   const navLinks = [{ target: 'product-details', label: 'Product Details' }, { target: 'related-items', label: 'Related Items' }, { target: 'question-and-answers', label: 'Questions & Answers' }, { target: 'ratings-and-reviews', label: 'Ratings & Reviews' }];
@@ -88,13 +92,5 @@ const GridItem = styled.a`
     `}
   };
 `;
-// &::first-child {
-//   border-top: none;
-// };
-// border-right: ${(props) => props.theme.fontColor} solid 1px;
-// border-left: ${(props) => props.theme.fontColor} solid 1px;
-// &:hover {
-//   border: ${(props) => props.theme.fontColor} solid 1px;
-// }
 
 export default LinksList;
