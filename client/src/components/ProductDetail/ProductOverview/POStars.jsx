@@ -1,21 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useGlobalContext } from '../../../contexts/GlobalStore';
+import PropTypes from 'prop-types';
 
-function POStars() {
-  const {
-    reviews,
-  } = useGlobalContext();
+function POStars({ rating }) {
+  const [partial, setPartial] = useState(0);
 
+  function calculateStars(rat) {
+    const average = rat * 4;
+    const partialTemp = Math.round(average) * 5;
+    setPartial(partialTemp);
+    console.log('average in stars: ', average, 'partialTemp: ', partialTemp);
+  }
+
+  useEffect(() => {
+    calculateStars(rating);
+  }, [rating]);
+
+  // can memoize this calc b/c will always stay the same
   const baseStars = [];
   const filledStars = [];
-
-  let average = 0;
-  for (let i = 0; i < reviews.length; i += 1) {
-    average += reviews[i].rating;
-  }
-  average /= reviews.length;
-  const partial = average * 20;
   for (let i = 0; i < 5; i += 1) {
     baseStars.push(<span className="empty-star" key={i}>&#9734;</span>);
     filledStars.push(<span className="filled-star" key={i}>&#9733;</span>);
@@ -28,6 +31,10 @@ function POStars() {
     </StarsContainer>
   );
 }
+
+POStars.propTypes = {
+  rating: PropTypes.number.isRequired,
+};
 
 const StarsContainer = styled.h5`
   position: relative;
