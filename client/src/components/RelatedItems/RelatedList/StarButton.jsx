@@ -49,7 +49,18 @@ function StarButton({ details }) {
 }
 
 StarButton.propTypes = {
-  details: PropTypes.shape({}).isRequired,
+  details: PropTypes.shape({
+    name: PropTypes.string,
+    category: PropTypes.string,
+    id: PropTypes.number,
+    price: PropTypes.string,
+    features: PropTypes.arrayOf(
+      PropTypes.shape({
+        feature: PropTypes.string,
+        value: PropTypes.string,
+      }),
+    ),
+  }).isRequired,
 };
 
 const Button = styled.button`
