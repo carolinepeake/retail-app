@@ -27,8 +27,8 @@ ReviewsList.propTypes = {
     summary: PropTypes.string,
     recommend: PropTypes.bool,
     response: PropTypes.oneOfType([
+      PropTypes.any,
       PropTypes.string,
-      PropTypes.null,
     ]),
     body: PropTypes.string,
     date: PropTypes.string,

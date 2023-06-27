@@ -56,7 +56,7 @@ function RatingsAndReviews() {
       <GridContainer>
         <BreakdownContainer>
           <Breakdown
-            filterReviews={(test) => filterReviews(test)}
+            filterReviews={filterReviews}
             reviews={reviews}
           />
         </BreakdownContainer>
