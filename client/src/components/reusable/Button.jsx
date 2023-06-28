@@ -69,3 +69,4 @@ const Button = styled.button`
 // color: ${props.theme.fontColor};
 export default Button;
 // background-color: ${(props) => props.theme.navBgColor};
+

@@ -1,7 +1,7 @@
 import React, {
   useRef, useState, useLayoutEffect, useEffect,
 } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import Card from './Card';
 import Button from '../../reusable/Button';
@@ -73,6 +73,7 @@ function CardsList8() {
   }
 
   function handleNext() {
+    // show prev arrow button
     setHidePrev(false);
     // const transform = `calc(-${(index + 1) * viewportWidth}px - 1em)`;
     const transform = -100 / productList.length;
@@ -86,6 +87,7 @@ function CardsList8() {
     setIndex((prev) => prev + 1);
     console.log('index: ', index);
     console.log('translate: ', translate);
+    console.log('transform: ', transform);
     // index++
   }
 
@@ -111,17 +113,32 @@ function CardsList8() {
             key={i}
             length={productList.length}
           >
-            <Card className="carousel-card" image={product.image[0]} product={product} index={index} />
+            <Card
+              className="carousel-card"
+              image={product.image[0]}
+              product={product}
+              index={index}
+            />
           </CardContainer>
         ))}
 
       </CarouselContent>
 
-      <LeftButton onClick={(e) => handlePrev(e)} hidePrev={hidePrev}>
-        &#8592;
+      <LeftButton
+        onClick={(e) => handlePrev(e)}
+        hidePrev={hidePrev}
+      >
+        <ArrowBackground />
+        <ArrowIcon prev />
       </LeftButton>
-      <RightButton onClick={(e) => handleNext(e)} hideNext={hideNext} length={productList.length} index={index}>
-        &#8594;
+      <RightButton
+        onClick={(e) => handleNext(e)}
+        hideNext={hideNext}
+        length={productList.length}
+        index={index}
+      >
+        <ArrowBackground />
+        <ArrowIcon next />
       </RightButton>
 
     </CarouselContainer>
@@ -142,10 +159,11 @@ const CarouselContainer = styled.div`
 `;
 
 const CarouselContent = styled.div`
-  transition: transform 0.4s;
   position: relative;
   display: flex;
   transform: ${(props) => ((props.length - (1 * props.index) < 1) ? `translateX(calc(${props.translate}% * ${props.index - 1} * 1 + (${props.translate}% * (${props.length % 1}))))` : `translateX(calc(${props.translate}% * ${props.index} * 1))`)};
+  transition: transform 0.4s;
+
   width: calc((100% + 2.5vw) / 1 * ${(props) => props.length});
 
   @media (min-width: 21.875em) {
@@ -156,7 +174,7 @@ const CarouselContent = styled.div`
     transform: ${(props) => ((props.length - (3 * props.index) < 3) ? `translateX(calc(${props.translate}% * ${props.index - 1} * 3 + (${props.translate}% * (${props.length % 3}))))` : `translateX(calc(${props.translate}% * ${props.index} * 3))`)};
     width: calc((100% + 2.5vw) / 3 * ${(props) => props.length});
   }
-  @media (min-width: 900px) {
+  @media (min-width: 56em) {
     transform: ${(props) => ((props.length - (4 * props.index) < 4) ? `translateX(calc(${props.translate}% * ${props.index - 1} * 4 + (${props.translate}% * (${props.length % 4}))))` : `translateX(calc(${props.translate}% * ${props.index} * 4))`)};
     width: calc((100% + 1.25vw) / 4 * ${(props) => props.length});
   }
@@ -194,8 +212,11 @@ const CardContainer = styled.div`
   @media (min-width: 900px) {
     padding-right: 1.25vw;
     padding-left: 1.25vw;
-  }
+  };
 `;
+// min-width: 200px;
+// max-width: ?;
+
 // @media (min-width: 400px) {
 //   width: 45vw;
 //   padding-left: 1em;
@@ -237,20 +258,34 @@ const CardContainer = styled.div`
 // padding-right: 1em;
 // padding-right: ${(props) => (props.cardWidth / 5)}px;
 
-const CarouselButton = styled(Button)`
+const CarouselButton = styled.button`
   position: absolute;
+  align-self: center;
   cursor: pointer;
   top: 50%;
   z-index: 7;
   transition: transform 0.1s ease-in-out;
-  background: white;
   border: none;
-  font-size: 1.5em;
-  width: 1.5em;
-  height: 1.5em;
   transform: translateY(-50%);
   padding: 0;
   margin: 0;
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    opacity: 0.8;
+  };
+  font-weight: 500;
+  background-color: ${(props) => props.theme.navBgColor};
+  line-height: 1;
+  font-size: 1em;
+  aspect-ratio: 1;
+  height: 2em;
+  @media (min-width: 700px) {
+    font-size: 1.17em;
+  };
+  @media (min-width: 900px) {
+    font-size: 1.5em;
+  };
+
 `;
 
 const RightButton = styled(CarouselButton)`
@@ -262,7 +297,7 @@ const RightButton = styled(CarouselButton)`
   @media (min-width: 37.5em) {
     display: ${(props) => ((props.hideNext || ((props.index + 1) * 3 >= props.length)) ? 'none' : 'block')};
   }
-  @media (min-width: 900px) {
+  @media (min-width: 960px) {
     display: ${(props) => ((props.hideNext || ((props.index + 1) * 4 >= props.length)) ? 'none' : 'block')};
   }
   @media (min-width: 1300px) {
@@ -288,6 +323,43 @@ const LeftButton = styled(CarouselButton)`
   @media (min-width: 900px) {
     left: 2.5%;
   };
+`;
+
+const ArrowBackground = styled.span`
+  aspect-ratio: 1;
+  display: flex;
+  position: relative;
+`;
+
+const ArrowIcon = styled.span`
+  ${(props) => props.prev && css`
+    &::before {
+      content: '〈';
+      right: 75%;
+      position: absolute;
+      top: 50%;
+      height: 50%;
+      width: 50%;
+      transform: translate(50%,-50%);
+      padding: 0 6.25%;
+      font-family: futura-pt, sans-serif;
+      box-sizing: border-box;
+    }
+  `};
+
+  ${(props) => props.next && css`
+    &::before {
+      content: ' 〉';
+      left: 50%;
+      position: absolute;
+      top: 50%;
+      height: 50%;
+      width: 25%;
+      transform: translate(-50%,-50%);
+      padding: 0 12.5%;
+      font-family: futura-pt, sans-serif;
+    }
+  `};
 `;
 
 export default CardsList8;
