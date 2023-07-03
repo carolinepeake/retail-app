@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+// should prolly move utils out of components folder;
 
 export const GlobalContext = React.createContext();
+
+// To-DO: product 40349, a photo url has an extra "u" at the beginning of it
 
 export function useGlobalContext() {
   return React.useContext(GlobalContext);
@@ -29,7 +32,6 @@ export function GlobalContextProvider({ children }) {
   console.log('product: ', product);
   const [productID, setProductID] = useState(product || 40344);
 
-  // const [productID, setProductID] = useState(40344);
   const [productInfo, setProductInfo] = useState({});
   const [styles, setStyles] = useState([]);
   const [selectedStyle, setSelectedStyle] = useState({});
@@ -61,7 +63,7 @@ export function GlobalContextProvider({ children }) {
         setProductInfo(results.data);
       })
       .catch((err) => {
-        console.error('error getting product info for product ', id, ': ', err);
+        console.error('error getting product info for product ', productID, ': ', err);
       });
   }
 
@@ -71,7 +73,6 @@ export function GlobalContextProvider({ children }) {
         product_id: productID,
       },
     }).then((stylesResult) => {
-      // stylesResult.data.results)
       setSelectedStyle(stylesResult.data.results[0]);
       setStyles(stylesResult.data.results);
     })
@@ -164,12 +165,17 @@ export function GlobalContextProvider({ children }) {
         },
       })
       .then((results) => {
-        (results.data).forEach((id) => {
+        function onlyUnique(value, index, array) {
+          if (value === Number(productID)) {
+            return false;
+          }
+          return array.indexOf(value) === index;
+        }
+        const relatedProducts = results.data.filter(onlyUnique);
+        relatedProducts.forEach((id) => {
           const details = axios.get('/relatedItem', { params: { productID: id } });
           const image = axios.get('/relatedImage', { params: { productID: id } });
-          // axios.get('/styles', { params: { product_id: id } }).then((stylesResult) => stylesResult.data.results);
           const stars = axios.get('/relatedStars', { params: { product_id: id } });
-          // getReviewsMetaData(id);
           Promise.all([
             details,
             image,
@@ -181,16 +187,14 @@ export function GlobalContextProvider({ children }) {
                 image: object[1],
                 stars: object[2],
               };
-              console.log('temp obj: ', tempObj);
               setProductList((oldList) => [...oldList, tempObj]);
-              console.log('product list: ', productList);
             })
             .catch((err) => {
               console.log(err);
             });
         });
       })
-      .catch((error) => console.log('Error here:', error));
+      .catch((error) => console.log('Error getting related products: ', error));
   }
 
   function scrollToTop() {
