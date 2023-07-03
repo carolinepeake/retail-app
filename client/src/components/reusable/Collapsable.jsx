@@ -16,8 +16,8 @@ function Collapsable({ children, header }) {
       >
         <span>{header}</span>
         {collapsed
-          ? <span>+</span>
-          : <span>-</span>}
+          ? <Icon>&#9532;</Icon>
+          : <Icon>&#9472;</Icon>}
       </Header>
       <Content collapsed={collapsed}>
         {children}
@@ -59,6 +59,10 @@ const Content = styled.div`
   ${(props) => props.collapsed && css`
     display: none;
   `};
+`;
+
+const Icon = styled.span`
+  font-size: ${(props) => props.theme.tertiary};
 `;
 
 export default Collapsable;
