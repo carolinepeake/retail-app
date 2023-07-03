@@ -5,8 +5,8 @@ axios.defaults.headers.common.Authorization = process.env.AUTH_TOKEN;
 
 module.exports.getRelated = (req, res) => {
   axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/products/${req.query.productID}/related`)
-    .then((result) => {
-      res.send(result.data);
+    .then((results) => {
+      res.send(results.data);
     })
     .catch((err) => {
       console.log(err);
@@ -38,7 +38,6 @@ module.exports.getRelatedItem = (req, res) => {
   axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/products/${req.query.productID}`)
     .then((result) => {
       res.send(result.data);
-      console.log('related product: ', result);
     })
     .catch((err) => {
       console.log(err);
