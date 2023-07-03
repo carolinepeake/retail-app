@@ -1,28 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
-import CardsList8 from './RelatedList/CardsList8';
+import CardsList from './RelatedList/CardsList';
 import OutfitList from './OutfitList/OutfitList';
-import OutfitList2 from './OutfitList/OutfitList2';
 import SectionHeader from '../reusable/SectionHeader';
-import { useGlobalContext } from '../../contexts/GlobalStore';
 
 function RelatedItems() {
-  const {
-    productList,
-  } = useGlobalContext();
-
   return (
     <Container id="related-items">
       <Text>
         Related Items
       </Text>
-      {productList.length > 0 && (
-      <CardsList8 />)}
+      <CardsList />
       <Text second>
         Outfit List
       </Text>
-      {/* <OutfitList /> */}
-      <OutfitList2 />
+      <OutfitList />
     </Container>
   );
 }

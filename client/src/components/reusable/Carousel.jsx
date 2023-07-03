@@ -50,7 +50,7 @@ function Carousel2({ children, sharedViewport }) {
       <CarouselContainer
         id="carousel-container"
         role="region"
-        aria-label="Colors carousel"
+        aria-label="carousel"
       >
         {/* <CarouselButton
           hasItemsOnLeft={hasItemsOnLeft}

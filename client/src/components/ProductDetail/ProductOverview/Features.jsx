@@ -3,13 +3,15 @@ import styled from 'styled-components';
 
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
+// TO-DO: don't display null feature values, make sure spaces between words
+
 function Features() {
   const { features } = useGlobalContext().productInfo;
 
   const featuresComponents = features.map((feature, index) => (
     <Feature key={`${feature.value}_${feature.feature}`} index={index}>
       <Text>&#x2713;</Text>
-      <Text>{`${feature.value} ${feature.feature}`}</Text>
+      <Text>{`${feature.value.match(/[A-Z][a-z]+/g).join(' ')} ${feature.feature}`}</Text>
     </Feature>
   ));
 
