@@ -70,7 +70,11 @@ function NavBar({ toggleTheme }) {
           {isExpanded
         && (
         <ExpandedNav>
-          <LinksList isExpanded={isExpanded} toggleTheme={toggleTheme} secondary />
+          <LinksList
+            isExpanded={isExpanded}
+            toggleTheme={toggleTheme}
+            secondary
+          />
         </ExpandedNav>
         )}
         </CollapsedNav>
