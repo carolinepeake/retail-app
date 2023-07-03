@@ -417,11 +417,14 @@ const Buttons = styled.button`
   top: 50%;
   transform: translateY(-50%);
   background-color: ${(props) => props.theme.navBgColor};
+  opacity: 0.8;
   &:hover {
-    background-color: rgba(225, 225, 225, 0.9);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    opacity: 1;
   };
+  font-weight: 500;
   padding: 0;
-  color: black;
+  color: ${(props) => props.theme.fontColor};;
   border: none;
   line-height: 1;
   font-size: 1em;
@@ -448,6 +451,9 @@ const Buttons = styled.button`
     font-size: 2rem;
   `};
 `;
+// &:hover {
+//   background-color: rgba(225, 225, 225, 0.9);
+// };
 
 const ArrowBackground = styled.span`
   aspect-ratio: 1;
@@ -473,6 +479,7 @@ const ArrowIcon = styled.span`
 
   ${(props) => props.next && css`
     &::before {
+      /* could also use &#x27E9; it's centered */
       content: ' 〉';
       left: 50%;
       position: absolute;
