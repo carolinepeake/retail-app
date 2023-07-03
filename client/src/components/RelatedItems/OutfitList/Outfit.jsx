@@ -4,39 +4,44 @@ import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import Stars from '../RelatedList/Stars';
+import CardImage from '../RelatedList/CardImage';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
-function Outfit({ outfit, index }) {
+function Outfit({ outfit, index, setIndex, i }) {
   const {
-    outfits, setOutfits, outfitIndex,
+    outfits, setOutfits,
   } = useGlobalContext();
   const outfitImage = outfit.photo;
-  const defaultImage = 'https://www.escapeauthority.com/wp-content/uploads/2116/11/No-image-found.jpg';
 
   function removeOutfit() {
+    if (index === outfits.length) {
+      setIndex((prev) => prev - 1);
+    }
     // Note: Need to use below syntax for component to re-render properly
     const tempArray = [...outfits];
-    tempArray.splice(index, 1);
+    tempArray.splice(i, 1);
     setOutfits(tempArray);
   }
 
   return (
-    <OutfitContainer i={index} outfitIndex={outfitIndex}>
+    <OutfitContainer>
       <Outline>
-        <ImageOutline>
-          <Image src={outfitImage ? outfitImage : defaultImage} />
-          <Button onClick={() => removeOutfit()}><AiOutlineCloseCircle /></Button>
-        </ImageOutline>
-        <Info category>
-          {outfit.category}
-        </Info>
-        <Info name>
-          {outfit.name}
-        </Info>
-        <Info price>
-          $
-          {outfit.price}
-        </Info>
+        <Button onClick={() => removeOutfit()}><AiOutlineCloseCircle /></Button>
+        <CardImage
+          imageUrl={outfitImage}
+        />
+        <Text>
+          <Info category>
+            {outfit.category}
+          </Info>
+          <Info productName>
+            {outfit.name}
+          </Info>
+          <Info price>
+            $
+            {outfit.price}
+          </Info>
+        </Text>
         <Stars rating={outfit.rating} />
       </Outline>
     </OutfitContainer>
@@ -66,77 +71,39 @@ function Outfit({ outfit, index }) {
 //   index: PropTypes.number.isRequired,
 // };
 
-// const Outline = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   &:hover {
-//     opacity: 0.80;
-//   }
-//   border: black solid medium transparent;
-//   margin-top: 0.5rem;
-// `;
-
-const OutfitContainer = styled.li`
-  min-width: 220px;
+const OutfitContainer = styled.div`
   position: relative;
   background-color: ${(props) => props.theme.backgroundColor};
-  aspect-ratio: 4/6;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
 `;
-// mask-image: ${(props) => (props.i === 3 ? 'linear-gradient(to right, rgba(0,0,0,1), 40%, rgba(0,0,0,0) 80%)' : ' ')};
-// const OutfitContainer = styled.div`
-//   grid-column: ${(props) => props.i};
-//   align-self: center;
-//   background-color: ${(props) => props.theme.backgroundColor};
-// `;
 
 const Outline = styled.div`
   &:hover {
     opacity: 0.80;
   }
-  border: black solid medium transparent;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   border: lightgrey solid thin;
-`;
-
-const ImageOutline = styled.div`
+  justify-content: flex-end;
+  height: 100%;
   position: relative;
-  overflow: hidden;
-  object-fit: cover;
-  width: 100%;
 `;
+// box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
 const Info = styled.div`
-  display: inline-block;
-  padding-left: 0.25em;
   margin-right: auto;
-  font-size: ${(props) => props.theme.cardText};
-  ${(props) => props.name && css`
-    font-size: ${props.theme.cardTitle};
+  font-size: ${(props) => props.theme.tertiary};
+  paddingTop: ${(props) => (props.category ? '0.1em' : props.productName ? '0.05em' : '')};
+  padding: ${(props) => props.price && '0.25em'};
+  padding-left: 0.25em;
+  ${(props) => props.productName && css`
+    font-size: ${props.theme.body};
     font-weight: 500;
-    paddingTop: 0.05em;
-  `};
-  ${(props) => props.category && css`
-    paddingTop: 0.1em;
-  `};
-  ${(props) => props.price && css`
-    padding: 0.25em;
   `};
 `;
-
-const Image = styled.img`
-  display: block;
-  // margin-left: auto;
-  // margin-right: auto;
-  width: 220px;
-  aspect-ratio: 4/5;
-  object-fit: cover;
-  cursor: pointer;
-  overflow: hidden;
-`;
-// width: 100%;
 
 const Button = styled.button`
   display: block;
@@ -153,6 +120,17 @@ const Button = styled.button`
     opacity: 0.80;
   }
   cursor: pointer;
+  z-index: 1;
+`;
+
+const Text = styled.div`
+  display: flex;
+  flex-direction: column;
+  &:hover {
+    text-decoration: underline;
+  }
+  cursor: pointer;
+  margin-top: 0.2em;
 `;
 
 export default Outfit;

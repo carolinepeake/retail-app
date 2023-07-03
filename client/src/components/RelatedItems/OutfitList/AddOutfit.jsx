@@ -4,14 +4,14 @@ import Button from '../../reusable/Button';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import { calcAverageRating } from '../../utils/useAverageRating';
 
-function AddOutfit() {
+function AddOutfit({ setIndex }) {
   const {
     productID, productInfo, revMeta, selectedStyle, outfits, setOutfits,
   } = useGlobalContext();
 
   // will want to make outfits array of productIds only, eventually
   // if (outfits.includes(productId))
-  const add = async () => {
+  const add = () => {
     for (let i = 0; i < outfits.length; i += 1) {
       if (outfits[i].id === productID) {
         return;
@@ -27,11 +27,12 @@ function AddOutfit() {
       photo: selectedStyle.photos[0].thumbnail_url,
     };
     const tempArray = [...outfits, outfit];
-    await setOutfits(tempArray);
+    setOutfits(tempArray);
+    setIndex((prev) => prev + 1);
   };
 
   return (
-    <Outline outfits={outfits}>
+    <Outline>
       <AddOutfitButton onClick={() => add()}>
         +
         <Text>Add Outfit</Text>
@@ -42,8 +43,7 @@ function AddOutfit() {
 
 const Outline = styled.div`
   justify-self: stretch;
-  aspect-ratio: 4/6;
-  min-width: 220px;
+  width: 100%;
   height: 100%;
   display: flex;
 `;
@@ -54,7 +54,10 @@ const AddOutfitButton = styled(Button)`
   padding: calc(8px + 0.5vw);
   align-self: flex-start;
   font-size: calc(8px + 1vw);
-  aspect-ratio: 4/6;
+  margin: 0;
+  height: 100%;
+  background-color: ${(props) => props.theme.navBgColor};
+  color: ${(props) => props.theme.fontColor};
 `;
 
 const Text = styled.div`
