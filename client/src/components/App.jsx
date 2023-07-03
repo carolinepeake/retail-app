@@ -8,6 +8,8 @@ import SocialMedia from './ProductDetail/ProductOverview/SocialMedia';
 import NavBar from './NavBar/NavBar';
 import { GlobalContextProvider } from '../contexts/GlobalStore';
 
+// TO-DO: download futura-pt font sheet and link to html stylesheet
+
 function App() {
   const [theme, setTheme] = useState('light');
 
