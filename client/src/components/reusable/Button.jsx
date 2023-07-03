@@ -22,6 +22,7 @@ const Button = styled.button`
     };
   `};
 
+  /* can delete */
   ${(props) => props.select && css`
     background-color: ${props.theme.backgroundColor};
     color: ${props.theme.fontColor};
@@ -58,7 +59,6 @@ const Button = styled.button`
     line-height: 1.5em;
     border-radius: 5px;
     aspect-ratio: 1/1;
-    border: none;
     align-items: center;
     justify-content: center;
     margin: 0;
