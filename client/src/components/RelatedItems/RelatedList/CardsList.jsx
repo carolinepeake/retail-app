@@ -1,262 +1,269 @@
-/* eslint-disable max-len */
-/* eslint-disable react/no-array-index-key */
-import React, { useEffect } from 'react';
-import styled from 'styled-components';
-import {
-  MdArrowForwardIos, MdArrowBackIos, MdExpandMore, MdExpandLess,
-} from 'react-icons/md';
-import {
-  HiArrowSmDown, HiArrowSmUp, HiArrowSmLeft, HiArrowSmRight,
-} from 'react-icons/hi';
-import axios from 'axios';
+import React, { useState } from 'react';
+import styled, { css } from 'styled-components';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import Card from './Card';
 
+// TO-DO: maybe make arrows initially a little transparent then not when hovered
+// so opposite what they are now
+
 function CardsList() {
+  // for now includes stars and product info data, will eventually just be product id
   const {
-    productID, cardIndex, setCardIndex, productList, setProductList, setCurrOutfit,
+    productList,
   } = useGlobalContext();
 
-  function clickRight() {
-    if (cardIndex + 3 < productList.length) {
-      setCardIndex(cardIndex + 1);
+  const [translate, setTranslate] = useState(0);
+  const [index, setIndex] = useState(0);
+
+  const [hidePrev, setHidePrev] = useState(true);
+  const [hideNext, setHideNext] = useState(false);
+
+  function handlePrev() {
+    setHideNext(false);
+    const transform = -100 / productList.length;
+    setTranslate(transform);
+    if (index === 1) {
+      setHidePrev(true);
     }
+    setIndex((prev) => prev - 1);
   }
 
-  // make transition smooth, so looks like a smooth carousel
-  function clickLeft() {
-    if (cardIndex > 0) {
-      setCardIndex(cardIndex - 1);
-    }
-  }
-
-  function fillEmpty() {
-    const emptyCells = [];
-    for (let i = 0; i < (4 - productList.length); i += 1) {
-      emptyCells.push(<Empty key={i} />);
-    }
-    return emptyCells;
+  function handleNext() {
+    // show prev arrow button
+    setHidePrev(false);
+    const transform = -100 / productList.length;
+    setTranslate(transform);
+    setIndex((prev) => prev + 1);
   }
 
   return (
-    <Container>
-      <StyleCardList>
-        {cardIndex !== 0 && productList.length >= 4
-          && (
-          <LeftButton onClick={() => clickLeft()}>
-            <HiArrowSmLeft />
-          </LeftButton>
-          )
-          //  &lt; </LeftButton>
-           }
-        {(productList.slice(cardIndex, cardIndex + 4)).map((data, i) => <Card data={data} key={i} i={i} />)}
-        {(productList.length < 4 && productList.length > 0)
-          && fillEmpty()}
+
+    <CarouselContainer>
+
+      <CarouselContent
+        translate={translate}
+        length={productList.length}
+        index={index}
+      >
+
         {productList.length === 0
-          && <Text>No related items</Text>}
-        {(cardIndex !== productList.length - 3 && productList.length >= 4)
-          && (
-          <RightButton onClick={() => clickRight()}>
-            <HiArrowSmRight />
-          </RightButton>
-          )}
-      </StyleCardList>
-    </Container>
+          ? <Text>No related items</Text>
+
+          : productList.map((product, i) => (
+            <CardContainer
+              className="carousel-item"
+              index={index}
+              key={i}
+              length={productList.length}
+            >
+              <Card
+                className="carousel-card"
+                image={product.image[0]}
+                product={product}
+                index={index}
+                setTranslate={setTranslate}
+                setIndex={setIndex}
+              />
+            </CardContainer>
+          ))}
+
+      </CarouselContent>
+
+      <LeftButton
+        onClick={(e) => handlePrev(e)}
+        hidePrev={hidePrev}
+      >
+        <ArrowBackground />
+        <ArrowIcon prev />
+      </LeftButton>
+      <RightButton
+        onClick={(e) => handleNext(e)}
+        hideNext={hideNext}
+        length={productList.length}
+        index={index}
+      >
+        <ArrowBackground />
+        <ArrowIcon next />
+      </RightButton>
+
+    </CarouselContainer>
+
   );
 }
 
-// &lt;
-
-// const Container = styled.div`
-//   background-color: ${(props) => props.theme.backgroundColor};
-// `;
-
-const Container = styled.div`
-  display: contents;
-  background-color: ${(props) => props.theme.backgroundColor};
-  grid-row: 2;
-  align-items: center;
-  @media (min-width: 600px) {
-    grid-column: 1/11;
-  };
-  grid-column: 1/11;
+const CarouselContainer = styled.div`
+  position: relative;
+  display: block;
+  padding-left: 2.5%;
+  margin-right: 5%;
+  overflow: hidden;
+  @media (min-width: 900px) {
+    margin-left: 2.5%;
+    padding-left: 1.25%;
+  }
 `;
 
-const StyleCardList = styled.div`
+const CarouselContent = styled.div`
+  position: relative;
   display: flex;
-  float: left;
-  positive: relative;
-  flex-direction: row;
-  margin-left: auto;
-  margin-right: auto;
-  align-content: space-evenly;
-  grid-row: 2/3;
-  grid-column: 2/6;
+  transform: ${(props) => ((props.length - (1 * props.index) < 1) ? `translateX(calc(${props.translate}% * ${props.index - 1} * 1 + (${props.translate}% * (${props.length % 1}))))` : `translateX(calc(${props.translate}% * ${props.index} * 1))`)};
+  transition: transform 0.4s;
+
+  width: calc((100% + 2.5vw) / 1 * ${(props) => props.length});
+
+  @media (min-width: 21.875em) {
+    transform: ${(props) => ((props.length - (2 * props.index) < 2) ? `translateX(calc(${props.translate}% * ${props.index - 1} * 2 + (${props.translate}% * (${props.length % 2}))))` : `translateX(calc(${props.translate}% * ${props.index} * 2))`)};
+    width: calc((100% + 2.5vw) / 2 * ${(props) => props.length});
+  }
+  @media (min-width: 37.5em) {
+    transform: ${(props) => ((props.length - (3 * props.index) < 3) ? `translateX(calc(${props.translate}% * ${props.index - 1} * 3 + (${props.translate}% * (${props.length % 3}))))` : `translateX(calc(${props.translate}% * ${props.index} * 3))`)};
+    width: calc((100% + 2.5vw) / 3 * ${(props) => props.length});
+  }
+  @media (min-width: 56em) {
+    transform: ${(props) => ((props.length - (4 * props.index) < 4) ? `translateX(calc(${props.translate}% * ${props.index - 1} * 4 + (${props.translate}% * (${props.length % 4}))))` : `translateX(calc(${props.translate}% * ${props.index} * 4))`)};
+    width: calc((100% + 1.25vw) / 4 * ${(props) => props.length});
+  }
+  @media (min-width: 1300px) {
+    transform: ${(props) => ((props.length - (5 * props.index) < 5) ? `translateX(calc(${props.translate}% * ${props.index - 1} * 5 + (${props.translate}% * (${props.length % 5}))))` : `translateX(calc(${props.translate}% * ${props.index} * 5))`)};
+    width: calc((100% + 1.25vw) / 5 * ${(props) => props.length});
+  }
+  @media (min-width: 1650px) {
+    transform: ${(props) => ((props.length - (6 * props.index) < 6) ? `translateX(calc(${props.translate}% * ${props.index - 1} * 6 + (${props.translate}% * (${props.length % 6}))))` : `translateX(calc(${props.translate}% * ${props.index} * 6))`)};
+    width: calc((100% + 1.25vw) / 6 * ${(props) => props.length});
+  }
+  @media (min-width: 2000px) {
+    transform: ${(props) => ((props.length - (7 * props.index) < 7) ? `translateX(calc(${props.translate}% * ${props.index - 1} * 7 + (${props.translate}% * (${props.length % 7}))))` : `translateX(calc(${props.translate}% * ${props.index} * 7))`)};
+    width: calc((100% + 1.25vw) / 7 * ${(props) => props.length});
+  }
+  @media (min-width: 2350px) {
+    transform: ${(props) => ((props.length - (8 * props.index) < 8) ? `translateX(calc(${props.translate}% * ${props.index - 1} * 8 + (${props.translate}% * (${props.length % 8}))))` : `translateX(calc(${props.translate}% * ${props.index} * 8))`)};
+    width: calc((100% + 1.25vw) / 8 * ${(props) => props.length});
+  }
+  @media (min-width: 2700px) {
+    transform: ${(props) => ((props.length - (9 * props.index) < 9) ? `translateX(calc(${props.translate}% * ${props.index - 1} * 9 + (${props.translate}% * (${props.length % 9}))))` : `translateX(calc(${props.translate}% * ${props.index} * 9))`)};
+    width: calc((100% + 1.25vw) / 9 * ${(props) => props.length});
+  }
 `;
 
-// const StyleCardList = styled.div`
-//   display: grid;
-//   positive: relative;
-//   grid-row: 2;
-//   grid-column: 1/10;
-//   grid-template-columns: repeat(2, 2fr);
-//   column-gap: 1em;
-//   align-content: center;
-
-//   @media (min-width: 600px) {
-//     grid-template-columns: repeat(4, 4fr);
-//     column-gap: 2em;
-//   };
-// `;
+// TO-DO: implement scroll for mobile
+const CardContainer = styled.div`
+  margin: 0;
+  width: calc(100% / ${(props) => props.length});
+  padding-right: 2.5vw;
+  padding-left: 2.5vw;
+  box-sizing: border-box;
+  height: 100%;
+  aspect-ratio: 4/6;
+  @media (min-width: 900px) {
+    padding-right: 1.25vw;
+    padding-left: 1.25vw;
+  };
+`;
 
 const Text = styled.div`
   font-size: 2rem;
   font-width: bold;
 `;
 
-// const LeftBox = styled.div`
-//   grid-column: 2/3;
-//   grid-row: 2/3;
-// `;
-
-// const LeftBox = styled.div`
-//   display: flex;
-//   justify-content: flex-end;
-//   float: left;
-//   align-items: center;
-//   flex-grow: 1;
-// `;
-
-// const RightBox = styled.div`
-//   grid-column: 4/5
-//   grid-row: 2/3
-// `;
-
-// const RightBox = styled.div`
-//   display: flex;
-//   float: left;
-//   align-items: center;
-//   flex-grow: 1;
-// `;
-
-// TO-DO: combine css for all arrows
-const LeftButton = styled.button`
-  align-self: center;
+const CarouselButton = styled.button`
   position: absolute;
-  font-weight: bold;
-  font-size: calc(12px + 0.75vw);
-  background-color: transparent;
+  align-self: center;
+  cursor: pointer;
+  top: 50%;
+  z-index: 7;
+  transition: transform 0.1s ease-in-out;
   border: none;
+  transform: translateY(-50%);
+  padding: 0;
+  margin: 0;
   &:hover {
-    background-color: rgba(114, 114, 114, 0.5);
-    color: white;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    opacity: 1;
   };
-  color: ${(props) => props.theme.fontColor};
-  cursor: pointer;
-  z-index: 1;
-  grid-column: 1;
-  grid-row: 1;
-  padding: 0 0;
-  height: calc(12px + 0.75vw);
+  font-weight: 500;
+  background-color: ${(props) => props.theme.navBgColor};
+  opacity: 0.8;
+  line-height: 1;
+  font-size: 1em;
+  aspect-ratio: 1;
+  height: 2em;
+  @media (min-width: 700px) {
+    font-size: 1.17em;
+  };
 `;
 
-// const LeftButton = styled.button`
-//   display: flex;
-//   align-self: center;
-//   position: absolute;
-//   font-width: bold;
-//   font-size: 2.5rem;
-//   background-color: transparent;
-//   border: none;
-//   &:hover {
-//     opacity: 0.80;
-//   }
-//   color: ${(props) => props.theme.fontColor};
-//   cursor: pointer;
-// `;
-
-const RightButton = styled.button`
-  align-self: center;
-  position: absolute;
-  font-width: bold;
-  font-size: calc(12px + 0.75vw);
-  background-color: transparent;
-  border: none;
-  &:hover {
-    background-color: rgba(114, 114, 114, 0.5);
-    color: white;
+const RightButton = styled(CarouselButton)`
+  right: 0;
+  display: ${(props) => ((props.hideNext || ((props.index + 1) * 1 >= props.length)) ? 'none' : 'block')};
+  @media (min-width: 21.875em) {
+    display: ${(props) => ((props.hideNext || ((props.index + 1) * 2 >= props.length)) ? 'none' : 'block')};
   }
-  color: ${(props) => props.theme.fontColor};
-  cursor: pointer;
-  z-index: 1;
-  grid-column: 2;
-  grid-row: 1;
-  right: 5%;
-  padding: 0 0;
-  height: calc(12px + 0.75vw);
+  @media (min-width: 37.5em) {
+    display: ${(props) => ((props.hideNext || ((props.index + 1) * 3 >= props.length)) ? 'none' : 'block')};
+  }
+  @media (min-width: 56em) {
+    display: ${(props) => ((props.hideNext || ((props.index + 1) * 4 >= props.length)) ? 'none' : 'block')};
+  }
+  @media (min-width: 1300px) {
+    display: ${(props) => ((props.hideNext || ((props.index + 1) * 5 >= props.length)) ? 'none' : 'block')};
+  }
+  @media (min-width: 1650px) {
+    display: ${(props) => ((props.hideNext || ((props.index + 1) * 6 >= props.length)) ? 'none' : 'block')};
+  }
+  @media (min-width: 2000px) {
+    display: ${(props) => ((props.hideNext || ((props.index + 1) * 7 >= props.length)) ? 'none' : 'block')};
+  }
+  @media (min-width: 2350px) {
+    display: ${(props) => ((props.hideNext || ((props.index + 1) * 8 >= props.length)) ? 'none' : 'block')};
+  }
+  @media (min-width: 2700px) {
+    display: ${(props) => ((props.hideNext || ((props.index + 1) * 9 >= props.length)) ? 'none' : 'block')};
+  }
 `;
 
-// const RightButton = styled.button`
-//   display: flex;
-//   align-self: center;
-//   position: absolute;
-//   font-width: bold;
-//   font-size: 2.5rem;
-//   background-color: transparent;
-//   border: none;
-//   &:hover {
-//     opacity: 0.80;
-//   }
-//   color: ${(props) => props.theme.fontColor};
-//   cursor: pointer;
-// `;
-
-// const Empty = styled.div`
-//   width: 100%;
-//   aspect-ratio: 1;
-//   border: black solid medium transparent;
-// `;
-
-const Empty = styled.div`
-  width: 225px;
-  height: 225px;
-  border: 15px solid transparent;
+const LeftButton = styled(CarouselButton)`
+  left: 5%;
+  display: ${(props) => (props.hidePrev ? 'none' : 'block')};
+  @media (min-width: 900px) {
+    left: 2.5%;
+  };
 `;
 
-// const Fade = styled.div`
-//   grid-column: 4;
-//   z-index: 2;
-//   background-color: gradient(left, rgba(0,0,0,0), rgba(0,0,0,1));
-//   grid-row: 1;
-//   position: absolute;
-// `;
+const ArrowBackground = styled.span`
+  aspect-ratio: 1;
+  display: flex;
+  position: relative;
+`;
+
+const ArrowIcon = styled.span`
+  ${(props) => props.prev && css`
+    &::before {
+      content: '〈';
+      right: 75%;
+      position: absolute;
+      top: 50%;
+      height: 50%;
+      width: 50%;
+      transform: translate(50%,-50%);
+      padding: 0 6.25%;
+      font-family: futura-pt, sans-serif;
+      box-sizing: border-box;
+    }
+  `};
+
+  ${(props) => props.next && css`
+    &::before {
+      content: ' 〉';
+      left: 50%;
+      position: absolute;
+      top: 50%;
+      height: 50%;
+      width: 25%;
+      transform: translate(-50%,-50%);
+      padding: 0 12.5%;
+      font-family: futura-pt, sans-serif;
+    }
+  `};
+`;
 
 export default CardsList;
-
-// .wrapper{
-//   color-fill: white;
-
-//   }
-// .big-font{
-// font-size: 25px;
-// }
-// .fade-right {
-// background: -webkit-linear-gradient(right, rgba(0,0,0,0), rgba(0,0,0,1));
-// -webkit-background-clip: text;
-// -webkit-text-fill-color: transparent;
-// }
-// .fade-left {
-// background: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,1));
-// -webkit-background-clip: text;
-// -webkit-text-fill-color: transparent;
-// }
-// .fade-up {
-// background: -webkit-linear-gradient(rgba(0,0,0,1), rgba(0,0,0,0));
-// -webkit-background-clip: text;
-// -webkit-text-fill-color: transparent;
-// }
-// .fade-down {
-// background: -webkit-linear-gradient(rgba(0,0,0,0), rgba(0,0,0,1));
-// -webkit-background-clip: text;
-// -webkit-text-fill-color: transparent;
-// }
