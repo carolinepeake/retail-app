@@ -1,12 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import ComparisonModal from './ComparisonModal';
 
-function StarButton({ details }) {
-  const [modal, setModal] = useState(false);
-  // const [starType, setStarType] = useState('&#9734;');
-
+function StarButton({ setModal }) {
   function openModal() {
     setModal(true);
   }
@@ -37,13 +33,6 @@ function StarButton({ details }) {
         {/* {starType} */}
         &#9733;
       </Button>
-      {modal
-      && (
-        <div>
-          <ComparisonModal onClick={(e) => { e.stopPropagation(); }} details={details} />
-          <ModalBackground onClick={(e) => { e.stopPropagation(); closeModal(); }} />
-        </div>
-      )}
     </>
   );
 }
@@ -80,16 +69,5 @@ const Button = styled.button`
   z-index: 1;
 `;
 
-const ModalBackground = styled.div`
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  left: 0%;
-  top: 0%;
-  z-index: 10;
-`;
 
 export default StarButton;

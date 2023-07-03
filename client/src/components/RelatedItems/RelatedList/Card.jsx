@@ -1,50 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import StarButton from './StarButton';
 import CardImage from './CardImage';
 import Stars from './Stars';
+import ComparisonModal from './ComparisonModal';
 import { calcAverageRating, getProductInfo, getReviewsMetaData } from '../../utils/useAverageRating';
 
 function Card({
-  product,
-  // image,
-  // i,
-  // cardWidth, numberOfCards, card
-  // index,
-  // length,
+  product, setIndex, setTranslate
 }) {
   const {
     setProductID,
   } = useGlobalContext();
 
-  // function changeItem() {
-  //   setProductID(details.id);
-  //   // Reset card index when clicking on new item
-  //   // setCardIndex(0);
-  // }
+  const [modal, setModal] = useState(false);
 
-  // const numVisible = 4;
+  function closeModal() {
+    setModal(false);
+  }
 
-  console.log('product from card: ', product);
+  function changeItem() {
+    setProductID(product.details.data.id);
+    // Reset card index when clicking on new item
+    setIndex(0);
+    setTranslate(0);
+  }
 
   const rating = calcAverageRating(product.stars.data.ratings);
 
   return (
     <CardContainer
-      // i={i}
-      // numVisible={numVisible}
-    // cardWidth={cardWidth} numberOfCards={numberOfCards} card={card}
-      // index={index}
-      // className="carousel-card"
-      onClick={() => setProductID(product.details.data.id)}
+      onClick={() => changeItem()}
     >
-      {/* { product.details
-        ? ( */}
       <CardStyle>
         <StarButton
-          details={product.details.data}
+          setModal={setModal}
         />
         <CardImage
           imageUrl={product.image.data.results[0].photos[0].thumbnail_url}
@@ -61,8 +53,14 @@ function Card({
           rating={rating}
         />
       </CardStyle>
-      {/* )
-        : <div /> } */}
+      {modal
+      && (
+        // <>
+        <ModalBackground onClick={(e) => { e.stopPropagation(); closeModal(); }}>
+          <ComparisonModal onClick={(e) => { e.stopPropagation(); }} details={product.details.data} />
+          {/* <ModalBackground onClick={(e) => { e.stopPropagation(); closeModal(); }} /> */}
+        </ModalBackground>
+      )}
     </CardContainer>
   );
 }
@@ -102,56 +100,15 @@ const CardContainer = styled.div`
   width: 100%;
   height: 100%;
 `;
-// aspect-ratio: 4/6;
-
-// width: 220px;
-// flex-shrink: 0;
-// padding-right: ${(props) => (props.cardWidth / 5)}px;
-// width: ${(props) => props.card}px;
-// width: ${(props) => props.cardWidth}px;
-// &&:nth-child(n) {
-//   ${(props) => (((props.index + 1) % props.numberOfCards === 0) && css`
-//     padding-right: 0;
-//     width: ${props.actualCardWidth - (props.cardWidth / 5)}px;
-//   `)};
-// width: ${props.actualCardWidth - (props.cardWidth / 5)}px;
-// ${(props) => (((props.index + 1) % props.numberOfCards === 0) && css`
-//     padding-right: 0;
-//   `)};
-// padding-right: 1em;
-// width: 220px;
-//   @media (min-width: 1032px) {
-//     width: 240px;
-//   };
-
-// width: 90vw;
-// &&:last-of-type {
-//   margin-right: 0;
-// };
-// &&:${(props) => props.numVisible}-of-type {
-//   margin-right: 0;
-// };
-// @media (min-width: 400px) {
-//   width: calc(95vw / 2 - 1em);
-//   margin-right: 1em;
-//   margin-left: 0;
-// };
-// @media (min-width: 800px) {
-//   width: calc(95vw / 3 - 2em);
-//   margin-right: 2em;
-// }
-// @media (min-width: 1032px) {
-//   width: calc(95vw / 4 - 3em);
-// };
 
 const CardStyle = styled.div`
   display: flex;
   flex-direction: column;
-  border: black solid medium transparent;
   border: lightgrey solid thin;
   justify-content: flex-end;
   height: 100%;
   position: relative;
+  overflow: hidden;
 `;
 // box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
@@ -192,5 +149,20 @@ const Text = styled.div`
   cursor: pointer;
   margin-top: 0.2em;
 `;
+
+const ModalBackground = styled.div`
+  width: 90vw;
+  height: 100%;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 1.25vw;
+  top: 0%;
+  z-index: 10;
+  flex-direction: column;
+`;
+// width: 100vw;
+// height: 100vh;
 
 export default Card;
