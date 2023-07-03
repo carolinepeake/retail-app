@@ -160,6 +160,7 @@ const StyledSelect = styled(Button)`
   flex-grow: 3;
   flex-shrink: 1;
   margin-right: 1em;
+  /* might want to just make size of body / other buttons */
   font-size: 1rem;
   border-color: ${(props) => props.error && 'red'};
 
