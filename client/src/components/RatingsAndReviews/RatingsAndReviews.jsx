@@ -62,9 +62,8 @@ function RatingsAndReviews() {
         </BreakdownContainer>
         <ReviewListContainer ref={revRef}>
 
-          {reviews.length === 0
-            ? <div>Be the first to write a review!</div>
-            : (
+          {reviews.length > 0
+            && (
               <>
                 <SortList
                   itemsPerPage={itemsPerPage}
