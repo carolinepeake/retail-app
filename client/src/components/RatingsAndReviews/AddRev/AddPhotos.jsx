@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 function AddPhotos({ preview, setPreview }) {
   function handlePreviews(event) {
-    if (event.target.files.length === 0) {
+    if (preview.length >= 5 || event.target.files.length === 0) {
       return;
     }
     const file = event.target.files[0];
@@ -13,7 +13,6 @@ function AddPhotos({ preview, setPreview }) {
     reader.readAsDataURL(file);
     reader.onloadend = () => {
       const base64image = reader.result;
-      console.log('base64image: ', base64image);
       setPreview([...preview, base64image]);
     };
   }
@@ -24,24 +23,32 @@ function AddPhotos({ preview, setPreview }) {
   // };
 
   return (
-    <div>
-      <div>Upload your photos</div>
-      <FileInput
-        type="file"
-        id="photos"
-        accept="image/png, image/jpeg"
-        onChange={(event) => handlePreviews(event)}
-      />
-      <br />
-      <PhotoPreviews>
-        {preview.map((photo) => (
-          <ImagePreview src={photo} alt="" key={photo} />
-        ))}
-      </PhotoPreviews>
+    <>
+      {preview.length < 5 ? (
+        <FormField htmlFor="photos">
+          Upload Your Photos
+          <FileInput
+            type="file"
+            id="photos"
+            accept="image/png, image/jpeg"
+            onChange={(event) => handlePreviews(event)}
+          />
+          <Disclaimer>
+            Optional, max 5
+          </Disclaimer>
+        </FormField>
+      ) : null}
+      {preview.length > 0 ? (
+        <PhotoPreviews>
+          {preview.map((photo) => (
+            <ImagePreview src={photo} alt="" key={photo} />
+          ))}
+        </PhotoPreviews>
+      ) : null}
       {/* <AddButton disabled onClick={() => handleAddPhotos()}>
         Add Photos
       </AddButton> */}
-    </div>
+    </>
   );
 }
 
@@ -52,9 +59,21 @@ AddPhotos.propTypes = {
 
 export default AddPhotos;
 
+const FormField = styled.label`
+  font-size: 1rem;
+  cursor: initial;
+`;
+
+const Disclaimer = styled.h5`
+  font-style: oblique;
+`;
+
 const FileInput = styled.input`
   color: ${(props) => props.theme.fontColor};
   margin-top: 0.25em;
+  font-size: 1em;
+  font-family: inherit;
+
   ::file-selector-button {
     color: ${(props) => props.theme.fontColor};
     background-color: ${(props) => props.theme.navBgColor};
@@ -63,13 +82,14 @@ const FileInput = styled.input`
     margin-right: 0.5em;
     border: 1px solid ${(props) => props.theme.fontColor};
     border-radius: 5px;
-  };
+  }
+
   ::placeholder {
     color: ${(props) => props.theme.inputPlaceholder};
-  };
-  font-size: 1em;
-  font-family: inherit;
+  }
 `;
+// display: block;
+// width: 100%;
 
 const PhotoPreviews = styled.div`
   display: flex;
@@ -79,7 +99,7 @@ const PhotoPreviews = styled.div`
 `;
 
 const ImagePreview = styled.img`
-  width:20%;
+  width: 20%;
   height: 100%;
   margin-right: 1%;
 `;

@@ -10,12 +10,20 @@ function AddQuestionModal({ setShowModal }) {
     setShowModal: PropTypes.func.isRequired,
   };
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [body, setBody] = useState('');
-  const [validInput, setValidInput] = useState(true);
-
   const { productID, productInfo } = useGlobalContext();
+
+  const initialFormState = {
+    name: '',
+    email: '',
+    body: '',
+  };
+
+  const [formState, setFormState] = useState(initialFormState);
+
+  // const [name, setName] = useState('');
+  // const [email, setEmail] = useState('');
+  // const [body, setBody] = useState('');
+  const [validInput, setValidInput] = useState(true);
 
   function validateInput() {
     function validateEmail(emailName) {
@@ -23,11 +31,11 @@ function AddQuestionModal({ setShowModal }) {
       return regex.test(emailName);
     }
 
-    if (name === '' || email === '' || body === '') {
+    if (formState.name === '' || formState.email === '' || formState.body === '') {
       return false;
     }
 
-    if (!validateEmail(email)) {
+    if (!validateEmail(formState.email)) {
       return false;
     }
     return true;
@@ -41,15 +49,16 @@ function AddQuestionModal({ setShowModal }) {
       return;
     }
     const postBody = {
-      body,
-      name,
-      email,
+      body: formState.body,
+      name: formState.name,
+      email: formState.email,
       product_id: productID,
     };
     axios
       .post('/questions', postBody)
       .then((result) => {
         console.log('question posted successfully', result);
+        setFormState(initialFormState);
         setShowModal(false);
       })
       .catch((err) => {
@@ -137,9 +146,9 @@ function AddQuestionModal({ setShowModal }) {
           <FooterButton type="submit" modal onClick={(e) => askQuestion(e)}>
             Submit
           </FooterButton>
-          {/* <FooterButton onClick={() => setShowModal(false)}>
+          <FooterButton onClick={() => setShowModal(false)}>
             Cancel
-          </FooterButton> */}
+          </FooterButton>
         </Footer>
       </ModalContainer>
     </ModalBackground>

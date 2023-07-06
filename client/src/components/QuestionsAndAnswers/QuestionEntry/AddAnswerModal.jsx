@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { Button } from '../../reusable/Button';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
+import AddPhotos from '../../RatingsAndReviews/AddRev/AddPhotos';
 
 function AddAnswerModal({ setShowModal, question }) {
   AddAnswerModal.propTypes = {
@@ -85,18 +86,18 @@ function AddAnswerModal({ setShowModal, question }) {
       });
   }
 
-  function handlePreviews(event) {
-    if (preview.length >= 5 || event.target.files.length === 0) return;
+  // function handlePreviews(event) {
+  //   if (preview.length >= 10 || event.target.files.length === 0) return;
 
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      const base64image = reader.result;
-      console.log('base64image: ', base64image);
-      setPreview([...preview, base64image]);
-    };
-  }
+  //   const file = event.target.files[0];
+  //   const reader = new FileReader();
+  //   reader.readAsDataURL(file);
+  //   reader.onloadend = () => {
+  //     const base64image = reader.result;
+  //     console.log('base64image: ', base64image);
+  //     setPreview([...preview, base64image]);
+  //   };
+  // }
 
   function closeModal(event) {
     if (event.target.id === 'background') {
@@ -134,7 +135,7 @@ function AddAnswerModal({ setShowModal, question }) {
             placeholder="Enter your answer"
           />
           <br />
-          {preview.length < 5 ? (
+          {/* {preview.length < 10 ? (
             <FormField htmlFor="photos">
               Upload Your Photos
               <FileInput
@@ -144,7 +145,7 @@ function AddAnswerModal({ setShowModal, question }) {
                 accept="image/png, image/jpeg"
               />
               <Disclaimer>
-                Optional, max 5
+                Optional, max 10
               </Disclaimer>
             </FormField>
           ) : null}
@@ -152,7 +153,11 @@ function AddAnswerModal({ setShowModal, question }) {
             {preview.map((photo) => (
               <ImagePreview src={photo} alt="" key={photo} />
             ))}
-          </PhotoPreviews>
+          </PhotoPreviews> */}
+          <AddPhotos
+            preview={preview}
+            setPreview={setPreview}
+          />
           <br />
           <FormField htmlFor="name">
             Username

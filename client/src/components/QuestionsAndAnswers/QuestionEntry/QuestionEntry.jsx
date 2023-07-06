@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import axios from 'axios';
 import AnswerEntry from './AnswerEntry';
-import AddAnswerModal from './AddAnswerModal';
+// import AddAnswerModal from './AddAnswerModal';
+import AddAnswerModal2 from './AddAnswerModal2';
+import useModal from '../../utils/useModal';
 import { Button } from '../../reusable/Button';
 
 function QuestionEntry({ question }) {
@@ -25,8 +27,10 @@ function QuestionEntry({ question }) {
     }).isRequired,
   };
 
+  const [showModal, toggleModal] = useModal();
+  // const [showModal, setShowModal] = useState(false);
+
   const [numAnswers, setNumAnswers] = useState(2);
-  const [showModal, setShowModal] = useState(false);
   const [helpfulness, setHelpfulness] = useState(
     question.question_helpfulness,
   );
@@ -79,7 +83,8 @@ function QuestionEntry({ question }) {
   }
 
   function answerQuestion() {
-    setShowModal(true);
+    // setShowModal(true);
+    toggleModal();
   }
 
   function changeNumAnswers(val) {
@@ -222,13 +227,18 @@ function QuestionEntry({ question }) {
           {answersList()}
           {allAnswers.length > 2 && moreAnswers}
         </Answers>
-        {showModal && (
+        {/* {showModal && (
         <AddAnswerModal
           setShowModal={setShowModal}
           question={question}
           showModal={showModal}
         />
-        )}
+        )} */}
+        <AddAnswerModal2
+          question={question}
+          showModal={showModal}
+          toggleModal={toggleModal}
+        />
       </B>
     </Entry>
   );
