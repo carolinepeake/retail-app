@@ -21,7 +21,6 @@ function StarButton({ setModal }) {
   // }
 
   return (
-    <>
       <Button
         onClick={(e) => {
           e.stopPropagation();
@@ -33,7 +32,6 @@ function StarButton({ setModal }) {
         {/* {starType} */}
         &#9733;
       </Button>
-    </>
   );
 }
 
@@ -68,6 +66,5 @@ const Button = styled.button`
   cursor: pointer;
   z-index: 1;
 `;
-
 
 export default StarButton;

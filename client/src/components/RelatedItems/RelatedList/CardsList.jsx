@@ -3,9 +3,6 @@ import styled, { css } from 'styled-components';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import Card from './Card';
 
-// TO-DO: maybe make arrows initially a little transparent then not when hovered
-// so opposite what they are now
-
 function CardsList() {
   // for now includes stars and product info data, will eventually just be product id
   const {
@@ -29,7 +26,6 @@ function CardsList() {
   }
 
   function handleNext() {
-    // show prev arrow button
     setHidePrev(false);
     const transform = -100 / productList.length;
     setTranslate(transform);

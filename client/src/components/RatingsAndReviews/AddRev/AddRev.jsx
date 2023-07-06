@@ -13,6 +13,8 @@ function AddRev() {
     productID, productInfo, revMeta, reviews, setReviews,
   } = useGlobalContext();
 
+  // TO-DO: get rid of meaning value and make rating form states one object
+
   const [addClicked, setAddClicked] = useState(false);
   const [rating, setRating] = useState({
     meaning: '',
@@ -135,7 +137,6 @@ function AddRev() {
           <AddRevHeader>
             <WriteAReview>Write a Review</WriteAReview>
             <ProductName>
-              {/* About the&nbsp; */}
               {productInfo.name}
             </ProductName>
           </AddRevHeader>
@@ -248,7 +249,7 @@ function AddRev() {
 
             <ButtonContainer>
               <ButtonDiv modal type="submit" onClick={(e) => handleSubmit(e)}>Submit</ButtonDiv>
-              {/* <ButtonDiv type="button" onClick={() => setAddClicked(false)}> Cancel </ButtonDiv> */}
+              <ButtonDiv type="button" onClick={() => setAddClicked(false)}> Cancel </ButtonDiv>
             </ButtonContainer>
 
           </FormContainer>

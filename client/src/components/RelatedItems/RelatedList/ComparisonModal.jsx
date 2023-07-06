@@ -6,10 +6,9 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
+import Button from '../../reusable/Button';
 
-// TO-DO: add close button
-
-function ComparisonModal({ details }) {
+function ComparisonModal({ details, closeModal }) {
   const {
     productInfo,
   } = useGlobalContext();
@@ -59,7 +58,8 @@ function ComparisonModal({ details }) {
     <ModalContainer>
       <Table>
         <Caption>
-          Compare Products
+          <span>Compare Products</span>
+          <CloseButton close type="button" onClick={() => closeModal()}>&#x2715;</CloseButton>
         </Caption>
         <thead>
           <tr>
@@ -105,6 +105,7 @@ ComparisonModal.propTypes = {
       }),
     ),
   }).isRequired,
+  closeModal: PropTypes.func.isRequired,
 };
 
 const ModalContainer = styled.div`
@@ -136,6 +137,13 @@ const Caption = styled.caption`
   text-align: start;
   font-size: 400;
   font-weight: 400;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+`;
+
+const CloseButton = styled(Button)`
+  top: 0.25em;
 `;
 
 const Heading = styled.th`

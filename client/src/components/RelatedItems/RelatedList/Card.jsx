@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
@@ -6,7 +6,11 @@ import StarButton from './StarButton';
 import CardImage from './CardImage';
 import Stars from './Stars';
 import ComparisonModal from './ComparisonModal';
-import { calcAverageRating, getProductInfo, getReviewsMetaData } from '../../utils/useAverageRating';
+import {
+  calcAverageRating,
+  // getProductInfo,
+  // getReviewsMetaData,
+} from '../../utils/useAverageRating';
 
 function Card({
   product, setIndex, setTranslate
@@ -17,8 +21,20 @@ function Card({
 
   const [modal, setModal] = useState(false);
 
-  function closeModal() {
+  // understand why passing function as JSX props causes unnecessary re-render
+  // understand why arrow functions do not bind
+  // understand why need to wrap arrow function in useCallback
+  // and use this type of function declaration/definition (understand which type it is)
+  // https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-no-bind.md
+  const closeModal = useCallback(() => {
     setModal(false);
+  }, [setModal]);
+
+  function handleBackgroundClick(event) {
+    if (event.target.id === 'CompareProductsBackground') {
+      closeModal();
+    }
+    event.stopPropagation();
   }
 
   function changeItem() {
@@ -55,10 +71,15 @@ function Card({
       </CardStyle>
       {modal
       && (
-        // <>
-        <ModalBackground onClick={(e) => { e.stopPropagation(); closeModal(); }}>
-          <ComparisonModal onClick={(e) => { e.stopPropagation(); }} details={product.details.data} />
-          {/* <ModalBackground onClick={(e) => { e.stopPropagation(); closeModal(); }} /> */}
+        <ModalBackground
+          id="CompareProductsBackground"
+          onClick={(e) => handleBackgroundClick(e)}
+        >
+          <ComparisonModal
+            onClick={(e) => { e.stopPropagation(); }}
+            details={product.details.data}
+            closeModal={closeModal}
+          />
         </ModalBackground>
       )}
     </CardContainer>
