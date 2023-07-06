@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components';
 import {
   MdArrowForwardIos, MdArrowBackIos,
 } from 'react-icons/md';
-import Button from '../Button';
+import { Button } from '../Button';
 
 // TO-DO: test getting more reviews from API on call and see if faster
 

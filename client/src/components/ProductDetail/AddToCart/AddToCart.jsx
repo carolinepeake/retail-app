@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled, { css } from 'styled-components';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
-import Button from '../../reusable/Button';
+import { Button } from '../../reusable/Button';
 
 function AddToCart() {
   const { selectedStyle } = useGlobalContext();

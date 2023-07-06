@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Button from '../../reusable/Button';
+import { Button } from '../../reusable/Button';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import { calcAverageRating } from '../../utils/useAverageRating';
 

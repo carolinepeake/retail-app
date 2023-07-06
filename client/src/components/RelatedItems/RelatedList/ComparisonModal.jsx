@@ -6,7 +6,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
-import Button from '../../reusable/Button';
+import { Button } from '../../reusable/Button';
 
 function ComparisonModal({ details, closeModal }) {
   const {

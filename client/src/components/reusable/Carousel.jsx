@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 
 import usePosition from '../utils/usePosition';
-import Button from './Button';
+import { Button } from './Button';
 
 function Carousel2({ children, sharedViewport }) {
   const ref = useRef(null);

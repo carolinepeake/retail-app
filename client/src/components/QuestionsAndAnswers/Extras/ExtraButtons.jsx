@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import AddQuestionModal from './AddQuestionModal';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
-import Button from '../../reusable/Button';
+import { Button } from '../../reusable/Button';
 import ShowMoreListItems from '../../reusable/LargeList/ShowMoreListItems';
 
 // TO-DO: extract this component and use for QA and RR

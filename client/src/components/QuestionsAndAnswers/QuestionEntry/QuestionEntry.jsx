@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components';
 import axios from 'axios';
 import AnswerEntry from './AnswerEntry';
 import AddAnswerModal from './AddAnswerModal';
-import Button from '../../reusable/Button';
+import { Button } from '../../reusable/Button';
 
 function QuestionEntry({ question }) {
   QuestionEntry.propTypes = {

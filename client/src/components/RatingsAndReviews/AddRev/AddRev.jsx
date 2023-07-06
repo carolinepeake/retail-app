@@ -4,7 +4,7 @@ import axios from 'axios';
 import StarRating from './StarRating';
 import Characteristics from './Characteristics';
 import AddPhotos from './AddPhotos';
-import Button from '../../reusable/Button';
+import { Button } from '../../reusable/Button';
 
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 

@@ -5,7 +5,8 @@ import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import Thumbnails from './Thumbnails';
-import useUnsplashUrl from '../../utils/useUnsplash';
+// import useUnsplashUrl from '../../utils/useUnsplash';
+import { StyledExitButton } from '../../reusable/Button';
 
 // TO-DO: fix exit button on expanded view
 // TO-DO: fix scroll main image index on zoom-in and expanded view and when resizing
@@ -79,8 +80,7 @@ function ImageGallery({
     }
   }
 
-  function handleClickExit(e) {
-    e.preventDefault();
+  function handleClickExit() {
     setStatus(() => 'default');
   }
 
@@ -177,12 +177,13 @@ function ImageGallery({
 
              {status === 'expanded'
           && (
-          <Exit
-            onClick={(e) => handleClickExit(e)}
+          <StyledExitButton
+            type="button"
+            onClick={() => handleClickExit()}
           >
-            {/* &#10005; */}
-            &#9587;
-          </Exit>
+            &#10005;
+            {/* &#9587; */}
+          </StyledExitButton>
           )}
            </AnimationContainer>
            )}
@@ -493,31 +494,34 @@ const ArrowIcon = styled.span`
   `};
 `;
 
-const Exit = styled.button`
-  position: absolute;
-  right: 0;
-  top: 0;
-  z-index: 3;
-  background-color: ${(props) => props.theme.navBgColor};
-  &:hover {
-    background-color: rgba(225, 225, 225, 0.9);
-  };
-  display: block;
-  color: black;
-  border: none;
-  padding: 0;
-  line-height: 1;
-  font-size: 1em;
-  aspect-ratio: 1;
-  height: 2em;
-  align-self: center;
-  @media (min-width: 700px) {
-    font-size: 1.17em;
-  };
-  @media (min-width: 800px) {
-    font-size: 1.5em;
-  };
-`;
+// const Exit = styled.button`
+//   position: absolute;
+//   right: 0.5em;
+//   top: 0.5em;
+//   z-index: 3;
+//   background-color: ${(props) => props.theme.navBgColor};
+//   opacity: 0.8;
+//   &:hover {
+//     opacity: 1;
+//     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+//   };
+//   display: block;
+//   color: ${(props) => props.theme.darkBlueHover};
+//   border: none;
+//   border-radius: 50px;
+//   padding: 0;
+//   line-height: 1;
+//   font-size: 1em;
+//   aspect-ratio: 1;
+//   height: 2em;
+//   align-self: center;
+//   @media (min-width: 700px) {
+//     font-size: 1.17em;
+//   };
+//   @media (min-width: 800px) {
+//     font-size: 1.5em;
+//   };
+// `;
 
 export default ImageGallery;
 

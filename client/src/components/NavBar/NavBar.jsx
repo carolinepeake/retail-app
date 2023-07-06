@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import Search from '../reusable/Search';
-import Button from '../reusable/Button';
+import { Button } from '../reusable/Button';
 import LinksList from './LinksList';
 
 // TO-DO: add scroll event listener for nav sections
