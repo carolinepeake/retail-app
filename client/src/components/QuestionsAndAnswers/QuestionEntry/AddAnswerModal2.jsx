@@ -4,8 +4,10 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { Button } from '../../reusable/Button';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
-import AddPhotos from '../../RatingsAndReviews/AddRev/AddPhotos';
+// import AddPhotos from '../../RatingsAndReviews/AddRev/AddPhotos';
+import AddPhotos2 from '../../RatingsAndReviews/AddRev/AddPhotos2';
 import Modal from '../../reusable/Modal';
+import useForm from '../../utils/useForm';
 
 function AddAnswerModal2({ showModal, question, toggleModal }) {
   AddAnswerModal2.propTypes = {
@@ -17,79 +19,52 @@ function AddAnswerModal2({ showModal, question, toggleModal }) {
     showModal: PropTypes.bool.isRequired,
   };
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [body, setBody] = useState('');
+  const initialFormState = {
+    name: '',
+    email: '',
+    body: '',
+  };
 
-  const [validInput, setValidInput] = useState(true);
-  const [preview, setPreview] = useState([]);
+  const [formState, errors, handleInputChange, resetForm, handleSubmit] = useForm(initialFormState, askQuestion);
+
+  // const [preview, setPreview] = useState([]);
+
+  const [photos, setPhotos] = useState([]);
+
+  const { name, email, body } = formState;
 
   const { productInfo } = useGlobalContext();
 
   const closeModal = () => {
     toggleModal();
-    setPreview([]);
+    // setPreview([]);
+    setPhotos([]);
+    resetForm();
   };
 
-  function validateInput() {
-    function validateEmail(emailName) {
-      const regex = /\S+@\S+\.\S+/;
-      return regex.test(emailName);
-    }
 
-    if (name === '' || email === '' || body === '') {
-      return false;
-    }
+  function askQuestion(form) {
+    // e.preventDefault();
 
-    if (!validateEmail(email)) {
-      return false;
-    }
-    return true;
-  }
+    // if (!validateInput()) {
+    //   setValidInput(false);
+    //   console.log('add answer input failed validation');
+    //   return;
+    // }
 
-  function askQuestion(e) {
-    e.preventDefault();
+    const previews = photos.map((photo) => photo.url);
 
-    if (!validateInput()) {
-      setValidInput(false);
-      console.log('add answer input failed validation');
-      return;
-    }
+    const postBody = { ...formState, question_ID: question.question_id, photos: previews };
+    console.log('postBody: ', postBody);
 
-    const postBody = {
-      body,
-      name,
-      email,
-      question_ID: question.question_id,
-      photos: [],
-    };
-
-    const promises = [];
-    for (let i = 0; i < preview.length; i += 1) {
-      const promise = axios.post('/cloudinary/upload', {
-        image: preview[i],
-      });
-      promises.push(promise);
-    }
-
-    Promise.all(promises)
-      .then(async (results) => {
-        await results.forEach((result) => {
-          postBody.photos.push(result.data.url);
-        });
-
-        axios
-          .post('/answers', postBody)
-          .then((result) => {
-            console.log('answer posted successfully', result);
-            closeModal();
-          })
-          .catch((err) => {
-            console.log('there was an error adding answer: ', err);
-          });
+    axios
+      .post('/answers', postBody)
+      .then((result) => {
+        console.log('answer posted successfully: ', result);
+        closeModal();
       })
       .catch((err) => {
-        console.log(err);
+        console.log('there was an error adding answer: ', err);
       });
   }
 
@@ -106,22 +81,29 @@ function AddAnswerModal2({ showModal, question, toggleModal }) {
           {`${productInfo.name} : ${question.question_body}`}
         </ProductName>
       </Header>
-      <Form id="form">
+      <Form
+        id="form"
+        // onSubmit={(e) => askQuestion(e)}
+      >
 
         <FormField htmlFor="body">
           Answer
           <Required>*</Required>
         </FormField>
         <InputAnswer
-          onChange={(event) => setBody(event.target.value)}
+          onChange={handleInputChange}
           maxLength="1000"
           rows="6"
           placeholder="Enter your answer"
+          value={body}
+          name="body"
         />
         <br />
-        <AddPhotos
-          preview={preview}
-          setPreview={setPreview}
+        <AddPhotos2
+          // preview={preview}
+          // setPreview={setPreview}
+          photos={photos}
+          setPhotos={setPhotos}
         />
         <br />
         <FormField htmlFor="name">
@@ -130,11 +112,12 @@ function AddAnswerModal2({ showModal, question, toggleModal }) {
         </FormField>
         <div>
           <FormEntry
-            onChange={(event) => setName(event.target.value)}
+            onChange={handleInputChange}
             maxLength="60"
             type="text"
             id="name"
             name="name"
+            value={name}
             placeholder="Example: jackson11!"
           />
           <Disclaimer>
@@ -149,35 +132,43 @@ function AddAnswerModal2({ showModal, question, toggleModal }) {
         </FormField>
         <div>
           <FormEntry
-            onChange={(event) => setEmail(event.target.value)}
+            onChange={handleInputChange}
             maxLength="60"
-            type="text"
+            type="email"
             id="email"
             placeholder="jack@email.com"
+            value={email}
+            name="email"
           />
           <Disclaimer>
             For authentication reasons, you will not be emailed.
           </Disclaimer>
         </div>
         <br />
-        {!validInput ? (
+        {/* {!validInput ? (
           <Disclaimer>
-            <div>
-              1. Not all mandatory fields have been provided.
-            </div>
-            <div>2. Email is not in the correct email format.</div>
-            <div>
-              3. The images selected are invalid or unable to be
-              uploaded.
-            </div>
+            {errors.map((error) => <Error>{error}</Error>)}
+          </Disclaimer>
+        ) : null} */}
+        {errors.length > 0 ? (
+          <Disclaimer>
+            {errors.map((error) => <Error key={error.id}>{error.message}</Error>)}
           </Disclaimer>
         ) : null}
       </Form>
       <Footer id="footer">
-        <FooterButton modal type="submit" onClick={(e) => askQuestion(e)}>
+        <FooterButton
+          modal
+          type="submit"
+          // onClick={(e) => askQuestion(e)}
+          onClick={handleSubmit}
+        >
           Submit
         </FooterButton>
-        <FooterButton type="button" onClick={closeModal}>
+        <FooterButton
+          type="button"
+          onClick={closeModal}
+        >
           Cancel
         </FooterButton>
       </Footer>
@@ -190,13 +181,14 @@ const Header = styled.header`
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
+
   @media (min-width: 40rem) {
     width: 90%;
-  };
+  }
 
   @media (min-width: 50rem) {
     width: 80%;
-  };
+  }
 `;
 
 const AddAnswer = styled.h2`
@@ -216,11 +208,11 @@ const Form = styled.div`
 
   @media (min-width: 40rem) {
     width: 90%;
-  };
+  }
 
   @media (min-width: 50rem) {
     width: 80%;
-  };
+  }
 `;
 
 const FormField = styled.label`
@@ -231,20 +223,22 @@ const FormField = styled.label`
 const FormEntry = styled.input`
   display: block;
   width: 100%;
-  margin-top: 0.25em;
-  cursor: initial;
-  color: ${(props) => props.theme.fontColor};
-  background-color: ${(props) => props.theme.backgroundColor};
-  ::placeholder {
-    color: ${(props) => props.theme.inputPlaceholder};
-  };
-  &:focus {
-    background-color: ${(props) => props.theme.navBgColor};
-  };
-  border: currentColor solid thin;
   padding: 0.5em;
+  margin-top: 0.25em;
+  border: currentColor solid thin;
+  cursor: initial;
   font-family: inherit;
   font-size: ${(props) => props.theme.input};
+  color: ${(props) => props.theme.fontColor};
+  background-color: ${(props) => props.theme.backgroundColor};
+
+  ::placeholder {
+    color: ${(props) => props.theme.inputPlaceholder};
+  }
+
+  &:focus {
+    background-color: ${(props) => props.theme.navBgColor};
+  }
 `;
 
 const InputAnswer = styled.textarea`
@@ -253,18 +247,19 @@ const InputAnswer = styled.textarea`
   width: 100%;
   margin-top: 0.25em;
   font-family: inherit;
+  font-size: ${(props) => props.theme.input};
   color: ${(props) => props.theme.fontColor};
   background-color: ${(props) => props.theme.backgroundColor};
   ::placeholder {
     color: ${(props) => props.theme.inputPlaceholder};
-  };
+  }
   border: currentColor solid thin;
   border-radius: 5px;
   padding: 0.5em;
-  font-size: ${(props) => props.theme.input};
+
   &:focus {
     background-color: ${(props) => props.theme.navBgColor};
-  };
+  }
 `;
 
 const Footer = styled.div`
@@ -275,18 +270,18 @@ const Footer = styled.div`
 
   @media (min-width: 40rem) {
     width: 90%;
-  };
+  }
 
   @media (min-width: 50rem) {
     width: 80%;
-  };
+  }
 
   @media (min-width: 600px) {
     flex-direction: row;
     column-gap: 2rem;
     justify-content: space-evenly;
     align-items: center;
-  };
+  }
 `;
 
 const FooterButton = styled(Button)`
@@ -295,7 +290,7 @@ const FooterButton = styled(Button)`
 
   @media (min-width: 600px) {
     margin: 0;
-  };
+  }
 `;
 
 const Required = styled.sup`
@@ -304,6 +299,10 @@ const Required = styled.sup`
 
 const Disclaimer = styled.h5`
   font-style: oblique;
+`;
+
+const Error = styled.div`
+  color: ${(props) => props.theme.formError};
 `;
 
 export default AddAnswerModal2;

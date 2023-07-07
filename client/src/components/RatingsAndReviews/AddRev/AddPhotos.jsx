@@ -9,6 +9,7 @@ function AddPhotos({ preview, setPreview }) {
       return;
     }
     const file = event.target.files[0];
+    console.log('file: ', file);
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {

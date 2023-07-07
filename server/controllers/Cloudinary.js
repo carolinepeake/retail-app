@@ -9,13 +9,26 @@ cloudinary.config({
 
 module.exports.uploadFile = async (req, res) => {
   try {
-    const file = req.body.image;
+    // const file = req.body.image;
+    const uploadedResponse = await cloudinary.uploader.upload({
+      // upload_preset: 'retail-app',
+      file: req.body.image,
+      return_delete_token: true,
+
+    });
     // const uploadedResponse = await cloudinary.uploader.upload(file, {
-    //   upload_preset: 'retail-app',
+    //   // upload_preset: 'retail-app',
+    //   return_delete_token: true,
     // });
-    const uploadedResponse = await cloudinary.uploader.upload(file);
+    // const uploadedResponse = await cloudinary.uploader.upload(file);
     res.status(201).send(uploadedResponse);
   } catch (err) {
     console.log(err);
+    // send error message and code
+    // { message: 'Missing required parameter - file',
+  // name: 'Error',
+  // http_code: 400
+// }
+    res.status(400).send(err);
   }
 };
