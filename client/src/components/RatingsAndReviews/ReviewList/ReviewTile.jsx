@@ -1,15 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { format, parseISO } from 'date-fns';
 import HelpfulReport from './HelpfulReport';
 import StarCount from './StarCount';
+import ExpandedImageModal from '../../QuestionsAndAnswers/QuestionEntry/ExpandedImageModal';
 
 function ReviewTile({ review }) {
   const starCount = [];
 
   for (let i = 0; i < review.rating; i += 1) {
     starCount.push(i);
+  }
+
+  const [showModal, setShowModal] = useState(false);
+  const [source, setSource] = useState('');
+
+  function handlePhotoClick(event) {
+    setShowModal(true);
+    setSource(event.target.src);
   }
 
   return (
@@ -37,7 +46,12 @@ function ReviewTile({ review }) {
 
       <PhotosDiv>
         {review.photos.map((photo) => (
-          <RevImg key={photo.id} alt="" src={photo.url} />
+          <RevImg
+            key={photo.id}
+            alt=""
+            src={photo.url}
+            onClick={(event) => handlePhotoClick(event)}
+          />
         ))}
       </PhotosDiv>
 
@@ -53,6 +67,12 @@ function ReviewTile({ review }) {
         )}
 
       <HelpfulReport review={review} />
+      {showModal && (
+        <ExpandedImageModal
+          src={source || ''}
+          setShowModal={setShowModal}
+        />
+      )}
     </Container>
   );
 }
@@ -112,13 +132,15 @@ const Response = styled.div`
 const PhotosDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
+  align-items: flex-start;
 `;
 
-// not sure the height and width matter b/c the containing div is a flex container
 const RevImg = styled.img`
-  height: 25%;
-  width: 25%;
+  max-height: 8em;
+  max-width: 8em;
   padding: .5em;
+  object-fit: scale-down;
+  cursor: pointer;
 `;
 
 const Summary = styled.h3`

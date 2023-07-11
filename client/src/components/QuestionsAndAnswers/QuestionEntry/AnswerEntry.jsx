@@ -21,7 +21,7 @@ function AnswerEntry({ answer }) {
   const [helpfulness, setHelpfulness] = useState(answer.helpfulness);
   const [clickedReport, setClickedReport] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [source, setSource] = useState();
+  const [source, setSource] = useState('');
 
   const clickedHelpful = useRef(false);
 
@@ -113,7 +113,7 @@ function AnswerEntry({ answer }) {
       </AnswerFooter>
       {showModal && (
         <ExpandedImageModal
-          src={source}
+          src={source || ''}
           setShowModal={setShowModal}
         />
       )}
@@ -128,13 +128,15 @@ const Answer = styled.div`
 const AnswerPhotos = styled.div`
   display: flex;
   flex-wrap: wrap;
+  align-items: flex-start;
 `;
 
 const AnswerImage = styled.img`
-  width: 25%;
-  height: 25%;
+  max-height: 8em;
+  max-width: 8em;
   padding: .5em;
   cursor: pointer;
+  object-fit: scale-down;
 `;
 
 const AnswerFooter = styled.h6`
