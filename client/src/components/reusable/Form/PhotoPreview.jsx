@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { StyledExitButton } from '../../reusable/Button';
 
-export default function PhotoPreview({ photo, photos, setPhotos, resetFileInput }) {
+export default function PhotoPreview({ photo, photos, setPhotos, resetFileInput, selectedFile }) {
   const handleClickDeleteFile = () => {
     // delete photo from photos
     const photosCopy = photos.slice();
@@ -14,7 +14,9 @@ export default function PhotoPreview({ photo, photos, setPhotos, resetFileInput 
     }
     console.log('photosCopy: ', photosCopy);
     setPhotos(photosCopy);
-    resetFileInput();
+    if (selectedFile.name === photo.original_filename) {
+      resetFileInput();
+    }
     // delete photo from cloudinary
     // TO-DO: use cloudinary delete method if using delete token fails
   };
