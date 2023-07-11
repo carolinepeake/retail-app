@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { StyledExitButton } from '../../reusable/Button';
+import { StyledExitButton } from '../Button';
 
 export default function PhotoPreview({ photo, photos, setPhotos, resetFileInput, selectedFile }) {
   const handleClickDeleteFile = () => {
@@ -12,7 +12,6 @@ export default function PhotoPreview({ photo, photos, setPhotos, resetFileInput,
         photosCopy.splice(i, 1);
       }
     }
-    console.log('photosCopy: ', photosCopy);
     setPhotos(photosCopy);
     if (selectedFile.name === photo.original_filename) {
       resetFileInput();
@@ -33,8 +32,6 @@ export default function PhotoPreview({ photo, photos, setPhotos, resetFileInput,
       >
         &#10005;
       </DeleteButton>
-      {/* <span>{uploadedImage.original_filename}</span> */}
-      {/* <span>Image Upload Successfully</span> */}
     </ImageContainer>
   );
 }

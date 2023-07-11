@@ -6,6 +6,7 @@ import { StyledExitButton } from '../../reusable/Button';
 import PhotoPreview from './PhotoPreview';
 
 // TO-DO: make error if file already uploaded
+// TO-DO: resize photo on cloudinary upload so not hella large
 
 function AddPhotos2({ photos, setPhotos }) {
 
@@ -72,13 +73,6 @@ function AddPhotos2({ photos, setPhotos }) {
       setShowProgressBar(false);
     });
   }
-
-  // function processImage(id) {
-  //   var options = {
-  //     client_hints: true,
-  //   };
-  //   return '<img src="'+ $.cloudinary.url(id, options) +'" style="width: 100%; height: auto"/>';
-  // }
 
   // use callback?
   const handleFileChange = (e) => {
@@ -204,14 +198,3 @@ const PhotoPreviews = styled.div`
   flex-direction: row;
   margin-top: 1.0em;
 `;
-
-// const AddPhotosBackground = styled.div`
-//   height: 100vw;
-//   width: 100vw;
-//   background: #1fe0;
-//   position: fixed;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   top: 0; left: 0;
-// `;
