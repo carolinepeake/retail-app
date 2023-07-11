@@ -102,7 +102,7 @@ const DateName = styled.div`
 
 const ReviewerName = styled.div`
   padding-right: 1rem;
-`
+`;
 
 const Response = styled.div`
   padding: 1em;
@@ -114,6 +114,7 @@ const PhotosDiv = styled.div`
   flex-wrap: wrap;
 `;
 
+// not sure the height and width matter b/c the containing div is a flex container
 const RevImg = styled.img`
   height: 25%;
   width: 25%;

@@ -5,7 +5,7 @@ import axios from 'axios';
 import { Button } from '../../reusable/Button';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 // import AddPhotos from '../../RatingsAndReviews/AddRev/AddPhotos';
-import AddPhotos2 from '../../RatingsAndReviews/AddRev/AddPhotos2';
+import AddPhotos2 from '../../reusable/Form/AddPhotos2';
 import Modal from '../../reusable/Modal';
 import useForm from '../../utils/useForm';
 
