@@ -13,6 +13,7 @@ function Thumbnails({
   status,
   firstPhotoIndex,
   setFirstPhotoIndex,
+  handleClickThumbnail,
 }) {
   const { selectedStyle } = useGlobalContext();
 
@@ -46,27 +47,30 @@ function Thumbnails({
     }
   }
 
+  console.log('place in TB ', place);
+
   let thumbnails = [];
   if (selectedStyle.photos) {
     thumbnails = selectedStyle.photos.map((photo, index) => (
       <ThumbnailContainer
         key={photo.thumbnail_url}
-        // href={`#seq${index}`}
+        href={`#seq${index + 1}`}
         index={index}
         alt={`${selectedStyle.name} thumbnail`}
-        onClick={() => setPlace(index)}
+        onClick={() => handleClickThumbnail(index)}
         place={place}
         setPlace={setPlace}
         type="button"
         status={status}
         length={selectedStyle.photos.length}
       >
-        <ThumbnailIcon status={status} place={place} index={index} />
+        <ThumbnailIcon status={status} place={place} index={index} href={`#seq${index + 1}`} />
         <ThumbnailImage
           src={photo.thumbnail_url}
           status={status}
           place={place}
           index={index}
+          href={`#seq${index + 1}`}
         />
       </ThumbnailContainer>
     ));
@@ -126,7 +130,7 @@ const ThumbnailsContainer = styled.div`
       order: -1;
       flex: 1 1 0;
     `)};
-  };
+  }
 `;
 
 const ThumbnailsViewport = styled.div`
@@ -139,7 +143,7 @@ const ThumbnailsViewport = styled.div`
       top: ${props.length > 6 ? '5%' : '0'};
       margin-block-start: -7.5%;
     `};
-  };
+  }
 `;
 
 const ThumbnailsCarousel = styled.div`
@@ -169,7 +173,7 @@ const ThumbnailsCarousel = styled.div`
       transform: translateY(calc((-100% / ${props.length}) * ${props.firstPhotoIndex}));
       transition: 0.5s ease;
     `)};
-  };
+  }
 `;
 
 const ThumbnailContainer = styled.a`
@@ -184,7 +188,7 @@ const ThumbnailContainer = styled.a`
       margin: 0.5em 0;
       border-radius: 50px;
       color: ${(props) => props.theme.submitButton};
-    };
+    }
 
     @media (min-width: 800px) {
       ${(props) => props.status === 'default' && css`
@@ -241,26 +245,26 @@ const ThumbnailContainer = styled.a`
 `;
 
 const ThumbnailIcon = styled.span`
-    border-radius: 50px;
-    background-color: currentColor;
-    aspect-ratio: 1/1;
-    height: 2vh;
-    height: minmax(8px, 2vh);
-    &:hover {
-      cursor: pointer;
-      background-color: ${(props) => props.theme.darkBlueHover};
-    };
+  border-radius: 50px;
+  background-color: currentColor;
+  aspect-ratio: 1/1;
+  height: 2vh;
+  height: minmax(8px, 2vh);
+  &:hover {
+    cursor: pointer;
+    background-color: ${(props) => props.theme.darkBlueHover};
+  }
 
-    @media (min-width: 800px) {
-      display: ${(props) => (props.status !== 'expanded' && 'none')};
-    };
-    ${(props) => ((props.index === props.place) && css`
+  @media (min-width: 800px) {
+    display: ${(props) => (props.status !== 'expanded' && 'none')};
+  }
+  ${(props) => ((props.index === props.place) && css`
     background-color: ${props.theme.submitButtonHover};
- `)};
+  `)};
   &::active {
     color: ${(props) => props.theme.submitButtonHover};
-  };
-  `;
+  }
+`;
 
 const ThumbnailImage = styled.img`
   aspect-ratio: 4/5;
@@ -272,15 +276,13 @@ const ThumbnailImage = styled.img`
 
   @media (min-width: 800px) {
     display: ${(props) => (props.status === 'default' ? 'block' : 'none')};
-    ${(props) => (props.index === props.place) && css`
+    ${(props) => ((props.index === props.place) && css`
       border: black solid 1.5px;
       padding: 1.5px;
       transform: scale(1.05);
       transition: scale 0.2s ease;
-    `};
-
-
-  };
+    `)};
+  }
 `;
 
 const Scroll = styled.button`
@@ -296,13 +298,13 @@ const Scroll = styled.button`
   height: 1.5em;
   @media (min-width: 700px) {
     font-size: 1.17em;
-  };
+  }
   @media (min-width: 800px) {
     display: ${(props) => props.status === 'default' && 'flex'};
-  };
+  }
   @media (min-width: 900px) {
     font-size: 1.5em;
-  };
+  }
 
   z-index: 2;
   left: 42.5%;
@@ -312,7 +314,7 @@ const Scroll = styled.button`
 
   &:hover {
     background-color: rgba(225, 225, 225, 0.9);
-  };
+  }
   &:disabled {
     opacity: 0.3;
     cursor: initial;
@@ -340,7 +342,7 @@ const ArrowIcon = styled.span`
   height: 100%;
   width: 100%;
 
-  ${(props) => props.prev && css`
+  ${(props) => (props.prev && css`
     &::before {
       content: '〈';
       right: 50%;
@@ -351,9 +353,9 @@ const ArrowIcon = styled.span`
       font-family: futura-pt, sans-serif;
       box-sizing: border-box;
     }
-  `};
+  `)};
 
-  ${(props) => props.next && css`
+  ${(props) => (props.next && css`
     top: 50%;
     &::before {
       content: '﹀';
@@ -363,5 +365,5 @@ const ArrowIcon = styled.span`
       transform: translate(-50%,-50%);
       font-family: futura-pt, sans-serif;
     }
-  `};
+  `)};
 `;

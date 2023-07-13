@@ -7,6 +7,7 @@ import { useGlobalContext } from '../../../contexts/GlobalStore';
 import Thumbnails from './Thumbnails';
 // import useUnsplashUrl from '../../utils/useUnsplash';
 import { StyledExitButton } from '../../reusable/Button';
+import useCarouselNavigation from '../../utils/useCarouselNavigation';
 
 // TO-DO: fix exit button on expanded view
 // TO-DO: fix scroll main image index on zoom-in and expanded view and when resizing
@@ -14,30 +15,92 @@ import { StyledExitButton } from '../../reusable/Button';
 
 // could make path attribute and then params attribute
 
+// starting index is not staying the same when switching in and out of zoomed-in view
+
 function ImageGallery({
-  status, setStatus, place = 0, setPlace,
+  status,
+  setStatus,
+  // startingIndex,
+  // setStartingIndex,
 }) {
+  console.log('[ImageGallery] is running');
   const { productInfo, selectedStyle } = useGlobalContext();
+  const { photos } = useGlobalContext().selectedStyle;
+
+  // if thumbnail with corresponding href value is clicked, should automatically scroll to that image
+  // two useCarousels in imageGallery, one for thumbnails
 
   const carousel = useRef(null);
-  const carouselViewport = useRef(null);
+  const viewport = useRef(null);
 
   const [firstPhotoIndex, setFirstPhotoIndex] = useState(0);
+
+  let photosLength = 0;
+  if (selectedStyle.photos) {
+    photosLength = selectedStyle.photos.length;
+  }
+
+  // let listLength = [];
+
+  // listLength selectedStyle?.photos?.length  [];
 
   // make a new component just for rendering picture element given a single photo url as a prop or child
 
   // const [unsplashUrl, setUnsplashUrl] = useUnsplashUrl(80, 'https://images.unsplash.com/photo-1534011546717-407bced4d25c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80');
 
-  function handleClickArrow(n) {
-    if (place === firstPhotoIndex && n === -1) {
-      setFirstPhotoIndex((prev) => prev - 1);
-    }
-    if ((place === firstPhotoIndex + 5) && n === 1) {
-      setFirstPhotoIndex((prev) => prev + 1);
-    }
-    setPlace((prev) => prev + n);
-  }
+  // function handleClickArrow(n) {
+  //   if (place === firstPhotoIndex && n === -1) {
+  //     setFirstPhotoIndex((prev) => prev - 1);
+  //   }
+  //   if ((place === firstPhotoIndex + 5) && n === 1) {
+  //     setFirstPhotoIndex((prev) => prev + 1);
+  //   }
+  //   setPlace((prev) => prev + n);
+  // // }
 
+  // const onClickArrow = (arrowDirection, currentIndex, firstPhotoIndex, setFirstPhotoIndex) => {
+
+  // }
+
+  // const [
+  //   showBackArrow,
+  //   setShowBackArrow,
+  //   showForwardArrow,
+  //   setShowForwardArrow,
+  //   // currentIndex,
+  //   place,
+  //   setPlace,
+  //   // setCurrentIndex,
+  //   handleClickArrow,
+  // ] = useArrows(listLength, startingIndex);
+
+  // const [
+  //   place,
+  //   setPlace,
+  //   // firstPhotoIndex,
+  //   // setFirstPhotoIndex,
+  //   handleScroll,
+  //   handleClickArrow,
+  // ] = useCarouselNavigation(carousel, listLength,
+  //   // startingIndex
+  // );
+
+  const [
+    place,
+    setPlace,
+    styles,
+    setStyles,
+    handleScroll,
+    handleClickBackArrow,
+    handleClickForwardArrow,
+    handleClickThumbnail,
+  ] = useCarouselNavigation(carousel, viewport, photosLength);
+    // startingIndex
+  // );
+
+  // need to initialize xPerc and yPerc once status is expanded
+  // is being called, but maybe rendering before x and y set
+  // might want to use useCallback or useMemo to make quicker?
   const imageContainer = useRef(null);
 
   const [xPerc, setXPerc] = useState('');
@@ -84,98 +147,107 @@ function ImageGallery({
     setStatus(() => 'default');
   }
 
-  function scrollHandler(e) {
-    e.preventDefault();
-    const carouselDimensions = carouselViewport.current
-    && carouselViewport.current.getBoundingClientRect();
-    const carouselOffsets = carousel.current && carousel.current.getBoundingClientRect();
+  // function scrollHandler(e) {
+  //   // const carouselDimensions = carouselViewport.current
+  //   // && carouselViewport.current.getBoundingClientRect();
+  //   const carouselDimensions = e.currentTarget.getBoundingClientRect();
 
-    const leftPadding = carouselDimensions && carouselDimensions.x;
-    const carouselItemWidth = carouselDimensions && carouselDimensions.width;
-    const leftOffset = carouselOffsets && carouselOffsets.x;
+  //   const carouselOffsets = carousel.current && carousel.current.getBoundingClientRect();
 
-    const currentItemIndex = Math.floor(Math.abs((leftOffset - leftPadding)
-    / Math.floor(carouselItemWidth))) || 0;
-    setPlace(currentItemIndex);
-  }
+  //   const leftPadding = carouselDimensions && carouselDimensions.x;
+  //   const carouselItemWidth = carouselDimensions && carouselDimensions.width;
+  //   const leftOffset = carouselOffsets && carouselOffsets.x;
 
-  useEffect(() => {
-    window.addEventListener('scroll', scrollHandler);
-    return () => {
-      window.removeEventListener('scroll', scrollHandler);
-    };
-  }, [carousel, carouselViewport]);
+  //   const currentItemIndex = Math.floor(Math.abs((leftOffset - leftPadding)
+  //   / Math.floor(carouselItemWidth))) || 0;
+  //   setPlace(currentItemIndex);
+  // }
+
+  console.log('place in IG: ', place);
 
   return (
     <ImageGalleryContainer
       status={status}
-      place={place}
-      setPlace={setPlace}
     >
-
       {selectedStyle.photos
       && (
         <>
           {status !== 'zoomed'
-           && (
-           <AnimationContainer photosLength={selectedStyle.photos.length} place={place}>
+          && (
+          <AnimationContainer
+            photosLength={photosLength}
+            place={place}
+          >
 
-             <MainWrapper
-               id="carousel-container"
-               status={status}
-               place={place}
-               photosLength={selectedStyle.photos.length}
-               onScroll={(e) => scrollHandler(e)}
-               ref={carouselViewport}
-             >
+            <MainWrapper
+              id="carousel-container"
+              status={status}
+              place={place}
+              photosLength={photosLength}
+              ref={viewport}
+              //  onScroll={(e) => scrollHandler(e)}
+              onScroll={handleScroll}
+            >
 
-               <Carousel id="carousel" photosLength={selectedStyle.photos.length} place={place} status={status} ref={carousel}>
-                 {selectedStyle.photos.map((photo, index) => (
-                   <Slide
-                     key={photo.url}
-                     i={index}
-                     id={`seq${index}`}
-                     onClick={(e) => handleClickMain(e)}
-                     status={status}
-                     setStatus={setStatus}
-                   >
-                     <Main
-                       src={photo.url}
-                       alt={`${productInfo.name} in ${selectedStyle.name} style photo number ${index}`}
-                       status={status}
-                     />
-                   </Slide>
-                 ))}
+              <Carousel
+                id="carousel"
+                photosLength={photosLength}
+                place={place}
+                status={status}
+                ref={carousel}
+              >
+                {selectedStyle.photos.map((photo, index) => (
+                  <Slide
+                    key={photo.url}
+                    i={index}
+                    id={`seq${index + 1}`}
+                     // could also keep the same main component and change css for zoomed & expanded
+                     // or could pass photo.url to the other main components, or update place with scroll
+                    onClick={(e) => handleClickMain(e)}
+                    status={status}
+                    setStatus={setStatus}
 
-               </Carousel>
+                  >
+                    <Main
+                      src={photo.url}
+                       // use url to store productName, selectedStyle and seq#
+                      alt={`${productInfo.name} in ${selectedStyle.name} style photo number ${index}`}
+                      status={status}
+                      id={`seq${index}`}
+                    />
+                  </Slide>
+                ))}
 
-             </MainWrapper>
+              </Carousel>
 
-             <Buttons
-               place={place}
-               setPlace={setPlace}
-               left
-               firstPhotoIndex={firstPhotoIndex}
-               setFirstPhotoIndex={setFirstPhotoIndex}
-               onClick={() => handleClickArrow(-1)}
-             >
-               <ArrowBackground />
-               <ArrowIcon prev />
-             </Buttons>
-             <Buttons
-               onClick={() => handleClickArrow(1)}
-               place={place}
-               setPlace={setPlace}
-               photosLength={selectedStyle.photos.length}
-               right
-               firstPhotoIndex={firstPhotoIndex}
-               setFirstPhotoIndex={setFirstPhotoIndex}
-             >
-               <ArrowBackground />
-               <ArrowIcon next />
-             </Buttons>
+            </MainWrapper>
 
-             {status === 'expanded'
+            <Buttons
+              place={place}
+              setPlace={setPlace}
+              left
+              firstPhotoIndex={firstPhotoIndex}
+              setFirstPhotoIndex={setFirstPhotoIndex}
+              // onClick={() => handleClickArrow(-1)}
+              onClick={handleClickBackArrow}
+            >
+              <ArrowBackground />
+              <ArrowIcon prev />
+            </Buttons>
+            <Buttons
+              // onClick={() => handleClickArrow(1)}
+              onClick={handleClickForwardArrow}
+              place={place}
+              photosLength={photosLength}
+              right
+              firstPhotoIndex={firstPhotoIndex}
+              setFirstPhotoIndex={setFirstPhotoIndex}
+            >
+              <ArrowBackground />
+              <ArrowIcon next />
+            </Buttons>
+
+            {status === 'expanded'
           && (
           <StyledExitButton
             type="button"
@@ -185,8 +257,8 @@ function ImageGallery({
             {/* &#9587; */}
           </StyledExitButton>
           )}
-           </AnimationContainer>
-           )}
+          </AnimationContainer>
+          )}
 
           {status === 'zoomed'
           && (
@@ -213,6 +285,7 @@ function ImageGallery({
         status={status}
         firstPhotoIndex={firstPhotoIndex}
         setFirstPhotoIndex={setFirstPhotoIndex}
+        handleClickThumbnail={handleClickThumbnail}
       />
 
     </ImageGalleryContainer>
@@ -222,8 +295,8 @@ function ImageGallery({
 ImageGallery.propTypes = {
   status: PropTypes.string.isRequired,
   setStatus: PropTypes.func.isRequired,
-  place: PropTypes.number.isRequired,
-  setPlace: PropTypes.func.isRequired,
+  // startingIndex: PropTypes.number.isRequired,
+  // setStartingIndex: PropTypes.func.isRequired,
 };
 
 const ImageGalleryContainer = styled.div`
@@ -235,7 +308,7 @@ const ImageGalleryContainer = styled.div`
 
   @media (min-width: 600px) {
     flex: 1 2 400px;
-  };
+  }
 
   ${(props) => props.status === 'default' && css`
     max-height: 820px;
@@ -245,7 +318,7 @@ const ImageGalleryContainer = styled.div`
       position: sticky;
       top: 60px;
       padding-bottom: 0px;
-    };
+    }
 
     @media (min-width: 800px) {
       flex: 1 3 500px;
@@ -253,7 +326,7 @@ const ImageGalleryContainer = styled.div`
       flex-direction: row;
       column-gap: 0;
       max-width: 700px;
-    };
+    }
   `};
 
   ${(props) => props.status === ('expanded' || 'zoomed') && css`
@@ -288,36 +361,34 @@ const MainWrapper = styled.div`
   scroll-behavior: smooth;
   &::-webkit-scrollbar {
     display: none;
-  };
+  }
   -ms-overflow-style: none;
   scrollbar-width: none;
 
   @media (min-width: 600px) {
     height: fit-content;
     max-height: 120vh;
-  };
-  @media (min-width: 800px) {
     overflow-x: hidden;
-  };
+  }
 
   ${(props) => props.status === 'default' && css`
     @media (min-width: 600px) {
       max-height: 840px;
-    };
+    }
     @media (min-width: 800px) {
       flex: 6 1 450px;
       height: initial;
-    };
+    }
     @media (min-width: 1200px) {
       max-width: 800px;
       max-height: 1200px;
-    };
+    }
   `};
 
   ${(props) => props.status === 'zoomed' && css`
     @media (min-width: 600px) {
       max-width: 80vh;
-    };
+    }
   `};
 `;
 
@@ -328,12 +399,13 @@ const Carousel = styled.ul`
   margin: 0;
   padding: 0;
   width: ${(props) => props.photosLength}00%;
-
-  @media (min-width: 600px) {
-    transition: translate 0.5s;
-    translate: ${(props) => `calc((-100% / ${props.photosLength}) * ${props.place})`} 0;
-  };
+  transition: translate 0.5s;
+  translate: ${(props) => `calc((-100%  * ${props.place})`};
 `;
+// @media (min-width: 600px) {
+//   transition: translate 0.5s;
+//   translate: ${(props) => `calc((-100% / ${props.photosLength}) * ${props.place})`} 0;
+// }
 
 const Slide = styled.li`
   scroll-snap-align: start;
@@ -357,7 +429,7 @@ const Main = styled.img`
     cursor: zoom-in;
     @media (min-width: 600px) {
       max-height: 840px;
-    };
+    }
     @media (min-height: 1200px) {
       max-width: 800px;
       max-height: 1200px;
@@ -411,7 +483,7 @@ const Buttons = styled.button`
       right: 0%;
       display: ${props.place < props.photosLength - 1 ? 'block' : 'none'};
     `};
-  };
+  }
   z-index: 3;
   align-self: center;
   position: absolute;
@@ -422,10 +494,10 @@ const Buttons = styled.button`
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     opacity: 1;
-  };
+  }
   font-weight: 500;
   padding: 0;
-  color: ${(props) => props.theme.fontColor};;
+  color: ${(props) => props.theme.fontColor};
   border: none;
   line-height: 1;
   font-size: 1em;
@@ -433,10 +505,10 @@ const Buttons = styled.button`
   height: 2em;
   @media (min-width: 700px) {
     font-size: 1.17em;
-  };
+  }
   @media (min-width: 900px) {
     font-size: 1.5em;
-  };
+  }
   ${(props) => props.scroll && css`
     top: initial;
     height: 2rem;
@@ -448,7 +520,7 @@ const Buttons = styled.button`
     background-color: initial;
     &:hover {
       background-color: rgba(225, 225, 225, 0.75);
-    };
+    }
     font-size: 2rem;
   `};
 `;
