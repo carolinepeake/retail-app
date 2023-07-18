@@ -3,8 +3,6 @@ import styled from 'styled-components';
 
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
-// TO-DO: don't display null feature values, make sure spaces between words
-
 function Features() {
   const { features } = useGlobalContext().productInfo;
 
@@ -38,19 +36,19 @@ const Container = styled.ul`
 `;
 
 const Feature = styled.li`
-  list-style-type: none;
   padding-top: 0.75em;
-  padding-bottom: 0px;
   display: list-item;
   font-weight: 300;
   font-size: 1.0em;
-  &:last {
-    padding-bottom: 0px
-  };
-  display: flex;
-  justify-content: flex-start;
-  margin: 0px;
 `;
+// list-style-type: none;
+//   padding-bottom: 0px;
+//   &:last {
+//     padding-bottom: 0px
+//   };
+//   display: flex;
+//   justify-content: flex-start;
+//   margin: 0px;
 
 const Text = styled.span`
   padding-left: 0.5em;
