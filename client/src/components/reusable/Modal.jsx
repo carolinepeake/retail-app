@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 // import axios from 'axios';
@@ -73,6 +73,34 @@ function Modal({ showModal, closeModal, children }) {
       closeModal();
     }
   }
+  // click outside done another way
+  // const inputRef = useRef(null);
+  const modalRef = useRef(null);
+
+  const onClickOutside = (e) => {
+    const element = e.target;
+    if (modalRef.current && !modalRef.current.contains(element)) {
+      e.preventDefault();
+      e.stopPropagation();
+      closeModal();
+    }
+  };
+
+  useEffect(() => {
+    // inputRef.current.focus();
+    document.body.addEventListener('click', onClickOutside);
+    return () => document.removeEventListener('click', onClickOutside);
+  }, []);
+
+  // const onChange = (e) => {
+  //   setValue(e.target.value);
+  // };
+
+  // const onSub = (e) => {
+  //   e.preventDefault();
+  //   onSubmit(value);
+  //   onClose();
+  // };
 
   return showModal ? (
     <ModalBackground
@@ -80,6 +108,7 @@ function Modal({ showModal, closeModal, children }) {
       onClick={(event) => clickOutsideModal(event)}
     >
       <ModalContainer
+        ref={modalRef}
         onClick={(e) => {
           e.stopPropagation();
         }}
