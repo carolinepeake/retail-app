@@ -8,10 +8,13 @@ import { useGlobalContext } from '../../../contexts/GlobalStore';
 function Features() {
   const { features } = useGlobalContext().productInfo;
 
-  const featuresComponents = features.map((feature, index) => (
-    <Feature key={`${feature.value}_${feature.feature}`} index={index}>
+  const featuresComponents = features.map(({ feature, value }, index) => (
+    <Feature key={feature} index={index}>
       <Text>&#x2713;</Text>
-      <Text>{`${feature.value.match(/[A-Z][a-z]+/g).join(' ')} ${feature.feature}`}</Text>
+      <Text>
+        {value?.match(/[A-Z][a-z]+/g).join(' ').concat(' ')}
+        {feature}
+      </Text>
     </Feature>
   ));
 

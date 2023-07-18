@@ -9,6 +9,16 @@ import NavBar from './NavBar/NavBar';
 import { GlobalContextProvider } from '../contexts/GlobalStore';
 
 // TO-DO: download futura-pt font sheet and link to html stylesheet
+// TO-DO: separate questions context,
+// answers context, reviews context,
+// product_detail/global context (rev_meta, styles, product_id, product_info)
+// related_products context, outfits_list context => test performance before & after
+// TO-DO: useItems hook (for reviews, answers, questions)
+// TO-DO: cache each product and related product global context is pulled for
+// TO-DO: delete roboto font preload and style sheet and replace with futura
+// TO-DO: add nodemon to dependencies
+
+// log 7/11/23, 4:23 pm, global store ran 9 times;
 
 function App() {
   const [theme, setTheme] = useState('light');
@@ -86,10 +96,10 @@ function App() {
   const themeDark = {
     // submit button: rgb(48, 62, 69)
     // submit button hover: rgb(62, 79, 89);
-//     #090e11
-// rgb(9,14,17)
-//     #0e1418
-// rgb(14,20,24)
+  // #090e11
+  // rgb(9,14,17)
+  //  #0e1418
+  // rgb(14,20,24)
     // #1c2931
     // should maybe make a default background color
     backgroundColor: '#090e11',
@@ -265,7 +275,7 @@ const StyledContainer = createGlobalStyle`
 
   ol, ul {
     list-style-type: none;
-  }
+  };
 `;
 // h2 {
 //   font-size: 1.5em;
@@ -274,6 +284,7 @@ const StyledContainer = createGlobalStyle`
 //   padding-bottom: 1.5rem;
 // };
 
-// should add in safe on the property it belongs so content is not rendered overscreen and unreachable
+// should add in safe on the property it belongs so content
+// is not rendered overscreen and unreachable
 
 export default App;

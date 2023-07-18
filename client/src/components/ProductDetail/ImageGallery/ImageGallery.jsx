@@ -20,12 +20,11 @@ import useCarouselNavigation from '../../utils/useCarouselNavigation';
 function ImageGallery({
   status,
   setStatus,
-  // startingIndex,
-  // setStartingIndex,
+  startingIndex,
+  setStartingIndex,
 }) {
   console.log('[ImageGallery] is running');
   const { productInfo, selectedStyle } = useGlobalContext();
-  const { photos } = useGlobalContext().selectedStyle;
 
   // if thumbnail with corresponding href value is clicked, should automatically scroll to that image
   // two useCarousels in imageGallery, one for thumbnails
@@ -39,10 +38,6 @@ function ImageGallery({
   if (selectedStyle.photos) {
     photosLength = selectedStyle.photos.length;
   }
-
-  // let listLength = [];
-
-  // listLength selectedStyle?.photos?.length  [];
 
   // make a new component just for rendering picture element given a single photo url as a prop or child
 
@@ -88,16 +83,20 @@ function ImageGallery({
   const [
     place,
     setPlace,
-    styles,
-    setStyles,
+    // styles,
+    // setStyles,
     handleScroll,
-    handleClickBackArrow,
-    handleClickForwardArrow,
-    handleClickThumbnail,
-  ] = useCarouselNavigation(carousel, viewport, photosLength);
-    // startingIndex
-  // );
+    // handleClickBackArrow,
+    // handleClickForwardArrow,
+    // handleClickThumbnail,
+    handleClickArrow,
+    handleClickPointer,
+  // ] = useCarouselNavigation(startingIndex, carousel, viewport, photosLength, 1);
+  ] = useCarouselNavigation(carousel, startingIndex);
+  console.log('place: ', setPlace, 'handleClickArrow: ', handleClickArrow, 'handleClickPointer: ', handleClickPointer);
 
+  // could do useEffect based on status
+  // to determine whether to add scroll handler or moveMouse handler
   // need to initialize xPerc and yPerc once status is expanded
   // is being called, but maybe rendering before x and y set
   // might want to use useCallback or useMemo to make quicker?
@@ -169,21 +168,20 @@ function ImageGallery({
     <ImageGalleryContainer
       status={status}
     >
-      {selectedStyle.photos
+
+      {/* {selectedStyle.photos
       && (
-        <>
+        <> */}
+
           {status !== 'zoomed'
           && (
-          <AnimationContainer
-            photosLength={photosLength}
-            place={place}
-          >
+          <AnimationContainer>
 
             <MainWrapper
               id="carousel-container"
               status={status}
               place={place}
-              photosLength={photosLength}
+              photosLength={selectedStyle?.photos?.length}
               ref={viewport}
               //  onScroll={(e) => scrollHandler(e)}
               onScroll={handleScroll}
@@ -191,29 +189,31 @@ function ImageGallery({
 
               <Carousel
                 id="carousel"
-                photosLength={photosLength}
+                // photosLength={photosLength}
+                photosLength={selectedStyle?.photos?.length}
                 place={place}
                 status={status}
                 ref={carousel}
               >
-                {selectedStyle.photos.map((photo, index) => (
+                {selectedStyle?.photos?.map((photo, index) => (
                   <Slide
                     key={photo.url}
                     i={index}
-                    id={`seq${index + 1}`}
+                    // ids don't match up
+                    // id={`seq${index}`}
+                    // id={`seq${index + 1}`}
                      // could also keep the same main component and change css for zoomed & expanded
                      // or could pass photo.url to the other main components, or update place with scroll
                     onClick={(e) => handleClickMain(e)}
                     status={status}
                     setStatus={setStatus}
-
                   >
                     <Main
                       src={photo.url}
                        // use url to store productName, selectedStyle and seq#
-                      alt={`${productInfo.name} in ${selectedStyle.name} style photo number ${index}`}
+                      alt={`${productInfo?.name} in ${selectedStyle?.name} style photo number ${index}`}
                       status={status}
-                      id={`seq${index}`}
+                      // id={`seq${index}`}
                     />
                   </Slide>
                 ))}
@@ -228,17 +228,18 @@ function ImageGallery({
               left
               firstPhotoIndex={firstPhotoIndex}
               setFirstPhotoIndex={setFirstPhotoIndex}
-              // onClick={() => handleClickArrow(-1)}
-              onClick={handleClickBackArrow}
+              onClick={() => handleClickArrow(-1)}
+              // onClick={handleClickBackArrow}
             >
               <ArrowBackground />
               <ArrowIcon prev />
             </Buttons>
             <Buttons
-              // onClick={() => handleClickArrow(1)}
-              onClick={handleClickForwardArrow}
+              onClick={() => handleClickArrow(1)}
+              // onClick={handleClickForwardArrow}
               place={place}
-              photosLength={photosLength}
+              // photosLength={photosLength}
+              photosLength={selectedStyle?.photos?.length}
               right
               firstPhotoIndex={firstPhotoIndex}
               setFirstPhotoIndex={setFirstPhotoIndex}
@@ -254,9 +255,9 @@ function ImageGallery({
             onClick={() => handleClickExit()}
           >
             &#10005;
-            {/* &#9587; */}
           </StyledExitButton>
           )}
+
           </AnimationContainer>
           )}
 
@@ -264,9 +265,10 @@ function ImageGallery({
           && (
           <MainWrapper ref={imageContainer} status={status}>
             <Main
-              src={selectedStyle.photos[place || 0].url}
+              // src={selectedStyle.photos[place || 0].url}
+              src={selectedStyle?.photos[place || 0]?.url}
               onClick={(e) => handleClickMain(e)}
-              alt={`${productInfo.name} in ${selectedStyle.name} style photo number ${place}`}
+              alt={`${productInfo?.name} in ${selectedStyle?.name} style photo number ${place}`}
               status={status}
               setStatus={setStatus}
               place={place}
@@ -276,8 +278,9 @@ function ImageGallery({
             />
           </MainWrapper>
           )}
-        </>
-      )}
+
+      {/* //   </>
+      // )} */}
 
       <Thumbnails
         place={place}
@@ -285,7 +288,8 @@ function ImageGallery({
         status={status}
         firstPhotoIndex={firstPhotoIndex}
         setFirstPhotoIndex={setFirstPhotoIndex}
-        handleClickThumbnail={handleClickThumbnail}
+        // handleClickThumbnail={handleClickThumbnail}
+        handleClickThumbnail={handleClickPointer}
       />
 
     </ImageGalleryContainer>
@@ -356,7 +360,7 @@ const MainWrapper = styled.div`
   aspect-ratio: 4/6;
   z-index: 1;
   overflow-x: scroll;
-  --slide-count: ${(props) => props.photosLength};
+  /* --slide-count: ${(props) => props.photosLength}; */
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   &::-webkit-scrollbar {
@@ -399,9 +403,13 @@ const Carousel = styled.ul`
   margin: 0;
   padding: 0;
   width: ${(props) => props.photosLength}00%;
-  transition: translate 0.5s;
-  translate: ${(props) => `calc((-100%  * ${props.place})`};
+  @media (min-width: 600px) {
+    transition: translate 0.5s;
+    /* translate: ${(props) => `calc(-100%  * ${props.place})`} 0; */
+    translate: ${(props) => `calc((-100 / ${props.photosLength}) * ${props.place} * 1%)`} 0;
+  }
 `;
+// translate: ${(props) => `calc(-100%  * ${props.place})`} 0;
 // @media (min-width: 600px) {
 //   transition: translate 0.5s;
 //   translate: ${(props) => `calc((-100% / ${props.photosLength}) * ${props.place})`} 0;
@@ -437,7 +445,7 @@ const Main = styled.img`
   `};
 
   ${(props) => props.status === 'expanded' && css`
-    cursor: crosshair
+    cursor: crosshair;
   `};
 
   ${(props) => props.status === 'zoomed' && css`
@@ -609,3 +617,5 @@ export default ImageGallery;
 // horizontal line &#9472;
 // plus 	&#43;
 // fullwidth hyphen minus 	&#65293;
+
+// arrow: &#9587;
