@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { Button } from './Button';
 
-// To-DO: replace '+' and '-' with unicode characters
-
 function Collapsable({ children, header }) {
   const [collapsed, setCollapsed] = useState(true);
 
