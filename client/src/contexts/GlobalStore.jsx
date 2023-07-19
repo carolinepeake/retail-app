@@ -13,7 +13,8 @@ export function useGlobalContext() {
 // TO-DO: test performance of requesting 2 questions and reviews initially
 // and then requesting more as the user scrolls through the pages of reviews
 // v. requesting all reviews initially
-// think about how can store state info in url query parameters so as not to require round trip to backend to share/persist state
+// think about how can store state info in url query parameters
+// so as not to require round trip to backend to share/persist state
 
 // TO-DO: request product info, default image url, reviews meta data first
 // cache above info for current product and related products
@@ -24,12 +25,9 @@ export function GlobalContextProvider({ children }) {
     children: PropTypes.node.isRequired,
   };
 
-  // Works when ready to hook up API with URL
-  // setProductID(window.location.pathname || 40348);
-
   const params = new URL(document.location).searchParams;
   const product = params.get('productId');
-  console.log('product: ', product);
+
   const [productID, setProductID] = useState(product || 40344);
 
   const [productInfo, setProductInfo] = useState({});
@@ -37,6 +35,11 @@ export function GlobalContextProvider({ children }) {
   const [selectedStyle, setSelectedStyle] = useState({});
 
   const [questions, setQuestions] = useState([]);
+  // consider making useFilter custom hook for filtering data list by 1 or many conditions
+  // would want to memoize useFilter result
+  // can return filtered data
+  // would remove filteredQuestions from context
+  // but might want to keep any selected filters or searched terms in context
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [numQuestions, setNumQuestions] = useState(100);
   const [questionPage, setQuestionPage] = useState(1);
@@ -50,6 +53,7 @@ export function GlobalContextProvider({ children }) {
   // should just store productId and get product info when need it,
   // but will store product info in outfits too, for now
   const [outfits, setOutfits] = useState([]);
+  // related products
   const [productList, setProductList] = useState([]);
 
   function getProductInfo() {
@@ -110,7 +114,6 @@ export function GlobalContextProvider({ children }) {
       })
       .then((result) => {
         setReviews(result.data.results);
-        console.log('reviews: ', result.data);
       })
       .catch((err) => {
         console.log('Error getting reviews: ', err);
@@ -126,7 +129,6 @@ export function GlobalContextProvider({ children }) {
       })
       .then((result) => {
         setRevMeta(result.data);
-        console.log('reviews meta: ', result.data);
         return result.data;
       })
       .catch((err) => {
@@ -165,13 +167,13 @@ export function GlobalContextProvider({ children }) {
         },
       })
       .then((results) => {
-        function onlyUnique(value, index, array) {
+        function filterDuplicates(value, index, array) {
           if (value === Number(productID)) {
             return false;
           }
           return array.indexOf(value) === index;
         }
-        const relatedProducts = results.data.filter(onlyUnique);
+        const relatedProducts = results.data.filter(filterDuplicates);
         relatedProducts.forEach((id) => {
           const details = axios.get('/relatedItem', { params: { productID: id } });
           const image = axios.get('/relatedImage', { params: { productID: id } });
@@ -183,9 +185,9 @@ export function GlobalContextProvider({ children }) {
           ])
             .then((object) => {
               const tempObj = {
-                details: object[0],
-                image: object[1],
-                stars: object[2],
+                details: object[0].data,
+                image: object[1].data.results[0],
+                stars: object[2].data,
               };
               setProductList((oldList) => [...oldList, tempObj]);
             })
