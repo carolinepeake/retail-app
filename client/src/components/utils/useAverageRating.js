@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 export const calcAverageRating = (ratingsObj) => {
+  // console.log('ratingsObj: ', ratingsObj);
   let totalRatings = 0;
   let totalVotes = 0;
   const entries = Object.entries(ratingsObj);
@@ -8,9 +9,19 @@ export const calcAverageRating = (ratingsObj) => {
     const rating = parseInt(entry[0], 10);
     const votes = parseInt(entry[1], 10);
     totalVotes += votes;
-    totalRatings += rating * votes;
+    totalRatings += (rating * votes);
   });
-  return Math.round((totalRatings / totalVotes) * 100) / 100;
+  console.log('totalRatings: ', totalRatings, 'totalVotes: ', totalVotes);
+  const averageRating = Math.round((totalRatings / totalVotes) * 100) / 100;
+  console.log('averageRating: ', averageRating);
+  return averageRating;
+};
+
+export const calculateStars = (rating) => {
+  const average = rating * 4;
+  const partialStarCount = Math.round(average) * 5;
+  console.log('average in stars: ', average, 'partialTemp: ', partialStarCount);
+  return partialStarCount;
 };
 
 export const getProductInfo = (id) => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import POStars from './POStars';
+import Stars from '../../RelatedItems/RelatedList/Stars';
 import SocialMedia from './SocialMedia';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import { calcAverageRating } from '../../utils/useAverageRating';
@@ -18,7 +18,7 @@ function ProductOverview() {
       {reviews.length > 0
         && (
           <div>
-            <POStars rating={rating} />
+            <Stars rating={rating} />
             <ReadReviews>
               <ReviewsLink href="#ratings-and-reviews">{`Read all ${reviews.length} reviews`}</ReviewsLink>
             </ReadReviews>
@@ -71,6 +71,7 @@ const ReadReviews = styled.h5`
   display: inline-block;
   margin-block-start: 0.5em;
   margin-block-end: 0em;
+  margin-left: 0.75em;
 `;
 
 const ReviewsLink = styled.a`

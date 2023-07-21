@@ -1,24 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import {
+  calculateStars,
+} from '../../utils/useAverageRating';
 
-function Stars({
-  rating,
-}) {
-  const [partial, setPartial] = useState(0);
+function Stars({ rating }) {
+  const partialStarWidth = calculateStars(rating);
 
-  function calculateStars(rat) {
-    const average = rat * 4;
-    const partialTemp = Math.round(average) * 5;
-    setPartial(partialTemp);
-    console.log('average in stars: ', average, 'partialTemp: ', partialTemp);
-  }
-
-  useEffect(() => {
-    calculateStars(rating);
-  }, [rating]);
-
-  // can memoize this calc b/c will always stay the same
   const baseStars = [];
   const filledStars = [];
   for (let i = 0; i < 5; i += 1) {
@@ -28,7 +17,7 @@ function Stars({
 
   return (
     <StarsContainer>
-      <FilledStar className="star" count={partial}>{filledStars}</FilledStar>
+      <FilledStar className="star" size={partialStarWidth}>{filledStars}</FilledStar>
       <BaseStar className="star">{baseStars}</BaseStar>
     </StarsContainer>
   );
@@ -40,11 +29,11 @@ Stars.propTypes = {
 
 const StarsContainer = styled.div`
   position: relative;
-  margin-left: 0.25rem;
-  margin-right: auto;
   font-size: ${(props) => props.theme.tertiary};
   color: ${(props) => props.theme.fontColor};
   margin-top: 0.25rem;
+  margin-right: auto;
+  display: inline-block;
 `;
 
 const BaseStar = styled.span`
@@ -56,8 +45,8 @@ const FilledStar = styled.div`
   top: 0px;
   left: 0px;
   display: flex;
-  width: ${(props) => props.count}%;
-  overflow:hidden;
+  width: ${(props) => props.size}%;
+  overflow: hidden;
   flex-direction: row;
   color: ${(props) => props.theme.starFilled};
   font-size: bold;
