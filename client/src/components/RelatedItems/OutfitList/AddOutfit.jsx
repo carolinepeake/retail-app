@@ -5,6 +5,7 @@ import { useGlobalContext } from '../../../contexts/GlobalStore';
 import { calcAverageRating } from '../../utils/useAverageRating';
 
 function AddOutfit({ setIndex }) {
+  console.log('[AddOutfit] is running');
   const {
     productID, productInfo, revMeta, selectedStyle, outfits, setOutfits,
   } = useGlobalContext();
@@ -18,13 +19,19 @@ function AddOutfit({ setIndex }) {
       }
     }
 
+    // const outfit = {
+    //   id: productID,
+    //   name: productInfo.name,
+    //   category: productInfo.category,
+    //   price: productInfo.default_price,
+    //   rating: calcAverageRating(revMeta.ratings),
+    //   photo: selectedStyle.photos[0].thumbnail_url,
+    // };
     const outfit = {
-      id: productID,
-      name: productInfo.name,
-      category: productInfo.category,
-      price: productInfo.default_price,
-      rating: calcAverageRating(revMeta.ratings),
-      photo: selectedStyle.photos[0].thumbnail_url,
+      productID,
+      productInfo,
+      revMeta,
+      selectedStyle,
     };
     const tempArray = [...outfits, outfit];
     setOutfits(tempArray);

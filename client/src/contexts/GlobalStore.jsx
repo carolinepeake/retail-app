@@ -185,9 +185,10 @@ export function GlobalContextProvider({ children }) {
           ])
             .then((object) => {
               const tempObj = {
-                details: object[0].data,
-                image: object[1].data.results[0],
-                stars: object[2].data,
+                productID: object[0].data.id,
+                productInfo: object[0].data,
+                selectedStyle: object[1].data.results[0],
+                revMeta: object[2].data,
               };
               setProductList((oldList) => [...oldList, tempObj]);
             })

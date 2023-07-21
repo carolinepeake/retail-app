@@ -1,11 +1,10 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
-import StarButton from './StarButton';
+// import StarButton from './StarButton';
 import CardImage from './CardImage';
 import Stars from './Stars';
-import ComparisonModal from './ComparisonModal';
 import {
   calcAverageRating,
   // getProductInfo,
@@ -13,88 +12,63 @@ import {
 } from '../../utils/useAverageRating';
 
 function Card({
-  product, setIndex, setTranslate
+  product, setIndex, setTranslate, children
 }) {
+  console.log('[Card] is running');
   const {
     setProductID,
   } = useGlobalContext();
-
-  const [modal, setModal] = useState(false);
 
   // understand why passing function as JSX props causes unnecessary re-render
   // understand why arrow functions do not bind
   // understand why need to wrap arrow function in useCallback
   // and use this type of function declaration/definition (understand which type it is)
   // https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-no-bind.md
-  const closeModal = useCallback(() => {
-    setModal(false);
-  }, [setModal]);
-
-  function handleBackgroundClick(event) {
-    if (event.target.id === 'CompareProductsBackground') {
-      closeModal();
-    }
-    event.stopPropagation();
-  }
 
   function changeItem() {
-    setProductID(product.details.data.id);
+    setProductID(product.productID);
     // Reset card index when clicking on new item
     setIndex(0);
     setTranslate(0);
   }
 
-  const rating = calcAverageRating(product.stars.data.ratings);
+  const rating = calcAverageRating(product.revMeta.ratings);
 
   return (
     <CardContainer
       onClick={() => changeItem()}
     >
-      <CardStyle>
-        <StarButton
-          setModal={setModal}
-        />
+      <CardContent>
+        {children}
+
         <CardImage
-          imageUrl={product.image.data.results[0].photos[0].thumbnail_url}
+          imageUrl={product.selectedStyle.photos[0].thumbnail_url}
         />
-        <Text>
-          <Cards category>{product.details.data.category}</Cards>
-          <Cards productName>{product.details.data.name}</Cards>
-          <Cards price>
+        <TextContainer>
+          <Text category>{product.productInfo.category}</Text>
+          <Text productName>{product.productInfo.name}</Text>
+          <Text price>
             $
-            {product.details.data.default_price}
-          </Cards>
-        </Text>
+            {product.productInfo.default_price}
+          </Text>
+        </TextContainer>
         <Stars
           rating={rating}
         />
-      </CardStyle>
-      {modal
-      && (
-        <ModalBackground
-          id="CompareProductsBackground"
-          onClick={(e) => handleBackgroundClick(e)}
-        >
-          <ComparisonModal
-            onClick={(e) => { e.stopPropagation(); }}
-            details={product.details.data}
-            closeModal={closeModal}
-          />
-        </ModalBackground>
-      )}
+      </CardContent>
     </CardContainer>
   );
 }
 
 // Card.propTypes = {
 //   product: PropTypes.shape({
-//     details: PropTypes.shape({
-//       id: PropTypes.number,
+//     productID: PropTypes.number,
+//     productInfo: PropTypes.shape({
 //       name: PropTypes.string,
 //       category: PropTypes.string,
 //       default_price: PropTypes.string,
 //     }),
-  //   image: PropTypes.arrayOf(
+  //   selectedStyle: PropTypes.arrayOf(
   //     PropTypes.shape({
   //       style_id: PropTypes.number,
   //       name: PropTypes.string,
@@ -108,9 +82,6 @@ function Card({
   //       skus: PropTypes.shape({
   //         PropTypes.string: PropTypes.shape({
   //           size: PropTypes.number,
-
-
-
   // }).isRequired,
 // };
 
@@ -122,7 +93,7 @@ const CardContainer = styled.div`
   height: 100%;
 `;
 
-const CardStyle = styled.div`
+const CardContent = styled.div`
   display: flex;
   flex-direction: column;
   border: lightgrey solid thin;
@@ -132,6 +103,9 @@ const CardStyle = styled.div`
   overflow: hidden;
 `;
 // box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+// &:hover {
+//   opacity: 0.80;
+// }
 
 // mask-image: ${(props) => (props.i === 3 ?
 // 'linear-gradient(to right, rgba(0,0,0,1), 40%, rgba(0,0,0,0) 80%)' : ' ')};
@@ -140,7 +114,7 @@ const CardStyle = styled.div`
 // mask-image: ${(props) => (props.i === 3 ?
 // 'linear-gradient(to right, rgba(0,0,0,1), 40%, rgba(0,0,0,0) 80%)' : ' ')};
 
-const Cards = styled.div`
+const Text = styled.div`
   margin-right: auto;
   font-size: ${(props) => props.theme.tertiary};
   paddingTop: ${(props) => (props.category ? '0.1em' : props.productName ? '0.05em' : '')};
@@ -149,6 +123,14 @@ const Cards = styled.div`
   ${(props) => props.productName && css`
     font-size: ${props.theme.body};
     font-weight: 500;
+    &:hover {
+      text-decoration: underline;
+    }
+  `};
+  ${(props) => props.category && css`
+    &:hover {
+      text-decoration: underline;
+    }
   `};
 `;
 // font-size: ${props.theme.cardTitle};
@@ -161,29 +143,11 @@ const Cards = styled.div`
 // `}
 // margin-left: auto;
 
-const Text = styled.div`
+const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
-  &:hover {
-    text-decoration: underline;
-  }
   cursor: pointer;
   margin-top: 0.2em;
 `;
-
-const ModalBackground = styled.div`
-  width: 90vw;
-  height: 100%;
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  left: 1.25vw;
-  top: 0%;
-  z-index: 10;
-  flex-direction: column;
-`;
-// width: 100vw;
-// height: 100vh;
 
 export default Card;

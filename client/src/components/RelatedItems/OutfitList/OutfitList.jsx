@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
-import Outfit from './Outfit';
+import Card from '../RelatedList/Card';
 import AddOutfit from './AddOutfit';
+import { StyledExitButton } from '../../reusable/Button';
+// import { AiOutlineCloseCircle } from 'react-icons/ai';
 
 // may need to recalculate translate values if another
 
 function OutfitList() {
+  console.log('[OutfitList] is running');
   // for now includes stars and product info data, will eventually just be product id
   const {
-    outfits,
+    outfits, setOutfits,
   } = useGlobalContext();
 
   const [translate, setTranslate] = useState(100 / outfits.length);
@@ -32,6 +35,17 @@ function OutfitList() {
     setIndex((prev) => prev + 1);
   }
 
+  function removeOutfit(event, i) {
+    // moving index used for translation back 1 if currently at end of list
+    event.stopPropagation();
+    if (index === outfits.length) {
+      setIndex((prev) => prev - 1);
+    }
+    const tempArray = [...outfits];
+    tempArray.splice(i, 1);
+    setOutfits(tempArray);
+  }
+
   return (
 
     <CarouselContainer>
@@ -41,19 +55,28 @@ function OutfitList() {
         length={outfits.length + 1}
         index={index}
       >
-        {outfits.map((outfit, i) => (
+        {outfits.map((product, i) => (
           <CardContainer
             index={index}
-            key={outfit.id}
+            key={product.productID}
             length={outfits.length + 1}
           >
-            <Outfit
+            <Card
               index={index}
-              outfit={outfit}
-              key={outfit.id}
+              product={product}
+              key={product.productID}
               setIndex={setIndex}
+              setTranslate={setTranslate}
               i={i}
-            />
+            >
+              {/* <Button onClick={() => removeOutfit()}><AiOutlineCloseCircle /></Button> */}
+              <Close
+                type="button"
+                onClick={(event) => removeOutfit(event, i)}
+              >
+                &#10005;
+              </Close>
+            </Card>
           </CardContainer>
         ))}
 
@@ -280,6 +303,34 @@ const ArrowIcon = styled.span`
       font-family: futura-pt, sans-serif;
     }
   `};
+`;
+
+// const Button = styled.button`
+//   display: block;
+//   position: absolute;
+//   top: 0px;
+//   right: 0px;
+//   color: black;
+//   background-color: transparent;
+//   border: none;
+//   padding: calc(5px + 0.5vw);
+//   font-size: calc(15px + 1.5vw);
+//   &:hover {
+//     background-color: trasparent;
+//     opacity: 0.80;
+//   }
+//   cursor: pointer;
+//   z-index: 1;
+// `;
+
+const Close = styled(StyledExitButton)`
+  font-size: 1em;
+  top: 0.25em;
+  right: 0.25em;
+  opacity: 0.5;
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
 export default OutfitList;

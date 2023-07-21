@@ -2,9 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-function StarButton({ setModal }) {
+function StarButton({ setModal, i }) {
+  console.log('[StarButton] is running');
   function openModal() {
-    setModal(true);
+    setModal(i);
   }
   function closeModal() {
     setModal(false);
@@ -21,34 +22,32 @@ function StarButton({ setModal }) {
   // }
 
   return (
-      <Button
-        onClick={(e) => {
-          e.stopPropagation();
-          openModal();
-        }}
-        // onMouseEnter={(e) => handleMouseEnter(e)}
-        // onMouseLeave={(e) => handleMouseLeave(e)}
-      >
-        {/* {starType} */}
-        &#9733;
-      </Button>
+    <Button
+      onClick={(e) => {
+        e.stopPropagation();
+        openModal();
+      }}
+    >
+      {/* {starType} */}
+      &#9733;
+    </Button>
   );
 }
 
-StarButton.propTypes = {
-  details: PropTypes.shape({
-    name: PropTypes.string,
-    category: PropTypes.string,
-    id: PropTypes.number,
-    price: PropTypes.string,
-    features: PropTypes.arrayOf(
-      PropTypes.shape({
-        feature: PropTypes.string,
-        value: PropTypes.string,
-      }),
-    ),
-  }).isRequired,
-};
+// StarButton.propTypes = {
+//   details: PropTypes.shape({
+//     name: PropTypes.string,
+//     category: PropTypes.string,
+//     id: PropTypes.number,
+//     price: PropTypes.string,
+//     features: PropTypes.arrayOf(
+//       PropTypes.shape({
+//         feature: PropTypes.string,
+//         value: PropTypes.string,
+//       }),
+//     ),
+//   }).isRequired,
+// };
 
 const Button = styled.button`
   position: absolute;

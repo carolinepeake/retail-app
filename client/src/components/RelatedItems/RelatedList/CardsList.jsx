@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled, { css } from 'styled-components';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import Card from './Card';
+import ComparisonModal from './ComparisonModal';
+import StarButton from './StarButton';
 
 function CardsList() {
+  console.log('[CardsList] is running');
   // for now includes stars and product info data, will eventually just be product id
   const {
     productList,
@@ -32,58 +35,93 @@ function CardsList() {
     setIndex((prev) => prev + 1);
   }
 
+  const [modal, setModal] = useState(null);
+
+  const closeModal = useCallback(() => {
+    setModal(null);
+  }, [setModal]);
+
+  function handleBackgroundClick(event) {
+    if (event.target.id === 'CompareProductsBackground') {
+      closeModal();
+    }
+    event.stopPropagation();
+  }
+
   return (
+    <>
 
-    <CarouselContainer>
+      <CarouselContainer>
 
-      <CarouselContent
-        translate={translate}
-        length={productList.length}
-        index={index}
-      >
+        <CarouselContent
+          translate={translate}
+          length={productList.length}
+          index={index}
+        >
 
-        {productList.length === 0
-          ? <Text>No related items</Text>
+          {productList.length === 0
+            ? <Text>No related items</Text>
 
-          : productList.map((product, i) => (
-            <CardContainer
-              className="carousel-item"
-              index={index}
-              key={i}
-              length={productList.length}
-            >
-              <Card
-                className="carousel-card"
-                image={product.image[0]}
-                product={product}
+            : productList.map((product, i) => (
+              <CardContainer
+                className="carousel-item"
                 index={index}
-                setTranslate={setTranslate}
-                setIndex={setIndex}
-              />
-            </CardContainer>
-          ))}
+                key={product.productID}
+                length={productList.length}
+                i={i}
+              >
+                <Card
+                  className="carousel-card"
+                  product={product}
+                // index={index}
+                  setTranslate={setTranslate}
+                  setIndex={setIndex}
+                >
+                  <StarButton
+                    setModal={setModal}
+                    i={i}
+                  />
+                </Card>
+              </CardContainer>
+            ))}
 
-      </CarouselContent>
+        </CarouselContent>
 
-      <LeftButton
-        onClick={(e) => handlePrev(e)}
-        hidePrev={hidePrev}
-      >
-        <ArrowBackground />
-        <ArrowIcon prev />
-      </LeftButton>
-      <RightButton
-        onClick={(e) => handleNext(e)}
-        hideNext={hideNext}
-        length={productList.length}
-        index={index}
-      >
-        <ArrowBackground />
-        <ArrowIcon next />
-      </RightButton>
+        <LeftButton
+          onClick={(e) => handlePrev(e)}
+          hidePrev={hidePrev}
+        >
+          <ArrowBackground />
+          <ArrowIcon prev />
+        </LeftButton>
+        <RightButton
+          onClick={(e) => handleNext(e)}
+          hideNext={hideNext}
+          length={productList.length}
+          index={index}
+        >
+          <ArrowBackground />
+          <ArrowIcon next />
+        </RightButton>
 
-    </CarouselContainer>
+      </CarouselContainer>
 
+      {typeof modal === 'number'
+      && (
+        <ModalBackground
+          id="CompareProductsBackground"
+          onClick={(e) => handleBackgroundClick(e)}
+        >
+          <ComparisonModal
+            onClick={(e) => { e.stopPropagation(); }}
+            // details={product?.productInfo}
+            details={productList[modal].productInfo}
+            closeModal={closeModal}
+          />
+        </ModalBackground>
+      )}
+
+    </>
   );
 }
 
@@ -261,5 +299,20 @@ const ArrowIcon = styled.span`
     }
   `};
 `;
+
+const ModalBackground = styled.div`
+  width: 90vw;
+  height: 100%;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 1.25vw;
+  top: 0%;
+  z-index: 10;
+  flex-direction: column;
+`;
+// width: 100vw;
+// height: 100vh;
 
 export default CardsList;
