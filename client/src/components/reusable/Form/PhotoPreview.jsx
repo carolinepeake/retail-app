@@ -3,7 +3,13 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { StyledExitButton } from '../Button';
 
-export default function PhotoPreview({ photo, photos, setPhotos, resetFileInput, selectedFile }) {
+export default function PhotoPreview({
+  photo,
+  photos,
+  setPhotos,
+  resetFileInput,
+  selectedFile,
+}) {
   const handleClickDeleteFile = () => {
     // delete photo from photos
     const photosCopy = photos.slice();
@@ -13,7 +19,17 @@ export default function PhotoPreview({ photo, photos, setPhotos, resetFileInput,
       }
     }
     setPhotos(photosCopy);
-    if (selectedFile.name === photo.original_filename) {
+    // const e = {
+    //   target: {
+    //     name: 'photos',
+    //     value: [...photos, uploadedPhoto.url],
+    //   },
+    // };
+    // handleInputChange(e);
+    console.log('selectedFile: ', selectedFile.name, 'photo: ', photo);
+    // selectedFile.name includes file type extension and photo.original_filename does not
+    if (selectedFile.name === `${photo.original_filename}.${photo.format}`) {
+      console.log('resetting file input');
       resetFileInput();
     }
     // delete photo from cloudinary
@@ -23,8 +39,8 @@ export default function PhotoPreview({ photo, photos, setPhotos, resetFileInput,
   return (
     <ImageContainer>
       <ImagePreview
-        src={photo.url}
-        alt={photo.original_filename}
+        src={photo?.url}
+        alt={photo?.original_filename}
       />
       <DeleteButton
         type="button"
