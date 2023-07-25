@@ -2,54 +2,56 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-function StarRating({ rating, setRating }) {
-  const handleClickStar = (starRating) => {
-    const numVal = parseInt(starRating, 10);
-    let meaning;
-    if (numVal === 1) {
-      meaning = 'Poor';
-    } else if (numVal === 2) {
-      meaning = 'Fair';
-    } else if (numVal === 3) {
-      meaning = 'Average';
-    } else if (numVal === 4) {
-      meaning = 'Good';
-    } else if (numVal === 5) {
-      meaning = 'Great';
-    }
+const RATING = {
+  1: 'Poor',
+  2: 'Fair',
+  3: 'Average',
+  4: 'Good',
+  5: 'Great',
+};
 
-    setRating({
-      meaning, numVal,
-    });
-  };
+function StarRating({
+  handleInputChange,
+  rating,
+}) {
+  console.log('[StarRating] is running');
 
   return (
     <div>
       Overall star rating*&nbsp;
-      <div>{rating.meaning}</div>
-      <RadioButtonsContainer onChange={(event) => handleClickStar(event.target.value)}>
 
-        <StarInput required type="radio" name="rating" value={1} />
-        1
-        <StarInput type="radio" name="rating" value={2} />
-        2
-        <StarInput type="radio" name="rating" value={3} />
-        3
-        <StarInput type="radio" name="rating" value={4} />
-        4
-        <StarInput type="radio" name="rating" value={5} />
-        5
+      <div>
+        {rating
+          ? RATING[rating]
+          : 'none selected'}
+      </div>
+
+      <RadioButtonsContainer>
+
+        <StarInput required type="radio" name="rating" value={1} onChange={handleInputChange} id="star1" checked={rating === '1'} />
+        <label htmlFor="star1">{1}</label>
+
+        <StarInput type="radio" name="rating" value={2} onChange={handleInputChange} id="star2" checked={rating === '2'} />
+        <label htmlFor="star2">{2}</label>
+
+        <StarInput type="radio" name="rating" value={3} onChange={handleInputChange} id="star3" checked={rating === '3'} />
+        <label htmlFor="star3">{3}</label>
+
+        <StarInput type="radio" name="rating" value={4} onChange={handleInputChange} id="star4" checked={rating === '4'} />
+        <label htmlFor="star4">{4}</label>
+
+        <StarInput type="radio" name="rating" value={5} onChange={handleInputChange} id="star5" checked={rating === '5'} />
+        <label htmlFor="star5">{5}</label>
+
       </RadioButtonsContainer>
     </div>
   );
 }
 
 StarRating.propTypes = {
-  rating: PropTypes.shape({
-    meaning: PropTypes.string,
-    numVal: PropTypes.number,
-  }).isRequired,
-  setRating: PropTypes.func.isRequired,
+  // or null
+  // rating: PropTypes.string,
+  handleInputChange: PropTypes.func.isRequired,
 };
 
 export default StarRating;
@@ -59,5 +61,4 @@ const RadioButtonsContainer = styled.div`
 `;
 
 const StarInput = styled.input`
-
 `;
