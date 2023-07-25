@@ -27,33 +27,33 @@ module.exports.getReviewsMeta = (req, res) => {
 
 module.exports.postReview = (req, res) => {
   axios.post('https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/reviews', req.body)
-    .then(() => {
-      res.status(201);
+    .then((result) => {
+      res.status(201).send(result.data);
     })
     .catch((err) => {
       console.error('There was an error in the postReview controller function:\n', err);
-      res.sendStatus(400);
+      res.status(400).send(err);
     });
 };
 
 module.exports.putReviewHelpful = (req, res) => {
   axios.put(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/reviews/${req.params.review_id}/helpful`)
-    .then(() => {
-      res.status(204);
+    .then((result) => {
+      res.status(204).send(result.data);
     })
     .catch((err) => {
       console.error('There was an error in the putReviewHelpful controller function:\n', err);
-      res.sendStatus(400);
+      res.status(400).send(err);
     });
 };
 
 module.exports.putReviewReport = (req, res) => {
   axios.put(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/reviews/${req.params.review_id}/report`)
-    .then(() => {
-      res.status(204);
+    .then((result) => {
+      res.status(204).send(result.data);
     })
     .catch((err) => {
       console.error('There was an error in the putReviewReport controller function:\n', err);
-      res.sendStatus(400);
+      res.status(400).send(err);
     });
 };

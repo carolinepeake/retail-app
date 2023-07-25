@@ -22,7 +22,8 @@ module.exports.postAnswer = (req, res) => {
     )
     .then((result) => {
       res.status(201).send(result.data);
-       // API does not send back posted data
+      // API does not send back posted data
+      // need to send back something
     })
     .catch((err) => {
       res.status(400).send(err);
@@ -36,8 +37,8 @@ module.exports.helpfulAnswer = (req, res) => {
     .put(
       `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/qa/answers/${answerID}/helpful`,
     )
-    .then(() => {
-      res.status(204).send();
+    .then((result) => {
+      res.status(204).send(result.data);
     })
     .catch((err) => {
       res.status(400).send(err);
@@ -51,8 +52,8 @@ module.exports.reportAnswer = (req, res) => {
     .put(
       `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/qa/answers/${answerID}/report`,
     )
-    .then(() => {
-      res.status(204).send();
+    .then((result) => {
+      res.status(204).send(result.data);
     })
     .catch((err) => {
       res.status(400).send(err);
