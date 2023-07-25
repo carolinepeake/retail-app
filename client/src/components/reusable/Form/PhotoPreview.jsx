@@ -4,31 +4,32 @@ import styled from 'styled-components';
 import { StyledExitButton } from '../Button';
 
 export default function PhotoPreview({
-  photo,
-  photos,
-  setPhotos,
+  preview,
+  previews,
+  // setPreviews,
   resetFileInput,
   selectedFile,
+  handleInputChange,
 }) {
   const handleClickDeleteFile = () => {
     // delete photo from photos
-    const photosCopy = photos.slice();
-    for (let i = 0; i < photos.length; i++) {
-      if (photos[i].public_id === photo.public_id) {
-        photosCopy.splice(i, 1);
+    const previewsCopy = previews.slice();
+    for (let i = 0; i < previews.length; i++) {
+      if (previews[i].public_id === preview.public_id) {
+        previewsCopy.splice(i, 1);
       }
     }
-    setPhotos(photosCopy);
-    // const e = {
-    //   target: {
-    //     name: 'photos',
-    //     value: [...photos, uploadedPhoto.url],
-    //   },
-    // };
-    // handleInputChange(e);
-    console.log('selectedFile: ', selectedFile.name, 'photo: ', photo);
+    const e = {
+      target: {
+        name: 'photos',
+        value: previewsCopy,
+      },
+    };
+    handleInputChange(e);
+    // setPreviews(previewsCopy);
+    console.log('selectedFile: ', selectedFile.name, 'preview: ', preview);
     // selectedFile.name includes file type extension and photo.original_filename does not
-    if (selectedFile.name === `${photo.original_filename}.${photo.format}`) {
+    if (selectedFile.name === (`${preview.original_filename}.${preview.original_extension}` || `${preview.original_filename}.${preview.format}`)) {
       console.log('resetting file input');
       resetFileInput();
     }
@@ -39,8 +40,8 @@ export default function PhotoPreview({
   return (
     <ImageContainer>
       <ImagePreview
-        src={photo?.url}
-        alt={photo?.original_filename}
+        src={preview.url}
+        alt={preview.original_filename}
       />
       <DeleteButton
         type="button"
