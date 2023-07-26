@@ -15,7 +15,7 @@ export default function RadioButton({
   const id = useId();
 
   return (
-    <Radio value={value}>
+    <Radio value={value} checked={checked}>
       <Input
         required={required}
         type="radio"
@@ -25,9 +25,8 @@ export default function RadioButton({
         checked={checked}
         id={id}
       />
-      {/* {(value % 2 === 1) &&  */}
-      <Label htmlFor={id} value={value}>{label}</Label>
-      {/* } */}
+      {(value % 2 === 1)
+      && <Label htmlFor={id} value={value}>{label}</Label>}
     </Radio>
   );
 }
@@ -45,34 +44,28 @@ const Radio = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 20%;
-  font-size: ${(props) => props.theme.tertiary};
-
-  /* &::first {
-    align-items: flex-start;
-  }
-
-  &::last {
-    align-items: flex-end;
-  } */
-
-  &:hover {
-    cursor: pointer;
-    box-shadow: box-shadow: 5px 5px 5px #727272;
-    transform: transform: scale(1.05) ease;
-    border-color: ${(props) => props.theme.darkBlueHover};
-  }
-
   ${(props) => props.value === 1 && css`
     align-items: flex-start;
   `};
   ${(props) => props.value === 5 && css`
     align-items: flex-end;
   `};
+  width: 20%;
+  font-size: ${(props) => props.theme.tertiary};
+
+  &:hover {
+    cursor: pointer;
+    color: ${(props) => props.theme.darkBlueHover};
+    border-color: ${(props) => props.theme.darkBlueHover};
+  }
+
+  &::active {
+    transform: scale(1.05) ease;
+  }
 `;
 
 const Label = styled.label`
-  left: ${(props) => (props.value === 1 ? '-25%' : props.value === 2 ? '-25%' : props.value === 4 ? ' 25%' : props.value === 5 ? '25%' : '')};
+ /* left: ${(props) => (props.value === 1 ? '-25%' : props.value === 2 ? '-25%' : props.value === 4 ? ' 25%' : props.value === 5 ? '25%' : '')}; */
   position: relative;
   /* height: 50%; */
   text-align: center;
@@ -99,13 +92,15 @@ const Input = styled.input`
     transform: translateX(50%);
   `};
   background-color: ${(props) => props.theme.backgroundColor};
-  border-color: inherit;
+  border-color: ${(props) => props.theme.fontColor};;
   border-radius: 50%;
   border-width: 1px;
   border-style: solid;
   &:checked {
-    background-color: ${(props) => props.theme.submitButtonHover};
-    border-color: ${(props) => props.theme.darkBlueHover};
+    border-color: ${(props) => props.theme.submitButtonHover};
+    height: calc(1em + 5px);
+    border-width: 1.5px;
+    color: ${(props) => props.theme.submitButtonHover};
   }
   transform: translateY(-50%);
   &:focus-visible {
@@ -114,7 +109,19 @@ const Input = styled.input`
   &:hover {
     cursor: pointer;
     box-shadow: box-shadow: 5px 5px 5px #727272;
-    transform: transform: scale(1.05) ease;
     background-color: ${(props) => props.theme.darkBlueHover};
   }
+  ${(props) => props.checked === true && css`
+    &::after {
+      content: ' ';
+      width: 1em;
+      height: 1em;
+      border-radius: 50%;
+      display: block;
+      position: relative;
+      top: 1px;
+      left: 1px;
+      background-color: currentColor;
+    }
+  `};
 `;

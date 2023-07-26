@@ -44,10 +44,13 @@ function Characteristics({
   // const selectedLabel = characteristic?.values?[Number(selectedValue) - 1]?.label;
 
   return (
+    // <fieldset>
     <>
       <Subheader>
-        {name}
-        {/* : */}
+        <CharacteristicName>
+          {name}
+          {/* : */}
+        </CharacteristicName>
         <Required>*</Required>
         {selectedValue
           ? <SelectedLabel>
@@ -59,7 +62,7 @@ function Characteristics({
               None Selected
             </Placeholder>
         }
-      </Subheader>
+        </Subheader>
 
       <RadioButtonsContainer>
 
@@ -74,7 +77,8 @@ function Characteristics({
           />
         ))}
       </RadioButtonsContainer>
-    </>
+    {/* </fieldset> */}
+     </>
   );
 }
 
@@ -91,6 +95,11 @@ export default Characteristics;
 const Subheader = styled.div`
   margin-bottom: 0.75em;
 `;
+// const Subheader = styled.legend`
+//   margin-bottom: 0.75em;
+// `;
+
+const CharacteristicName = styled.span``;
 
 const Required = styled.sup`
   color: ${(props) => props.theme.formError}
@@ -112,7 +121,7 @@ const SelectedLabel = styled(Placeholder)`
 `;
 
 const RadioButtonsContainer = styled.div`
-  margin: 0 5%;
+  /* margin: 0 5%; */
   display: flex;
   position: relative;
   border-top: 1px ${(props) => props.theme.secondaryFontColor} solid;
