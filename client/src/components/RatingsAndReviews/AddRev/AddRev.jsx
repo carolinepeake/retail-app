@@ -7,8 +7,8 @@ import AddPhotos from '../../reusable/Form/AddPhotos';
 import Modal from '../../reusable/Modal';
 import useModal from '../../utils/useModal';
 import useForm from '../../utils/useForm';
-import CHARACTERISTICS from '../../utils/constants';
-import { Button } from '../../reusable/Button';
+import { CHARACTERISTICS } from '../../utils/constants';
+import { Button, StyledExitButton } from '../../reusable/Button';
 
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
@@ -121,27 +121,23 @@ function AddRev() {
           <br />
 
           <RecommendProdLabel>
-            Do you recommend this product?
+            Would you recommend this product to a friend?
             <Required>*</Required>
             <RadioButtonsContainer>
 
-              <label htmlFor="recommendYes">
-                <input required type="radio" value="true" name="recommend" id="recommendYes" onChange={handleInputChange} checked={formState.recommend === 'true'} />
+              <RecommendRadioLabel htmlFor="recommendYes" as="label">
+                <RecommendRadio label="Yes" required type="radio" value="true" name="recommend" id="recommendYes" onChange={handleInputChange} checked={formState.recommend === 'true'} as="input" />
                 Yes
-              </label>
+              </RecommendRadioLabel>
 
-              <label htmlFor="recommendNo">
-                <input type="radio" value="false" name="recommend" id="recommendNo" onChange={handleInputChange} checked={formState.recommend === 'false'} />
+              <RecommendRadioLabel htmlFor="recommendNo" as="label">
+                <RecommendRadio label="No" type="radio" value="false" name="recommend" id="recommendNo" onChange={handleInputChange} checked={formState.recommend === 'false'} as="input" />
                 No
-              </label>
+              </RecommendRadioLabel>
 
             </RadioButtonsContainer>
           </RecommendProdLabel>
           <br />
-
-          {/* <RecommendProdLabel>
-            Product Characteristics
-            <Required>*</Required> */}
 
           {Object.keys(revMeta.characteristics).map((name) => {
             const characteristic = CHARACTERISTICS[name];
@@ -159,9 +155,6 @@ function AddRev() {
               </>
             );
           })}
-
-          {/* </RecommendProdLabel> */}
-          {/* <br /> */}
 
           <RevSummaryDiv>
             <CustomLabel label="summary">
@@ -299,19 +292,113 @@ const FormContainer = styled.form`
 `;
 
 const RadioButtonsContainer = styled.div`
-  margin-top: 0.25em;
+  margin-top: 0.75em;
+  display: flex;
+  min-height: calc(2em + 24px);
+  width: 50%;
+  justify-content: flex-start;
+  gap: 2em;
+  position: relative;
+  /* margin: 0 4px; */
 `;
 
-// const RecommendProdLabel = styled.label`
-// `;
+const RecommendProdLabel = styled.span`
+  display: block;
+  font-weight: 300;
+  color: ${(props) => props.theme.fontColor};
+  font-size: ${(props) => props.theme.body};
+`;
 
-const RecommendProdLabel = styled.div`
+const RecommendRadio = styled.input`
+  appearance: none;
+  border: 1px currentColor solid;
+  height: 4em;
+  aspect-ratio: 1;
+  border-radius: 3px;
+  margin: 0;
+  /* position: relative; */
+
+  background-color: ${(props) => props.theme.backgroundColor};
+  color: ${(props) => props.theme.submitButtonHover};
+  overflow: visible;
+
+  &:checked {
+    /* background-color: ${(props) => props.theme.navBackgroundColor};
+    color: ${(props) => props.theme.navFontColor};
+    border-color: ${(props) => props.theme.submitButtonHover};
+    border: 2px currentColor solid; */
+    /* box shadow */
+
+    &::after {
+      content: ' ';
+      width: calc(4em - 3px);
+      aspect-ratio: 1;
+      border-radius: 3px;
+      display: block;
+      position: relative;
+      top: 1.5px;
+      left: 1.5px;
+      background-color: ${(props) => props.theme.navBackgroundColor};
+      color: ${(props) => props.theme.navFontColor};
+      border: 1.5px white solid;
+      outline: 1.5px currentColor solid;
+      margin: 0;
+    }
+  }
+
+  /* on hover do similiar css as modal exit button, might need to use inside div's border as white border */
+  &:hover {
+    cursor: pointer;
+    color: ${(props) => props.theme.darkBlueHover};
+    border: 2px currentColor solid;
+   /* outline: 1.5px currentColor solid; */
+  }
+
+  &:active {
+    transform: scale(1.01);
+    transition: scale 0.2s ease;
+  }
+
+  &:focus {
+    outline-color: ${(props) => props.theme.secondaryFontColor};
+    outline-color: ${(props) => props.theme.focusColor};
+    outline-width: 1.5px;
+    outline-style: dashed;
+    border-radius: 0px;
+    outline-offset: 4px;
+    border: none;
+  }
+
+
+  &:focus-visible {
+    outline-color: transparent;
+    outline-color: ${(props) => props.theme.secondaryFontColor};
+    outline-color: ${(props) => props.theme.focusColor};
+    outline-width: 1.5px;
+    outline-style: solid;
+    outline-offset: 3px;
+    border: none;
+    border-radius: 0px;
+  }
+`;
+
+const RecommendRadioLabel = styled.label`
+  color: ${(props) => props.theme.darkBlueHover};
+  font-size: 1em;
+  line-height: 1em;
+  position: relative;
+  z-index: 2;
+  left: -2em;
+  transform: translateX(-50%);s
 `;
 
 const CustomLabel = styled.label`
   display: block;
+  color: rgb(37, 55, 70);
+  font-weight: 400;
 `;
 
+// margin-top: 0.5em;
 const TextAreaDiv = styled.textarea`
   resize: none;
   display: block;
@@ -319,21 +406,31 @@ const TextAreaDiv = styled.textarea`
   font-family: inherit;
   color: ${(props) => props.theme.fontColor};
   background-color: ${(props) => props.theme.backgroundColor};
-  margin-top: 0.25em;
+  margin-top: 0.5em;
   padding: 0.5em;
   border: 1px solid currentColor;
-  border-radius: 5px;
+  border-radius: 3px;
   font-size: ${(props) => props.theme.input};
+  boxShadow: inset -1px 1px 3px 0.5px ${(props) => props.theme.insetBoxShadow}, inset 0.5px -0.5px 3px 1px ${(props) => props.theme.insetBoxShadow};
   ::placeholder {
     color: ${(props) => props.theme.inputPlaceholder};
   }
   &:focus {
     background-color: ${(props) => props.theme.navBgColor};
+    transform: scale(1.01);
+    transition: scale 0.2s ease;
+    outline-offset: 3px;
+    outline-color: ${(props) => props.theme.focusColor}
+    outline-width: 2px;
+  }
+  &:focus-visible: {
+    outline: 2px ${(props) => props.theme.focusColor} solid;
+    outline-offset: 3px;
   }
 `;
 
 const TextInput = styled(TextAreaDiv)`
-  border-radius: 0px;
+
 `;
 
 const Required = styled.sup`

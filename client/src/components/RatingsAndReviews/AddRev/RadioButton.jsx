@@ -15,7 +15,7 @@ export default function RadioButton({
   const id = useId();
 
   return (
-    <Radio value={value} checked={checked}>
+    <Radio value={value} checked={checked} key={id}>
       <Input
         required={required}
         type="radio"
@@ -32,7 +32,7 @@ export default function RadioButton({
 }
 
 RadioButton.propTypes = {
-  value: PropTypes.string.isRequired,
+  value: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
   checked: PropTypes.bool.isRequired,
@@ -43,6 +43,7 @@ RadioButton.propTypes = {
 const Radio = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   ${(props) => props.value === 1 && css`
     align-items: flex-start;
@@ -50,24 +51,45 @@ const Radio = styled.div`
   ${(props) => props.value === 5 && css`
     align-items: flex-end;
   `};
+  ${(props) => props.value === 2 && css`
+    justify-content: flex-start;
+  `};
+  ${(props) => props.value === 4 && css`
+    justify-content: flex-start;
+  `};
   width: 20%;
+  top: -0.75em;
+  height: 4em;
+  border-radius: 3px;
   font-size: ${(props) => props.theme.tertiary};
+  overflow: visible;
+  position: relative;
 
   &:hover {
     cursor: pointer;
     color: ${(props) => props.theme.darkBlueHover};
     border-color: ${(props) => props.theme.darkBlueHover};
   }
-
-  &::active {
-    transform: scale(1.05) ease;
+  &:active {
+    transform: scale(1.01);
+    transition: scale 0.2s ease;
+  }
+  &:focus {
+    outline-color: ${(props) => props.theme.focusColor};
+    outline-color: ${(props) => props.theme.darkBlueHover};
+    outline-style: dashed;
+    outline-width: 1.5px;
+  }
+  &:focus-visible {
+    outline-color: ${(props) => props.theme.focusColor};
+    outline-color: ${(props) => props.theme.darkBlueHover};
+    outline-style: dashed;
+    outline-width: 1.5px;
   }
 `;
 
 const Label = styled.label`
- /* left: ${(props) => (props.value === 1 ? '-25%' : props.value === 2 ? '-25%' : props.value === 4 ? ' 25%' : props.value === 5 ? '25%' : '')}; */
-  position: relative;
-  /* height: 50%; */
+  height: 50%;
   text-align: center;
   line-height: 1em;
   ${(props) => props.value === 1 && css`
@@ -76,52 +98,104 @@ const Label = styled.label`
   ${(props) => props.value === 5 && css`
     text-align: end;
   `};
+  color: ${(props) => props.theme.minorFontColor};
+
+  &:hover {
+    cursor: pointer;
+    color: ${(props) => props.theme.darkBlueHover};
+  }
 `;
 
 const Input = styled.input`
   appearance: none;
   margin: 0;
   position: relative;
-  left: ${(props) => (props.value === 2 ? '-25%' : props.value === 4 ? '25%' : '')};
   height: 1em;
+  left: ${(props) => (props.value === 2 ? '-25%' : props.value === 4 ? '25%' : '')};
   aspect-ratio: 1;
-  ${(props) => props.value === 1 && css`
-    transform: translateX(-50%);
-  `};
-  ${(props) => props.value === 5 && css`
-    transform: translateX(50%);
-  `};
   background-color: ${(props) => props.theme.backgroundColor};
-  border-color: ${(props) => props.theme.fontColor};;
-  border-radius: 50%;
-  border-width: 1px;
-  border-style: solid;
-  &:checked {
-    border-color: ${(props) => props.theme.submitButtonHover};
-    height: calc(1em + 5px);
-    border-width: 1.5px;
-    color: ${(props) => props.theme.submitButtonHover};
-  }
-  transform: translateY(-50%);
-  &:focus-visible {
-    outline-color: ${(props) => props.theme.secondaryFontColor};
-  }
+  color: ${(props) => props.theme.submitButtonHover};
+  overflow: visible;
+  border: 1px currentColor solid;
+  border-radius: 50px;
+
+  /* on hover do similiar css as modal exit button, might need to use inside div's border as white border */
   &:hover {
     cursor: pointer;
-    box-shadow: box-shadow: 5px 5px 5px #727272;
-    background-color: ${(props) => props.theme.darkBlueHover};
+    color: ${(props) => props.theme.darkBlueHover};
+    outline: 1.5px currentColor solid;
+    outline-offset: 1px;
+    background-color: currentColor:
   }
-  ${(props) => props.checked === true && css`
+
+  &:checked {
+    border: none,
+    border-radius: 0;
+
+    &:hover {
+      border: none;
+      outline: none;
+    }
+
     &::after {
       content: ' ';
-      width: 1em;
-      height: 1em;
+      width: calc(1em - 3px);
+      aspect-ratio: 1;
       border-radius: 50%;
       display: block;
       position: relative;
-      top: 1px;
-      left: 1px;
+      /* top: 0.75px;
+      left: 0.75px; */
       background-color: currentColor;
+      border: 1px white solid;
+      outline: 1.5px currentColor solid;
+      margin: 0;
     }
-  `};
+
+    &:active {
+      transform: scale(1.01);
+      transition: scale 0.2s ease;
+    }
+
+    &:focus {
+      outline-color: ${(props) => props.theme.secondaryFontColor}; */
+      outline-color: ${(props) => props.theme.focusColor};
+      outline-width: 1.5px;
+      outline-style: dashed;
+      outline-offset: 4px;
+    }
+
+    &:focus-visible {
+      outline-color: ${(props) => props.theme.secondaryFontColor};
+      outline-color: ${(props) => props.theme.focusColor};
+      outline-width: 1.5px;
+      outline-style: dashed;
+      outline-offset: 4px;
+    }
+  }
+
+  &:active {
+    transform: scale(1.01);
+    transition: scale 0.2s ease;
+  }
+
+  &:focus {
+    outline-color: ${(props) => props.theme.secondaryFontColor}; */
+    outline-color: ${(props) => props.theme.focusColor};
+    outline-width: 1.5px;
+    outline-style: dashed;
+    border-radius: 0px;
+    outline-offset: 4px;
+    border: none;
+  }
+
+  &:focus-visible {
+    outline-color: ${(props) => props.theme.secondaryFontColor};
+    outline-color: ${(props) => props.theme.focusColor};
+    outline-width: 1.5px;
+    outline-style: dashed;
+    outline-offset: 4px;
+    border: none;
+    border-radius: 0px;
+  }
 `;

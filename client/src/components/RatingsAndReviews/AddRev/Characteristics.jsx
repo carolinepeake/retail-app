@@ -4,16 +4,11 @@ import PropTypes from 'prop-types';
 import RadioButton from './RadioButton';
 
 function Characteristics({
-  // id,
   name,
   characteristic,
   handleInputChange,
   inputState,
 }) {
-  // const [productCharacteristics, setProductCharacteristics] = useState({});
-
-  console.log('name: ', name, 'characteristic: ', characteristic, 'handleInputChange: ', handleInputChange, 'inputState: ', inputState);
-
   // wrap in useCallback
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,48 +20,40 @@ function Characteristics({
       },
     };
     handleInputChange(event);
-    // setProductCharacteristics({ ...productCharacteristics, [e.target.name]: e.target.value });
   };
 
-  // const { id } = CHARACTERISTICS[characteristic];
-  // const characteristic = CHARACTERISTICS[id];
-
-  const id = '' + characteristic.id;
+  const id = `${characteristic.id}`;
   const selectedValue = inputState[id];
   let selectedIndex;
   let selectedLabel;
   if (selectedValue) {
     selectedIndex = Number(selectedValue) - 1;
     selectedLabel = characteristic.values[selectedIndex].label;
-  };
-
-  console.log('selectedValue: ', selectedValue, 'selectedIndex: ', selectedIndex, 'inputState: ', inputState, 'id: ', id);
-  // const selectedLabel = characteristic?.values?[Number(selectedValue) - 1]?.label;
+  }
 
   return (
-    // <fieldset>
     <>
       <Subheader>
         <CharacteristicName>
           {name}
-          {/* : */}
         </CharacteristicName>
         <Required>*</Required>
         {selectedValue
-          ? <SelectedLabel>
-              {/* &nbsp; */}
+          ? (
+            <SelectedLabel>
               {selectedLabel}
             </SelectedLabel>
-          : <Placeholder>
-              {/* &nbsp; */}
+          )
+          : (
+            <Placeholder>
               None Selected
             </Placeholder>
-        }
-        </Subheader>
+          )}
+      </Subheader>
 
       <RadioButtonsContainer>
 
-        {characteristic?.values?.map(({ value, label }) => (
+        {characteristic.values.map(({ value, label }) => (
           <RadioButton
             required
             value={value}
@@ -77,8 +64,7 @@ function Characteristics({
           />
         ))}
       </RadioButtonsContainer>
-    {/* </fieldset> */}
-     </>
+    </>
   );
 }
 
@@ -93,11 +79,8 @@ Characteristics.propTypes = {
 export default Characteristics;
 
 const Subheader = styled.div`
-  margin-bottom: 0.75em;
+  margin-bottom: 1em;
 `;
-// const Subheader = styled.legend`
-//   margin-bottom: 0.75em;
-// `;
 
 const CharacteristicName = styled.span``;
 
@@ -108,22 +91,20 @@ const Required = styled.sup`
 const Placeholder = styled.span`
   color: ${(props) => props.theme.inputPlaceholder};
   display: block;
-  margin-top: 0.5em;
-  font-size: 0.83em
-  /* margin-left: 0.5em;
-  color: #555;
-  font-style: oblique; */
+  margin-top: 0.75em;
+  font-size: ${(props) => props.theme.input};
+  font-weight: 400;
 `;
 
 const SelectedLabel = styled(Placeholder)`
   color: ${(props) => props.theme.secondaryFontColor};
-  font-weight: 400;
 `;
 
 const RadioButtonsContainer = styled.div`
-  /* margin: 0 5%; */
   display: flex;
   position: relative;
   border-top: 1px ${(props) => props.theme.secondaryFontColor} solid;
   justify-content: space-between;
+  min-height: calc(2em + 24px);
+  margin: 0 4px;
 `;
