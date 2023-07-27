@@ -1,0 +1,28 @@
+const ReviewsList = (productId) => {
+  const [reviews, setReviews] = useState([]);
+  const [ sortOrder, setSortOrder ] = useState('relevant');
+  const [ filter, setFilter ] = useState(null);
+  const [ numPerPage, setNumPerPage ] = useState(2);
+  const [ page, setPage ] = useState(1);
+  const [ ]
+
+
+
+
+useEffect(() => {
+  getAllReviews();
+}, [productId, sortOrder])
+
+
+const getAllReviews = () => {
+
+};
+
+const addReview
+
+
+
+const updateReview
+
+
+}
