@@ -88,6 +88,7 @@ const ProductContainer = styled.div`
     overflow: none;
     justify-content: center;
   `};
+
   @media (min-width: 600px) {
     ${(props) => props.status === 'default' && css`
       display: flex;

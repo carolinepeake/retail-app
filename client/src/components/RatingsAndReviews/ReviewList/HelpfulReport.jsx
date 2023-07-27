@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 
 function HelpfulReport({ review }) {
+  console.log('[HelpfulReport] is running');
   const [helpfulness, setHelpfulness] = useState(review.helpfulness);
   const [helpfulClicked, setHelpfulClicked] = useState(false);
   const [reportClicked, setReportClicked] = useState(false);
@@ -18,6 +19,10 @@ function HelpfulReport({ review }) {
         console.log(`error for put to change ${helpOrReport} of review ${reviewID}:\n`, err);
       }));
   };
+
+  // const [success, error, status] = useAPI({ method, url, body, parameters }, successCallback, failCallback);
+
+  // const = useAPI(url, (result) => { setIsHelpful(true); })
 
   const handleHelpfulClick = function handleHelpfulClick() {
     const reviewID = review.review_id;

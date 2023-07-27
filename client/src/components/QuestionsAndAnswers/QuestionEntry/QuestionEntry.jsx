@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import axios from 'axios';
 import AnswerEntry from './AnswerEntry';
-// import AddAnswerModal from './AddAnswerModal';
-import AddAnswerModal2 from './AddAnswerModal2';
+import AddAnswerModal from './AddAnswerModal';
 import useModal from '../../utils/useModal';
 import { Button } from '../../reusable/Button';
 
 function QuestionEntry({ question }) {
+  console.log('[QuestionEntry] is running');
   QuestionEntry.propTypes = {
     question: PropTypes.shape({
       question_id: PropTypes.number.isRequired,
@@ -28,7 +28,6 @@ function QuestionEntry({ question }) {
   };
 
   const [showModal, toggleModal] = useModal();
-  // const [showModal, setShowModal] = useState(false);
 
   const [numAnswers, setNumAnswers] = useState(2);
   const [helpfulness, setHelpfulness] = useState(
@@ -84,6 +83,7 @@ function QuestionEntry({ question }) {
 
   function answerQuestion() {
     // setShowModal(true);
+    console.log('togglingModal');
     toggleModal();
   }
 
@@ -227,18 +227,13 @@ function QuestionEntry({ question }) {
           {answersList()}
           {allAnswers.length > 2 && moreAnswers}
         </Answers>
-        {/* {showModal && (
+        {showModal
+        && (
         <AddAnswerModal
-          setShowModal={setShowModal}
           question={question}
-          showModal={showModal}
-        />
-        )} */}
-        <AddAnswerModal2
-          question={question}
-          showModal={showModal}
           toggleModal={toggleModal}
         />
+        )}
       </B>
     </Entry>
   );
@@ -248,7 +243,7 @@ const Entry = styled.div`
   border-bottom: currentColor solid thin;
   &&:first-child {
     border-top: currentColor solid thin;
-  };
+  }
   padding-top: 0.83em;
   margin-right: 0.5em;
 `;
@@ -316,7 +311,7 @@ const Reported = styled.span`
   font-weight: bold;
   &:visited {
     color: ${(props) => props.theme.clicked};
-  };
+  }
 `;
 
 const Add = styled.div`
@@ -356,24 +351,24 @@ const Clickable = styled.u`
   text-decoration: underline;
   &:hover {
     text-decoration: initial;
-  };
+  }
   &:visited {
     color: ${(props) => props.theme.clicked};
-  };
+  }
 `;
 
 const MoreAnswers = styled(Button)`
   display: flex;
   cursor: pointer;
   background-color: ${(props) => props.theme.backgroundColor};
-  };
+  }
   border: none;
   font-family: inherit;
   font-weight: bold;
   font-size: 0.83em;
   &:hover {
     box-shadow: none;
-  };
+  }
   padding: 0
   margin: 0;
   transition: 1s ease-in-out;
@@ -383,14 +378,14 @@ const MoreAnswersButtonText = styled.span`
   padding-right: 0.25em;
   ${MoreAnswers}&:hover {
     text-decoration: underline;
-  };
+  }
 `;
 
 const Arrow = styled.span`
   margin-top: -0.1rem;
   ${(props) => props.moreAnswersShown && css`
     transform: translateY(0.5em) rotateX(-180deg);
-  `};
+  `}
 `;
 
 export default QuestionEntry;

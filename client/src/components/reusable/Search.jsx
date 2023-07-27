@@ -26,6 +26,22 @@ function Search({
   //   });
   // };
 
+  // could also be a useFilter and include sort and filter and search
+  // function useSearch() {
+
+  //   // could also be maintained using useForm hook or useInput
+  //   const [searchTerm, setSearchTerm]
+
+
+  //   useDebounce
+
+  //   handleClickSearch
+
+
+  //   return [searchResults, ]
+  // }
+  //   (dataList, )
+
   return (
     <QuestionSearchBar searchClosed={searchClosed}>
       <Input
@@ -36,7 +52,7 @@ function Search({
         searchClosed={searchClosed}
         onChange={(event) => setSearchTerm(event.target.value.toLowerCase())}
       />
-      <SearchIcon type="submit" onClick={clickHandler} searchClosed={searchClosed} />
+      <SearchIcon type="submit" onClick={clickHandler} />
     </QuestionSearchBar>
   );
 }

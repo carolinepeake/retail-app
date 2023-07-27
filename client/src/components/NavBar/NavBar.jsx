@@ -10,6 +10,7 @@ import LinksList from './LinksList';
 // TO-DO: collapse nav when click away
 
 function NavBar({ toggleTheme }) {
+  console.log('[NavBar] is running');
   NavBar.propTypes = {
     toggleTheme: PropTypes.func.isRequired,
   };
@@ -34,7 +35,6 @@ function NavBar({ toggleTheme }) {
   function closeModal(event) {
     event.preventDefault();
     if (event.target.id === 'appBackground') {
-      console.log('closing nav');
       setIsExpanded(() => false);
     }
   }

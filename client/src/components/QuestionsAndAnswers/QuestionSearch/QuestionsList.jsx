@@ -3,6 +3,7 @@ import QuestionEntry from '../QuestionEntry/QuestionEntry';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
 export default function QuestionsList({ pageNum, itemsPerPage }) {
+  console.log('[QuestionList] is running');
   const {
     numQuestions,
     filteredQuestions,

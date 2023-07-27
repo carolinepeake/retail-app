@@ -7,6 +7,7 @@ import { format, parseISO } from 'date-fns';
 import ExpandedImageModal from './ExpandedImageModal';
 
 function AnswerEntry({ answer }) {
+  console.log('[AnswerEntry] is running');
   AnswerEntry.propTypes = {
     answer: PropTypes.shape({
       id: PropTypes.number.isRequired,
@@ -177,10 +178,10 @@ const Clickable = styled.u`
   text-decoration: underline;
   &:hover {
     text-decoration: initial;
-  };
+  }
   &:visited {
     color: ${(props) => props.theme.clicked};
-  };
+  }
 `;
 
 const Reported = styled.span`

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 
 function LinksList({ toggleTheme, isExpanded = false, secondary = false }) {
+  console.log('[LinksList] is running');
   LinksList.propTypes = {
     toggleTheme: PropTypes.func.isRequired,
     isExpanded: PropTypes.bool.isRequired,
@@ -13,14 +14,14 @@ function LinksList({ toggleTheme, isExpanded = false, secondary = false }) {
     secondary: false,
   };
 
-  const navLinks = [{ target: 'product-details', label: 'Product Details' }, { target: 'related-items', label: 'Related Items' }, { target: 'question-and-answers', label: 'Questions & Answers' }, { target: 'ratings-and-reviews', label: 'Ratings & Reviews' }];
+  const NAV_LINKS = [{ target: 'product-details', label: 'Product Details' }, { target: 'related-items', label: 'Related Items' }, { target: 'question-and-answers', label: 'Questions & Answers' }, { target: 'ratings-and-reviews', label: 'Ratings & Reviews' }];
 
   // stop propagation?
   // https://www.aleksandrhovhannisyan.com/blog/responsive-navbar-tutorial/
 
   return (
     <>
-      {navLinks.map((link) => (
+      {NAV_LINKS.map((link) => (
         <GridItem
           key={link.label}
           href={`#${link.target}`}

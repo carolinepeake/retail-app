@@ -6,7 +6,12 @@ import { useGlobalContext } from '../../../contexts/GlobalStore';
 import { calcAverageRating } from '../../utils/useAverageRating';
 
 function ProductOverview() {
-  const { productInfo, reviews, revMeta, selectedStyle } = useGlobalContext();
+  const {
+    productInfo,
+    reviews,
+    revMeta,
+    selectedStyle,
+  } = useGlobalContext();
 
   let rating;
   if (revMeta.ratings) {
@@ -60,11 +65,11 @@ const OverviewContainer = styled.div`
 
   @media (min-width: 600px) {
     margin-right: 0px;
-  };
+  }
 
   @media (min-width: 1000px) {
     margin-right: 10%;
-  };
+  }
 `;
 
 const ReadReviews = styled.h5`
@@ -77,17 +82,17 @@ const ReadReviews = styled.h5`
 const ReviewsLink = styled.a`
   &:link {
     text-decoration: underline;
-  };
+  }
   &:visited {
     color: ${(props) => props.theme.fontColor};
     text-decoration: none;
-  };
+  }
   &:hover {
     text-decoration: none;
-  };
+  }
   &:active {
     color: ${(props) => props.theme.visitedColor};
-  };
+  }
 `;
 
 const CategoryContainer = styled.h3`
@@ -102,7 +107,7 @@ const CategoryContainer = styled.h3`
 
   @media (max-width: 600px) {
     display: none;
-  };
+  }
 `;
 
 const ProductName = styled.h1`
@@ -111,7 +116,7 @@ const ProductName = styled.h1`
 
   @media (max-width: 600px) {
     order: -1;
-  };
+  }
 `;
 
 const PriceContainer = styled.div`

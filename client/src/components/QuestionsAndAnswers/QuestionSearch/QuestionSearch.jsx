@@ -6,6 +6,7 @@ function QuestionSearch({
   // pageNum,
   // itemsPerPage,
 }) {
+  console.log('[QuestionSearch] is running');
   // would move this to search component,
   // search function to search component,
   // and pass in array of objects that include body to search in and id

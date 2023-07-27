@@ -7,12 +7,6 @@ import StarCount from './StarCount';
 import ExpandedImageModal from '../../QuestionsAndAnswers/QuestionEntry/ExpandedImageModal';
 
 function ReviewTile({ review }) {
-  const starCount = [];
-
-  for (let i = 0; i < review.rating; i += 1) {
-    starCount.push(i);
-  }
-
   const [showModal, setShowModal] = useState(false);
   const [source, setSource] = useState('');
 
@@ -24,7 +18,7 @@ function ReviewTile({ review }) {
   return (
     <Container>
       <StarsDateName>
-        <StarCount review={review} />
+        <StarCount rating={review.rating} />
         <DateName>
           <ReviewerName>
             {`${review.reviewer_name},`}

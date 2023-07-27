@@ -31,6 +31,7 @@ function App() {
     // same as above but 0.3 transparency
     // iconHoverBackgroundColor: 'rgb(210,218,236,0.3)',
     iconHoverBackgroundColor: 'rgba(190, 203, 210, 0.3)',
+    insetBoxShadow: 'rgba(190, 203, 210, 0.5)',
     // light grey
     // navBgColor: 'rgb(209,217,235)',
     navBgColor: '#f5f7f8',
@@ -74,6 +75,7 @@ function App() {
     // darkBlueHover: 'rgb(25,34,56)',
     darkBlueHover: '#374e62',
     // backup #303e45
+    focusColor: 'rgb(37, 55, 70)',
     body: 'clamp(1rem, calc(0.875rem + 0.268vw), 1.25rem)',
     // check to see if using this
     secondary: 'clamp(12px, 1.6vw, 18px)',
@@ -134,6 +136,7 @@ function App() {
     inputPlaceholder: '#f5f7f8',
     // currently same as light theme
     darkBlueHover: '#374e62',
+    focusColor: '#f5f7f8',
     body: 'clamp(1rem, calc(0.875rem + 0.268vw), 1.25rem)',
     secondary: 'clamp(14px, 1.6vw, 18px)',
     tertiary: '0.83em',
@@ -275,7 +278,7 @@ const StyledContainer = createGlobalStyle`
 
   ol, ul {
     list-style-type: none;
-  };
+  }
 `;
 // h2 {
 //   font-size: 1.5em;

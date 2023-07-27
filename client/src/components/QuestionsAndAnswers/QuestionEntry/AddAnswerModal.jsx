@@ -1,283 +1,192 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import axios from 'axios';
 import { Button } from '../../reusable/Button';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
-import AddPhotos from '../../RatingsAndReviews/AddRev/AddPhotos';
+import AddPhotos from '../../reusable/Form/AddPhotos';
+import Modal from '../../reusable/Modal';
+import useForm from '../../utils/useForm';
 
-function AddAnswerModal({ setShowModal, question }) {
-  AddAnswerModal.propTypes = {
-    question: PropTypes.shape({
-      question_id: PropTypes.number.isRequired,
-      question_body: PropTypes.string.isRequired,
-    }).isRequired,
-    setShowModal: PropTypes.func.isRequired,
-  };
-
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [body, setBody] = useState('');
-
-  const [validInput, setValidInput] = useState(true);
-  const [preview, setPreview] = useState([]);
-
+function AddAnswerModal({ question, toggleModal }) {
+  console.log('[AddAnswerModal] is running');
   const { productInfo } = useGlobalContext();
 
-  function validateInput() {
-    function validateEmail(emailName) {
-      const regex = /\S+@\S+\.\S+/;
-      return regex.test(emailName);
-    }
+  // const initialFormState = {
+  //   question_ID: question.question_id,
+  //   name: {
+  //     value: '',
+  //     isTouched: false,
+  //     error: [],
+  //     required: true,
+  //   },
+  //   email: {
+  //     value: '',
+  //     isTouched: false,
+  //     error: [],
+  //     required: true,
+  //   },
+  //   body: {
+  //     value: '',
+  //     isTouched: false,
+  //     error: [],
+  //     required: true,
+  //   },
+  //   nickname: {
+  //     value: '',
+  //     isTouched: false,
+  //     error: [],
+  //     required: true,
+  //   },
+  //   isValid: false,
+  // };
 
-    if (name === '' || email === '' || body === '') {
-      return false;
-    }
+  const initialFormState = {
+    question_ID: question.question_id,
+    name: '',
+    email: '',
+    body: '',
+    photos: [],
+  };
 
-    if (!validateEmail(email)) {
-      return false;
-    }
-    return true;
-  }
+  const askQuestion = (form) => {
+    const previews = form.photos.map((photo) => photo.url);
+    const postBody = { ...form, photos: previews };
+    console.log('postBody: ', postBody);
 
-  function askQuestion(e) {
-    e.preventDefault();
-
-    if (!validateInput()) {
-      setValidInput(false);
-      console.log('add answer input failed validation');
-      return;
-    }
-
-    const postBody = {
-      body,
-      name,
-      email,
-      question_ID: question.question_id,
-      photos: [],
-    };
-
-    const promises = [];
-    for (let i = 0; i < preview.length; i += 1) {
-      const promise = axios.post('/cloudinary/upload', {
-        image: preview[i],
-      });
-      promises.push(promise);
-    }
-
-    Promise.all(promises)
-      .then(async (results) => {
-        await results.forEach((result) => {
-          postBody.photos.push(result.data.url);
-        });
-
-        axios
-          .post('/answers', postBody)
-          .then((result) => {
-            console.log('answer posted successfully', result);
-            setShowModal(false);
-          })
-          .catch((err) => {
-            console.log('there was an error adding answer: ', err);
-          });
+    axios
+      .post('/answers', postBody)
+      .then(() => {
+        // show success message
+        console.log('answer submitted successfully');
+        // closeModal();
+        toggleModal();
       })
       .catch((err) => {
-        console.log(err);
+        // show error message
+        console.log('there was an error adding answer: ', err);
       });
-  }
+  };
 
-  // function handlePreviews(event) {
-  //   if (preview.length >= 10 || event.target.files.length === 0) return;
+  const [
+    formState,
+    errors,
+    handleInputChange,
+    resetForm,
+    handleSubmit,
+  ] = useForm(askQuestion, initialFormState);
 
-  //   const file = event.target.files[0];
-  //   const reader = new FileReader();
-  //   reader.readAsDataURL(file);
-  //   reader.onloadend = () => {
-  //     const base64image = reader.result;
-  //     console.log('base64image: ', base64image);
-  //     setPreview([...preview, base64image]);
-  //   };
-  // }
-
-  function closeModal(event) {
-    if (event.target.id === 'background') {
-      setShowModal(false);
-    }
-  }
+  const closeModal = () => {
+    toggleModal();
+    resetForm();
+  };
 
   return (
-    <ModalBackground
-      id="background"
-      onClick={(event) => closeModal(event)}
+    <Modal
+      closeModal={closeModal}
     >
-      <ModalContainer>
-        <Button close onClick={() => setShowModal(false)}>
-          &#x2715;
-        </Button>
-        <Header>
-          <AddAnswer>
-            Submit your Answer
-          </AddAnswer>
-          <ProductName>
-            {`${productInfo.name} : ${question.question_body}`}
-          </ProductName>
-        </Header>
-        <Form id="form">
+      <Form
+        id="form"
+        onSubmit={handleSubmit}
+      >
+        <AddAnswer>
+          Submit Your Answer
+        </AddAnswer>
+        <ProductName>
+          {`${productInfo.name} : ${question.question_body}`}
+        </ProductName>
 
-          <FormField htmlFor="body">
-            Answer
-            <Required>*</Required>
-          </FormField>
-          <InputAnswer
-            onChange={(event) => setBody(event.target.value)}
-            maxLength="1000"
-            rows="6"
-            placeholder="Enter your answer"
+        <FormField htmlFor="body">
+          Answer
+          <Required>*</Required>
+        </FormField>
+        <InputAnswer
+          // required
+          onChange={(e) => handleInputChange(e.target)}
+          maxLength="1000"
+          rows="6"
+          placeholder="Enter your answer"
+          value={formState.body}
+          name="body"
+        />
+        <br />
+        <AddPhotos
+          handleInputChange={handleInputChange}
+          photos={formState.photos}
+        />
+        <br />
+        <FormField htmlFor="name">
+          Username
+          <Required>*</Required>
+        </FormField>
+        <div>
+          <FormEntry
+            onChange={(e) => handleInputChange(e.target)}
+            // required
+            maxLength="60"
+            type="text"
+            id="name"
+            name="name"
+            value={formState.name}
+            placeholder="Example: jackson11!"
           />
-          <br />
-          {/* {preview.length < 10 ? (
-            <FormField htmlFor="photos">
-              Upload Your Photos
-              <FileInput
-                onChange={(event) => handlePreviews(event)}
-                type="file"
-                id="photos"
-                accept="image/png, image/jpeg"
-              />
-              <Disclaimer>
-                Optional, max 10
-              </Disclaimer>
-            </FormField>
-          ) : null}
-          <PhotoPreviews>
-            {preview.map((photo) => (
-              <ImagePreview src={photo} alt="" key={photo} />
-            ))}
-          </PhotoPreviews> */}
-          <AddPhotos
-            preview={preview}
-            setPreview={setPreview}
+          <Disclaimer>
+            For privacy reasons, do not use your full name or email
+            address.
+          </Disclaimer>
+        </div>
+        <br />
+        <FormField htmlFor="email">
+          Email
+          <Required>*</Required>
+        </FormField>
+        <div>
+          <FormEntry
+            onChange={(e) => handleInputChange(e.target)}
+            maxLength="60"
+            // required
+            type="email"
+            id="email"
+            placeholder="Example: jack@email.com"
+            value={formState.email}
+            name="email"
           />
-          <br />
-          <FormField htmlFor="name">
-            Username
-            <Required>*</Required>
-          </FormField>
-          <div>
-            <FormEntry
-              onChange={(event) => setName(event.target.value)}
-              maxLength="60"
-              type="text"
-              id="name"
-              name="name"
-              placeholder="Example: jackson11!"
-            />
-            <Disclaimer>
-              For privacy reasons, do not use your full name or email
-              address.
-            </Disclaimer>
-          </div>
-          <br />
-          <FormField htmlFor="email">
-            Email
-            <Required>*</Required>
-          </FormField>
-          <div>
-            <FormEntry
-              onChange={(event) => setEmail(event.target.value)}
-              maxLength="60"
-              type="text"
-              id="email"
-              placeholder="jack@email.com"
-            />
-            <Disclaimer>
-              For authentication reasons, you will not be emailed.
-            </Disclaimer>
-          </div>
-          <br />
-          {!validInput ? (
-            <Disclaimer>
-              <div>
-                1. Not all mandatory fields have been provided.
-              </div>
-              <div>2. Email is not in the correct email format.</div>
-              <div>
-                3. The images selected are invalid or unable to be
-                uploaded.
-              </div>
-            </Disclaimer>
-          ) : null}
-        </Form>
+          <Disclaimer>
+            For authentication reasons, you will not be emailed.
+          </Disclaimer>
+        </div>
+        <br />
+        {errors.length > 0 && (
+          <Disclaimer>
+            {errors.map((error) => <Error key={error.id}>{error.message}</Error>)}
+          </Disclaimer>
+        )}
         <Footer id="footer">
-          <FooterButton modal onClick={(e) => askQuestion(e)}>
+          <FooterButton
+            modal
+            type="submit"
+          >
             Submit
           </FooterButton>
-          <FooterButton onClick={() => setShowModal(false)}>
+          <FooterButton
+            type="button"
+            onClick={closeModal}
+          >
             Cancel
           </FooterButton>
         </Footer>
-      </ModalContainer>
-    </ModalBackground>
+      </Form>
+    </Modal>
   );
 }
 
-const ModalBackground = styled.div`
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  background-color: rgba(0, 0, 0, 0.3);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  left: 0%;
-  top: 0%;
-  z-index: 51;
-  @media (min-width: 50rem) {
-    z-index: 20;
-  };
-`;
-
-const ModalContainer = styled.div`
-  width: 100vw;
-  max-height: 100vh;
-  z-index: 52;
-  padding: 2.5em;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: ${(props) => props.theme.backgroundColor};
-  overflow: auto;
-  position: relative;
-
-  @media (min-width: 40rem) {
-    width: 70vw;
-    border: 1px solid;
-    max-height: 90vh;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  };
-
-  @media (min-width: 50rem) {
-    max-height: 80vh;
-    width: 60vw;
-    z-index: 21;
-    top: 1.5rem;
-  };
-`;
-
-const Header = styled.header`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 100%;
-  @media (min-width: 40rem) {
-    width: 90%;
-  };
-
-  @media (min-width: 50rem) {
-    width: 80%;
-  };
-  margin-bottom: 0.5rem;
-`;
+AddAnswerModal.propTypes = {
+  question: PropTypes.shape({
+    question_id: PropTypes.number.isRequired,
+    question_body: PropTypes.string.isRequired,
+  }).isRequired,
+  toggleModal: PropTypes.func.isRequired,
+};
 
 const AddAnswer = styled.h2`
   margin-top: 0px;
@@ -288,7 +197,7 @@ const ProductName = styled.h4`
   font-size: 1.5em;
 `;
 
-const Form = styled.div`
+const Form = styled.form`
   display: flex;
   flex-direction: column;
   position: relative;
@@ -296,11 +205,7 @@ const Form = styled.div`
 
   @media (min-width: 40rem) {
     width: 90%;
-  };
-
-  @media (min-width: 50rem) {
-    width: 80%;
-  };
+  }
 `;
 
 const FormField = styled.label`
@@ -311,20 +216,27 @@ const FormField = styled.label`
 const FormEntry = styled.input`
   display: block;
   width: 100%;
-  margin-top: 0.25em;
-  cursor: initial;
-  color: ${(props) => props.theme.fontColor};
-  background-color: ${(props) => props.theme.backgroundColor};
-  ::placeholder {
-    color: ${(props) => props.theme.inputPlaceholder};
-  };
-  &:focus {
-    background-color: ${(props) => props.theme.navBgColor};
-  };
-  border: currentColor solid thin;
   padding: 0.5em;
+  margin-top: 0.25em;
+  border: currentColor solid thin;
+  cursor: initial;
   font-family: inherit;
   font-size: ${(props) => props.theme.input};
+  color: ${(props) => props.theme.fontColor};
+  background-color: ${(props) => props.theme.backgroundColor};
+
+  ::placeholder {
+    color: ${(props) => props.theme.inputPlaceholder};
+  }
+
+  &:focus {
+    background-color: ${(props) => props.theme.navBgColor};
+  }
+
+  ::label {
+    font-size: 1rem;
+    color: ${(props) => props.theme.fontColor};
+  }
 `;
 
 const InputAnswer = styled.textarea`
@@ -333,18 +245,19 @@ const InputAnswer = styled.textarea`
   width: 100%;
   margin-top: 0.25em;
   font-family: inherit;
+  font-size: ${(props) => props.theme.input};
   color: ${(props) => props.theme.fontColor};
   background-color: ${(props) => props.theme.backgroundColor};
   ::placeholder {
     color: ${(props) => props.theme.inputPlaceholder};
-  };
+  }
   border: currentColor solid thin;
   border-radius: 5px;
   padding: 0.5em;
-  font-size: ${(props) => props.theme.input};
+
   &:focus {
     background-color: ${(props) => props.theme.navBgColor};
-  };
+  }
 `;
 
 const Footer = styled.div`
@@ -352,30 +265,19 @@ const Footer = styled.div`
   flex-direction: column;
   padding-top: 1.5em;
   width: 100%;
-
-  @media (min-width: 40rem) {
-    width: 90%;
-  };
-
-  @media (min-width: 50rem) {
-    width: 80%;
-  };
+  gap: 1.5em;
 
   @media (min-width: 600px) {
     flex-direction: row;
-    column-gap: 2rem;
     justify-content: space-evenly;
     align-items: center;
-  };
+    gap: 2em;
+  }
 `;
 
 const FooterButton = styled(Button)`
   flex: 1;
-  margin: 0.5rem 0;
-
-  @media (min-width: 600px) {
-    margin: 0;
-  };
+  margin: 0;
 `;
 
 const Required = styled.sup`
@@ -386,38 +288,8 @@ const Disclaimer = styled.h5`
   font-style: oblique;
 `;
 
-const PhotoPreviews = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin-top: 1.0em;
-`;
-
-const ImagePreview = styled.img`
-  width:20%;
-  height: 100%;
-  margin-right: 1%;
-`;
-
-const FileInput = styled.input`
-  display: block;
-  width: 100%;
-  color: ${(props) => props.theme.fontColor};
-  margin-top: 0.25em;
-  ::file-selector-button {
-    color: ${(props) => props.theme.fontColor};
-    background-color: ${(props) => props.theme.navBgColor};
-    cursor: pointer;
-    padding: 0.5em 1em;
-    margin-right: 0.5em;
-    border: 1px solid ${(props) => props.theme.fontColor};
-    border-radius: 5px;
-  };
-  ::placeholder {
-    color: ${(props) => props.theme.inputPlaceholder};
-  };
-  font-size: 1em;
-  font-family: inherit;
+const Error = styled.div`
+  color: ${(props) => props.theme.formError};
 `;
 
 export default AddAnswerModal;

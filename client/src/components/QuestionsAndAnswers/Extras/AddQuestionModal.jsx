@@ -6,6 +6,7 @@ import { Button } from '../../reusable/Button';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
 function AddQuestionModal({ setShowModal }) {
+  console.log('[AddQuestionModal] is running');
   AddQuestionModal.propTypes = {
     setShowModal: PropTypes.func.isRequired,
   };
@@ -168,7 +169,7 @@ const ModalBackground = styled.div`
   z-index: 51;
   @media (min-width: 50rem) {
     z-index: 20;
-  };
+  }
 `;
 
 const ModalContainer = styled.div`
@@ -188,14 +189,14 @@ const ModalContainer = styled.div`
     border: 1px solid;
     max-height: 90vh;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  };
+  }
 
   @media (min-width: 50rem) {
     max-height: 80vh;
     width: 60vw;
     z-index: 21;
     top: 1.5rem;
-  };
+  }
 `;
 
 const Header = styled.div`
@@ -205,11 +206,11 @@ const Header = styled.div`
   width: 100%;
   @media (min-width: 40rem) {
     width: 90%;
-  };
+  }
 
   @media (min-width: 50rem) {
     width: 80%;
-  };
+  }
 `;
 
 const AskAQuestion = styled.h2`
@@ -229,11 +230,11 @@ const Form = styled.div`
 
   @media (min-width: 40rem) {
     width: 90%;
-  };
+  }
 
   @media (min-width: 50rem) {
     width: 80%;
-  };
+  }
 `;
 
 const FormField = styled.label`
@@ -249,11 +250,11 @@ const FormEntry = styled.input`
   color: ${(props) => props.theme.fontColor};
   &:focus {
     background-color: ${(props) => props.theme.navBgColor};
-  };
+  }
   background-color: ${(props) => props.theme.backgroundColor};
   ::placeholder {
     color: ${(props) => props.theme.inputPlaceholder};
-  };
+  }
   border: currentColor solid thin;
   padding: 0.5em;
   font-family: inherit;
@@ -269,11 +270,11 @@ const InputQuestion = styled.textarea`
   color: ${(props) => props.theme.fontColor};
   &:focus {
     background-color: ${(props) => props.theme.navBgColor};
-  };
+  }
   background-color: ${(props) => props.theme.backgroundColor};
   ::placeholder {
     color: ${(props) => props.theme.inputPlaceholder};
-  };
+  }
   border: currentColor solid thin;
   border-radius: 5px;
   padding: 0.5em;
@@ -288,18 +289,18 @@ const Footer = styled.div`
 
   @media (min-width: 40rem) {
     width: 90%;
-  };
+  }
 
   @media (min-width: 50rem) {
     width: 80%;
-  };
+  }
 
   @media (min-width: 600px) {
     flex-direction: row;
     column-gap: 2rem;
     justify-content: space-evenly;
     align-items: center;
-  };
+  }
 `;
 
 const FooterButton = styled(Button)`
@@ -308,7 +309,7 @@ const FooterButton = styled(Button)`
 
   @media (min-width: 600px) {
     margin: 0;
-  };
+  }
 `;
 
 const Required = styled.sup`

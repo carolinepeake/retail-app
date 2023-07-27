@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-function StarCount({ review }) {
+function StarCount({ rating }) {
   const starCount = [];
 
-  for (let i = 0; i < review.rating; i += 1) {
+  for (let i = 0; i < rating; i += 1) {
     starCount.push(i);
   }
 
@@ -21,15 +21,7 @@ function StarCount({ review }) {
 }
 
 StarCount.propTypes = {
-  review: PropTypes.shape({
-    body: PropTypes.string,
-    summary: PropTypes.string,
-    recommend: PropTypes.bool,
-    rating: PropTypes.number,
-    reviewer_name: PropTypes.string,
-    date: PropTypes.string,
-    response: PropTypes.string,
-  }).isRequired,
+  rating: PropTypes.number.isRequired,
 };
 
 export default StarCount;

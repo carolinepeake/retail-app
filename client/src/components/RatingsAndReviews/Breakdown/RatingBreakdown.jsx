@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 function RatingBreakdown({ productID, revMeta, filterReviews }) {
+  console.log('[RatingBreakdown] is running');
   const [starFilter, setStarFilter] = useState([]);
   const [clickedBar, setClickedBar] = useState({});
 

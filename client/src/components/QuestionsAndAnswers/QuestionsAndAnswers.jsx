@@ -9,6 +9,7 @@ import ListNavigation from '../reusable/LargeList/ListNavigation';
 import ListTotalCount from '../reusable/LargeList/ListTotalCount';
 
 function QuestionAndAnswers() {
+  console.log('[QuestionsAndAnswers] is running');
   const {
     filteredQuestions, questions,
   } = useGlobalContext();

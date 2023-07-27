@@ -13,6 +13,7 @@ import SectionHeader from '../reusable/SectionHeader';
 // if need to change the filter, just make new get request
 
 function RatingsAndReviews() {
+  console.log('[RatingsAndReviews] is running');
   const {
     reviews,
     // numReviews, setNumReviews,
@@ -34,11 +35,11 @@ function RatingsAndReviews() {
     setFilteredRevs(result);
   };
 
-  useEffect(() => {
-    setFilteredRevs(reviews);
-    setItemsPerPage(2);
-    setPageNum(1);
-  }, [reviews]);
+  // useEffect(() => {
+  //   setFilteredRevs(reviews);
+  //   setItemsPerPage(2);
+  //   setPageNum(1);
+  // }, [reviews]);
 
   const revRef = useRef(null);
 
@@ -135,7 +136,6 @@ const GridContainer = styled.div`
 `;
 
 const ReviewListContainer = styled.div`
-
 @media (max-width: 600px) {
     width: 100%;
     margin-top: 1.5rem;

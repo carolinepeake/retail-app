@@ -27,7 +27,7 @@ width: auto;
 font-size: 1em;
 &:hover {
   cursor: pointer;
-};
+}
 display: ${(props) => (props.mobile ? 'none' : 'flex')};
 flex-direction: column;
 width: fit-content;
@@ -37,7 +37,7 @@ margin: 1.0em 0;
   display: ${(props) => (props.mobile ? 'block' : 'none')};
   margin: 0 auto;
   margin-bottom: 3em;
-};
+}
 `;
 
 const Like = styled.div`
@@ -53,7 +53,7 @@ padding: 0.25em;
   color: ${(props) => props.facebook && 'blue'};
   color: ${(props) => props.twitter && 'aqua'};
   color: ${(props) => props.pintrest && 'red'};
-};
+}
 display: flex;
 justify-content: center;
 `;

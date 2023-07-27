@@ -8,6 +8,7 @@ import LengthBreakdown from './LengthBreakdown';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
 function Breakdown({ filterReviews, reviews }) {
+  console.log('[Breakdown] is running');
   const {
     productID, productInfo, revMeta,
   } = useGlobalContext();

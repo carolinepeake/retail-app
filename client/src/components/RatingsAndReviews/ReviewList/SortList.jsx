@@ -10,6 +10,7 @@ const options = [{ value: 'relevant', label: 'relevant', id: '00' }, { value: 'n
 function SortList({
   itemsPerPage, listLength, pageNum, setPageNum,
 }) {
+  console.log('[SortList] is running');
   const {
     setSortOrder, sortOrder,
   } = useGlobalContext();

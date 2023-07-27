@@ -2,6 +2,7 @@ import React, {
   useState, useEffect,
 } from 'react';
 import styled, { css } from 'styled-components';
+import PropTypes from 'prop-types';
 
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
@@ -19,6 +20,17 @@ function Thumbnails({
 
   const [forwardDisabled, setForwardDisabled] = useState(false);
   const [backDisabled, setBackDisabled] = useState(true);
+
+  // should optomize this better
+  // https://react.dev/learn/manipulating-the-dom-with-refs
+  useEffect(() => {
+    if (place < firstPhotoIndex) {
+      setFirstPhotoIndex((prev) => prev - 1);
+    }
+    if (place > firstPhotoIndex + 5) {
+      setFirstPhotoIndex((prev) => prev + 1);
+    }
+  }, [place]);
 
   useEffect(() => {
     if (firstPhotoIndex >= 1) {
@@ -38,60 +50,68 @@ function Thumbnails({
     if ((place === firstPhotoIndex + 5) && n === -1) {
       setPlace((prev) => prev - 1);
     }
-    setFirstPhotoIndex((prevI) => prevI + n);
     if (firstPhotoIndex >= selectedStyle.photos.length - 6) {
       setForwardDisabled(true);
     }
-    if (firstPhotoIndex <= 0) {
+    if (firstPhotoIndex <= 1) {
       setBackDisabled(true);
     }
+    setFirstPhotoIndex((prevI) => prevI + n);
   }
 
-  console.log('place in TB ', place);
-
-  let thumbnails = [];
-  if (selectedStyle.photos) {
-    thumbnails = selectedStyle.photos.map((photo, index) => (
-      <ThumbnailContainer
-        key={photo.thumbnail_url}
-        href={`#seq${index + 1}`}
-        index={index}
-        alt={`${selectedStyle.name} thumbnail`}
-        onClick={() => handleClickThumbnail(index)}
-        place={place}
-        setPlace={setPlace}
-        type="button"
+  const thumbnails = selectedStyle?.photos?.map((photo, index) => (
+    <ThumbnailContainer
+      key={photo?.thumbnail_url}
+      // href={`#seq${index + 1}`}
+      // href={`#seq${index}`}
+      index={index}
+      alt={`${selectedStyle?.name} thumbnail`}
+      onClick={() => handleClickThumbnail(index)}
+      // onClick={() => handleClickThumbnail(photo.url)}
+      place={place}
+      setPlace={setPlace}
+      type="button"
+      status={status}
+      length={selectedStyle?.photos.length}
+    >
+      <ThumbnailIcon
         status={status}
-        length={selectedStyle.photos.length}
-      >
-        <ThumbnailIcon status={status} place={place} index={index} href={`#seq${index + 1}`} />
-        <ThumbnailImage
-          src={photo.thumbnail_url}
-          status={status}
-          place={place}
-          index={index}
-          href={`#seq${index + 1}`}
-        />
-      </ThumbnailContainer>
-    ));
-  }
+        place={place}
+        index={index}
+        // href={`#seq${index + 1}`}
+        href={`#seq${index}`}
+      />
+      <ThumbnailImage
+        src={photo?.thumbnail_url}
+        status={status}
+        place={place}
+        index={index}
+        // href={`#seq${index + 1}`}
+      />
+    </ThumbnailContainer>
+  ));
 
   return (
-    <ThumbnailsContainer status={status}>
+    <ThumbnailsContainer
+      status={status}
+    >
 
-      <ThumbnailsViewport length={thumbnails.length} status={status}>
+      <ThumbnailsViewport
+        length={thumbnails?.length}
+        status={status}
+      >
         <ThumbnailsCarousel
           status={status}
           place={place}
           setPlace={setPlace}
-          length={thumbnails.length}
+          length={thumbnails?.length}
           firstPhotoIndex={firstPhotoIndex}
         >
           {thumbnails}
         </ThumbnailsCarousel>
       </ThumbnailsViewport>
 
-      {thumbnails.length > 6 && (
+      {thumbnails?.length > 6 && (
         <>
           <ScrollForward
             status={status}
@@ -121,6 +141,15 @@ export default Thumbnails;
 
 // TO-DO: name image id correctly so in url states conextual id and not the entire image url
 // TO-DO: add active pseudo-class to thumbnails to change thumbnail style consistently with swiping
+
+Thumbnails.propTypes = {
+  place: PropTypes.number.isRequired,
+  setPlace: PropTypes.func.isRequired,
+  status: PropTypes.string.isRequired,
+  firstPhotoIndex: PropTypes.number.isRequired,
+  setFirstPhotoIndex: PropTypes.func.isRequired,
+  handleClickThumbnail: PropTypes.func.isRequired,
+};
 
 const ThumbnailsContainer = styled.div`
   display: ${(props) => (props.status === 'zoomed' ? 'none' : 'block')};
@@ -163,6 +192,7 @@ const ThumbnailsCarousel = styled.div`
   ${(props) => (props.status === 'default' && css`
     width: 100%;
   `)};
+
   @media (min-width: 800px) {
     ${(props) => (props.status === 'default' && css`
       flex-direction: column;
@@ -194,9 +224,11 @@ const ThumbnailContainer = styled.a`
       ${(props) => props.status === 'default' && css`
         padding-right: 15%;
         padding-top: 15%;
+      /*  margin-right: 15%;
+        margin-top: 15%; */
         height: calc(100% / ${props.length});
       `};
-    };
+    }
 
     ${(props) => props.status === 'expanded' && css`
       justify-content: center;
@@ -211,37 +243,37 @@ const ThumbnailContainer = styled.a`
     border: black solid 1.5px;
     transform: scale(1.05) ease;
     padding: 1.5px;
-  };
+  }
 
     &:link {
       border: none;
-    };
+    }
 
     &:visited {
       color: ${(props) => props.theme.submitButtonHover};
       border: black solid 1.5px;
-      transform: scale(1.05) ease;
+      /* transform: scale(1.05) ease; */
       padding: 1.5px;
-    };
+    }
 
     &:hover {
       box-shadow: box-shadow: 5px 5px 5px #727272;
-      transform:   transform: scale(1.05) ease;
-    };
+      transform: transform: scale(1.05) ease;
+    }
 
     &:active {
       color: ${(props) => props.theme.submitButtonHover};
       border: black solid 1.5px;
-      transform: scale(1.05) ease;
+      /* transform: scale(1.05) ease; */
       padding: 1.5px;
-    };
+    }
 
     &:target {
       color: ${(props) => props.theme.submitButtonHover};
       border: black solid 1.5px;
       transform: scale(1.05) ease;
       padding: 1.5px;
-    };
+    }
 `;
 
 const ThumbnailIcon = styled.span`
@@ -258,9 +290,11 @@ const ThumbnailIcon = styled.span`
   @media (min-width: 800px) {
     display: ${(props) => (props.status !== 'expanded' && 'none')};
   }
+
   ${(props) => ((props.index === props.place) && css`
     background-color: ${props.theme.submitButtonHover};
   `)};
+
   &::active {
     color: ${(props) => props.theme.submitButtonHover};
   }
