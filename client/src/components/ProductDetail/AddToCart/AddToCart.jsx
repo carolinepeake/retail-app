@@ -4,7 +4,49 @@ import { useGlobalContext } from '../../../contexts/GlobalStore';
 import { Button } from '../../reusable/Button';
 
 function AddToCart() {
+  console.log('[AddToCart] is running');
   const { selectedStyle } = useGlobalContext();
+
+  // const [ selectedItem, setSelectedItem ] = useState({
+  //   sku: {
+  //     sku:  '',
+  //     quantity: 0,
+  //     size: '',
+  //   },
+  //   quantity: 0,
+  //   addToCart: false,
+  // });
+
+  // let stock = [];
+  // for (const sku in skus) {
+  //   const { quantity, size } = sku;
+  //   if (quantity > 0) {
+  //     stock.push({
+  //       sku,
+  //       quantity,
+  //       size,
+  //     });
+  //   }
+  // };
+  // const sizeOptions = stock.length === 0
+  // ? <option>Out of Stock</option>
+  // : stock.sort((a, b) => Number(a.sku) - Number(b.sku)).map(({ sku, quantity, size }) => (
+  //   <option key={sku} name='sku' value={sku, quantity, size} quantity={quantity} size={size}>{size}</option>
+  // ))
+
+  // const handleInputChange = (e) => {
+  //   setSelectedItem({...selectedItem, [e.target.name]: { ...e.target.value }})
+  // }
+
+  // const quantityOptions = selectedItem?.sku?.quantity.
+  //   <option key={quantity} name="quantity" value={quantity}>{quantity}</option>
+
+
+
+  // const stock = selectedStyle.skus.filter((sku) => sku.quantity > 0 && sku);
+
+  // const sizeOptions =  <option key={sku} value={sku.size}>{sku.size}</option>
+
 
   const [isSizeSelected, setIsSizeSelected] = useState(false);
   const [selectedQuantity, setSelectedQuantity] = useState(1);
@@ -14,24 +56,20 @@ function AddToCart() {
   const [error, setError] = useState(false);
   const sizeDropdown = useRef(null);
 
-  function getStock() {
-    const options = Object.entries(selectedStyle.skus).map(([sku, { quantity, size }]) => {
-      if (quantity > 0) {
-        if (inStock === false) {
-          setInStock(true);
-        }
-        return <Option key={sku} value={JSON.stringify({ sku, quantity, size })}>{size}</Option>;
-      }
-      return null;
-    });
-    return options;
-  }
-
-  useEffect(() => {
-    if (selectedStyle.skus) {
-      setStock(() => getStock());
+  const sizeOptions = Object.entries(selectedStyle.skus).map(([sku, { quantity, size }]) => {
+    if (quantity > 0) {
+      return (
+        <Option
+          key={sku}
+          name="sku"
+          // value={JSON.stringify({ sku, quantity, size })}
+          value={sku}
+        >
+          {size}
+        </Option>
+      );
     }
-  }, [selectedStyle]);
+  });
 
   const handleChangeSize = async (e) => {
     e.preventDefault();
@@ -57,12 +95,30 @@ function AddToCart() {
     setSelectedQuantity(e.target.value);
   }
 
-  function handleAddToBag(e) {
+  // const [cartModal, {openCart, closeCart}] = useModal(cart, bag);
+
+  function handleClickAddToBag(e) {
+    e.preventDefault();
     if (!isSizeSelected) {
-      // sizeDropdown.current.focus();
+      // sizeDropdown.current.focus(); open
+      // or set error to true and then have a useEffect that returns a timeout and cleartimeout resetting error to null
+      // setError('Please select a size from the dropdown');
       setError(true);
     }
-    e.preventDefault();
+    // flushSync(() => {
+    //   setSelectedItem({
+    //     sku: {
+    //       sku: '',
+    //       quantity: 0,
+    //       size: ''
+    //     },
+    //     quantity: 0,
+    //     addToCart: false;
+    //   });
+    //   setBag([selectedItem, ...bag]);
+    // });
+    // openCart();
+    // reset dropdowns
   }
 
   // TO-DO: get rid of error after set amount of time
@@ -78,7 +134,11 @@ function AddToCart() {
               ref={sizeDropdown}
               select
               error={error}
-            // value={selectedSize}
+              // name="size"
+              // value={e.target.value}
+              // value={selectedSize}
+              value={selectedSku.size}
+              // defaultValue="Select Size"
               onChange={(e) => handleChangeSize(e)}
             >
               <Option value={JSON.stringify({ size: '', quantity: 0, sku: '' })}>Select Size</Option>
@@ -108,7 +168,7 @@ function AddToCart() {
       </SelectSizeAndQuantityContainer>
       <Error>Please Select a Size</Error>
       <BagContainer>
-        <AddToCartButton type="submit" modal onClick={(e) => handleAddToBag(e)}>
+        <AddToCartButton type="submit" modal onClick={(e) => handleClickAddToBag(e)}>
           <AddToCartText>Add to Cart</AddToCartText>
           <AddToCartText>+</AddToCartText>
         </AddToCartButton>
