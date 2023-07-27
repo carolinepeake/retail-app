@@ -12,30 +12,26 @@ export const Button = styled.button`
   color: ${(props) => props.theme.fontColor};
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  };
+  }
 
   ${(props) => props.disabled && css`
     cursor: default;
     background-color: ${props.theme.disabledButton};
+
     &:hover {
       box-shadow: initial;
-    };
-  `};
-
-  /* can delete */
-  ${(props) => props.select && css`
-    background-color: ${props.theme.backgroundColor};
-    color: ${props.theme.fontColor};
+    }
   `};
 
   ${(props) => props.modal && css`
     background-color: ${props.theme.submitButton};
     color: ${props.theme.submitButtonFont};
+
     &:hover {
       background-color: ${props.theme.submitButtonHover};
       color: ${props.theme.submitButtonHoverFont};
       box-shadow: initial;
-    };
+    }
   `};
 
   ${(props) => props.close && css`
@@ -45,13 +41,15 @@ export const Button = styled.button`
     z-index: 22;
     color: ${props.theme.darkBlueHover};
     background-color: transparent;
+
     &:hover {
       box-shadow: none;
       transform: scale(1.05);
       transition: scale 0.2s ease;
       font-weight: 600;
       background-color: rgba(190,203,210,0.3);
-    };
+    }
+
     font-size: 1.5em;
     display: inline-flex;
     border: none;
@@ -81,7 +79,7 @@ export const StyledExitButton = styled.button`
   &:hover {
     opacity: 1;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  };
+  }
   display: block;
   border: none;
   border-radius: 50px;
@@ -93,10 +91,10 @@ export const StyledExitButton = styled.button`
   align-self: center;
   @media (min-width: 700px) {
     font-size: 1.17em;
-  };
+  }
   @media (min-width: 800px) {
     font-size: 1.5em;
-  };
+  }
 `;
 
 // color: ${(props) => props.theme.darkBlueHover};
