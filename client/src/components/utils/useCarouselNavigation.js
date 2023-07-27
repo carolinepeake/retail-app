@@ -1,4 +1,25 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+
+// using ref.scrollIntoView() method:
+  // assign each carousel item a ref https://react.dev/learn/manipulating-the-dom-with-refs
+  // when navigation pointer is clicked, scroll associated ref into view
+  // when arrows are clicked calculate next or prev ref id and scroll that into view
+    // can multiply by scroll size when calculating next or prev ref
+    // can name associated navigation pointer with prefix and same id and scroll into view when arrows clicked
+
+// using ref.scrollIntoView() method and conditionally setting ref to stored index
+// https://react.dev/learn/manipulating-the-dom-with-refs
+
+// use translation css & href for navigation_pointer icons
+
+// https://blog.logrocket.com/building-carousel-component-react-hooks/
+
+// If your Effect animates something in, the cleanup function should reset the animation to the initial values:
+// https://react.dev/learn/synchronizing-with-effects
+
+// maybe use debounce value so everything is consistent
+  // between thumbnails, url, main image
+// if wrap handlers in useCallback will imageGallery re-render every time click arrow in thumbnails?
 
 // instead of using place/currentIndex, use translate amount
 // use current translation amount / place / if on the edge
@@ -45,13 +66,17 @@ import { useState, useEffect } from 'react';
 
 // check whether back or forward arrow needs to be hidden
 
-const useCarouselNavigation = (carouselRef, viewportRef, length = 0,
-  // startingIndex
+const useCarouselNavigation = (
+  carouselRef,
+  // viewportRef,
+  // length,
+  startingIndex,
+  // scrollSize,
 ) => {
-  // const [active, setActive] = useState(startingIndex || 0);
-  const [active, setActive] = useState(0);
-  const [styles, setStyles] = useState({});
-  const [visibleElements, setVisibleElements] = useState([]);
+  const [active, setActive] = useState(startingIndex || 0);
+  // const [active, setActive] = useState(0);
+  // const [styles, setStyles] = useState({});
+  // const [visibleElements, setVisibleElements] = useState([]);
   // const [firstPhotoIndex, setFirstPhotoIndex] = useState(0);
 
   // const initCurrentIndex = () => {
@@ -153,8 +178,8 @@ const useCarouselNavigation = (carouselRef, viewportRef, length = 0,
     // use href maybe to make thumbnail icon highlighted
     const currentItemIndex = Math.floor(Math.abs((leftOffset - leftPadding)
     / Math.floor(carouselItemWidth))) || 0;
-    // setCurrentIndex(currentItemIndex);
-    setActive(() => currentItemIndex);
+    setActive(currentItemIndex);
+    // setActive(() => currentItemIndex);
   };
 
   // const useArrows = () => {
@@ -174,67 +199,95 @@ const useCarouselNavigation = (carouselRef, viewportRef, length = 0,
   //   }
   // };
 
-  // const handleClickArrow = (arrowDirection) => {
-  //   // onClickArrow(arrowDirection, );
-  //   const scrollSize ?? galleryWidth;
-  //   const styles = getTranslation();
-  //   setActive((prev) => prev - (arrowDirection * scrollSize));
-  //   setStyle(styles);
+  const handleClickArrow = (arrowDirection) => {
+    // onClickArrow(arrowDirection, );
+    // useEffect w/ ref?
+    // const scrollSize ?? galleryWidth;
+    const scrollSize = 1;
+    // const styles = getTranslation();
+    // setActive((prev) => prev - (arrowDirection * scrollSize));
+    setActive((prev) => prev + (arrowDirection * scrollSize));
+    // setStyle(styles);
 
-  //   setCurrentIndex((prev) => prev + arrowDirection);
+    // setCurrentIndex((prev) => prev + arrowDirection);
 
-  //   // stop at end
-  //   // if newPoint is outside of visible track, move track
+    // stop at end
+    // if newPoint is outside of visible track, move track
 
-  //   // stop at begininng
-  //   //
-  // };
+    // stop at begininng
+    //
+  };
 
   // const galleryWidth = visibleElements?.length || 0;
+// on resize?
+  // const viewportDimensions = viewportRef.current?.getBoundingClientRect();
+  // const carouselDimens = carouselRef.current?.getBoundingClientRect();
+  // const carouselWidth = carouselDimens && carouselDimens.width;
+  // const viewportWidth =  viewportDimensions &&  viewportDimensions.width;
 
-  const viewportDimensions = viewportRef.current?.getBoundingClientRect();
-  const carouselDimens = carouselRef.current && carouselRef.current.getBoundingClientRect();
-  const carouselWidth = carouselDimens && carouselDimens.width;
-  const viewportWidth =  viewportDimensions &&  viewportDimensions.width;
+  // const itemWidth = carouselWidth / length;
 
-  const itemWidth = carouselWidth / length;
+  // const galleryWidth = Math.floor( viewportWidth / itemWidth);
 
-  const galleryWidth = Math.floor( viewportWidth / itemWidth);
+  // should maybe exclude this for now,
+  // b/c using active state and style state is setting 2 diff states off 1 change
+  // could lead to error if one state updates and the other doesn't
+  // would want to factor scrollSize in this
+  // const getCarouselAnimation = (scrollAmount) => {
+  //   const remainingItems = length - active;
+  //   let translation;
+  //   const translate = -100 / length;
+  //   if (remainingItems < scrollSize) {
+  //     translation = translate * active + (translate * (length % galleryWidth));
+  //   } else {
+  //     translation = translate * (active + scrollAmount)* galleryWidth;
+  //   }
+  //   const width = galleryWidth === 1 ? `${length}00%` : `calc((100% + 2.5vw) / ${galleryWidth} * ${length})`;
+  //   return {
+  //     // which direction translation, i.e. translateX or translateY
+  //     translate: `${translation}% 0`,
+  //     transition: 'translate 0.5s',
+  //     width: `${width}`,
+  //   };
+  // };
 
-  const getTranslation = (scrollSize = galleryWidth) => {
-    let translation;
-    const translate = -100 / length;
-    if (galleryWidth === 1) {
-      translation = 100;
-    }
-    const remainingItems = length - active;
-    if (remainingItems < scrollSize) {
-      translation = translate * active + (translate * (length % galleryWidth));
-    }
-    translation = translate * active * galleryWidth;
-    const width = galleryWidth === 1 ? `${length}%` : `calc((100% + 2.5vw) / ${galleryWidth} * ${length})`;
-    return {
-      translate: `${translation}`,
-      transition: 'translate 0.5s',
-      width: `${width}`,
-    };
-  };
+  // const handleClickBackArrow = () => {
+  //   // const scrollSize = galleryWidth;
+  //   const scrollSize = 1;
+  //   const scrollAmount = scrollSize * -1;
+  //   const stylesTemp = getCarouselAnimation(scrollAmount);
+  //   setStyles(stylesTemp);
+  //   setActive(prev => prev - scrollSize);
+  //   console.log('active: ', active, 'scrollSize: ', scrollSize);
+  // };
 
-  const handleClickBackArrow = (scrollSize = galleryWidth) => {
-    const stylesTemp = getTranslation();
-    setActive(prev => prev - scrollSize);
-    setStyles(stylesTemp);
-  };
+  // const handleClickForwardArrow = () => {
+  //    // const scrollSize = galleryWidth;
+  //    const scrollSize = 1;
+  //    const scrollAmount = scrollSize * 1;
+  //   const stylesTemp = getCarouselAnimation(scrollAmount);
+  //   setStyles(stylesTemp);
+  //   setActive(prev => prev + scrollSize);
+  //   console.log('active: ', active, 'scrollSize: ', scrollSize);
+  // };
 
-  const handleClickFowardArrow = (scrollSize = galleryWidth) => {
-    const stylesTemp = getTranslation();
-    setActive(prev => prev + scrollSize);
-    setStyles(stylesTemp);
-  };
+  // const handleClickPointer = useCallback((index) => {
+  //   setActive(index);
+  // }, [index]);
 
-  const handleClickThumbnail = (index) => {
+  // should prolly wrap in useCallback b/c handed down?
+  const handleClickPointer = (index) => {
     setActive(index);
+    // scrollToId(index);
   };
+
+  // useEffect(() => {
+  //   const node = ref.current;
+  //   node.style.opacity = 1; // Trigger the animation
+  //   return () => {
+  //     node.style.opacity = 0; // Reset to the initial value
+  //   };
+  // }, []);
 
   // for translate instead of doing media queries can multiply by how many cards could fit
 
@@ -270,8 +323,22 @@ const useCarouselNavigation = (carouselRef, viewportRef, length = 0,
   //   ];
   // };
 
+  // could return handlers in an object
   // return [currentIndex, setCurrentIndex, handleScroll, handleClickPrev, handleClickNext, handleClickThumbnail];
-  return [active, setActive, styles, setStyles, handleScroll, handleClickBackArrow, handleClickFowardArrow, handleClickThumbnail];
+  // console.log('active: ', active, 'setActive: ', setActive, 'styles: ', styles, 'setStyles: ', setStyles, 'handleScroll: ', handleScroll, 'handleClickBackArrow: ', handleClickBackArrow, 'handleClickForwardArrow: ', handleClickForwardArrow, 'handleClickThumbnail: ', handleClickThumbnail);
+  console.log('active: ', active, 'setActive: ', setActive, 'handleClickArrow: ', handleClickArrow, 'handleClickPointer: ', handleClickPointer);
+  // return [active, setActive, styles, setStyles, handleScroll, handleClickBackArrow, handleClickForwardArrow, handleClickThumbnail];
+  return [
+    active,
+    setActive,
+    // styles,
+    // setStyles,
+    handleScroll,
+    handleClickArrow,
+    // handleClickBackArrow,
+    // handleClickForwardArrow,
+    handleClickPointer,
+  ];
 };
 
 export default useCarouselNavigation;
