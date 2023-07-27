@@ -5,17 +5,20 @@ import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import Thumbnails from './Thumbnails';
+// import MainImage from './MainImage';
 // import useUnsplashUrl from '../../utils/useUnsplash';
+// make a new component just for rendering picture element given a single photo url as a prop or child
+// const [unsplashUrl, setUnsplashUrl] = useUnsplashUrl(80, 'https://images.unsplash.com/photo-1534011546717-407bced4d25c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80');
 import { StyledExitButton } from '../../reusable/Button';
 import useCarouselNavigation from '../../utils/useCarouselNavigation';
 
 // TO-DO: fix exit button on expanded view
 // TO-DO: fix scroll main image index on zoom-in and expanded view and when resizing
 // TO-DO: maybe make scroll below 600px and arrow buttons above
-
 // could make path attribute and then params attribute
-
 // starting index is not staying the same when switching in and out of zoomed-in view
+
+// need to add an onResize event handler
 
 function ImageGallery({
   status,
@@ -29,9 +32,6 @@ function ImageGallery({
   // if thumbnail with corresponding href value is clicked, should automatically scroll to that image
   // two useCarousels in imageGallery, one for thumbnails
 
-  const carousel = useRef(null);
-  const viewport = useRef(null);
-
   const [firstPhotoIndex, setFirstPhotoIndex] = useState(0);
 
   let photosLength = 0;
@@ -39,9 +39,34 @@ function ImageGallery({
     photosLength = selectedStyle.photos.length;
   }
 
-  // make a new component just for rendering picture element given a single photo url as a prop or child
+  const carousel = useRef(null);
+  const viewport = useRef(null);
 
-  // const [unsplashUrl, setUnsplashUrl] = useUnsplashUrl(80, 'https://images.unsplash.com/photo-1534011546717-407bced4d25c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80');
+  const itemsRef = useRef(null);
+
+  function scrollToId(itemId) {
+    const map = getMap();
+    const node = map.get(itemId);
+    node.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'center'
+    });
+  }
+
+  function getMap() {
+    if (!itemsRef.current) {
+      // Initialize the Map on first usage.
+      itemsRef.current = new Map();
+    }
+    return itemsRef.current;
+  }
+
+  const handleClickThumbnail = (url) => {
+    // setActive(index);
+    scrollToId(url);
+  };
+
 
   // function handleClickArrow(n) {
   //   if (place === firstPhotoIndex && n === -1) {
@@ -90,35 +115,122 @@ function ImageGallery({
     // handleClickForwardArrow,
     // handleClickThumbnail,
     handleClickArrow,
-    handleClickPointer,
+    handleClickAnchor,
   // ] = useCarouselNavigation(startingIndex, carousel, viewport, photosLength, 1);
   ] = useCarouselNavigation(carousel, startingIndex);
-  console.log('place: ', setPlace, 'handleClickArrow: ', handleClickArrow, 'handleClickPointer: ', handleClickPointer);
+  console.log('place: ', setPlace, 'handleClickArrow: ', handleClickArrow, 'handleClickAnchor: ', handleClickAnchor);
 
   // could do useEffect based on status
   // to determine whether to add scroll handler or moveMouse handler
   // need to initialize xPerc and yPerc once status is expanded
   // is being called, but maybe rendering before x and y set
   // might want to use useCallback or useMemo to make quicker?
+  // can make useMeasurements hook
+
+  // https://react.dev/learn/reusing-logic-with-custom-hooks
+// export function usePointerPosition() {
+//   const [position, setPosition] = useState({ x: 0, y: 0 });
+//   useEffect(() => {
+//     function handleMove(e) {
+//       setPosition({ x: e.clientX, y: e.clientY });
+//     }
+//     window.addEventListener('pointermove', handleMove);
+//     return () => window.removeEventListener('pointermove', handleMove);
+//   }, []);
+//   return position;
+// }
+
   const imageContainer = useRef(null);
+  const mainImageRef = useRef(null);
 
-  const [xPerc, setXPerc] = useState('');
-  const [yPerc, setYPerc] = useState('');
+  const [position, setPosition] = useState({ x: '', y: '' });
 
-  function getProportionalZoom(e) {
+  useEffect(() => {
+    console.log('useEffect in main image');
+    function handlePanImage(e) {
+      const zoomContainer = imageContainer.current;
+      // if (imageContainer.current) {
+        // const containerWidth = imageContainer.current.clientWidth;
+        const containerWidth = zoomContainer.clientWidth;
+        // const containerHeight = imageContainer.current.clientHeight;
+        const containerHeight = zoomContainer.clientHeight;
+        // should maybe do offset from parent element, not page, b/c if scroll
+        // const x = e.pageX - imageContainer.current.offsetLeft;
+        // const y = e.pageY - imageContainer.current.offsetTop;
+        console.log('zoomContainer: ', zoomContainer);
+        const x = e.pageX - zoomContainer.offsetLeft;
+        const y = e.pageY - zoomContainer.offsetTop;
+        const translateX = `${(x / (containerWidth / 100)) * 1.25}%`;
+        const translateY = `${(y / (containerHeight / 100)) * 1.25}%`;
+        setPosition({
+          x: translateX,
+          y: translateY,
+        });
+      }
+
+      mainImageRef?.current?.addEventListener('mousemove', handlePanImage);
+
+      return () => {
+        mainImageRef?.current?.removeEventListener('mousemove', handlePanImage);
+      };
+
+  }, [imageContainer]);
+  // const imageContainer = useRef(null);
+
+  // const [position, setPosition] = useState({ x: '', y: '' });
+
+  // function getProportionalZoom(e) {
+  //   const zoomContainer = imageContainer.current;
+  //   // if (imageContainer.current) {
+  //     // const containerWidth = imageContainer.current.clientWidth;
+  //     const containerWidth = zoomContainer.clientWidth;
+  //     // const containerHeight = imageContainer.current.clientHeight;
+  //     const containerHeight = zoomContainer.clientHeight;
+  //     // should maybe do offset from parent element, not page, b/c if scroll
+  //     // const x = e.pageX - imageContainer.current.offsetLeft;
+  //     // const y = e.pageY - imageContainer.current.offsetTop;
+  //     console.log('zoomContainer: ', zoomContainer);
+  //     const x = e.pageX - zoomContainer.offsetLeft;
+  //     const y = e.pageY - zoomContainer.offsetTop;
+  //     const translateX = `${(x / (containerWidth / 100)) * 1.25}%`;
+  //     const translateY = `${(y / (containerHeight / 100)) * 1.25}%`;
+  //     setPosition({
+  //       x: translateX,
+  //       y: translateY,
+  //     });
+  //   }
+  // https://react.dev/reference/react/useEffect  handleMove
+
+  function handleProportionalZoom(e) {
     if (imageContainer.current) {
       const containerWidth = imageContainer.current.clientWidth;
       const containerHeight = imageContainer.current.clientHeight;
+      // should maybe do offset from parent element, not page, b/c if scroll
       const x = e.pageX - imageContainer.current.offsetLeft;
       const y = e.pageY - imageContainer.current.offsetTop;
-      const xPercent = `${(x / (containerWidth / 100)) * 1.25}%`;
-      const yPercent = `${(y / (containerHeight / 100)) * 1.25}%`;
-      setXPerc(() => xPercent);
-      setYPerc(() => yPercent);
+      const translateX = `${(x / (containerWidth / 100)) * 1.25}%`;
+      const translateY = `${(y / (containerHeight / 100)) * 1.25}%`;
+      setPosition({
+        x: translateX,
+        y: translateY,
+      });
+    }
+  }
+
+  // wrap getProportionalZoom in an effectEvent and call it in a useEffects
+  // as the handler for the mousemove event listeners
+  // add the event listeners if the status is zoomed
+  // if the status is not zoomed, add a scroll(specify direction) event listener
+  // add a ref to the carouselviewport and thats the element I should attach the event listeners to
+
+  function handlePanImage(e) {
+    if (status !== 'default') {
+      handleProportionalZoom(e);
     }
   }
 
   function handleClickMain(e) {
+    // find out default behavior
     e.preventDefault();
     switch (status) {
       case 'default':
@@ -126,19 +238,14 @@ function ImageGallery({
         break;
       case 'expanded':
         setStatus(() => 'zoomed');
-        getProportionalZoom(e);
+        // handleZoom(e);
+         handlePanImage(e);
         break;
       case 'zoomed':
         setStatus(() => 'expanded');
         break;
       default:
         console.log('error handling expand main');
-    }
-  }
-
-  function handlePanImage(e) {
-    if (status !== 'default') {
-      getProportionalZoom(e);
     }
   }
 
@@ -168,11 +275,6 @@ function ImageGallery({
     <ImageGalleryContainer
       status={status}
     >
-
-      {/* {selectedStyle.photos
-      && (
-        <> */}
-
           {status !== 'zoomed'
           && (
           <AnimationContainer>
@@ -183,7 +285,6 @@ function ImageGallery({
               place={place}
               photosLength={selectedStyle?.photos?.length}
               ref={viewport}
-              //  onScroll={(e) => scrollHandler(e)}
               onScroll={handleScroll}
             >
 
@@ -195,25 +296,40 @@ function ImageGallery({
                 status={status}
                 ref={carousel}
               >
+
                 {selectedStyle?.photos?.map((photo, index) => (
                   <Slide
                     key={photo.url}
+                    // key={index}
                     i={index}
+                    // id={index}
                     // ids don't match up
-                    // id={`seq${index}`}
+                    id={`seq${index}`}
+                    onClick={(e) => handleClickMain(e)}
+                    ref={(node) => {
+                      const map = getMap();
+                      if (node) {
+                        map.set(photo.url, node);
+                      } else {
+                        map.delete(photo.url);
+                      }
+                    }}
+
                     // id={`seq${index + 1}`}
                      // could also keep the same main component and change css for zoomed & expanded
                      // or could pass photo.url to the other main components, or update place with scroll
-                    onClick={(e) => handleClickMain(e)}
-                    status={status}
-                    setStatus={setStatus}
                   >
-                    <Main
+                    <MainImage
+                      fullsize={photo.url}
+                      thumbnail={photo.thumbnail}
                       src={photo.url}
                        // use url to store productName, selectedStyle and seq#
                       alt={`${productInfo?.name} in ${selectedStyle?.name} style photo number ${index}`}
                       status={status}
+                      setStatus={setStatus}
                       // id={`seq${index}`}
+                      place={place}
+                      index={index}
                     />
                   </Slide>
                 ))}
@@ -229,14 +345,12 @@ function ImageGallery({
               firstPhotoIndex={firstPhotoIndex}
               setFirstPhotoIndex={setFirstPhotoIndex}
               onClick={() => handleClickArrow(-1)}
-              // onClick={handleClickBackArrow}
             >
               <ArrowBackground />
               <ArrowIcon prev />
             </Buttons>
             <Buttons
               onClick={() => handleClickArrow(1)}
-              // onClick={handleClickForwardArrow}
               place={place}
               // photosLength={photosLength}
               photosLength={selectedStyle?.photos?.length}
@@ -248,39 +362,40 @@ function ImageGallery({
               <ArrowIcon next />
             </Buttons>
 
-            {status === 'expanded'
+          {status === 'expanded'
           && (
-          <StyledExitButton
-            type="button"
-            onClick={() => handleClickExit()}
-          >
-            &#10005;
-          </StyledExitButton>
+            <StyledExitButton
+              type="button"
+              onClick={() => handleClickExit()}
+            >
+              &#10005;
+            </StyledExitButton>
           )}
-
           </AnimationContainer>
-          )}
+        )}
 
           {status === 'zoomed'
           && (
-          <MainWrapper ref={imageContainer} status={status}>
-            <Main
-              // src={selectedStyle.photos[place || 0].url}
-              src={selectedStyle?.photos[place || 0]?.url}
-              onClick={(e) => handleClickMain(e)}
-              alt={`${productInfo?.name} in ${selectedStyle?.name} style photo number ${place}`}
+            <MainWrapper
+              ref={imageContainer}
               status={status}
-              setStatus={setStatus}
-              place={place}
-              onMouseMove={(e) => handlePanImage(e)}
-              xPercent={xPerc}
-              yPercent={yPerc}
-            />
-          </MainWrapper>
+              // onClick={(e) => handleClickMain(e)}
+            >
+              <MainImage
+                src={selectedStyle?.photos[place || 0]?.url}
+                alt={`${productInfo?.name} in ${selectedStyle?.name} style photo number ${place}`}
+                status={status}
+                setStatus={setStatus}
+                place={place}
+                onMouseMove={(e) => handlePanImage(e)}
+                position={position}
+                // xPercent={xPerc}
+                // yPercent={yPerc}
+                ref={mainImageRef}
+                onClick={(e) => handleClickMain(e)}
+              />
+            </MainWrapper>
           )}
-
-      {/* //   </>
-      // )} */}
 
       <Thumbnails
         place={place}
@@ -288,8 +403,9 @@ function ImageGallery({
         status={status}
         firstPhotoIndex={firstPhotoIndex}
         setFirstPhotoIndex={setFirstPhotoIndex}
+        handleClickThumbnail={handleClickAnchor}
         // handleClickThumbnail={handleClickThumbnail}
-        handleClickThumbnail={handleClickPointer}
+
       />
 
     </ImageGalleryContainer>
@@ -299,8 +415,8 @@ function ImageGallery({
 ImageGallery.propTypes = {
   status: PropTypes.string.isRequired,
   setStatus: PropTypes.func.isRequired,
-  // startingIndex: PropTypes.number.isRequired,
-  // setStartingIndex: PropTypes.func.isRequired,
+  startingIndex: PropTypes.number.isRequired,
+  setStartingIndex: PropTypes.func.isRequired,
 };
 
 const ImageGalleryContainer = styled.div`
@@ -390,38 +506,14 @@ const MainWrapper = styled.div`
   `};
 
   ${(props) => props.status === 'zoomed' && css`
+    /*    overflow-x: hidden; */
     @media (min-width: 600px) {
       max-width: 80vh;
     }
   `};
 `;
 
-const Carousel = styled.ul`
-  display: flex;
-  left: 0;
-  position: relative;
-  margin: 0;
-  padding: 0;
-  width: ${(props) => props.photosLength}00%;
-  @media (min-width: 600px) {
-    transition: translate 0.5s;
-    /* translate: ${(props) => `calc(-100%  * ${props.place})`} 0; */
-    translate: ${(props) => `calc((-100 / ${props.photosLength}) * ${props.place} * 1%)`} 0;
-  }
-`;
-// translate: ${(props) => `calc(-100%  * ${props.place})`} 0;
-// @media (min-width: 600px) {
-//   transition: translate 0.5s;
-//   translate: ${(props) => `calc((-100% / ${props.photosLength}) * ${props.place})`} 0;
-// }
-
-const Slide = styled.li`
-  scroll-snap-align: start;
-  width: 100%;
-  height: 100%;
-`;
-
-const Main = styled.img`
+const MainImage = styled.img`
   object-fit: cover;
   overflow: hidden;
   aspect-ratio: 4/6;
@@ -453,11 +545,40 @@ const Main = styled.img`
     transition: transform 0.25s ease;
     transform-origin: top left;
     transition: translate 0.25s smooth;
+    /* position: relative; */
     position: absolute;
-    translate: -${props.xPercent} -${props.yPercent};
+  /* translate: -${props.xPercent} -${props.yPercent}; */
+    translate: -${props.position.x} -${props.position.y};
     cursor: zoom-out;
   `};
 `;
+
+const Carousel = styled.ul`
+  display: flex;
+  left: 0;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  width: ${(props) => props.photosLength}00%;
+  @media (min-width: 600px) {
+    transition: translate 0.5s;
+    /* translate: ${(props) => `calc(-100%  * ${props.place})`} 0; */
+    translate: ${(props) => `calc((-100 / ${props.photosLength}) * ${props.place} * 1%)`} 0;
+  }
+`;
+// translate: ${(props) => `calc(-100%  * ${props.place})`} 0;
+// @media (min-width: 600px) {
+//   transition: translate 0.5s;
+//   translate: ${(props) => `calc((-100% / ${props.photosLength}) * ${props.place})`} 0;
+// }
+
+const Slide = styled.li`
+  scroll-snap-align: start;
+  width: 100%;
+  height: 100%;
+`;
+
+
 
 // journal: needed to have display: grid (along with position: relative) to display image underneath thumbnail images with larger z-indexes, even though no grid-template columns or rows were set on the background image with display: grid;
 
