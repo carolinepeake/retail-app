@@ -51,10 +51,10 @@ function Card({
             $
             {product.productInfo.default_price}
           </Text>
+          <Stars
+            rating={rating}
+          />
         </TextContainer>
-        <Stars
-          rating={rating}
-        />
       </CardContent>
     </CardContainer>
   );
@@ -114,12 +114,19 @@ const CardContent = styled.div`
 // mask-image: ${(props) => (props.i === 3 ?
 // 'linear-gradient(to right, rgba(0,0,0,1), 40%, rgba(0,0,0,0) 80%)' : ' ')};
 
+const TextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  margin-top: 0.2em;
+  margin-left: 0.25em;
+`;
+
 const Text = styled.div`
   margin-right: auto;
   font-size: ${(props) => props.theme.tertiary};
-  paddingTop: ${(props) => (props.category ? '0.1em' : props.productName ? '0.05em' : '')};
-  padding: ${(props) => props.price && '0.25em'};
-  padding-left: 0.25em;
+  padding-top: ${(props) => (props.category ? '0.1em' : props.productName ? '0.05em' : props.price ? '0.25em' : '')};
+  padding-bottom: ${(props) => props.price && '0.25em'};
   ${(props) => props.productName && css`
     font-size: ${props.theme.body};
     font-weight: 500;
@@ -142,12 +149,5 @@ const Text = styled.div`
 // fontWeight: '500'
 // `}
 // margin-left: auto;
-
-const TextContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
-  margin-top: 0.2em;
-`;
 
 export default Card;

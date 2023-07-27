@@ -5,6 +5,7 @@ import OutfitList from './OutfitList/OutfitList';
 import SectionHeader from '../reusable/SectionHeader';
 
 function RelatedItems() {
+  console.log('[RelatedItems] is running');
   return (
     <Container id="related-items">
       <Text>
