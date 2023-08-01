@@ -144,8 +144,6 @@ const Input = styled.input`
       border-radius: 50%;
       display: block;
       position: relative;
-      /* top: 0.75px;
-      left: 0.75px; */
       background-color: currentColor;
       border: 1px white solid;
       outline: 1.5px currentColor solid;
@@ -157,16 +155,7 @@ const Input = styled.input`
       transition: scale 0.2s ease;
     }
 
-    &:focus {
-      outline-color: ${(props) => props.theme.secondaryFontColor}; */
-      outline-color: ${(props) => props.theme.focusColor};
-      outline-width: 1.5px;
-      outline-style: dashed;
-      outline-offset: 4px;
-    }
-
     &:focus-visible {
-      outline-color: ${(props) => props.theme.secondaryFontColor};
       outline-color: ${(props) => props.theme.focusColor};
       outline-width: 1.5px;
       outline-style: dashed;
@@ -179,18 +168,7 @@ const Input = styled.input`
     transition: scale 0.2s ease;
   }
 
-  &:focus {
-    outline-color: ${(props) => props.theme.secondaryFontColor}; */
-    outline-color: ${(props) => props.theme.focusColor};
-    outline-width: 1.5px;
-    outline-style: dashed;
-    border-radius: 0px;
-    outline-offset: 4px;
-    border: none;
-  }
-
   &:focus-visible {
-    outline-color: ${(props) => props.theme.secondaryFontColor};
     outline-color: ${(props) => props.theme.focusColor};
     outline-width: 1.5px;
     outline-style: dashed;
