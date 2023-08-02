@@ -6,6 +6,7 @@ axios.defaults.headers.common.Authorization = process.env.AUTH_TOKEN;
 module.exports.getReviews = (req, res) => {
   axios.get('https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/reviews', { params: req.query })
     .then((result) => {
+      console.log(' *********   result in getReviews: ', result);
       res.send(result.data);
     })
     .catch((err) => {

@@ -25,7 +25,7 @@ get('/products')
         "category": "Pants",
         "default_price": "40"
     },
-    // ...
+  // ...
 ]
 
 GET ('/products', {
@@ -75,15 +75,15 @@ productId: {
       // ...
           ],
       "skus": {
-                "37": {
+                "137": {
                       "quantity": 8,
                       "size": "XS"
                 },
-                "38": {
+                "138": {
                       "quantity": 16,
                       "size": "S"
                 },
-                "39": {
+                "139": {
                       "quantity": 17,
                       "size": "M"
                 },
@@ -104,15 +104,15 @@ productId: {
     // ...
       ],
       "skus": {
-        "37": {
+        "140": {
           "quantity": 8,
           "size": "XS"
         },
-        "38": {
+        "142": {
           "quantity": 16,
           "size": "S"
         },
-        "39": {
+        "143": {
           "quantity": 17,
           "size": "M"
         },
