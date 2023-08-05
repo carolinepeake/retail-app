@@ -1,30 +1,48 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
+import { useGlobalContext } from '../contexts/GlobalStore';
 
 // TO-DO: make toggle (whatever the small info banner thing is called)
 // appear above "X" when hovered that says "clear search"
 // TO-DO:
 
 function Search({
-  searchTerm,
-  setSearchTerm,
   placeholder,
   searchClosed,
-  clickHandler,
+  handleSearch,
+  handleClearSearch,
 }) {
-  // const handleSearch = () => {
-  //   const searchResults = [];
-  //   // array of strings to search as prop
-  //   Object.values(questions).forEach((question) => {
-  //     const searchBody = question.question_body.toLowerCase();
-  //     if (searchBody.includes(searchTerm)) {
-  //       searchResults.push(question);
-  //     }
-  //     setFilteredQuestions(searchResults);
-  //     return searchResults;
-  //   });
-  // };
+  const { productID } = useGlobalContext();
+
+  const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    setSearchTerm('');
+    console.log('resetting search inputs');
+  }, [productID]);
+
+  const handleChange = (e) => {
+    const term = e.target.value.toLowerCase();
+    setSearchTerm(term);
+    if (term.length > 3) {
+      handleSearch(term);
+    }
+    if (term === '') {
+      handleClearSearch();
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const term = e.target.value.toLowerCase();
+    handleSearch(term);
+  };
+
+  const handleReset = () => {
+    handleClearSearch();
+    setSearchTerm('');
+  };
 
   // could also be a useFilter and include sort and filter and search
   // function useSearch() {
@@ -43,32 +61,31 @@ function Search({
   //   (dataList, )
 
   return (
-    <QuestionSearchBar searchClosed={searchClosed}>
+    <QuestionSearchBar $collapsed={searchClosed}>
       <Input
         type="search"
         placeholder={placeholder}
         value={searchTerm}
-        // setSearchTerm={setSearchTerm}
-        searchClosed={searchClosed}
-        onChange={(event) => setSearchTerm(event.target.value.toLowerCase())}
+        $collapsed={searchClosed}
+        onChange={handleChange}
       />
-      <SearchIcon type="submit" onClick={clickHandler} />
+      <SearchIcon type="submit" onClick={handleSubmit} />
     </QuestionSearchBar>
   );
 }
 
 Search.propTypes = {
-  searchTerm: PropTypes.string.isRequired,
-  setSearchTerm: PropTypes.func.isRequired,
+  handleClearSearch: PropTypes.func,
+  handleSearch: PropTypes.func,
   placeholder: PropTypes.string,
   searchClosed: PropTypes.bool,
-  clickHandler: PropTypes.func,
 };
 
 Search.defaultProps = {
   placeholder: 'Search...',
   searchClosed: false,
-  clickHandler: (e) => e.preventDefault(),
+  handleClearSearch: () => console.log('clearing search'),
+  handleSearch: () => console.log('clearing search'),
 };
 
 const QuestionSearchBar = styled.form`
@@ -81,11 +98,11 @@ const QuestionSearchBar = styled.form`
   font-size: clamp(0.875rem, calc(0.875rem + 0.268vw), 1.25rem);
   background-color: ${(props) => props.theme.backgroundColor};
   @media (max-width: 65em) {
-    ${(props) => props.searchClosed && css`
+    ${(props) => props.$collapsed && css`
       border: 1px solid transparent;
       background-color: ${props.theme.navBgColor};
     `};
-  };
+  }
 `;
 
 // TO-DO: make bigger on focus (for mobile)
@@ -102,15 +119,15 @@ const Input = styled.input`
   width: 100%;
   ::placeholder {
     color: ${(props) => props.theme.inputPlaceholder};
-  };
+  }
 
   @media (max-width: 65em) {
-    ${(props) => props.searchClosed && css`
+    ${(props) => props.$collapsed && css`
       width: 0px;
       border: none;
       padding: 0px;
     `};
-  };
+  }
 `;
 
 const SearchIcon = styled.button`
@@ -135,7 +152,7 @@ const SearchIcon = styled.button`
     color: ${(props) => props.theme.navActiveFontColor};
     fill: ${(props) => props.theme.navActiveFontColor};
     background-color: ${(props) => props.theme.iconHoverBackgroundColor};
-  };
+  }
 `;
 
 export default Search;
