@@ -7,13 +7,11 @@ import { useGlobalContext } from '../../../contexts/GlobalStore';
 
 function AddQuestionModal({ setShowModal }) {
   console.log('[AddQuestionModal] is running');
-  AddQuestionModal.propTypes = {
-    setShowModal: PropTypes.func.isRequired,
-  };
 
   const { productID, productInfo } = useGlobalContext();
 
   const initialFormState = {
+    product_id: productID,
     name: '',
     email: '',
     body: '',
@@ -21,9 +19,10 @@ function AddQuestionModal({ setShowModal }) {
 
   const [formState, setFormState] = useState(initialFormState);
 
-  // const [name, setName] = useState('');
-  // const [email, setEmail] = useState('');
-  // const [body, setBody] = useState('');
+  const handleInputChange = (e) => {
+    setFormState((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
   const [validInput, setValidInput] = useState(true);
 
   function validateInput() {
@@ -42,7 +41,7 @@ function AddQuestionModal({ setShowModal }) {
     return true;
   }
 
-  function askQuestion(e) {
+  const askQuestion = (e) => {
     e.preventDefault();
     if (!validateInput()) {
       setValidInput(false);
@@ -65,18 +64,18 @@ function AddQuestionModal({ setShowModal }) {
       .catch((err) => {
         console.log('there was an error adding question: ', err);
       });
-  }
+  };
 
-  function closeModal(event) {
+  const closeModal = (event) => {
     if (event.target.id === 'background') {
       setShowModal(false);
     }
-  }
+  };
 
   return (
     <ModalBackground
       id="background"
-      onClick={(event) => closeModal(event)}
+      onClick={closeModal}
     >
       <ModalContainer>
         <Button close onClick={() => setShowModal(false)}>
@@ -88,16 +87,19 @@ function AddQuestionModal({ setShowModal }) {
             {productInfo.name}
           </ProductName>
         </Header>
-        <Form>
+        <Form onSubmit={askQuestion}>
           <FormField htmlFor="body">
             Question
             <Required>*</Required>
           </FormField>
           <InputQuestion
-            onChange={(event) => setBody(event.target.value)}
+            onChange={handleInputChange}
             rows="6"
             maxLength="1000"
             placeholder="Ask your question"
+            value={formState.body}
+            name="body"
+            id="body"
           />
           <br />
           <FormField htmlFor="name">
@@ -106,12 +108,13 @@ function AddQuestionModal({ setShowModal }) {
           </FormField>
           <div>
             <FormEntry
-              onChange={(event) => setName(event.target.value)}
+              onChange={handleInputChange}
               maxLength="60"
               type="text"
               id="name"
               name="name"
               placeholder="Example: jackson11!"
+              value={formState.name}
             />
             <Disclaimer>
               For privacy reasons, do not use your full name or email
@@ -125,11 +128,13 @@ function AddQuestionModal({ setShowModal }) {
           </FormField>
           <div>
             <FormEntry
-              onChange={(event) => setEmail(event.target.value)}
+              onChange={handleInputChange}
               maxLength="60"
-              type="text"
+              type="email"
               id="email"
+              name="email"
               placeholder="jack@email.com"
+              value={formState.email}
             />
             <Disclaimer>
               For authentication reasons, you will not be emailed.
@@ -142,19 +147,23 @@ function AddQuestionModal({ setShowModal }) {
               <div>2. Email is not in the correct email format.</div>
             </Disclaimer>
           ) : null}
+          <Footer>
+            <FooterButton $primary type="submit">
+              Submit
+            </FooterButton>
+            <FooterButton onClick={() => setShowModal(false)}>
+              Cancel
+            </FooterButton>
+          </Footer>
         </Form>
-        <Footer>
-          <FooterButton type="submit" modal onClick={(e) => askQuestion(e)}>
-            Submit
-          </FooterButton>
-          <FooterButton onClick={() => setShowModal(false)}>
-            Cancel
-          </FooterButton>
-        </Footer>
       </ModalContainer>
     </ModalBackground>
   );
 }
+
+AddQuestionModal.propTypes = {
+  setShowModal: PropTypes.func.isRequired,
+};
 
 const ModalBackground = styled.div`
   width: 100vw;
@@ -222,7 +231,7 @@ const ProductName = styled.h4`
   font-size: 1.5em;
 `;
 
-const Form = styled.div`
+const Form = styled.form`
   display: flex;
   flex-direction: column;
   position: relative;
@@ -285,6 +294,7 @@ const Footer = styled.div`
   display: flex;
   flex-direction: column;
   padding-top: 1.5em;
+  row-gap: 1em;
   width: 100%;
 
   @media (min-width: 40rem) {
