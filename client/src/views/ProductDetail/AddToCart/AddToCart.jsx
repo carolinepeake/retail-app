@@ -1,284 +1,192 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import { Button } from '../../../components/Button';
-import {
-  createStock, sortBySize, getAvailableStock, getQuantityOptions,
-} from '../../../utils/getStock';
-import QuantityDropdown from './QuantitySelect';
+import Cart from './Cart';
+// import {
+//   createStock, sortBySize, getAvailableStock, getQuantityOptions,
+// } from '../../../utils/getStock';
+import QuantityDropdown from './QuantityDropdown';
+import useModal from '../../../hooks/useModal';
 
-function AddToCart({ skus }) {
+function AddToCart() {
   console.log('[AddToCart] is running');
-  // const { skus } = useGlobalContext().selectedStyle;
-  // const { skus } = useGlobalContext()?.selectedStyle;
-  const { productID, selectedStyle } = useGlobalContext();
-  // const cart = useState([]);
+  const { productID, selectedStyle, productInfo } = useGlobalContext();
 
-  const sizeDropdown = useRef(null);
+  const [cart, setCart] = useState([]);
 
   const [selectedItem, setSelectedItem] = useState({
-    // sku: {
-    //   size: '',
-    //   id: '',
-    //   quantity: ''
-    // },
     sku: '',
-    size: '',
     quantity: '1',
     product: productID,
-    style: selectedStyle.style_id,
   });
 
-  console.log('selectedItem: ', selectedItem);
+  const [error, setError] = useState(false);
 
-  const availableStock = skus ? getAvailableStock(createStock(skus)) : [];
+  const [showModal, toggleModal] = useModal();
 
-  const inStock = availableStock.length > 0;
+  // can move to only row 1
+  if (!selectedStyle.skus) {
+    return null;
+  }
 
-  const sortedStock = inStock ? sortBySize(availableStock) : [];
-
-  const sizeOptions = sortedStock.map(({ sku, size, quantity }) => {
-    console.log('size option: ', sku, size, quantity);
-    return (
-      <option
-        name="size"
-        key={sku}
-      // value={
-      //   sku,
-      //   size,
-      //   quantity
-      // }
-        value={sku}
-        quantity={quantity}
-      >
-        {size}
-      </option>
-    );
+  let sizes = [];
+  sizes = Object.entries(selectedStyle.skus).map(([sku, { quantity, size }]) => {
+    if (quantity > 0) {
+      return (
+        <Option
+          key={sku}
+          name="sku"
+          value={sku}
+        >
+          {size}
+        </Option>
+      );
+    }
   });
-
-  const sizeSelected = (selectedItem.size !== '');
-
-  const itemStock = sizeSelected && skus[selectedItem.size].quantity;
-
-  const quantityOptions = typeof itemStock === 'number' && getQuantityOptions(itemStock);
-
-  // const quantityOptions = selectedItem?.sku?.quantity
-
-  // const sizes = <option key={selectedSize}>{selectedItem?.sku?.size}</option>
-
-  // const quantityOptions = selectedItem?.sku?.quantity.
-  //   <option key={quantity} name="quantity" value={quantity}>{quantity}</option>
-
-  // const availableSizes = skus.filter((sku) => sku.quantity > 0 && sku);
-
-  // const [isSizeSelected, setIsSizeSelected] = useState(false);
-  // const [selectedQuantity, setSelectedQuantity] = useState(1);
-  // const [inStock, setInStock] = useState(false);
-  // const [selectedSku, setSelectedSku] = useState({});
-  // const [stock, setStock] = useState([]);
-  // const [error, setError] = useState(false);
-
-  // const handleChangeSize = (e) => {
-  //   setSelectedSize({ ...selectedSize, [e.target.name]: e.target.value });
-  // };
-
-  //   let quantities = [];
-  //   if (selectedSize.sku.length > 0) {
-  //     quantities = Object.entries(selectedStyle?.skus).map(([sku, { quantity, size }]) => {
-  //     if (quantity > 0) {
-  //       return (
-  //         <Option
-  //           key={sku}
-  //           name="sku"
-  //           value={sku}
-  //         >
-  //           {size}
-  //         </Option>
-  //       );
-  //     }
-  //   });
-  // }
-
-  // let selectQuantity;
-  // if (sizes.length > 0) {
-  //   selectSize = (
-  //     <StyledSelect
-  //       as="select"
-  //       ref={sizeDropdown}
-  //       select
-  //       error={error}
-  //       name="sku"
-  //       value={selectedSize.sku || ''}
-  //       onChange={(e) => handleChangeSize(e)}
-  //     >
-  //       <Option value='' name="sku">Select Size</Option>
-  //       {sizes}
-  //     </StyledSelect>
-  //   );
-  // } else {
-  //   selectSize = (
-  //     <StyledSelect
-  //       // defaultValue='Out of Stock'
-  //       name="sku"
-  //       as="select"
-  //       disabled
-  //     >
-  //       <Option value='' name="sku">Out of Stock</Option>
-  //     </StyledSelect>
-  //   );
-  // }
-
-  //   let sizes = [];
-  //   if (selectedStyle.skus) {
-  //     sizes = Object.entries(selectedStyle?.skus).map(([sku, { quantity, size }]) => {
-  //     if (quantity > 0) {
-  //       return (
-  //         <Option
-  //           key={sku}
-  //           name="sku"
-  //           value={sku}
-  //         >
-  //           {size}
-  //         </Option>
-  //       );
-  //     }
-  //   });
-  // }
-
-  // const handleChangeSize = async (e) => {
-  //   try {
-  //     const sku = await JSON.parse(e.target.value);
-  //     await setSelectedSku(sku);
-  //     if (sku.size.length === 0 || typeof sku.size.length !== 'number') {
-  //       setIsSizeSelected(false);
-  //     } else {
-  //       // await setSelectedSize(sku.size);
-  //       setIsSizeSelected(true);
-  //       if (error) {
-  //         setError(false);
-  //       }
-  //     }
-  //   } catch (err) {
-  //     console.log('error handling select size');
-  //   }
-  // };
 
   const handleInputChange = (e) => {
-    setSelectedItem((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    const { value, name } = e.target;
+    setSelectedItem((prev) => ({ ...prev, [name]: value }));
+    setError(false);
   };
 
-  // const [cartModal, {openCart, closeCart}] = useModal(cart, bag);
-
-  // function handleClickAddToBag(e) {
-  //   e.preventDefault();
-  //   if (!isSizeSelected) {
-  //     // sizeDropdown.current.focus(); open
-  //     // or set error to true and then have a useEffect that returns a timeout and cleartimeout resetting error to null
-  //     // setError('Please select a size from the dropdown');
-  //     setError(true);
-  //     return;
-  //   }
-  //   // flushSync(() => {
-  //   //   setSelectedItem({
-  //   //     sku: {
-  //   //       sku: '',
-  //   //       quantity: 0,
-  //   //       size: ''
-  //   //     },
-  //   //     quantity: 0,
-  //   //     addToCart: false;
-  //   //   });
-  //   //   setBag([selectedItem, ...bag]);
-  //   // });
-  //   // openCart();
-  //   // reset dropdowns
-  // }
+  const handleClickAddToBag = (e) => {
+    e.preventDefault();
+    if (!selectedItem.sku) {
+      // sizeDropdown.current.focus(); open
+      // or set error to true and then have a useEffect that returns a timeout and cleartimeout resetting error to null
+      // setError('Please select a size from the dropdown');
+      setError(true);
+      return;
+    }
+    const item = {
+      ...selectedItem,
+      style: selectedStyle.style_id,
+      name: productInfo.name,
+      photo: selectedStyle.photos[0].thumbnail_url,
+      size: selectedStyle.skus[selectedItem.sku].size,
+      styleName: selectedStyle.name,
+      salePrice: selectedStyle.sale_price,
+      originalPrice: selectedStyle.original_price,
+    };
+    setCart((prev) => [...prev, item]);
+    // TODO: save cart to local storage
+    toggleModal();
+    setSelectedItem((prev) => ({ ...prev, sku: '', quantity: '1' }));
+  };
 
   // TO-DO: get rid of error after set amount of time
   // and when mouse event outside of add to cart button
 
-
-
-  // could make all one component that updates together
-
-  // {selectedStyle.skus[sku].size}
-
-
-
-
-  // selectedStyle?.skus?. =
-
-
   return (
-    <Cart>
-      <SelectSizeAndQuantityContainer skus={skus} handleInputChange={handleInputChange}>
-        {inStock
-          ? (
-            <StyledSelect
-              as="select"
-              ref={sizeDropdown}
-              select
-              // error={error}
-              name="size"
-              value={selectedItem.size || ''}
-              onChange={handleInputChange}
-            >
-              <Option
-                name="size"
-                value=""
+    <>
+      <AddToBagForm
+        onSubmit={handleClickAddToBag}
+      >
+        <SelectSizeAndQuantityContainer>
+          {/* <label htmlFor="size">
+          Size */}
+          {sizes.length > 0
+            ? (
+              <StyledSelect
+                id="size"
+                as="select"
+                select
+                name="sku"
+                value={selectedItem.sku || ''}
+                onChange={handleInputChange}
               >
-                Select Size
-              </Option>
-              {sizeOptions}
-            </StyledSelect>
-          )
-          : (
-            <StyledSelect
-              as="select"
-              disabled
-            >
-              <Option>Out of Stock</Option>
-            </StyledSelect>
-          )}
+                <Option
+                  name="sku"
+                  value=""
+                  disabled
+                >
+                  Select Size
+                </Option>
+                {sizes}
+              </StyledSelect>
+            )
+            : (
+              <StyledSelect
+                id="size"
+                as="select"
+                select
+                disabled
+              >
+                <Option>
+                  Out of Stock
+                </Option>
+              </StyledSelect>
+            )}
+          {/* </label> */}
 
-        {sizeSelected
-          ? (
-            <StyledSelect as="select" value={selectedItem.quantity || '1'} name="quantity" quantity select onChange={handleInputChange}>
-              {/* {selectedSku.quantity >= 15
-                ? [...Array(16).keys()].slice(1).map((num) => <Option value={num} name="quantity">{num}</Option>)
-                : [...Array(selectedSku.quantity + 1).keys()].slice(1).map((num) => (
-                  <Option value={num} name="quantity">{num}</Option>
-                ))} */}
-              {/* <Option name="quantity" value="">1</Option> */}
-              {quantityOptions && <QuantityDropdown quantity={quantityOptions} />}
-            </StyledSelect>
-          )
-          : (
-            <StyledSelect quantity as="select" select disabled>
-              <Option>––</Option>
-            </StyledSelect>
-          )}
+          {/* <label htmlFor="quantity">
+          Qty */}
+          {selectedItem.sku
+            ? (
+              <StyledSelect
+                id="quantity"
+                as="select"
+                value={selectedItem.quantity || '1'}
+                name="quantity"
+                quantity
+                select
+                onChange={handleInputChange}
+              >
+                <QuantityDropdown
+                  availableQuantity={selectedStyle.skus[selectedItem.sku].quantity}
+                />
+              </StyledSelect>
+            )
+            : (
+              <StyledSelect
+                id="quantity"
+                as="select"
+                quantity
+                select
+                disabled
+              >
+                <Option>
+                  ––
+                </Option>
+              </StyledSelect>
+            )}
 
-      </SelectSizeAndQuantityContainer>
-      <Error>Please Select a Size</Error>
-      <BagContainer>
-        <AddToCartButton
-          type="submit"
-          modal
-        >
-          <AddToCartText>Add to Cart</AddToCartText>
-          <AddToCartText>+</AddToCartText>
-        </AddToCartButton>
-        <Star type="button">
-          <StarText small>Add to Wish List</StarText>
-          <StarText>&#9733;</StarText>
-        </Star>
-      </BagContainer>
-    </Cart>
+          {/* </label> */}
+
+        </SelectSizeAndQuantityContainer>
+        <Error error={error}>
+          {sizes.length > 0 ? 'Please select a size.' : 'Please select a different style.'}
+        </Error>
+        <BagContainer>
+          <AddToCartButton
+            type="submit"
+            $primary
+          >
+            <AddToCartText>Add to Cart</AddToCartText>
+            <AddToCartText>+</AddToCartText>
+          </AddToCartButton>
+          <Star type="button">
+            <StarText small>Add to Wish List</StarText>
+            <StarText>&#9733;</StarText>
+          </Star>
+        </BagContainer>
+      </AddToBagForm>
+      {showModal
+     && (
+     <Cart
+       showModal={showModal}
+       toggleModal={toggleModal}
+       cart={cart}
+       setCart={setCart}
+     />
+     )}
+    </>
   );
 }
 
-const Cart = styled.div`
+const AddToBagForm = styled.form`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -296,7 +204,7 @@ const Cart = styled.div`
   }
 `;
 
-const SelectSizeAndQuantityContainer = styled.form`
+const SelectSizeAndQuantityContainer = styled.div`
   flex-direction: row;
   align-content: space-between;
   display: flex;

@@ -3,13 +3,15 @@ import styled from 'styled-components';
 import { Button, StyledExitButton } from '../../../components/Button';
 import CartItem from './CartItem';
 
-function Cart({ showModal, toggleModal, cart }) {
+function Cart({ showModal, toggleModal, cart, setCart }) {
   console.log('cart: ', cart);
 
   const items = cart.map((item) => (
     <CartItem
       key={item.product}
       item={item}
+      cart={cart}
+      setCart={setCart}
     />
   ));
 
@@ -19,7 +21,7 @@ function Cart({ showModal, toggleModal, cart }) {
 
   return (
     <Container>
-      <h4>Cart</h4>
+      <Title>Cart</Title>
       <StyledExitButton type="button" onClick={handleCloseModal}>
         &#x2715;
       </StyledExitButton>
@@ -51,10 +53,17 @@ const Container = styled.div`
   padding: 1em;
 `;
 
+const Title = styled.h2`
+  margin-bottom: 2em;
+`;
+
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding-top: 1.0em;
+  position: absolute;
+  bottom: 1em;
+  width: calc(100% - 2em);
 
  /* @media (min-width: 800px) {
     flex-direction: row;

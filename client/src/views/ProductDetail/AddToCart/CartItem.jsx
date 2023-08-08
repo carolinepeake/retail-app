@@ -2,7 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { Button, StyledExitButton } from '../../../components/Button';
 
-export default function CartItem({ item }) {
+export default function CartItem({ item, cart, setCart }) {
+  const handleRemoveItem = () => {
+    const updatedCart = cart.filter((cartItem) => cartItem.sku !== item.sku);
+    setCart(updatedCart);
+  };
+
   const price = (
     <PriceContainer>
     {item?.salePrice
@@ -32,7 +37,10 @@ export default function CartItem({ item }) {
         <h5>{item?.styleName}</h5>
         {price}
       </div>
-      <Delete> &#x2715;</Delete>
+      <Delete
+        type="button"
+        onClick={handleRemoveItem}
+      > &#x2715;</Delete>
     </Container>
   );
 }
