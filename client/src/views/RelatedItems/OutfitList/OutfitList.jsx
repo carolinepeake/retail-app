@@ -4,13 +4,9 @@ import { useGlobalContext } from '../../../contexts/GlobalStore';
 import Card from '../RelatedList/Card';
 import AddOutfit from './AddOutfit';
 import { StyledExitButton } from '../../../components/Button';
-// import { AiOutlineCloseCircle } from 'react-icons/ai';
-
-// may need to recalculate translate values if another
 
 function OutfitList() {
   console.log('[OutfitList] is running');
-  // for now includes stars and product info data, will eventually just be product id
   const {
     outfits, setOutfits,
   } = useGlobalContext();
@@ -69,7 +65,6 @@ function OutfitList() {
               setTranslate={setTranslate}
               i={i}
             >
-              {/* <Button onClick={() => removeOutfit()}><AiOutlineCloseCircle /></Button> */}
               <Close
                 type="button"
                 onClick={(event) => removeOutfit(event, i)}
@@ -304,24 +299,6 @@ const ArrowIcon = styled.span`
     }
   `};
 `;
-
-// const Button = styled.button`
-//   display: block;
-//   position: absolute;
-//   top: 0px;
-//   right: 0px;
-//   color: black;
-//   background-color: transparent;
-//   border: none;
-//   padding: calc(5px + 0.5vw);
-//   font-size: calc(15px + 1.5vw);
-//   &:hover {
-//     background-color: trasparent;
-//     opacity: 0.80;
-//   }
-//   cursor: pointer;
-//   z-index: 1;
-// `;
 
 const Close = styled(StyledExitButton)`
   font-size: 1em;
