@@ -4,8 +4,9 @@ import styled from 'styled-components';
 import ListTotalCount from '../../../components/LargeList/ListTotalCount';
 import StyledSelect from '../../../components/StyledSelect';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
+import { capitalizeFirstLetter } from '../../../utils/capitalize';
 
-const options = [{ value: 'relevant', label: 'relevant', id: '00' }, { value: 'newest', label: 'newest', id: '01' }, { value: 'helpful', label: 'helpful', id: '02' }];
+const SORT_OPTIONS = ['relevant', 'newest', 'helpful'];
 
 function SortList({
   itemsPerPage, listLength, pageNum, setPageNum,
@@ -21,6 +22,17 @@ function SortList({
     }
   }, [sortOrder]);
 
+  const handleSelectSortValue = (newValue) => {
+    setSortOrder(newValue);
+  };
+
+  const getDropdownLabel = (value) => {
+    const sortValue = value ?? 'relevant';
+    const formattedValue = capitalizeFirstLetter(sortValue);
+    const dropdownLabel = `Sort by ${formattedValue}`;
+    return dropdownLabel;
+  };
+
   return (
     <RevListHeader>
       <ListTotalCount
@@ -31,8 +43,9 @@ function SortList({
       />
       <StyledSelect
         initialValue="relevant"
-        options={options}
-        handleSelect={setSortOrder}
+        options={SORT_OPTIONS}
+        getLabel={getDropdownLabel}
+        handleSelect={handleSelectSortValue}
       />
     </RevListHeader>
   );
@@ -64,10 +77,9 @@ const RevListHeader = styled.div`
 
   @media (min-width 400px) {
     margin-left: 1em;
-  };
+  }
+
   @media (min-width 600px) {
     margin-inline-end: 1em;
-  };
+  }
 `;
-// font-size: 1.17em;
-//   font-weight: 500;
