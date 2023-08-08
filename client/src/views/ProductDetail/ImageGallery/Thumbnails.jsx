@@ -18,9 +18,6 @@ function Thumbnails({
 }) {
   const { selectedStyle } = useGlobalContext();
 
-  const [forwardDisabled, setForwardDisabled] = useState(false);
-  const [backDisabled, setBackDisabled] = useState(true);
-
   // should optomize this better
   // https://react.dev/learn/manipulating-the-dom-with-refs
   useEffect(() => {
@@ -32,16 +29,7 @@ function Thumbnails({
     }
   }, [place]);
 
-  useEffect(() => {
-    if (firstPhotoIndex >= 1) {
-      setBackDisabled(false);
-    }
-    if (selectedStyle.photos) {
-      if (firstPhotoIndex >= selectedStyle.photos.length - 6) {
-        setForwardDisabled(true);
-      }
-    }
-  }, [firstPhotoIndex]);
+  const thumbnailsCount = selectedStyle?.photos?.length;
 
   function handleScroll(n) {
     if (place === firstPhotoIndex && n === 1) {
@@ -49,12 +37,6 @@ function Thumbnails({
     }
     if ((place === firstPhotoIndex + 5) && n === -1) {
       setPlace((prev) => prev - 1);
-    }
-    if (firstPhotoIndex >= selectedStyle.photos.length - 6) {
-      setForwardDisabled(true);
-    }
-    if (firstPhotoIndex <= 1) {
-      setBackDisabled(true);
     }
     setFirstPhotoIndex((prevI) => prevI + n);
   }
@@ -72,7 +54,7 @@ function Thumbnails({
       setPlace={setPlace}
       type="button"
       status={status}
-      length={selectedStyle?.photos.length}
+      length={thumbnailsCount}
     >
       <ThumbnailIcon
         status={status}
@@ -115,7 +97,7 @@ function Thumbnails({
         <>
           <ScrollForward
             status={status}
-            disabled={forwardDisabled}
+            disabled={firstPhotoIndex >= thumbnailsCount - 6}
             onClick={(e) => handleScroll(1, e)}
           >
             <ArrowBackground />
@@ -124,7 +106,7 @@ function Thumbnails({
 
           <ScrollBack
             status={status}
-            disabled={backDisabled}
+            disabled={firstPhotoIndex < 1}
             onClick={(e) => handleScroll(-1, e)}
           >
             <ArrowBackground />
