@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-function LengthBreakdown({ revMeta, productInfo }) {
+function LengthBreakdown({ revMeta }) {
   if (!revMeta.product_id) {
     return (
       <div />
@@ -12,46 +12,37 @@ function LengthBreakdown({ revMeta, productInfo }) {
   return (
     <div>
       {/* <h4>Product Characteristics</h4> */}
-      {Object.entries(revMeta.characteristics).map((charEntry) => (
-        <div key={charEntry[1].id}>
+      {Object.entries(revMeta.characteristics).map(([label, { id, value }]) => (
+        <div key={id}>
           <div>
-            {charEntry[0]}
+            {label}
             :&nbsp;
           </div>
           <BarsContainter>
             <Row1>
-              <DotDiv width={parseInt(charEntry[1].value, 10) * 4.9}>
+              <DotDiv width={(parseInt(value, 10) / 5) * 100}>
                 &#9660;
               </DotDiv>
-              <Bar width={100 - (parseInt(charEntry[1].value, 10) / 5) * 100} />
-              <HorizontalProgFill width={(parseInt(charEntry[1].value, 10) / 5) * 100}>
-                {/* {Math.round(charEntry[1].value * 100) / 100} */}
-              </HorizontalProgFill>
-              <Bar width={100 - (parseInt(charEntry[1].value, 10) / 5) * 100} />
+              <HorizontalProgFill />
             </Row1>
             <Row2>
               <DescDiv>
-                {charEntry[0] === 'Size'
+                {label === 'Size'
                   ? 'Small'
-                  : charEntry[0] === 'Width'
+                  : label === 'Width'
                     ? 'Narrow'
-                    : charEntry[0] === 'Comfort'
+                    : label === 'Comfort'
                       ? 'Bad'
-                      : charEntry[0] === 'Quality'
+                      : label === 'Quality'
                         ? 'Poor'
-                        : charEntry[0] === 'Length'
+                        : label === 'Length'
                           ? 'Short'
                           : 'Tight'}
               </DescDiv>
               <DescDiv>
-                {charEntry[0] === 'Comfort' || charEntry[0] === 'Quality'
-                  ? 'Ok'
-                  : 'Perfect'}
-              </DescDiv>
-              <DescDiv>
-                {charEntry[0] === 'Size' || charEntry[0] === 'Width'
+                {label === 'Size' || label === 'Width'
                   ? 'Wide'
-                  : charEntry[0] === 'Comfort' || charEntry[0] === 'Quality'
+                  : label === 'Comfort' || label === 'Quality'
                     ? 'Perfect'
                     : 'Long'}
               </DescDiv>
@@ -81,6 +72,7 @@ const BarsContainter = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
+  margin-top: 0.25em;
 `;
 
 const Row1 = styled.div`
@@ -90,6 +82,7 @@ const Row1 = styled.div`
   align-items: flex-start;
   font-size: 1rem;
   position: relative;
+  marign-bottom: 0.1em;
 `;
 
 const Row2 = styled.div`
@@ -102,26 +95,17 @@ const Row2 = styled.div`
 const HorizontalProgFill = styled.div`
   background: lightgrey;
   height: 10px;
-  margin: 2px;
+  margin: 2px 0;
   color: #fff;
   text-align: center;
   font-size: 0.75rem;
   line-height: 1rem;
-  width: ${(props) => props.width - 1}%
-`;
-// font-family: "Lato","Verdana",sans-serif;
-
-const Bar = styled.div`
-  background: lightgrey;
-  height: 10px;
-  margin: 2px;
-  width: ${(props) => props.width - 2}%
+  width: 100%
 `;
 
 const DescDiv = styled.div`
   display: flex;
   justify-content: center;
-  width: 33%;
   font-size: 0.9rem;
 `;
 
