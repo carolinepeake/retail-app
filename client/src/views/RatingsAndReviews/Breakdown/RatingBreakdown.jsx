@@ -70,7 +70,6 @@ function RatingBreakdown({ productID, revMeta, filterReviews }) {
           />
         </StarBarBackground>
         <br />
-        {/* <br /> */}
       </StarRankContainer>
     ))
   );
@@ -103,16 +102,17 @@ const StarLabel = styled.div`
 
   @media (min-width: 500px) AND (max-width: 600px) {
     width: 10%;
-  };
+  }
 `;
 // font-size: 0.9rem;
 
 const StarBar = styled.div`
-  background: ${(props) => props.clickedBar ? props.theme.starFilled : 'grey'};
+  background: ${(props) => (props.clickedBar ? props.theme.starFilled : 'grey')};
   height: 0.5rem;
   width: ${(props) => props.width}%;
   &:hover {
     background: ${(props) => props.theme.starFilled};
+    cursor: pointer;
   }
 `;
 
@@ -124,6 +124,5 @@ const StarBarBackground = styled.div`
 
   @media (min-width: 500px) AND (max-width: 600px) {
     width: 90%;
-  };
-
+  }
 `;
