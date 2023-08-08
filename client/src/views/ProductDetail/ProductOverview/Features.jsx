@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
 function Features() {
@@ -41,14 +40,6 @@ const Feature = styled.li`
   font-weight: 300;
   font-size: 1.0em;
 `;
-// list-style-type: none;
-//   padding-bottom: 0px;
-//   &:last {
-//     padding-bottom: 0px
-//   };
-//   display: flex;
-//   justify-content: flex-start;
-//   margin: 0px;
 
 const Text = styled.span`
   padding-left: 0.5em;
