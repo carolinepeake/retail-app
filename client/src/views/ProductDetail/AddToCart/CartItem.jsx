@@ -45,6 +45,36 @@ export default function CartItem({ item, cart, setCart }) {
   );
 }
 
+CartItem.propTypes = {
+  cart: PropTypes.arrayOf(
+    PropTypes.shape({
+      style_id: PropTypes.number,
+      name: PropTypes.string,
+      styleName: PropTypes.string,
+      originalPrice: PropTypes.string,
+      salePrice: PropTypes.string,
+      photo: PropTypes.string,
+      sku: PropTypes.string,
+      product: PropTypes.string,
+      size: PropTypes.string,
+      quantity: PropTypes.string,
+    }),
+  ).isRequired,
+  setCart: PropTypes.func.isRequired,
+  item: PropTypes.shape({
+    style_id: PropTypes.number,
+    name: PropTypes.string,
+    styleName: PropTypes.string,
+    originalPrice: PropTypes.string,
+    salePrice: PropTypes.string,
+    photo: PropTypes.string,
+    sku: PropTypes.string,
+    product: PropTypes.string,
+    size: PropTypes.string,
+    quantity: PropTypes.string,
+  }).isRequired,
+};
+
 const Container = styled.div`
   height: 10em;
   width: 100%;

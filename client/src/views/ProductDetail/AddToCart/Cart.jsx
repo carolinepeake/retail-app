@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import { Button, StyledExitButton } from '../../../components/Button';
 import CartItem from './CartItem';
 
-function Cart({ showModal, toggleModal, cart, setCart }) {
+function Cart({ toggleModal, cart, setCart }) {
   console.log('cart: ', cart);
 
   const items = cart.map((item) => (
@@ -37,6 +38,25 @@ function Cart({ showModal, toggleModal, cart, setCart }) {
     </Container>
   );
 }
+
+Cart.propTypes = {
+  toggleModal: PropTypes.func.isRequired,
+  cart: PropTypes.arrayOf(
+    PropTypes.shape({
+      style_id: PropTypes.number,
+      name: PropTypes.string,
+      styleName: PropTypes.string,
+      originalPrice: PropTypes.string,
+      salePrice: PropTypes.string,
+      photo: PropTypes.string,
+      sku: PropTypes.string,
+      product: PropTypes.string,
+      size: PropTypes.string,
+      quantity: PropTypes.string,
+    }),
+  ).isRequired,
+  setCart: PropTypes.func.isRequired,
+};
 
 const Container = styled.div`
   position: fixed;
@@ -82,6 +102,5 @@ const CartButton = styled(Button)`
     margin: 0;
   } */
 `;
-
 
 export default Cart;
