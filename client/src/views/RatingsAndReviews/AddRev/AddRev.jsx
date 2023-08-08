@@ -6,19 +6,16 @@ import RecommendRadio from './RecommendRadio';
 import Characteristics from './Characteristics';
 import AddPhotos from '../../../components/Form/AddPhotos';
 import Modal from '../../../components/Modal';
-import useModal from '../../../hooks/useModal';
 import useForm from '../../../hooks/useForm';
 import { CHARACTERISTICS } from '../../../constants/constants';
-import { Button, StyledExitButton } from '../../../components/Button';
+import { Button } from '../../../components/Button';
 
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
-function AddRev() {
+function AddRev({ toggleModal, showModal }) {
   const {
     productID, productInfo, revMeta,
   } = useGlobalContext();
-
-  const [showModal, toggleModal] = useModal();
 
   const initialFormState = {
     product_id: Number(productID),
@@ -30,11 +27,6 @@ function AddRev() {
     email: '',
     photos: [],
     characteristics: {},
-  };
-
-  const handleAddRev = function handleAddRev() {
-    console.log('togglingModal');
-    toggleModal();
   };
 
   const submitReview = (form) => {
@@ -101,149 +93,143 @@ function AddRev() {
   };
 
   return (
-    <>
-      <AddRevButton modal type="button" onClick={() => handleAddRev()}>
-        Add a Review +
-      </AddRevButton>
-      {showModal
-      && (
-      <Modal closeModal={closeModal}>
-        <FormContainer onSubmit={handleSubmit}>
+    <Modal closeModal={closeModal}>
+      <FormContainer onSubmit={handleSubmit}>
 
-          <WriteAReview>Write a Review</WriteAReview>
-          <ProductName>
-            {productInfo.name}
-          </ProductName>
+        <WriteAReview>Write a Review</WriteAReview>
+        <ProductName>
+          {productInfo.name}
+        </ProductName>
 
-          <StarRating
-            handleInputChange={handleInputChange}
-            rating={formState.rating}
-          />
-          <br />
+        <StarRating
+          handleInputChange={handleInputChange}
+          rating={formState.rating}
+        />
+        <br />
 
-          <RecommendProdLabel>
-            Would you recommend this product to a friend?
-            <Required>*</Required>
-            <RadioButtonsContainer>
+        <RecommendProdLabel>
+          Would you recommend this product to a friend?
+          <Required>*</Required>
+          <RadioButtonsContainer>
 
-              <RecommendRadio
-                label="Yes"
-                value="true"
-                handleChange={handleInputChange}
-                checked={formState.recommend === 'true'}
-              />
-              <RecommendRadio
-                label="No"
-                value="false"
-                handleChange={handleInputChange}
-                checked={formState.recommend === 'false'}
-              />
+            <RecommendRadio
+              label="Yes"
+              value="true"
+              handleChange={handleInputChange}
+              checked={formState.recommend === 'true'}
+            />
+            <RecommendRadio
+              label="No"
+              value="false"
+              handleChange={handleInputChange}
+              checked={formState.recommend === 'false'}
+            />
 
-            </RadioButtonsContainer>
-          </RecommendProdLabel>
-          <br />
+          </RadioButtonsContainer>
+        </RecommendProdLabel>
+        <br />
 
-          {Object.keys(revMeta.characteristics).map((name) => {
-            const characteristic = CHARACTERISTICS[name];
-            return (
-              <>
-                <Characteristics
-                  key={name}
+        {Object.keys(revMeta.characteristics).map((name) => {
+          const characteristic = CHARACTERISTICS[name];
+          return (
+            <>
+              <Characteristics
+                key={name}
                   // id={id}
-                  name={name}
-                  characteristic={characteristic}
-                  handleInputChange={handleInputChange}
-                  inputState={formState.characteristics}
-                />
-                {/* <br /> */}
-              </>
-            );
-          })}
-          <br />
-
-          <RevSummaryDiv>
-            <CustomLabel label="summary">
-              Review Summary
-              <TextInput
-                placeholder="Example: Best purchase ever!"
-                maxLength="60"
-                id="summary"
-                name="summary"
-                type="text"
-                as="input"
-                value={formState.summary}
-                onChange={handleInputChange}
+                name={name}
+                characteristic={characteristic}
+                handleInputChange={handleInputChange}
+                inputState={formState.characteristics}
               />
-            </CustomLabel>
-          </RevSummaryDiv>
-          <br />
+              {/* <br /> */}
+            </>
+          );
+        })}
+        <br />
 
-          <RevBodyDiv>
-            <CustomLabel label="body">
-              Review body
-              <Required>*</Required>
-              <TextAreaDiv
-                placeholder="Why did you like the product or not?"
-                minLength="50"
-                maxLength="1000"
-                rows="6"
-                onChange={handleInputChange}
-                required
-                id="body"
-                name="body"
-                value={formState.body}
-              />
-            </CustomLabel>
-          </RevBodyDiv>
-          <br />
-
-          <AddPhotos
-            handleInputChange={handleInputChange}
-            photos={formState.photos}
-          />
-          <br />
-
-          <CustomLabel label="name">
-            Username
-            <Required>*</Required>
+        <RevSummaryDiv>
+          <CustomLabel label="summary">
+            Review Summary
             <TextInput
+              placeholder="Example: Best purchase ever!"
+              maxLength="60"
+              id="summary"
+              name="summary"
               type="text"
               as="input"
-              maxLength="60"
-              placeholder="Example: jackson11!"
+              value={formState.summary}
               onChange={handleInputChange}
-              value={formState.name}
-              required
-              id="name"
-              name="name"
             />
           </CustomLabel>
-          <AuthTag>
-            For privacy reasons, do not use your full name or email
-            address.
-          </AuthTag>
-          <br />
+        </RevSummaryDiv>
+        <br />
 
-          <CustomLabel label="email">
-            Your Email
+        <RevBodyDiv>
+          <CustomLabel label="body">
+            Review body
             <Required>*</Required>
-            <TextInput
-              type="email"
-              as="input"
-              maxLength="60"
-              placeholder="Example: jackson11@email.com"
-              rows="1"
+            <TextAreaDiv
+              placeholder="Why did you like the product or not?"
+              minLength="50"
+              maxLength="1000"
+              rows="6"
               onChange={handleInputChange}
-              value={formState.email}
               required
-              id="email"
-              name="email"
+              id="body"
+              name="body"
+              value={formState.body}
             />
           </CustomLabel>
-          <AuthTag>For authentication reasons, you will not be emailed</AuthTag>
-          <br />
+        </RevBodyDiv>
+        <br />
 
-          {errors.length > 0
+        <AddPhotos
+          handleInputChange={handleInputChange}
+          photos={formState.photos}
+        />
+        <br />
+
+        <CustomLabel label="name">
+          Username
+          <Required>*</Required>
+          <TextInput
+            type="text"
+            as="input"
+            maxLength="60"
+            placeholder="Example: jackson11!"
+            onChange={handleInputChange}
+            value={formState.name}
+            required
+            id="name"
+            name="name"
+          />
+        </CustomLabel>
+        <AuthTag>
+          For privacy reasons, do not use your full name or email
+          address.
+        </AuthTag>
+        <br />
+
+        <CustomLabel label="email">
+          Your Email
+          <Required>*</Required>
+          <TextInput
+            type="email"
+            as="input"
+            maxLength="60"
+            placeholder="Example: jackson11@email.com"
+            rows="1"
+            onChange={handleInputChange}
+            value={formState.email}
+            required
+            id="email"
+            name="email"
+          />
+        </CustomLabel>
+        <AuthTag>For authentication reasons, you will not be emailed</AuthTag>
+        <br />
+
+        {errors.length > 0
           && (
           <AuthTag>
             {errors.map((error) => (
@@ -252,15 +238,13 @@ function AddRev() {
           </AuthTag>
           )}
 
-          <ButtonContainer>
-            <ButtonDiv modal type="submit">Submit</ButtonDiv>
-            <ButtonDiv type="button" onClick={() => closeModal()}> Cancel </ButtonDiv>
-          </ButtonContainer>
+        <ButtonContainer>
+          <ButtonDiv $primary type="submit">Submit</ButtonDiv>
+          <ButtonDiv type="button" onClick={() => closeModal()}> Cancel </ButtonDiv>
+        </ButtonContainer>
 
-        </FormContainer>
-      </Modal>
-      )}
-    </>
+      </FormContainer>
+    </Modal>
   );
 }
 
@@ -271,10 +255,6 @@ function AddRev() {
 // };
 
 export default AddRev;
-
-const AddRevButton = styled(Button)`
-  flex: 1;
-`;
 
 const WriteAReview = styled.h2`
   margin-top: 0px;
