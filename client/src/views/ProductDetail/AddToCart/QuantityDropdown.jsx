@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 export default function QuantityDropdown({ availableQuantity }) {
   if (!availableQuantity) {
@@ -25,6 +26,10 @@ export default function QuantityDropdown({ availableQuantity }) {
     </>
   );
 }
+
+QuantityDropdown.propTypes = {
+  availableQuantity: PropTypes.number.isRequired,
+};
 
 const Option = styled.option`
   min-height: 0;
