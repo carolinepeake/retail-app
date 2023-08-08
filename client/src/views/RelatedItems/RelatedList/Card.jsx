@@ -140,14 +140,5 @@ const Text = styled.div`
     }
   `};
 `;
-// font-size: ${props.theme.cardTitle};
-// font-size: ${(props) => props.theme.cardText};
-// font-size: 1.0rem;
-// padding-left: 0.25rem;
-// ${props => props.name && css`
-// font-size: 1.25rem;
-// fontWeight: '500'
-// `}
-// margin-left: auto;
 
 export default Card;
