@@ -24,9 +24,7 @@ function StyleSelector() {
             <ThumbnailImg
               src={style.photos[0].thumbnail_url}
               alt={style.name}
-              style={{
-                boxShadow: selectedStyle.style_id === style.style_id ? '5px 5px 5px #727272' : '',
-              }}
+              $selected={selectedStyle.style_id === style.style_id}
             />
             {selectedStyle.style_id === style.style_id
             && (
@@ -115,4 +113,5 @@ const ThumbnailImg = styled.img`
   transform: scale(1.025);
   transition: scale 0.25s ease;
   border: solid black thin;
+  box-shadow: ${(props) => props.$selected && '5px 5px 5px #727272'};
 `;
