@@ -5,19 +5,14 @@ import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import Thumbnails from './Thumbnails';
-// import MainImage from './MainImage';
-// import useUnsplashUrl from '../../utils/useUnsplash';
-// make a new component just for rendering picture element given a single photo url as a prop or child
-// const [unsplashUrl, setUnsplashUrl] = useUnsplashUrl(80, 'https://images.unsplash.com/photo-1534011546717-407bced4d25c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80');
+import ScrollButton from './ScrollButton';
 import { StyledExitButton } from '../../../components/Button';
 import useCarouselNavigation from '../../../hooks/useCarouselNavigation';
 
-// TO-DO: fix exit button on expanded view
 // TO-DO: fix scroll main image index on zoom-in and expanded view and when resizing
 // TO-DO: maybe make scroll below 600px and arrow buttons above
 // could make path attribute and then params attribute
 // starting index is not staying the same when switching in and out of zoomed-in view
-
 // need to add an onResize event handler
 
 function ImageGallery({
@@ -30,14 +25,8 @@ function ImageGallery({
   const { productInfo, selectedStyle } = useGlobalContext();
 
   // if thumbnail with corresponding href value is clicked, should automatically scroll to that image
-  // two useCarousels in imageGallery, one for thumbnails
 
   const [firstPhotoIndex, setFirstPhotoIndex] = useState(0);
-
-  // let photosLength = 0;
-  // if (selectedStyle.photos) {
-  //   photosLength = selectedStyle.photos.length;
-  // }
 
   const photosLength = selectedStyle?.photos?.length || 0;
 
@@ -141,6 +130,14 @@ function ImageGallery({
 //   }, []);
 //   return position;
 // }
+
+  const handleClickBack = () => {
+    handleClickArrow(-1);
+  };
+
+  const handleClickForward = () => {
+    handleClickArrow(1);
+  };
 
   const imageContainer = useRef(null);
   const mainImageRef = useRef(null);
@@ -340,29 +337,17 @@ function ImageGallery({
 
             </MainWrapper>
 
-            <Buttons
-              place={place}
-              setPlace={setPlace}
-              left
-              firstPhotoIndex={firstPhotoIndex}
-              setFirstPhotoIndex={setFirstPhotoIndex}
-              onClick={() => handleClickArrow(-1)}
-            >
-              <ArrowBackground />
-              <ArrowIcon prev />
-            </Buttons>
-            <Buttons
-              onClick={() => handleClickArrow(1)}
-              place={place}
-              // photosLength={photosLength}
-              photosLength={selectedStyle?.photos?.length}
-              right
-              firstPhotoIndex={firstPhotoIndex}
-              setFirstPhotoIndex={setFirstPhotoIndex}
-            >
-              <ArrowBackground />
-              <ArrowIcon next />
-            </Buttons>
+            <ScrollButton
+              visible={place > 0}
+              position="left"
+              handleClick={handleClickBack}
+            />
+
+            <ScrollButton
+              visible={place < photosLength - 1}
+              position="right"
+              handleClick={handleClickForward}
+            />
 
           {status === 'expanded'
           && (
@@ -391,8 +376,6 @@ function ImageGallery({
                 place={place}
                 onMouseMove={(e) => handlePanImage(e)}
                 position={position}
-                // xPercent={xPerc}
-                // yPercent={yPerc}
                 ref={mainImageRef}
                 onClick={(e) => handleClickMain(e)}
               />
@@ -478,7 +461,6 @@ const MainWrapper = styled.div`
   aspect-ratio: 4/6;
   z-index: 1;
   overflow-x: scroll;
-  /* --slide-count: ${(props) => props.photosLength}; */
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   &::-webkit-scrollbar {
@@ -549,7 +531,6 @@ const MainImage = styled.img`
     transition: translate 0.25s smooth;
     /* position: relative; */
     position: absolute;
-  /* translate: -${props.xPercent} -${props.yPercent}; */
     translate: -${props.position.x} -${props.position.y};
     cursor: zoom-out;
   `};
@@ -603,99 +584,7 @@ const Slide = styled.li`
 // get a solid note taking strategy /organization strategy down before class starts (recs; notation)
 // second monitor
 
-const Buttons = styled.button`
-  display: none;
-  @media (min-width: 600px) {
-    ${(props) => props.left && css`
-      left: 0%;
-      display: ${props.place > 0 ? 'block' : 'none'};
-    `};
-    ${(props) => props.right && css`
-      right: 0%;
-      display: ${props.place < props.photosLength - 1 ? 'block' : 'none'};
-    `};
-  }
-  z-index: 3;
-  align-self: center;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: ${(props) => props.theme.navBgColor};
-  opacity: 0.8;
-  &:hover {
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    opacity: 1;
-  }
-  font-weight: 500;
-  padding: 0;
-  color: ${(props) => props.theme.fontColor};
-  border: none;
-  line-height: 1;
-  font-size: 1em;
-  aspect-ratio: 1;
-  height: 2em;
-  @media (min-width: 700px) {
-    font-size: 1.17em;
-  }
-  @media (min-width: 900px) {
-    font-size: 1.5em;
-  }
-  ${(props) => props.scroll && css`
-    top: initial;
-    height: 2rem;
-    width: 3rem;
-    align-self: center;
-    top: 0;
-    z-index: 4;
-    position: relative;
-    background-color: initial;
-    &:hover {
-      background-color: rgba(225, 225, 225, 0.75);
-    }
-    font-size: 2rem;
-  `};
-`;
-// &:hover {
-//   background-color: rgba(225, 225, 225, 0.9);
-// };
 
-const ArrowBackground = styled.span`
-  aspect-ratio: 1;
-  display: flex;
-  position: relative;
-`;
-
-const ArrowIcon = styled.span`
-  ${(props) => props.prev && css`
-    &::before {
-      content: '〈';
-      right: 75%;
-      position: absolute;
-      top: 50%;
-      height: 50%;
-      width: 50%;
-      transform: translate(50%,-50%);
-      padding: 0 6.25%;
-      font-family: futura-pt, sans-serif;
-      box-sizing: border-box;
-    }
-  `};
-
-  ${(props) => props.next && css`
-    &::before {
-      /* could also use &#x27E9; it's centered */
-      content: ' 〉';
-      left: 50%;
-      position: absolute;
-      top: 50%;
-      height: 50%;
-      width: 25%;
-      transform: translate(-50%,-50%);
-      padding: 0 12.5%;
-      font-family: futura-pt, sans-serif;
-    }
-  `};
-`;
 
 // const Exit = styled.button`
 //   position: absolute;
