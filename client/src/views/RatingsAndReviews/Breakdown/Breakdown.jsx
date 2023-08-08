@@ -7,10 +7,10 @@ import LengthBreakdown from './LengthBreakdown';
 
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
-function Breakdown({ filterReviews, reviews }) {
+function Breakdown({ filterReviews }) {
   console.log('[Breakdown] is running');
   const {
-    productID, productInfo, revMeta,
+    productID, revMeta,
   } = useGlobalContext();
 
   if (!revMeta.product_id) {
@@ -30,30 +30,20 @@ function Breakdown({ filterReviews, reviews }) {
       <br />
       <LengthBreakdown
         revMeta={revMeta}
-        productInfo={productInfo}
       />
     </BreakdownContainer>
   );
 }
 
-// Breakdown.propTypes = {
-//   revMeta: PropTypes.shape({
-//     characteristics: PropTypes.shape({}),
-//     product_id: PropTypes.string,
-//     ratings: PropTypes.shape({}),
-//     recommended: PropTypes.shape({
-//       true: PropTypes.string,
-//       false: PropTypes.string,
-//     }),
-//   }).isRequired,
-// };
+Breakdown.propTypes = {
+  filterReviews: PropTypes.func.isRequired,
+};
 
 const BreakdownContainer = styled.div`
   background-color: ${(props) => props.theme.backgroundColor};
   @media (min-width: 400px) {
     padding: 0.5rem;
-  };
+  }
 `;
-// font-family: "Lato","Verdana",sans-serif;
 
 export default Breakdown;
