@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import AddQuestionModal from './AddQuestionModal';
-import { useGlobalContext } from '../../../contexts/GlobalStore';
 import { Button } from '../../../components/Button';
 import ShowMoreListItems from '../../../components/LargeList/ShowMoreListItems';
 
@@ -13,33 +12,13 @@ function ExtraButtons({
   setItemsPerPage,
   scrollToListTop,
   setPageNum,
+  listLength,
 }) {
   const [showModal, setShowModal] = useState(false);
-  const {
-    filteredQuestions,
-    // numQuestions,
-    // setNumQuestions,
-  } = useGlobalContext();
-
-  // previously used to increase scroll container by 2 each time it was clicked
-  // could do this until reach 10 and then show all questions with 10 per page
-  // should return the id canceling the setTimeout?
-
-  // const increaseQuestions = () => {
-  //   // useRef?
-  //   const container = document.getElementById('scrollable-container');
-  //   // prev + 2?
-  //   setNumQuestions(numQuestions + 2);
-
-  //   const prevMaxHeight = container.scrollHeight;
-  //   setTimeout(() => {
-  //     container.scrollTop = prevMaxHeight;
-  //   }, 0);
-  // };
 
   return (
     <ButtonContainer>
-      {filteredQuestions.length > 2
+      {listLength > 2
       && (
         <ShowMoreListItems
           itemsPerPage={itemsPerPage}
@@ -49,7 +28,7 @@ function ExtraButtons({
           setPageNum={setPageNum}
         />
       )}
-      <QuestionsButton type="button" modal onClick={() => setShowModal(true)}>
+      <QuestionsButton type="button" $primary onClick={() => setShowModal(true)}>
         Ask a Question +
       </QuestionsButton>
       {showModal && (
@@ -64,6 +43,7 @@ ExtraButtons.propTypes = {
   setItemsPerPage: PropTypes.func.isRequired,
   setPageNum: PropTypes.func.isRequired,
   scrollToListTop: PropTypes.func.isRequired,
+  listLength: PropTypes.number.isRequired,
 };
 
 const ButtonContainer = styled.div`
