@@ -69,6 +69,7 @@ function AddToCart() {
       styleName: selectedStyle.name,
       salePrice: selectedStyle.sale_price,
       originalPrice: selectedStyle.original_price,
+      availableQuantity: selectedStyle.skus[selectedItem.sku].quantity,
     };
     setCart((prev) => [...prev, item]);
     // TODO: save cart to local storage

@@ -1,11 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Button, StyledExitButton } from '../../../components/Button';
+import PropTypes from 'prop-types';
+import { StyledExitButton } from '../../../components/Button';
+import QuantityDropdown from './QuantityDropdown';
 
 export default function CartItem({ item, cart, setCart }) {
   const handleRemoveItem = () => {
     const updatedCart = cart.filter((cartItem) => cartItem.sku !== item.sku);
     setCart(updatedCart);
+  };
+
+  const handleChangeQuantity = () => {
+
   };
 
   const price = (
@@ -32,9 +38,22 @@ export default function CartItem({ item, cart, setCart }) {
         <Name>
           {item?.name}
         </Name>
-        <Sku>{item?.sku}</Sku>
-        <h5>{item?.size}</h5>
-        <h5>{item?.styleName}</h5>
+        <h5>
+          <b>Size: </b>
+          {item?.size}
+        </h5>
+        <h5>
+          <b>Style: </b>
+          {item?.styleName}
+        </h5>
+        <h5>
+          <b>Qty:</b>
+          <SelectedQuantity
+            defaultValue={item?.quantity}
+          >
+            <QuantityDropdown availableQuantity={item?.availableQuantity}/>
+          </SelectedQuantity>
+        </h5>
         {price}
       </div>
       <Delete
@@ -58,6 +77,7 @@ CartItem.propTypes = {
       product: PropTypes.string,
       size: PropTypes.string,
       quantity: PropTypes.string,
+      availbleQuantity: PropTypes.number,
     }),
   ).isRequired,
   setCart: PropTypes.func.isRequired,
@@ -72,6 +92,7 @@ CartItem.propTypes = {
     product: PropTypes.string,
     size: PropTypes.string,
     quantity: PropTypes.string,
+    availbleQuantity: PropTypes.number,
   }).isRequired,
 };
 
@@ -87,24 +108,27 @@ const Container = styled.div`
 const Thumbnail = styled.img`
   height: 7em;
   aspect-ratio: 4/6;
-  object-fit: scale-down;
+  object-fit: cover;
+
 `;
 
 const Name = styled.h4`
   margin: 0;
   font-size: 1em;
+  font-weight: 300;
 `;
 
-const Sku = styled.h6`
-  text-decoration: none;
+const SelectedQuantity = styled.select`
+  margin-left: 0.1em;
 `;
+
 
 const PriceContainer = styled.div`
   font-size: ${(props) => props.theme.body};
   font-weight: 300;
 `;
 
-const Price = styled.h4`
+const Price = styled.h5`
   margin: 0;
 `;
 
