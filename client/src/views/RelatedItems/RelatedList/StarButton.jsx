@@ -4,22 +4,9 @@ import PropTypes from 'prop-types';
 
 function StarButton({ setModal, i }) {
   console.log('[StarButton] is running');
-  function openModal() {
+  const openModal = () => {
     setModal(i);
-  }
-  function closeModal() {
-    setModal(false);
-  }
-
-  // function handleMouseEnter(e) {
-  //   e.preventDefault();
-  //   setStarType('&#9733;');
-  // }
-
-  // function handleMouseLeave(e) {
-  //   setStarType(&#9734);
-  //   e.preventDefault();
-  // }
+  };
 
   return (
     <Button
@@ -28,26 +15,15 @@ function StarButton({ setModal, i }) {
         openModal();
       }}
     >
-      {/* {starType} */}
       &#9733;
     </Button>
   );
 }
 
-// StarButton.propTypes = {
-//   details: PropTypes.shape({
-//     name: PropTypes.string,
-//     category: PropTypes.string,
-//     id: PropTypes.number,
-//     price: PropTypes.string,
-//     features: PropTypes.arrayOf(
-//       PropTypes.shape({
-//         feature: PropTypes.string,
-//         value: PropTypes.string,
-//       }),
-//     ),
-//   }).isRequired,
-// };
+StarButton.propTypes = {
+  setModal: PropTypes.func.isRequired,
+  i: PropTypes.number.isRequired,
+};
 
 const Button = styled.button`
   position: absolute;
@@ -61,7 +37,7 @@ const Button = styled.button`
   &:hover {
     color: ${(props) => props.theme.starFilled};
     opacity: 0.80;
-  };
+  }
   cursor: pointer;
   z-index: 1;
 `;
