@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import { useGlobalContext } from '../contexts/GlobalStore';
 import DropdownChevron from './DropdownChevron';
+import { capitalizeFirstLetter } from '../utils/capitalize';
 
 function StyledSelect({
   placeholder = 'Select Dropdown Option',
@@ -10,35 +10,30 @@ function StyledSelect({
   initialValue = null,
   disabled = false,
   initialDropdownPosition = false,
+  getLabel = () => 'Select Dropdown Option',
+  handleSelect = (value) => console.log(value),
 }) {
-  const {
-    setSortOrder,
-  } = useGlobalContext();
-
   const [dropdownOpened, setDropdownOpened] = useState(initialDropdownPosition);
   const [selectedValue, setSelectedValue] = useState(initialValue);
 
-  function handleClick(value) {
-    setSelectedValue(value);
-    setSortOrder(() => value);
+  function handleClick(option) {
+    setSelectedValue(option);
+    handleSelect(option);
     setDropdownOpened(false);
   }
 
-  // TO-DO: use props validation to ensure options is irriterable
-
-  const dropdownOptions = options.map((option, i) => (
+  const dropdownOptions = options.map((value, i) => (
     <DropdownOption
       type="button"
-      value={option.value}
-      name={option.label}
-      i={i}
-      key={option.id}
-      onClick={(e) => handleClick(option.value, e)}
+      value={value}
+      index={i}
+      key={value}
+      onClick={() => handleClick(value)}
       selectedValue={selectedValue}
       placeholder={placeholder}
-     // selected={option.selected}
+      active={selectedValue === value}
     >
-      {option.label}
+      {capitalizeFirstLetter(value)}
     </DropdownOption>
   ));
 
@@ -50,8 +45,9 @@ function StyledSelect({
       onMouseLeave={() => setDropdownOpened(false)}
     >
       <InputWrapper>
-        <SortBy>Sort by</SortBy>
-        <SelectedValue>{selectedValue}</SelectedValue>
+        <SortBy>
+          {getLabel(selectedValue)}
+        </SortBy>
         <DropdownChevron dropdownOpened={dropdownOpened} />
       </InputWrapper>
       <Dropdown dropdownOpened={dropdownOpened}>
@@ -85,6 +81,8 @@ StyledSelect.propTypes = {
   ]),
   disabled: PropTypes.bool,
   initialDropdownPosition: PropTypes.bool,
+  getLabel: PropTypes.func,
+  handleSelect: PropTypes.func,
 };
 
 StyledSelect.defaultProps = {
@@ -93,6 +91,8 @@ StyledSelect.defaultProps = {
   initialValue: null,
   disabled: false,
   initialDropdownPosition: false,
+  getLabel: () => 'Select Dropdown Option',
+  handleSelect: (value) => console.log(value),
 };
 
 // TO-DO: make bigger on focus (for mobile)
@@ -107,7 +107,7 @@ const CustomSelect = styled.div`
   cursor: pointer;
   &:hover {
     border-color: ${(props) => props.theme.visitedColor};
-  };
+  }
   position: relative;
   width: 12.0em;
 `;
@@ -124,15 +124,7 @@ const SortBy = styled.div`
   padding-right: 0.25em;
   height: 1em;
   line-height: 1em;
-  width: 3.75em;
-`;
-
-const SelectedValue = styled.div`
-  padding-right: 1.0em;
-  height: 1em;
-  font-weight: 600;
-  line-height: 1em;
-  width: 5.0em;
+ /* width: 3.75em; */
 `;
 
 const Dropdown = styled.div`
@@ -161,15 +153,12 @@ const DropdownOption = styled.div`
   border-top: lightgrey solid 1px;
   transition: transform 0.25s ease;
   font-weight: 400;
-  &::last-child {
-
-  };
   &:hover {
     color: ${(props) => props.theme.fontColor};
     border: currentColor solid 1px;
     transform: scale(1.025);
     background-color: ${(props) => props.theme.submitButton};
-  };
+  }
   ${(props) => (props.selectedValue === props.value) && css`
     font-weight: 600;
     padding-left: 0.5em;
@@ -177,14 +166,14 @@ const DropdownOption = styled.div`
       content: '\\2713';
       padding-right: 2.75em;
       padding-left: 0.5em;
-    };
+    }
     ${Dropdown}:hover && {
       color: ${props.theme.fontColor};
       border: ${props.theme.fontColor} solid 1px;
       &:hover {
         border: ${props.theme.fontColor} solid 1px;
-      };
-    };
+      }
+    }
   `};
 `;
 
