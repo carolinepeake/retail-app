@@ -62,8 +62,8 @@ const ModalBackground = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  /* left: 0%;
-  top: 0%; */
+  left: 0;
+  top: 0;
  /* z-index: 51;
   @media (min-width: 50rem) {
     z-index: 20;
