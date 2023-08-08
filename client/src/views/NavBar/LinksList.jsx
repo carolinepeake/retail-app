@@ -4,20 +4,12 @@ import styled, { css } from 'styled-components';
 
 function LinksList({ toggleTheme, isExpanded = false, secondary = false }) {
   console.log('[LinksList] is running');
-  LinksList.propTypes = {
-    toggleTheme: PropTypes.func.isRequired,
-    isExpanded: PropTypes.bool.isRequired,
-    secondary: PropTypes.bool,
-  };
 
   LinksList.defaultProps = {
     secondary: false,
   };
 
   const NAV_LINKS = [{ target: 'product-details', label: 'Product Details' }, { target: 'related-items', label: 'Related Items' }, { target: 'question-and-answers', label: 'Questions & Answers' }, { target: 'ratings-and-reviews', label: 'Ratings & Reviews' }];
-
-  // stop propagation?
-  // https://www.aleksandrhovhannisyan.com/blog/responsive-navbar-tutorial/
 
   return (
     <>
@@ -44,6 +36,12 @@ function LinksList({ toggleTheme, isExpanded = false, secondary = false }) {
   );
 }
 
+LinksList.propTypes = {
+  toggleTheme: PropTypes.func.isRequired,
+  isExpanded: PropTypes.bool.isRequired,
+  secondary: PropTypes.bool,
+};
+
 const GridItem = styled.a`
   font-family: futura-pt, sans-serif;
   font-style: normal;
@@ -59,17 +57,17 @@ const GridItem = styled.a`
   &:link {
     color: ${(props) => props.theme.navFontColor};
     text-decoration: none;
-  };
+  }
   &:visited {
     color: ${(props) => props.theme.visitedColor};
-  };
+  }
   &:hover {
     text-decoration: underline;
     color: ${(props) => props.theme.navActiveFontColor};
-  };
+  }
   &:active {
     color: ${(props) => props.theme.visitedColor};
-  };
+  }
   @media (max-width: 50rem) {
       display: none;
     ${(props) => props.secondary && css`

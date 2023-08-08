@@ -17,11 +17,7 @@ function NavBar({ toggleTheme }) {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [searchClosed, setSearchClosed] = useState(true);
-
   const [isExpanded, setIsExpanded] = useState(false);
-
-  // stop propagation?
-  // https://www.aleksandrhovhannisyan.com/blog/responsive-navbar-tutorial/
 
   const toggleNavbarVisibility = () => {
     setIsExpanded((prev) => !prev);
@@ -113,15 +109,15 @@ const Background = styled.div`
   @media (min-width: 50rem) {
     padding: 0.75em 2.5%;
     flex-wrap: ${(props) => (props.searchClosed ? 'nowrap' : 'wrap')};
-  };
+  }
 
   @media (min-width: 57rem) {
     flex-wrap: nowrap;
-  };
+  }
 
   @media (min-width: 62rem) {
     padding: 0.75em 5%;
-  };
+  }
 `;
 
 const Logo = styled(Button)`
@@ -136,14 +132,14 @@ const Logo = styled(Button)`
     background-color: ${(props) => props.theme.secondaryBackgroundColor};
     color: ${(props) => props.theme.navActiveFontColor};
     box-shadow: initial;
-  };
+  }
   font-size: calc(24px + 1.2vw);
   padding: 0px calc(4px + 0.25vw);
 
   @media (min-width: 900px) {
     padding: calc(1px + 0.5vw) calc(4px + 0.5vw);
     font-size: calc(10px + 1.2vw);
-  };
+  }
 `;
 
 const RightSide = styled.div`
@@ -165,7 +161,7 @@ const RightSide = styled.div`
       width: fit-content;
       padding-top: 0.25em;
     `};
-  };
+  }
 
   @media (min-width: 57rem) {
     width: 10em;
@@ -173,15 +169,15 @@ const RightSide = styled.div`
     ${(props) => props.searchClosed && css`
       width: fit-content;
     `};
-  };
+  }
 
   @media (min-width: 65em) {
     width: 11em;
-  };
+  }
 
   @media (min-width: 69em) {
     width: initial;
-  };
+  }
 `;
 
 const CollapsedNav = styled.button`
@@ -204,14 +200,14 @@ const CollapsedNav = styled.button`
   &:hover {
     opacity: 1.0;
     color: ${(props) => props.theme.navActiveFontColor};
-  };
+  }
   ${(props) => props.searchClosed && css`
     margin-left: 0.5em;
   `};
 
   @media (min-width: 50rem) {
     display: none;
-  };
+  }
 `;
 
 const AppBackground = styled.div`
