@@ -14,7 +14,6 @@ function ProductDetail() {
   const [status, setStatus] = useState('default');
   // maybe make image_gallery context and maintain status and currentIndex in it
   const [startingIndex, setStartingIndex] = useState(0);
-  const { selectedStyle } = useGlobalContext();
 
   return (
     <ProductSec id="product-details">
@@ -39,24 +38,13 @@ function ProductDetail() {
           <RightColumn>
             <ProductOverview />
             <StyleSelector />
-            <AddToCart skus={selectedStyle?.skus} />
+            <AddToCart />
 
             <CollapsedDetails />
           </RightColumn>
         )}
 
       </ProductContainer>
-      {/* </>
-        ) : (
-          <Expanded>
-            <ImageGallery
-              status={status}
-              setStatus={setStatus}
-              // place={place}
-              // setPlace={setPlace}
-            />
-          </Expanded>
-        )} */}
     </ProductSec>
   );
 }
@@ -101,18 +89,11 @@ const ProductContainer = styled.div`
   }
 `;
 
-const Expanded = styled.div`
-  overflow: none;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-`;
-
 const RightColumn = styled.div`
   background-color: ${(props) => props.theme.backgroundColor};
   flex: 1 1 300px;
   max-width: 450px;
+  position: relative;
 
   @media (min-width: 600px) {
     display: flex;
