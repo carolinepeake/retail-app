@@ -5,6 +5,7 @@ import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import Thumbnails from './Thumbnails';
+import View from './View';
 import ScrollButton from './ScrollButton';
 import { StyledExitButton } from '../../../components/Button';
 import useCarouselNavigation from '../../../hooks/useCarouselNavigation';
@@ -15,37 +16,36 @@ import useCarouselNavigation from '../../../hooks/useCarouselNavigation';
 // starting index is not staying the same when switching in and out of zoomed-in view
 // need to add an onResize event handler
 
-function ImageGallery({
+function ImageGallery2({
   status,
   setStatus,
   startingIndex,
   setStartingIndex,
 }) {
-  console.log('[ImageGallery] is running');
+  console.log('[ImageGallery2] is running');
   const { productInfo, selectedStyle } = useGlobalContext();
 
   // if thumbnail with corresponding href value is clicked, should automatically scroll to that image
 
-  const [firstPhotoIndex, setFirstPhotoIndex] = useState(0);
+  // const [firstPhotoIndex, setFirstPhotoIndex] = useState(0);
 
   const photosLength = selectedStyle?.photos?.length || 0;
 
-  const carousel = useRef(null);
-  const viewport = useRef(null);
-
   const itemsRef = useRef(null);
 
-  function scrollToId(itemId) {
-    const map = getMap();
-    const node = map.get(itemId);
-    node.scrollIntoView({
-      behavior: 'smooth',
-      block: 'nearest',
-      inline: 'center'
-    });
-  }
+  const imageRef = useRef(null);
 
-  function getMap() {
+  // function scrollToId(itemId) {
+  //   const map = getMap();
+  //   const node = map.get(itemId);
+  //   node.scrollIntoView({
+  //     behavior: 'smooth',
+  //     block: 'nearest',
+  //     inline: 'center'
+  //   });
+  // }
+
+  function getImageWrapperMap() {
     if (!itemsRef.current) {
       // Initialize the Map on first usage.
       itemsRef.current = new Map();
@@ -53,96 +53,23 @@ function ImageGallery({
     return itemsRef.current;
   }
 
-  const handleClickThumbnail = (url) => {
-    // setActive(index);
-    scrollToId(url);
-  };
+  function getImageMap() {
+    if (!imageRef.current) {
+      // Initialize the Map on first usage.
+      imageRef.current = new Map();
+    }
+    return imageRef.current;
+  }
 
+  // const handleClickThumbnail = (url) => {
+  //   // setActive(index);
+  //   scrollToId(url);
+  // };
 
-  // function handleClickArrow(n) {
-  //   if (place === firstPhotoIndex && n === -1) {
-  //     setFirstPhotoIndex((prev) => prev - 1);
-  //   }
-  //   if ((place === firstPhotoIndex + 5) && n === 1) {
-  //     setFirstPhotoIndex((prev) => prev + 1);
-  //   }
-  //   setPlace((prev) => prev + n);
-  // // }
-
-  // const onClickArrow = (arrowDirection, currentIndex, firstPhotoIndex, setFirstPhotoIndex) => {
-
-  // }
-
-  // const [
-  //   showBackArrow,
-  //   setShowBackArrow,
-  //   showForwardArrow,
-  //   setShowForwardArrow,
-  //   // currentIndex,
-  //   place,
-  //   setPlace,
-  //   // setCurrentIndex,
-  //   handleClickArrow,
-  // ] = useArrows(listLength, startingIndex);
-
-  // const [
-  //   place,
-  //   setPlace,
-  //   // firstPhotoIndex,
-  //   // setFirstPhotoIndex,
-  //   handleScroll,
-  //   handleClickArrow,
-  // ] = useCarouselNavigation(carousel, listLength,
-  //   // startingIndex
-  // );
-
-  const [
-    place,
-    setPlace,
-    // styles,
-    // setStyles,
-    handleScroll,
-    // handleClickBackArrow,
-    // handleClickForwardArrow,
-    // handleClickThumbnail,
-    handleClickArrow,
-    handleClickAnchor,
-  // ] = useCarouselNavigation(startingIndex, carousel, viewport, photosLength, 1);
-  ] = useCarouselNavigation(carousel, startingIndex);
-  console.log('place: ', setPlace, 'handleClickArrow: ', handleClickArrow, 'handleClickAnchor: ', handleClickAnchor);
-
-  // could do useEffect based on status
-  // to determine whether to add scroll handler or moveMouse handler
-  // need to initialize xPerc and yPerc once status is expanded
-  // is being called, but maybe rendering before x and y set
-  // might want to use useCallback or useMemo to make quicker?
-  // can make useMeasurements hook
-
-  // https://react.dev/learn/reusing-logic-with-custom-hooks
-// export function usePointerPosition() {
-//   const [position, setPosition] = useState({ x: 0, y: 0 });
-//   useEffect(() => {
-//     function handleMove(e) {
-//       setPosition({ x: e.clientX, y: e.clientY });
-//     }
-//     window.addEventListener('pointermove', handleMove);
-//     return () => window.removeEventListener('pointermove', handleMove);
-//   }, []);
-//   return position;
-// }
-
-  const handleClickBack = () => {
-    handleClickArrow(-1);
-  };
-
-  const handleClickForward = () => {
-    handleClickArrow(1);
-  };
-
-  const imageContainer = useRef(null);
-  const mainImageRef = useRef(null);
 
   const [position, setPosition] = useState({ x: '', y: '' });
+
+  const imageContainer = useRef(null);
 
   useEffect(() => {
     console.log('useEffect in main image');
@@ -166,42 +93,21 @@ function ImageGallery({
           y: translateY,
         });
       }
+      if (status !== 'default') {
+        imageRef?.current?.addEventListener('mousemove', handlePanImage);
 
-      mainImageRef?.current?.addEventListener('mousemove', handlePanImage);
-
-      return () => {
-        mainImageRef?.current?.removeEventListener('mousemove', handlePanImage);
-      };
+        return () => {
+          imageRef?.current?.removeEventListener('mousemove', handlePanImage);
+        };
+      }
 
   }, [imageContainer]);
-  // const imageContainer = useRef(null);
 
-  // const [position, setPosition] = useState({ x: '', y: '' });
-
-  // function getProportionalZoom(e) {
-  //   const zoomContainer = imageContainer.current;
-  //   // if (imageContainer.current) {
-  //     // const containerWidth = imageContainer.current.clientWidth;
-  //     const containerWidth = zoomContainer.clientWidth;
-  //     // const containerHeight = imageContainer.current.clientHeight;
-  //     const containerHeight = zoomContainer.clientHeight;
-  //     // should maybe do offset from parent element, not page, b/c if scroll
-  //     // const x = e.pageX - imageContainer.current.offsetLeft;
-  //     // const y = e.pageY - imageContainer.current.offsetTop;
-  //     console.log('zoomContainer: ', zoomContainer);
-  //     const x = e.pageX - zoomContainer.offsetLeft;
-  //     const y = e.pageY - zoomContainer.offsetTop;
-  //     const translateX = `${(x / (containerWidth / 100)) * 1.25}%`;
-  //     const translateY = `${(y / (containerHeight / 100)) * 1.25}%`;
-  //     setPosition({
-  //       x: translateX,
-  //       y: translateY,
-  //     });
-  //   }
-  // https://react.dev/reference/react/useEffect  handleMove
 
   const handleProportionalZoom = (e) => {
     if (imageContainer.current) {
+      console.log('image container ref: ', imageContainer.current);
+      console.log('image e: ', e);
       const containerWidth = imageContainer.current.clientWidth;
       const containerHeight = imageContainer.current.clientHeight;
       // should maybe do offset from parent element, not page, b/c if scroll
@@ -215,12 +121,6 @@ function ImageGallery({
       });
     }
   }
-
-  // wrap getProportionalZoom in an effectEvent and call it in a useEffects
-  // as the handler for the mousemove event listeners
-  // add the event listeners if the status is zoomed
-  // if the status is not zoomed, add a scroll(specify direction) event listener
-  // add a ref to the carouselviewport and thats the element I should attach the event listeners to
 
   const handlePanImage = (e) => {
     if (status !== 'default') {
@@ -250,49 +150,42 @@ function ImageGallery({
     setStatus('default');
   };
 
-  // function scrollHandler(e) {
-  //   // const carouselDimensions = carouselViewport.current
-  //   // && carouselViewport.current.getBoundingClientRect();
-  //   const carouselDimensions = e.currentTarget.getBoundingClientRect();
-
-  //   const carouselOffsets = carousel.current && carousel.current.getBoundingClientRect();
-
-  //   const leftPadding = carouselDimensions && carouselDimensions.x;
-  //   const carouselItemWidth = carouselDimensions && carouselDimensions.width;
-  //   const leftOffset = carouselOffsets && carouselOffsets.x;
-
-  //   const currentItemIndex = Math.floor(Math.abs((leftOffset - leftPadding)
-  //   / Math.floor(carouselItemWidth))) || 0;
-  //   setPlace(currentItemIndex);
-  // }
-
-  console.log('place in IG: ', place);
 
   return (
     <ImageGalleryContainer
       status={status}
-    >
-          {status !== 'zoomed'
-          && (
-          <AnimationContainer>
+      ref={imageContainer}
 
-            <MainWrapper
+    >
+          {/* {status !== 'zoomed'
+          && ( */}
+
+    <View
+      photosLength={selectedStyle?.photos?.length}
+      status={status}
+      // place={place}
+      handleClickExit={handleClickExit}
+      startingIndex={startingIndex}
+    >
+          {/* <AnimationContainer> */}
+
+            {/* <MainWrapper
               id="carousel-container"
               status={status}
               place={place}
               photosLength={selectedStyle?.photos?.length}
               ref={viewport}
               onScroll={handleScroll}
-            >
+            > */}
 
-              <Carousel
+              {/* <Carousel
                 id="carousel"
                 // photosLength={photosLength}
                 photosLength={selectedStyle?.photos?.length}
                 place={place}
                 status={status}
                 ref={carousel}
-              >
+              > */}
 
                 {selectedStyle?.photos?.map((photo, index) => (
                   <Slide
@@ -301,10 +194,13 @@ function ImageGallery({
                     i={index}
                     // id={index}
                     // ids don't match up
+                    // ref={imageContainer}
+                    // status={status}
+                    // onClick={handleClickMain}
                     id={`seq${index}`}
                     onClick={handleClickMain}
                     ref={(node) => {
-                      const map = getMap();
+                      const map = getImageWrapperMap();
                       if (node) {
                         map.set(photo.url, node);
                       } else {
@@ -323,16 +219,27 @@ function ImageGallery({
                        // use url to store productName, selectedStyle and seq#
                       alt={`${productInfo?.name} in ${selectedStyle?.name} style photo number ${index}`}
                       status={status}
+                      onMouseMove={handlePanImage}
+                      position={position}
+                      // ref={mainImageRef}
+                      ref={(node) => {
+                        const map = getImageMap();
+                        if (node) {
+                          map.set(photo.url, node);
+                        } else {
+                          map.delete(photo.url);
+                        }
+                      }}
                       // id={`seq${index}`}
                     />
                   </Slide>
                 ))}
 
-              </Carousel>
+              {/* </Carousel>
 
-            </MainWrapper>
+            </MainWrapper> */}
 
-            <ScrollButton
+            {/* <ScrollButton
               visible={place > 0}
               position="left"
               handleClick={handleClickBack}
@@ -342,22 +249,24 @@ function ImageGallery({
               visible={place < photosLength - 1}
               position="right"
               handleClick={handleClickForward}
-            />
+            /> */}
 
-          {status === 'expanded'
+          {/* {status === 'expanded'
           && (
             <StyledExitButton
               type="button"
-              onClick={handleClickExit}
+              handleClickExit={handleClickExit}
             >
               &#10005;
             </StyledExitButton>
-          )}
+          )} */}
 
-          </AnimationContainer>
-        )}
+          {/* </AnimationContainer> */}
+        {/* )} */}
 
-          {status === 'zoomed'
+        </View>
+
+          {/* {status === 'zoomed'
           && (
             <MainWrapper
               ref={imageContainer}
@@ -374,9 +283,9 @@ function ImageGallery({
                 // onClick={handleClickMain}
               />
             </MainWrapper>
-          )}
+          )} */}
 
-      <Thumbnails
+      {/* <Thumbnails
         place={place}
         setPlace={setPlace}
         status={status}
@@ -385,13 +294,13 @@ function ImageGallery({
         handleClickThumbnail={handleClickAnchor}
         // handleClickThumbnail={handleClickThumbnail}
 
-      />
+      /> */}
 
     </ImageGalleryContainer>
   );
 }
 
-ImageGallery.propTypes = {
+ImageGallery2.propTypes = {
   status: PropTypes.string.isRequired,
   setStatus: PropTypes.func.isRequired,
   startingIndex: PropTypes.number.isRequired,
@@ -435,6 +344,19 @@ const ImageGalleryContainer = styled.div`
     align-items: center;
     align-content: center;
   `};
+
+   ${(props) => props.status === ('zoomed') && css`
+   /* margin: auto;
+    height: max-content;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    flex: row; */
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0;
+    position: relative;
+`};
 `;
 
 const AnimationContainer = styled.div`
@@ -484,9 +406,10 @@ const MainWrapper = styled.div`
   `};
 
   ${(props) => props.status === 'zoomed' && css`
-    @media (min-width: 600px) {
+    overflow: hidden;
+   /* @media (min-width: 600px) {
       max-width: 80vh;
-    }
+    } */
   `};
 `;
 
@@ -548,78 +471,43 @@ const Carousel = styled.ul`
 // }
 
 const Slide = styled.li`
-  scroll-snap-align: start;
   width: 100%;
   height: 100%;
+  list-style: none;
+
+  ${(props) => props.status !== 'zoomed' && css`
+    scroll-snap-align: start;
+  `};
+
+  ${(props) => props.status === 'zoomed' && css`
+    margin: 0 auto;
+    padding: 0;
+    display: block;
+    object-fit: cover;
+    overflow: hidden;
+    position: relative;
+    aspect-ratio: 4/6;
+    max-width: 80vh;
+    max-height: 120vh;
+    z-index: 1;
+    /* overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    -ms-overflow-style: none;
+    scrollbar-width: none; */
+
+   /* @media (min-width: 600px) {
+      height: fit-content;
+      max-height: 120vh;
+      /* overflow-x: hidden; */
+      max-width: 80vh;
+    } */
+  `};
 `;
 
+export default ImageGallery2;
 
 
-// journal: needed to have display: grid (along with position: relative) to display image underneath thumbnail images with larger z-indexes, even though no grid-template columns or rows were set on the background image with display: grid;
-
-// MVP journal: cannot select by fields in a mongodb document that is simply referenced by objectID in another schema.  you have to run the populate method to get the fields of the nested schema to populate in the outer model, and cannot then find by a certain field or value. instead, have to denormalize the data when you design your schemas.
-
-// to make font-size responsive, set the root font-size to be a porportion of the view width, i.e. html {
-// font-size: () => 15px + 0.3vw;  // not 100% on my syntax but that's the jist
-// },
-// buttons, inputs, selects and some other elements have default broswer font-size, padding, and other settings that are not overridden by a general font-size change and using rem or em
-
-// file input elements should work for mobile, and suggest file, access camera, access photos
-
-// advice to incoming HR students:
-// pay special attentiom to data structures and algorithims
-// time management is key
-// what stack overflow is
-// theres youtube videos with instructions/lessons
-// almost everything you are going to do has been done before
-// be careful not to spin your wheels too much/too long
-// get a solid note taking strategy /organization strategy down before class starts (recs; notation)
-// second monitor
-
-
-
-// const Exit = styled.button`
-//   position: absolute;
-//   right: 0.5em;
-//   top: 0.5em;
-//   z-index: 3;
-//   background-color: ${(props) => props.theme.navBgColor};
-//   opacity: 0.8;
-//   &:hover {
-//     opacity: 1;
-//     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-//   };
-//   display: block;
-//   color: ${(props) => props.theme.darkBlueHover};
-//   border: none;
-//   border-radius: 50px;
-//   padding: 0;
-//   line-height: 1;
-//   font-size: 1em;
-//   aspect-ratio: 1;
-//   height: 2em;
-//   align-self: center;
-//   @media (min-width: 700px) {
-//     font-size: 1.17em;
-//   };
-//   @media (min-width: 800px) {
-//     font-size: 1.5em;
-//   };
-// `;
-
-export default ImageGallery;
-
-// left arrow &#8592;
-// up arrow &#8593;
-// right arrow &#8594;
-// down arrow &#8595;
-
-// x in a rectangular box &#8999;
-
-// up arrowhead / collapse arrow &#8963;
-
-// horizontal line &#9472;
-// plus 	&#43;
-// fullwidth hyphen minus 	&#65293;
-
-// arrow: &#9587;
