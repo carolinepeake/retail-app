@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { Button } from '../../../components/Button';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
-import { calcAverageRating } from '../../../utils/useAverageRating';
 
 function AddOutfit({ setIndex }) {
   console.log('[AddOutfit] is running');
@@ -19,14 +18,6 @@ function AddOutfit({ setIndex }) {
       }
     }
 
-    // const outfit = {
-    //   id: productID,
-    //   name: productInfo.name,
-    //   category: productInfo.category,
-    //   price: productInfo.default_price,
-    //   rating: calcAverageRating(revMeta.ratings),
-    //   photo: selectedStyle.photos[0].thumbnail_url,
-    // };
     const outfit = {
       productID,
       productInfo,
@@ -54,7 +45,6 @@ const Outline = styled.div`
   height: 100%;
   display: flex;
 `;
-// mask-image: ${props => props.outfitIndex === props.outfits.length - 3 ? "linear-gradient(to right, rgba(0,0,0,1), 40%, rgba(0,0,0,0) 80%)" : " " };
 
 const AddOutfitButton = styled(Button)`
   min-width: 100%;
