@@ -3,6 +3,7 @@ import React, {
 } from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
+import ScrollButton from './ScrollButton';
 
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
@@ -31,27 +32,41 @@ function Thumbnails({
 
   const thumbnailsCount = selectedStyle?.photos?.length;
 
-  function handleScroll(n) {
-    if (place === firstPhotoIndex && n === 1) {
+  // function handleScroll(n) {
+  //   if (place === firstPhotoIndex && n === 1) {
+  //     setPlace((prev) => prev + 1);
+  //   }
+  //   if ((place === firstPhotoIndex + 5) && n === -1) {
+  //     setPlace((prev) => prev - 1);
+  //   }
+  //   setFirstPhotoIndex((prevI) => prevI + n);
+  // }
+
+  const handleClickNext = () => {
+    if (place === firstPhotoIndex) {
       setPlace((prev) => prev + 1);
     }
-    if ((place === firstPhotoIndex + 5) && n === -1) {
+    setFirstPhotoIndex((prev) => prev + 1);
+  };
+
+  const handleClickPrev = () => {
+    if (place === firstPhotoIndex + 5) {
       setPlace((prev) => prev - 1);
     }
-    setFirstPhotoIndex((prevI) => prevI + n);
-  }
+    setFirstPhotoIndex((prev) => prev - 1);
+  };
 
   const thumbnails = selectedStyle?.photos?.map((photo, index) => (
     <ThumbnailContainer
       key={photo?.thumbnail_url}
       // href={`#seq${index + 1}`}
       // href={`#seq${index}`}
-      index={index}
+      // index={index}
       alt={`${selectedStyle?.name} thumbnail`}
       onClick={() => handleClickThumbnail(index)}
       // onClick={() => handleClickThumbnail(photo.url)}
-      place={place}
-      setPlace={setPlace}
+      // place={place}
+      // setPlace={setPlace}
       type="button"
       status={status}
       length={thumbnailsCount}
@@ -84,8 +99,8 @@ function Thumbnails({
       >
         <ThumbnailsCarousel
           status={status}
-          place={place}
-          setPlace={setPlace}
+          // place={place}
+          // setPlace={setPlace}
           length={thumbnails?.length}
           firstPhotoIndex={firstPhotoIndex}
         >
@@ -95,23 +110,21 @@ function Thumbnails({
 
       {thumbnails?.length > 6 && (
         <>
-          <ScrollForward
+          <ScrollButton
             status={status}
             disabled={firstPhotoIndex >= thumbnailsCount - 6}
-            onClick={(e) => handleScroll(1, e)}
-          >
-            <ArrowBackground />
-            <ArrowIcon next />
-          </ScrollForward>
+            handleClick={handleClickNext}
+            position="bottom"
+            background
+          />
 
-          <ScrollBack
+          <ScrollButton
             status={status}
             disabled={firstPhotoIndex < 1}
-            onClick={(e) => handleScroll(-1, e)}
-          >
-            <ArrowBackground />
-            <ArrowIcon prev />
-          </ScrollBack>
+            handleClick={handleClickPrev}
+            position="top"
+            background
+          />
         </>
       )}
 
@@ -137,10 +150,10 @@ const ThumbnailsContainer = styled.div`
   display: ${(props) => (props.status === 'zoomed' ? 'none' : 'block')};
   position: relative;
   @media (min-width: 800px) {
-    ${(props) => (props.status === 'default' && css`
+    ${(props) => props.status === 'default' && css`
       order: -1;
       flex: 1 1 0;
-    `)};
+    `};
   }
 `;
 
@@ -171,12 +184,12 @@ const ThumbnailsCarousel = styled.div`
   box-sizing: border-box;
   overflow: hidden;
 
-  ${(props) => (props.status === 'default' && css`
+  ${(props) => props.status === 'default' && css`
     width: 100%;
-  `)};
+  `};
 
   @media (min-width: 800px) {
-    ${(props) => (props.status === 'default' && css`
+    ${(props) => props.status === 'default' && css`
       flex-direction: column;
       align-items: flex-end;
       justify-content: flex-start;
@@ -184,7 +197,7 @@ const ThumbnailsCarousel = styled.div`
       gap: 0;
       transform: translateY(calc((-100% / ${props.length}) * ${props.firstPhotoIndex}));
       transition: 0.5s ease;
-    `)};
+    `};
   }
 `;
 
@@ -270,12 +283,12 @@ const ThumbnailIcon = styled.span`
   }
 
   @media (min-width: 800px) {
-    display: ${(props) => (props.status !== 'expanded' && 'none')};
+    display: ${(props) => props.status !== 'expanded' && 'none'};
   }
 
-  ${(props) => ((props.index === props.place) && css`
+  ${(props) => props.index === props.place && css`
     background-color: ${props.theme.submitButtonHover};
-  `)};
+  `};
 
   &::active {
     color: ${(props) => props.theme.submitButtonHover};
@@ -292,94 +305,14 @@ const ThumbnailImage = styled.img`
 
   @media (min-width: 800px) {
     display: ${(props) => (props.status === 'default' ? 'block' : 'none')};
-    ${(props) => ((props.index === props.place) && css`
+    ${(props) => props.index === props.place && css`
       border: black solid 1.5px;
       padding: 1.5px;
       transform: scale(1.05);
       transition: scale 0.2s ease;
-    `)};
+    `};
   }
 `;
 
-const Scroll = styled.button`
-  display: none;
-  position: absolute;
-  padding: 0;
-  border: none;
-  background-color: transparent;
-  background-color: ${(props) => props.theme.navBgColor};
-  line-height: 1;
-  font-size: 1em;
-  aspect-ratio: 1;
-  height: 1.5em;
-  @media (min-width: 700px) {
-    font-size: 1.17em;
-  }
-  @media (min-width: 800px) {
-    display: ${(props) => props.status === 'default' && 'flex'};
-  }
-  @media (min-width: 900px) {
-    font-size: 1.5em;
-  }
 
-  z-index: 2;
-  left: 42.5%;
-  transform: translateX(-50%);
-  color: ${(props) => props.theme.fontColor};
-  cursor: pointer;
 
-  &:hover {
-    background-color: rgba(225, 225, 225, 0.9);
-  }
-  &:disabled {
-    opacity: 0.3;
-    cursor: initial;
-  }
-`;
-// background-color: ${(props) => props.theme.navBgColor};
-
-const ScrollBack = styled(Scroll)`
-  top: 0;
-`;
-
-const ScrollForward = styled(Scroll)`
-  bottom: 0;
-`;
-
-const ArrowBackground = styled.span`
-  aspect-ratio: 1;
-  display: flex;
-  position: relative;
-  height:100%;
-`;
-
-const ArrowIcon = styled.span`
-  position: absolute;
-  height: 100%;
-  width: 100%;
-
-  ${(props) => (props.prev && css`
-    &::before {
-      content: '〈';
-      right: 50%;
-      position: absolute;
-      top: 12.5%;
-      width: max-content;
-      transform: rotate(0.25turn) translate(-25%,-50%);
-      font-family: futura-pt, sans-serif;
-      box-sizing: border-box;
-    }
-  `)};
-
-  ${(props) => (props.next && css`
-    top: 50%;
-    &::before {
-      content: '﹀';
-      position: absolute;
-      height: 25%;
-      width: 100%;
-      transform: translate(-50%,-50%);
-      font-family: futura-pt, sans-serif;
-    }
-  `)};
-`;
