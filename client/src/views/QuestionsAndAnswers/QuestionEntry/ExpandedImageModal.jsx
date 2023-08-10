@@ -1,29 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { CloseButton } from '../../../components/Buttons';
 
 function ExpandedImageModal({ src, setShowModal }) {
-  ExpandedImageModal.propTypes = {
-    src: PropTypes.string.isRequired,
-    setShowModal: PropTypes.func.isRequired,
-  };
-
-  function closeModal(event) {
+  const closeModal = (event) => {
     if (event.target.id === 'background') {
       setShowModal(false);
     }
-  }
+  };
 
   return (
     <ModalBackground
       id="background"
-      onClick={(event) => closeModal(event)}
+      onClick={closeModal}
     >
       <ModalContainer>
         <CloseButtonDiv>
-          <CloseButtonButton onClick={() => setShowModal(false)}>
-            &#10006;
-          </CloseButtonButton>
+          <CloseButton $round onClick={() => setShowModal(false)}>
+            &#x2715;
+          </CloseButton>
         </CloseButtonDiv>
         <Image src={src} alt="modal-image" />
       </ModalContainer>
@@ -31,27 +27,31 @@ function ExpandedImageModal({ src, setShowModal }) {
   );
 }
 
+ExpandedImageModal.propTypes = {
+  src: PropTypes.string.isRequired,
+  setShowModal: PropTypes.func.isRequired,
+};
+
 const ModalBackground = styled.div`
   width: 100vw;
   height: 100vh;
-  background-color: ${(props) => props.theme.backgroundColor};
+  background-color: rgba(0, 0, 0, 0.3);
   position: fixed;
   display: flex;
   justify-content: center;
   align-items: center;
   left: 0%;
   top: 0%;
-  color: ${(props) => props.theme.fontColor};
 `;
 
 const ModalContainer = styled.div`
   max-width: 60vw;
   max-height: 90vh;
-  border-radius: 5px;
+  border-radius: 3px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   display: flex;
   flex-direction: column;
-  padding: 25px;
+ /* padding: 25px; */
   background-color: ${(props) => props.theme.backgroundColor};
   color: ${(props) => props.theme.fontColor};
 `;
@@ -59,18 +59,13 @@ const ModalContainer = styled.div`
 const CloseButtonDiv = styled.div`
   display: flex;
   justify-content: flex-end;
-`;
-
-const CloseButtonButton = styled.button`
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  color: ${(props) => props.theme.fontColor};
+  position: relative;
 `;
 
 const Image = styled.img`
   max-width: 50vw;
   max-height: 50vh;
+  border-radius: 3px;
 `;
 
 export default ExpandedImageModal;

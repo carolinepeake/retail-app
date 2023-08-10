@@ -26,7 +26,7 @@ function AnswerEntry({ answer }) {
 
   const clickedHelpful = useRef(false);
 
-  function helpfulAnswer() {
+  const helpfulAnswer = () => {
     if (!clickedHelpful.current) {
       axios
         .put('/answers/helpful', { answer_id: answer.id })
@@ -38,9 +38,9 @@ function AnswerEntry({ answer }) {
           console.log(err);
         });
     }
-  }
+  };
 
-  function reportAnswer() {
+  const reportAnswer = () => {
     axios
       .put('/answers/report', { answer_id: answer.id })
       .then(() => {
@@ -49,12 +49,12 @@ function AnswerEntry({ answer }) {
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
 
-  function handlePhotoClick(event) {
+  const handlePhotoClick = (event) => {
     setShowModal(true);
     setSource(event.target.src);
-  }
+  };
 
   return (
     <Answer key={answer.id}>
@@ -66,7 +66,7 @@ function AnswerEntry({ answer }) {
             src={photo}
             alt=""
             key={photo}
-            onClick={(event) => handlePhotoClick(event)}
+            onClick={handlePhotoClick}
           />
         ))}
       </AnswerPhotos>
@@ -75,7 +75,7 @@ function AnswerEntry({ answer }) {
         <Answerer>
           {'by '}
           {answer.answerer_name.toLowerCase() === 'seller' ? (
-            <b>{answer.answerer_name}</b>
+            <b>&nbsp;{answer.answerer_name}&nbsp;</b>
           ) : (
             answer.answerer_name
           )}
@@ -90,7 +90,7 @@ function AnswerEntry({ answer }) {
             {clickedHelpful.current ? (
               <b>Yes</b>
             ) : (
-              <Clickable onClick={() => helpfulAnswer()}>
+              <Clickable onClick={helpfulAnswer}>
                 Yes
               </Clickable>
             )}
@@ -106,7 +106,7 @@ function AnswerEntry({ answer }) {
           {clickedReport ? (
             <Reported>Reported</Reported>
           ) : (
-            <Clickable onClick={() => reportAnswer()}>
+            <Clickable onClick={reportAnswer}>
               Report
             </Clickable>
           )}
@@ -171,6 +171,7 @@ const Report = styled.div`
 
 const AnswerBody = styled.p`
   margin-block-end: 0.5em;
+  font-weight: 400;
 `;
 
 const Clickable = styled.u`

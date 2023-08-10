@@ -10,21 +10,17 @@ function HelpfulReport({ review }) {
   const [reportClicked, setReportClicked] = useState(false);
   const [report, setReport] = useState('Report');
 
-  const putRequester = function putRequester(reviewID, helpOrReport) {
-    return (axios.put(`/reviews/${reviewID}/${helpOrReport}`)
+  const putRequester = (reviewID, helpOrReport) => (
+    axios.put(`/reviews/${reviewID}/${helpOrReport}`)
       .then((result) => {
         console.log(`put to change ${helpOrReport} value of review ${reviewID} was sent:\n`, result);
       })
       .catch((err) => {
         console.log(`error for put to change ${helpOrReport} of review ${reviewID}:\n`, err);
-      }));
-  };
+      })
+  );
 
-  // const [success, error, status] = useAPI({ method, url, body, parameters }, successCallback, failCallback);
-
-  // const = useAPI(url, (result) => { setIsHelpful(true); })
-
-  const handleHelpfulClick = function handleHelpfulClick() {
+  const handleHelpfulClick = () => {
     const reviewID = review.review_id;
     if (!helpfulClicked) {
       putRequester(reviewID, 'helpful')
@@ -38,7 +34,7 @@ function HelpfulReport({ review }) {
     }
   };
 
-  const handleReport = function handleReport() {
+  const handleReport = () => {
     const reviewID = review.review_id;
     if (!reportClicked) {
       putRequester(reviewID, 'report')
@@ -56,15 +52,17 @@ function HelpfulReport({ review }) {
   return (
     <HelpfulnessDiv>
       <Helpful>
-        Helpful?
-        <YesButton helpfulClicked={helpfulClicked} onClick={() => handleHelpfulClick()}>
+        <Subheader>
+          Helpful?
+        </Subheader>
+        <YesButton helpfulClicked={helpfulClicked} onClick={handleHelpfulClick}>
           <span>Yes</span>
         </YesButton>
         &nbsp;
         {`(${helpfulness})`}
       </Helpful>
       <div>|</div>
-      <ReportButton reportClicked={reportClicked} onClick={() => handleReport()}>
+      <ReportButton reportClicked={reportClicked} onClick={handleReport}>
         <div>{report}</div>
         {/* need to add functionality that changes this to reported once clicked */}
       </ReportButton>
@@ -89,11 +87,15 @@ const HelpfulnessDiv = styled.h6`
   overflow-wrap: break-word;
   margin-bottom: 1em;
   text-decoration: none;
+  font-size: 0.875em;
 `;
 
 const Helpful = styled.div`
   display: flex;
   padding-right: 1em;
+`;
+
+const Subheader = styled.span`
 `;
 
 const YesButton = styled.span`
@@ -104,7 +106,7 @@ const YesButton = styled.span`
   margin-left: 0.5rem;
   &:hover {
     text-decoration: initial;
-  };
+  }
 `;
 
 const ReportButton = styled.div`
@@ -114,6 +116,6 @@ const ReportButton = styled.div`
   text-decoration: ${(props) => (!props.reportClicked ? 'underline' : 'normal')};
   &:hover {
     text-decoration: initial;
-  };
+  }
   padding-left: 1em;
 `;

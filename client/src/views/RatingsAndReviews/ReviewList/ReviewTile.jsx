@@ -18,28 +18,28 @@ function ReviewTile({ review }) {
   return (
     <Container>
       <StarsDateName>
-        <StarCount rating={review.rating} />
+        <StarCount rating={review?.rating} />
         <DateName>
           <ReviewerName>
             {`${review.reviewer_name},`}
             &nbsp;
           </ReviewerName>
-          <div>
-            {format(parseISO(review.date), 'MMMM dd, yyyy')}
-          </div>
+          <Date>
+            {format(parseISO(review?.date), 'MMMM dd, yyyy')}
+          </Date>
         </DateName>
       </StarsDateName>
-      <Summary>{review.summary}</Summary>
+      <Summary>{review?.summary}</Summary>
       {/* need to add word break truncation to summary */}
       <Body>
-        {review.body}
+        {review?.body}
         {/* need to add conditional formatting for past 250 words */}
       </Body>
       {review.recommend
       && <Recommend> &#10003; I recommend this product</Recommend>}
 
       <PhotosDiv>
-        {review.photos.map((photo) => (
+        {review?.photos?.map((photo) => (
           <RevImg
             key={photo.id}
             alt=""
@@ -49,7 +49,7 @@ function ReviewTile({ review }) {
         ))}
       </PhotosDiv>
 
-      {review.response
+      {review?.response
         && (
         <div>
           <Response>
@@ -98,6 +98,7 @@ const StarsDateName = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 0.5rem;
+
 `;
   // margin-top: 1rem;
 
@@ -106,16 +107,19 @@ const StarsDateName = styled.div`
 //   justify-content: flex-end;
 // `;
 
-const DateName = styled.div`
+const DateName = styled.h5`
   display: flex;
   justify-content: flex-end;
-  background: ;
   font-size: 1rem;
-  font-weight: 400;
+  padding-top: 0;
 `;
 
 const ReviewerName = styled.div`
   padding-right: 1rem;
+`;
+
+const Date = styled.div`
+  font-weight: 400;
 `;
 
 const Response = styled.div`

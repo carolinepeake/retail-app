@@ -8,15 +8,13 @@ import Breakdown from './Breakdown/Breakdown';
 import ListNavigation from '../../components/LargeList/ListNavigation';
 import ShowMoreListItems from '../../components/LargeList/ShowMoreListItems';
 import SectionHeader from '../../components/SectionHeader';
-
-// need to change how i get reviews. Just get all at once, then slice.
-// if need to change the filter, just make new get request
+import useModal from '../../hooks/useModal';
+import { Button } from '../../components/Buttons';
 
 function RatingsAndReviews() {
   console.log('[RatingsAndReviews] is running');
   const {
     reviews,
-    // numReviews, setNumReviews,
   } = useGlobalContext();
 
   const [itemsPerPage, setItemsPerPage] = useState(2);
@@ -35,18 +33,23 @@ function RatingsAndReviews() {
     setFilteredRevs(result);
   };
 
-  // useEffect(() => {
-  //   setFilteredRevs(reviews);
-  //   setItemsPerPage(2);
-  //   setPageNum(1);
-  // }, [reviews]);
+  useEffect(() => {
+    setFilteredRevs(reviews);
+    setItemsPerPage(2);
+    setPageNum(1);
+  }, [reviews]);
 
   const revRef = useRef(null);
 
-  // should forwarf ref instead of passing this function
-  // to avoid creating a new function every render
   const scrollToListTop = () => {
     revRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  const [showModal, toggleModal] = useModal();
+
+  const handleAddRev = () => {
+    console.log('togglingModal');
+    toggleModal();
   };
 
   return (
@@ -103,10 +106,13 @@ function RatingsAndReviews() {
                 setPageNum={setPageNum}
               />
             )}
-            <AddRev />
+            <AddRevButton $primary type="button" onClick={handleAddRev}>
+              Add a Review +
+            </AddRevButton>
           </MoreAddContainer>
         </ReviewListContainer>
       </GridContainer>
+      {showModal && <AddRev toggleModal={toggleModal} showModal={showModal} />}
     </Container>
   );
 }
@@ -118,6 +124,7 @@ const Container = styled.div`
   padding-right: 5%;
   padding-bottom: 1.5rem;
   padding-bottom: 5%;
+  position: relative;
 
   @media (min-width: 600px) {
     padding-bottom: 0;
@@ -132,20 +139,20 @@ const GridContainer = styled.div`
   @media (min-width: 600px) {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-  };
+  }
 `;
 
 const ReviewListContainer = styled.div`
 @media (max-width: 600px) {
     width: 100%;
     margin-top: 1.5rem;
-  };
+  }
 
   @media (min-width: 600px) {
     grid-column: 2/4;
     grid-row: 1;
     padding-left: 1em;
-  };
+  }
 `;
 
 const MoreAddContainer = styled.div`
@@ -161,6 +168,10 @@ const MoreAddContainer = styled.div`
   }
 `;
 
+const AddRevButton = styled(Button)`
+  flex: 1;
+`;
+
 const BreakdownContainer = styled.div`
   max-width: 600px;
   margin-top: 0.5rem;
@@ -168,7 +179,7 @@ const BreakdownContainer = styled.div`
   @media (min-width: 400px) {
     padding: 0 2.5%;
     margin 0 auto;
-  };
+  }
 
   @media (min-width: 600px) {
     grid-column: 1/2;
@@ -176,5 +187,5 @@ const BreakdownContainer = styled.div`
     padding: 0 2.5% 0 0;
     margin: 0;
     max-width: 400px;
-  };
+  }
 `;
