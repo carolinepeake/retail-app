@@ -2,10 +2,14 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import axios from 'axios';
-import { Button } from '../../../components/Button';
+import Modal from '../../../components/Modal';
+import { Button } from '../../../components/Buttons';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
-function AddQuestionModal({ setShowModal }) {
+// TODO: extract form inputs, form layout, and modal css components
+// TODO: useForm in this component
+
+function AddQuestionModal({ toggleModal }) {
   console.log('[AddQuestionModal] is running');
 
   const { productID, productInfo } = useGlobalContext();
@@ -48,182 +52,120 @@ function AddQuestionModal({ setShowModal }) {
       console.log('add question input failed validation');
       return;
     }
-    const postBody = {
-      body: formState.body,
-      name: formState.name,
-      email: formState.email,
-      product_id: productID,
-    };
     axios
-      .post('/questions', postBody)
+      .post('/questions', formState)
       .then((result) => {
         console.log('question posted successfully', result);
         setFormState(initialFormState);
-        setShowModal(false);
+        toggleModal();
       })
       .catch((err) => {
         console.log('there was an error adding question: ', err);
       });
   };
 
-  const closeModal = (event) => {
-    if (event.target.id === 'background') {
-      setShowModal(false);
-    }
+  const closeModal = () => {
+    toggleModal();
+    setFormState(initialFormState);
   };
 
   return (
-    <ModalBackground
-      id="background"
-      onClick={closeModal}
+    <Modal
+      closeModal={closeModal}
     >
-      <ModalContainer>
-        <Button close onClick={() => setShowModal(false)}>
-          &#x2715;
-        </Button>
-        <Header>
-          <AskAQuestion>Ask a Question</AskAQuestion>
-          <ProductName>
-            {productInfo.name}
-          </ProductName>
-        </Header>
-        <Form onSubmit={askQuestion}>
-          <FormField htmlFor="body">
-            Question
-            <Required>*</Required>
-          </FormField>
-          <InputQuestion
+      <Form onSubmit={askQuestion}>
+        <ModalTitle>Ask a Question</ModalTitle>
+        <ProductName>
+          {productInfo.name}
+        </ProductName>
+        <FormField htmlFor="body">
+          Question
+          <Required>*</Required>
+        </FormField>
+        <InputQuestion
+          onChange={handleInputChange}
+          rows="6"
+          maxLength="1000"
+          placeholder="Ask your question"
+          value={formState.body}
+          name="body"
+          id="body"
+        />
+        <br />
+        <FormField htmlFor="name">
+          Username
+          <Required>*</Required>
+        </FormField>
+        <div>
+          <FormEntry
             onChange={handleInputChange}
-            rows="6"
-            maxLength="1000"
-            placeholder="Ask your question"
-            value={formState.body}
-            name="body"
-            id="body"
+            maxLength="60"
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Example: jackson11!"
+            value={formState.name}
           />
-          <br />
-          <FormField htmlFor="name">
-            Username
-            <Required>*</Required>
-          </FormField>
-          <div>
-            <FormEntry
-              onChange={handleInputChange}
-              maxLength="60"
-              type="text"
-              id="name"
-              name="name"
-              placeholder="Example: jackson11!"
-              value={formState.name}
-            />
-            <Disclaimer>
-              For privacy reasons, do not use your full name or email
-              address.
-            </Disclaimer>
-          </div>
-          <br />
-          <FormField htmlFor="email">
-            Email
-            <Required>*</Required>
-          </FormField>
-          <div>
-            <FormEntry
-              onChange={handleInputChange}
-              maxLength="60"
-              type="email"
-              id="email"
-              name="email"
-              placeholder="jack@email.com"
-              value={formState.email}
-            />
-            <Disclaimer>
-              For authentication reasons, you will not be emailed.
-            </Disclaimer>
-          </div>
-          <br />
-          {!validInput ? (
-            <Disclaimer>
-              <div>1. Not all fields have been provided.</div>
-              <div>2. Email is not in the correct email format.</div>
-            </Disclaimer>
-          ) : null}
-          <Footer>
-            <FooterButton $primary type="submit">
-              Submit
-            </FooterButton>
-            <FooterButton onClick={() => setShowModal(false)}>
-              Cancel
-            </FooterButton>
-          </Footer>
-        </Form>
-      </ModalContainer>
-    </ModalBackground>
+          <Disclaimer>
+            For privacy reasons, do not use your full name or email
+            address.
+          </Disclaimer>
+        </div>
+        <br />
+        <FormField htmlFor="email">
+          Email
+          <Required>*</Required>
+        </FormField>
+        <div>
+          <FormEntry
+            onChange={handleInputChange}
+            maxLength="60"
+            type="email"
+            id="email"
+            name="email"
+            placeholder="jack@email.com"
+            value={formState.email}
+          />
+          <Disclaimer>
+            For authentication reasons, you will not be emailed.
+          </Disclaimer>
+        </div>
+        <br />
+        {!validInput ? (
+          <Disclaimer>
+            <div>1. Not all fields have been provided.</div>
+            <div>2. Email is not in the correct email format.</div>
+          </Disclaimer>
+        ) : null}
+        <Footer>
+          <FooterButton
+            $primary
+            $submit
+            type="submit"
+          >
+            Submit
+          </FooterButton>
+          <FooterButton
+            type="button"
+            $cancel
+            onClick={closeModal}
+          >
+            Cancel
+          </FooterButton>
+        </Footer>
+      </Form>
+    </Modal>
   );
 }
 
 AddQuestionModal.propTypes = {
-  setShowModal: PropTypes.func.isRequired,
+  toggleModal: PropTypes.func.isRequired,
 };
 
-const ModalBackground = styled.div`
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.3);
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  left: 0%;
-  top: 0%;
-  z-index: 51;
-  @media (min-width: 50rem) {
-    z-index: 20;
-  }
-`;
-
-const ModalContainer = styled.div`
-  width: 100vw;
-  max-height: 100vh;
-  z-index: 52;
-  padding: 2.5em;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: ${(props) => props.theme.backgroundColor};
-  overflow: auto;
-  position: relative;
-
-  @media (min-width: 40rem) {
-    width: 70vw;
-    border: 1px solid;
-    max-height: 90vh;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  }
-
-  @media (min-width: 50rem) {
-    max-height: 80vh;
-    width: 60vw;
-    z-index: 21;
-    top: 1.5rem;
-  }
-`;
-
-const Header = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 100%;
-  @media (min-width: 40rem) {
-    width: 90%;
-  }
-
-  @media (min-width: 50rem) {
-    width: 80%;
-  }
-`;
-
-const AskAQuestion = styled.h2`
+const ModalTitle = styled.h2`
   margin-top: 0px;
+  font-size: 1.75em;
+  color: rgb(55, 78, 98);
 `;
 
 const ProductName = styled.h4`
@@ -239,10 +181,6 @@ const Form = styled.form`
 
   @media (min-width: 40rem) {
     width: 90%;
-  }
-
-  @media (min-width: 50rem) {
-    width: 80%;
   }
 `;
 
@@ -265,6 +203,7 @@ const FormEntry = styled.input`
     color: ${(props) => props.theme.inputPlaceholder};
   }
   border: currentColor solid thin;
+  border-radius: 3px;
   padding: 0.5em;
   font-family: inherit;
   font-size: ${(props) => props.theme.input};
@@ -285,7 +224,7 @@ const InputQuestion = styled.textarea`
     color: ${(props) => props.theme.inputPlaceholder};
   }
   border: currentColor solid thin;
-  border-radius: 5px;
+  border-radius: 3px;
   padding: 0.5em;
   font-size: ${(props) => props.theme.input};
 `;
@@ -296,14 +235,6 @@ const Footer = styled.div`
   padding-top: 1.5em;
   row-gap: 1em;
   width: 100%;
-
-  @media (min-width: 40rem) {
-    width: 90%;
-  }
-
-  @media (min-width: 50rem) {
-    width: 80%;
-  }
 
   @media (min-width: 600px) {
     flex-direction: row;
@@ -323,7 +254,7 @@ const FooterButton = styled(Button)`
 `;
 
 const Required = styled.sup`
-  color: ${(props) => props.theme.formError}
+  color: ${(props) => props.theme.formError};
 `;
 
 const Disclaimer = styled.h5`

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import axios from 'axios';
-import { Button } from '../../../components/Button';
+import { Button } from '../../../components/Buttons';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import AddPhotos from '../../../components/Form/AddPhotos';
 import Modal from '../../../components/Modal';
@@ -11,35 +11,6 @@ import useForm from '../../../hooks/useForm';
 function AddAnswerModal({ question, toggleModal }) {
   console.log('[AddAnswerModal] is running');
   const { productInfo } = useGlobalContext();
-
-  // const initialFormState = {
-  //   question_ID: question.question_id,
-  //   name: {
-  //     value: '',
-  //     isTouched: false,
-  //     error: [],
-  //     required: true,
-  //   },
-  //   email: {
-  //     value: '',
-  //     isTouched: false,
-  //     error: [],
-  //     required: true,
-  //   },
-  //   body: {
-  //     value: '',
-  //     isTouched: false,
-  //     error: [],
-  //     required: true,
-  //   },
-  //   nickname: {
-  //     value: '',
-  //     isTouched: false,
-  //     error: [],
-  //     required: true,
-  //   },
-  //   isValid: false,
-  // };
 
   const initialFormState = {
     question_ID: question.question_id,
@@ -89,9 +60,9 @@ function AddAnswerModal({ question, toggleModal }) {
         id="form"
         onSubmit={handleSubmit}
       >
-        <AddAnswer>
+        <ModalTitle>
           Submit Your Answer
-        </AddAnswer>
+        </ModalTitle>
         <ProductName>
           {`${productInfo.name} : ${question.question_body}`}
         </ProductName>
@@ -101,7 +72,7 @@ function AddAnswerModal({ question, toggleModal }) {
           <Required>*</Required>
         </FormField>
         <InputAnswer
-          // required
+          required
           onChange={(e) => handleInputChange(e.target)}
           maxLength="1000"
           rows="6"
@@ -122,7 +93,7 @@ function AddAnswerModal({ question, toggleModal }) {
         <div>
           <FormEntry
             onChange={(e) => handleInputChange(e.target)}
-            // required
+            required
             maxLength="60"
             type="text"
             id="name"
@@ -144,7 +115,7 @@ function AddAnswerModal({ question, toggleModal }) {
           <FormEntry
             onChange={(e) => handleInputChange(e.target)}
             maxLength="60"
-            // required
+            required
             type="email"
             id="email"
             placeholder="Example: jack@email.com"
@@ -163,12 +134,14 @@ function AddAnswerModal({ question, toggleModal }) {
         )}
         <Footer id="footer">
           <FooterButton
-            modal
+            $primary
+            $submit
             type="submit"
           >
             Submit
           </FooterButton>
           <FooterButton
+            $cancel
             type="button"
             onClick={closeModal}
           >
@@ -188,8 +161,10 @@ AddAnswerModal.propTypes = {
   toggleModal: PropTypes.func.isRequired,
 };
 
-const AddAnswer = styled.h2`
+const ModalTitle = styled.h2`
   margin-top: 0px;
+  font-size: 1.75em;
+  color: rgb(55, 78, 98);
 `;
 
 const ProductName = styled.h4`
@@ -219,6 +194,7 @@ const FormEntry = styled.input`
   padding: 0.5em;
   margin-top: 0.25em;
   border: currentColor solid thin;
+  border-radius: 3px;
   cursor: initial;
   font-family: inherit;
   font-size: ${(props) => props.theme.input};
@@ -252,7 +228,7 @@ const InputAnswer = styled.textarea`
     color: ${(props) => props.theme.inputPlaceholder};
   }
   border: currentColor solid thin;
-  border-radius: 5px;
+  border-radius: 3px;
   padding: 0.5em;
 
   &:focus {

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 import StarRating from './StarRating';
 import RecommendRadio from './RecommendRadio';
 import Characteristics from './Characteristics';
@@ -8,11 +9,11 @@ import AddPhotos from '../../../components/Form/AddPhotos';
 import Modal from '../../../components/Modal';
 import useForm from '../../../hooks/useForm';
 import { CHARACTERISTICS } from '../../../constants/constants';
-import { Button } from '../../../components/Button';
+import { Button } from '../../../components/Buttons';
 
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
-function AddRev({ toggleModal, showModal }) {
+function AddRev({ toggleModal }) {
   const {
     productID, productInfo, revMeta,
   } = useGlobalContext();
@@ -68,7 +69,6 @@ function AddRev({ toggleModal, showModal }) {
       .then(() => {
         // show success message
         console.log('review submitted successfully');
-        // closeModal();
         toggleModal();
         // repopulate reviews?
       })
@@ -96,7 +96,7 @@ function AddRev({ toggleModal, showModal }) {
     <Modal closeModal={closeModal}>
       <FormContainer onSubmit={handleSubmit}>
 
-        <WriteAReview>Write a Review</WriteAReview>
+        <ModalTitle>Write a Review</ModalTitle>
         <ProductName>
           {productInfo.name}
         </ProductName>
@@ -132,17 +132,14 @@ function AddRev({ toggleModal, showModal }) {
         {Object.keys(revMeta.characteristics).map((name) => {
           const characteristic = CHARACTERISTICS[name];
           return (
-            <>
-              <Characteristics
-                key={name}
-                  // id={id}
-                name={name}
-                characteristic={characteristic}
-                handleInputChange={handleInputChange}
-                inputState={formState.characteristics}
-              />
-              {/* <br /> */}
-            </>
+            <Characteristics
+              key={name}
+              id={name.id}
+              name={name}
+              characteristic={characteristic}
+              handleInputChange={handleInputChange}
+              inputState={formState.characteristics}
+            />
           );
         })}
         <br />
@@ -239,8 +236,8 @@ function AddRev({ toggleModal, showModal }) {
           )}
 
         <ButtonContainer>
-          <ButtonDiv $primary type="submit">Submit</ButtonDiv>
-          <ButtonDiv type="button" onClick={() => closeModal()}> Cancel </ButtonDiv>
+          <ButtonDiv $primary $submit type="submit">Submit</ButtonDiv>
+          <ButtonDiv $cancel type="button" onClick={closeModal}> Cancel </ButtonDiv>
         </ButtonContainer>
 
       </FormContainer>
@@ -248,16 +245,16 @@ function AddRev({ toggleModal, showModal }) {
   );
 }
 
-// AddRev.propTypes = {
-//   revMeta: PropTypes.shape({
-//     product_id: PropTypes.string,
-//   }).isRequired,
-// };
+AddRev.propTypes = {
+  toggleModal: PropTypes.func.isRequired,
+};
 
 export default AddRev;
 
-const WriteAReview = styled.h2`
+const ModalTitle = styled.h2`
   margin-top: 0px;
+  font-size: 1.75em;
+  color: rgb(55, 78, 98);
 `;
 
 const ProductName = styled.h4`
@@ -292,6 +289,8 @@ const RecommendProdLabel = styled.span`
   font-weight: 300;
   color: ${(props) => props.theme.fontColor};
   font-size: ${(props) => props.theme.body};
+  font-weight: 400;
+  color: rgb(37, 55, 70);
 `;
 
 const CustomLabel = styled.label`
@@ -300,7 +299,6 @@ const CustomLabel = styled.label`
   font-weight: 400;
 `;
 
-// margin-top: 0.5em;
 const TextAreaDiv = styled.textarea`
   resize: none;
   display: block;
