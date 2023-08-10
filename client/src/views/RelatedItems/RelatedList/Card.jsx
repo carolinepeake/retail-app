@@ -2,13 +2,10 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
-// import StarButton from './StarButton';
 import CardImage from './CardImage';
 import Stars from './Stars';
 import {
   calcAverageRating,
-  // getProductInfo,
-  // getReviewsMetaData,
 } from '../../../utils/useAverageRating';
 
 function Card({
@@ -19,20 +16,18 @@ function Card({
     setProductID,
   } = useGlobalContext();
 
-  // understand why passing function as JSX props causes unnecessary re-render
   // understand why arrow functions do not bind
   // understand why need to wrap arrow function in useCallback
   // and use this type of function declaration/definition (understand which type it is)
   // https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-no-bind.md
 
   function changeItem() {
-    setProductID(product.productID);
-    // Reset card index when clicking on new item
+    setProductID(product?.productID);
     setIndex(0);
     setTranslate(0);
   }
 
-  const rating = calcAverageRating(product.revMeta.ratings);
+  const rating = calcAverageRating(product?.revMeta?.ratings);
 
   return (
     <CardContainer
@@ -42,14 +37,14 @@ function Card({
         {children}
 
         <CardImage
-          imageUrl={product.selectedStyle.photos[0].thumbnail_url}
+          imageUrl={product?.selectedStyle?.photos[0]?.thumbnail_url}
         />
         <TextContainer>
-          <Text category>{product.productInfo.category}</Text>
-          <Text productName>{product.productInfo.name}</Text>
+          <Text category>{product?.productInfo?.category}</Text>
+          <Text productName>{product?.productInfo?.name}</Text>
           <Text price>
             $
-            {product.productInfo.default_price}
+            {product?.productInfo?.default_price}
           </Text>
           <Stars
             rating={rating}
@@ -68,21 +63,21 @@ function Card({
 //       category: PropTypes.string,
 //       default_price: PropTypes.string,
 //     }),
-  //   selectedStyle: PropTypes.arrayOf(
-  //     PropTypes.shape({
-  //       style_id: PropTypes.number,
-  //       name: PropTypes.string,
-  //       original_price: PropTypes.string,
-  //       sale_price: PropTypes.string,
-  //       'default?': PropTypes.bool,
-  //       photos: PropTypes.arrayOf(
-  //         thumbnail_url: PropTypes.string,
-  //         url: PropTypes.string,
-  //       ),
-  //       skus: PropTypes.shape({
-  //         PropTypes.string: PropTypes.shape({
-  //           size: PropTypes.number,
-  // }).isRequired,
+//     selectedStyle: PropTypes.arrayOf(
+//       PropTypes.shape({
+//         style_id: PropTypes.number,
+//         name: PropTypes.string,
+//         original_price: PropTypes.string,
+//         sale_price: PropTypes.string,
+//         'default?': PropTypes.bool,
+//         photos: PropTypes.arrayOf(
+//           thumbnail_url: PropTypes.string,
+//           url: PropTypes.string,
+//         ),
+//         skus: PropTypes.shape({
+//           PropTypes.string: PropTypes.shape({
+//             size: PropTypes.number,
+//   }).isRequired,
 // };
 
 const CardContainer = styled.div`

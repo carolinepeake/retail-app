@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import Card from '../RelatedList/Card';
 import AddOutfit from './AddOutfit';
-import { StyledExitButton } from '../../../components/Button';
+import { CloseButton } from '../../../components/Buttons';
 
 function OutfitList() {
   console.log('[OutfitList] is running');
@@ -19,19 +19,19 @@ function OutfitList() {
     setTranslate(updatedTransform);
   }, [outfits.length]);
 
-  function handlePrev() {
+  const handlePrev = () => {
     const transform = -100 / (outfits.length + 1);
     setTranslate(transform);
     setIndex((prev) => prev - 1);
-  }
+  };
 
-  function handleNext() {
+  const handleNext = () => {
     const transform = -100 / (outfits.length + 1);
     setTranslate(transform);
     setIndex((prev) => prev + 1);
-  }
+  };
 
-  function removeOutfit(event, i) {
+  const removeOutfit = (event, i) => {
     // moving index used for translation back 1 if currently at end of list
     event.stopPropagation();
     if (index === outfits.length) {
@@ -40,10 +40,9 @@ function OutfitList() {
     const tempArray = [...outfits];
     tempArray.splice(i, 1);
     setOutfits(tempArray);
-  }
+  };
 
   return (
-
     <CarouselContainer>
 
       <CarouselContent
@@ -66,7 +65,7 @@ function OutfitList() {
               i={i}
             >
               <Close
-                type="button"
+                $round
                 onClick={(event) => removeOutfit(event, i)}
               >
                 &#10005;
@@ -85,14 +84,14 @@ function OutfitList() {
       </CarouselContent>
 
       <LeftButton
-        onClick={(e) => handlePrev(e)}
+        onClick={handlePrev}
         index={index}
       >
         <ArrowBackground />
         <ArrowIcon prev />
       </LeftButton>
       <RightButton
-        onClick={(e) => handleNext(e)}
+        onClick={handleNext}
         length={outfits.length + 1}
         index={index}
       >
@@ -187,7 +186,7 @@ const CarouselButton = styled.button`
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     opacity: 1;
-  };
+  }
   font-weight: 500;
   background-color: ${(props) => props.theme.navBgColor};
   opacity: 0.8;
@@ -197,7 +196,7 @@ const CarouselButton = styled.button`
   height: 2em;
   @media (min-width: 700px) {
     font-size: 1.17em;
-  };
+  }
 `;
 
 const RightButton = styled(CarouselButton)`
@@ -300,8 +299,8 @@ const ArrowIcon = styled.span`
   `};
 `;
 
-const Close = styled(StyledExitButton)`
-  font-size: 1em;
+const Close = styled(CloseButton)`
+ */ font-size: 1em; */
   top: 0.25em;
   right: 0.25em;
   opacity: 0.5;

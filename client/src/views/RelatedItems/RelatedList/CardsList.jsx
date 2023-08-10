@@ -7,7 +7,6 @@ import StarButton from './StarButton';
 
 function CardsList() {
   console.log('[CardsList] is running');
-  // for now includes stars and product info data, will eventually just be product id
   const {
     productList,
   } = useGlobalContext();
@@ -18,7 +17,7 @@ function CardsList() {
   const [hidePrev, setHidePrev] = useState(true);
   const [hideNext, setHideNext] = useState(false);
 
-  function handlePrev() {
+  const handlePrev = () => {
     setHideNext(false);
     const transform = -100 / productList.length;
     setTranslate(transform);
@@ -26,14 +25,14 @@ function CardsList() {
       setHidePrev(true);
     }
     setIndex((prev) => prev - 1);
-  }
+  };
 
-  function handleNext() {
+  const handleNext = () => {
     setHidePrev(false);
     const transform = -100 / productList.length;
     setTranslate(transform);
     setIndex((prev) => prev + 1);
-  }
+  };
 
   const [modal, setModal] = useState(null);
 
@@ -41,12 +40,12 @@ function CardsList() {
     setModal(null);
   }, [setModal]);
 
-  function handleBackgroundClick(event) {
+  const handleBackgroundClick = (event) => {
     if (event.target.id === 'CompareProductsBackground') {
       closeModal();
     }
     event.stopPropagation();
-  }
+  };
 
   return (
     <>
@@ -88,14 +87,14 @@ function CardsList() {
         </CarouselContent>
 
         <LeftButton
-          onClick={(e) => handlePrev(e)}
+          onClick={handlePrev}
           hidePrev={hidePrev}
         >
           <ArrowBackground />
           <ArrowIcon prev />
         </LeftButton>
         <RightButton
-          onClick={(e) => handleNext(e)}
+          onClick={handleNext}
           hideNext={hideNext}
           length={productList.length}
           index={index}
