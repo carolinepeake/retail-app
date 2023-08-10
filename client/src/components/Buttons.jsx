@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 
 export const Button = styled.button`
   border: currentColor thin solid;
+  border-radius: 3px;
   margin: 0.5em 0;
   padding: 1em;
   font-size: ${(props) => props.theme.body};
@@ -30,10 +31,27 @@ export const Button = styled.button`
       box-shadow: initial;
     }
   `};
+
+  ${(props) => props.$cancel && css`
+    border: none;
+    &:hover {
+      text-decoration: underline;
+      box-shadow: initial;
+    }
+  `};
+
+  ${(props) => props.$submit && css`
+    color: white;
+    background-color: rgb(55, 78, 98);
+    border-color: rgb(55, 78, 98);
+    &:hover {
+      border-color: ${props.theme.submitButtonHover};
+    }
+  `};
 `;
 
 export const CloseButton = styled.button.attrs(() => ({
-  type: 'text',
+  type: 'button',
 }))`
   position: absolute;
   right: 0.5em;
