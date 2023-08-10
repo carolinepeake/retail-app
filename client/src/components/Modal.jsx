@@ -1,7 +1,7 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Button } from './Button';
+import { CloseButton } from './Buttons';
 
 function Modal({
   closeModal,
@@ -12,37 +12,16 @@ function Modal({
       closeModal();
     }
   };
-  // click outside modal alternative -- not sure which is better
-  // const modalRef = useRef(null);
-  // useEffect(() => {
-  //   const onClickOutside = (e) => {
-  //     const element = e.target;
-  //     if (!modalRef?.current?.contains(element)) {
-  //       e.preventDefault();
-  //       e.stopPropagation();
-  //       closeModal();
-  //     }
-  //   };
-  //   document.body.addEventListener('click', onClickOutside);
-  //   return () => document.removeEventListener('click', onClickOutside);
-  // }, []);
-
-  // const inputRef = useRef(null);
-  // useEffect(() => {
-  //  inputRef.current.focus();
-  // }, []);
 
   return (
     <ModalBackground
       id="modalBackground"
       onClick={clickOutsideModal}
     >
-      <ModalContainer
-        // ref={modalRef}
-      >
-        <Button close onClick={closeModal}>
+      <ModalContainer>
+        <CloseButton $square onClick={closeModal}>
           &#x2715;
-        </Button>
+        </CloseButton>
         {children}
       </ModalContainer>
     </ModalBackground>
@@ -51,7 +30,7 @@ function Modal({
 
 Modal.propTypes = {
   closeModal: PropTypes.func.isRequired,
-  // children: React.el.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 const ModalBackground = styled.div`
@@ -64,18 +43,16 @@ const ModalBackground = styled.div`
   align-items: center;
   left: 0;
   top: 0;
- /* z-index: 51;
+  z-index: 51;
   @media (min-width: 50rem) {
     z-index: 20;
-  } */
-  z-index: 20;
+  }
 `;
 
-// ModalDialogue?
 const ModalContainer = styled.div`
   width: 100vw;
   max-height: 100vh;
-/*  z-index: 52; */
+  z-index: 52;
   padding: 2.5em;
   display: flex;
   flex-direction: column;
@@ -94,7 +71,7 @@ const ModalContainer = styled.div`
 
   @media (min-width: 50rem) {
     max-height: 80vh;
-   /* z-index: 21; */
+    z-index: 21;
     top: 1.5rem;
   }
 `;
