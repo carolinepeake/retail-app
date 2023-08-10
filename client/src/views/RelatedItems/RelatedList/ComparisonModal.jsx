@@ -1,23 +1,19 @@
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable max-len */
-/* eslint-disable guard-for-in */
-/* eslint-disable no-restricted-syntax */
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
-import { Button } from '../../../components/Button';
+import { CloseButton } from '../../../components/Buttons';
 
 function ComparisonModal({ details, closeModal }) {
   const {
     productInfo,
   } = useGlobalContext();
 
-  const currentProduct = productInfo.features;
-  const comparedProduct = details.features;
+  const currentProduct = productInfo?.features;
+  const comparedProduct = details?.features;
 
   const comparison = {};
-  for (let i = 0; i < currentProduct.length; i += 1) {
+  for (let i = 0; i < currentProduct?.length; i += 1) {
     if (currentProduct[i].value === null) {
       comparison[currentProduct[i].feature] = {
         [productInfo.name]: '✓',
@@ -32,7 +28,7 @@ function ComparisonModal({ details, closeModal }) {
       };
     }
   }
-  for (let i = 0; i < comparedProduct.length; i += 1) {
+  for (let i = 0; i < comparedProduct?.length; i += 1) {
     // Create the "feature" property in modal if it doesn't exist in current product
     if (comparison[comparedProduct[i].feature] === undefined) {
       if (comparedProduct[i].value === null) {
@@ -59,21 +55,21 @@ function ComparisonModal({ details, closeModal }) {
       <Table>
         <Caption>
           <span>Compare Products</span>
-          <CloseButton close type="button" onClick={() => closeModal()}>&#x2715;</CloseButton>
+          <StyledCloseButton $squre onClick={closeModal}>&#x2715;</StyledCloseButton>
         </Caption>
         <thead>
           <tr>
-            <ProductHeading id={productInfo.name}>
-              {productInfo.name}
+            <ProductHeading id={productInfo?.name}>
+              {productInfo?.name}
             </ProductHeading>
             <FeaturesHeading />
-            <ProductHeading id={details.name}>
-              {details.name}
+            <ProductHeading id={details?.name}>
+              {details?.name}
             </ProductHeading>
           </tr>
         </thead>
         <Body>
-          {allFeatures.map((feature) => (
+          {allFeatures?.map((feature) => (
             <Row key={feature.feature}>
               <Cell headers={`${productInfo.name} ${feature.feature}`}>
                 {feature[productInfo.name]}
@@ -130,7 +126,6 @@ const Table = styled.table`
   border-spacing: 0;
   background-color: ${(props) => props.theme.backgroundColor};
 `;
-// font-size: 0.83em;
 
 const Caption = styled.caption`
   padding: 1em;
@@ -142,7 +137,7 @@ const Caption = styled.caption`
   position: relative;
 `;
 
-const CloseButton = styled(Button)`
+const StyledCloseButton = styled(CloseButton)`
   top: 0.25em;
 `;
 
