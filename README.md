@@ -177,9 +177,6 @@ To support the upload of user pictures for the ratings and reviews section, you 
 <table>
   <tr>
     <th>Caroline P</th>
-    <th>Andy </th>
-    <th>Gary</th>
-    <th>Ibraheem</th>
   </tr>
   <!-- Sections -->
    <tr>
