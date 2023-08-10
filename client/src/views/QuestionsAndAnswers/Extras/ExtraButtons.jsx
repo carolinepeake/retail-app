@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import AddQuestionModal from './AddQuestionModal';
-import { Button } from '../../../components/Button';
+import { Button } from '../../../components/Buttons';
 import ShowMoreListItems from '../../../components/LargeList/ShowMoreListItems';
+import useModal from '../../../hooks/useModal';
 
 // TO-DO: extract this component and use for QA and RR
 
@@ -14,7 +15,7 @@ function ExtraButtons({
   setPageNum,
   listLength,
 }) {
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, toggleModal] = useModal();
 
   return (
     <ButtonContainer>
@@ -28,11 +29,17 @@ function ExtraButtons({
           setPageNum={setPageNum}
         />
       )}
-      <QuestionsButton type="button" $primary onClick={() => setShowModal(true)}>
+      <QuestionsButton
+        type="button"
+        $primary
+        onClick={toggleModal}
+      >
         Ask a Question +
       </QuestionsButton>
       {showModal && (
-        <AddQuestionModal setShowModal={setShowModal} />
+        <AddQuestionModal
+          toggleModal={toggleModal}
+        />
       )}
     </ButtonContainer>
   );
@@ -57,7 +64,7 @@ const ButtonContainer = styled.div`
     justify-content: space-evenly;
     align-items: center;
     padding: 1.0em 0 1.0em 0;
-  };
+  }
 `;
 
 const QuestionsButton = styled(Button)`
@@ -66,7 +73,7 @@ const QuestionsButton = styled(Button)`
 
   @media (min-width: 600px) {
     margin: 0;
-  };
+  }
 `;
 
 export default ExtraButtons;
