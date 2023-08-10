@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import Search from '../../components/Search';
-import { Button } from '../../components/Button';
+import { Button } from '../../components/Buttons';
 import LinksList from './LinksList';
 
 // TO-DO: add scroll event listener for nav sections
@@ -15,7 +15,6 @@ function NavBar({ toggleTheme }) {
     toggleTheme: PropTypes.func.isRequired,
   };
 
-  const [searchTerm, setSearchTerm] = useState('');
   const [searchClosed, setSearchClosed] = useState(true);
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -23,8 +22,7 @@ function NavBar({ toggleTheme }) {
     setIsExpanded((prev) => !prev);
   };
 
-  const toggleSearchBarVisibility = (e) => {
-    e.preventDefault();
+  const toggleSearchBarVisibility = () => {
     setSearchClosed((prev) => !prev);
   };
 
@@ -45,10 +43,8 @@ function NavBar({ toggleTheme }) {
       <RightSide searchClosed={searchClosed}>
         <Search
           placeholder="Search..."
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
           searchClosed={searchClosed}
-          clickHandler={toggleSearchBarVisibility}
+          handleSearch={toggleSearchBarVisibility}
         />
 
         <CollapsedNav
@@ -57,7 +53,7 @@ function NavBar({ toggleTheme }) {
           aria-controls="navbar-menu"
           aria-label="Toggle menu"
           aria-expanded={isExpanded}
-          onClick={() => toggleNavbarVisibility()}
+          onClick={toggleNavbarVisibility}
           searchClosed={searchClosed}
         >
           <IconBar />
@@ -93,7 +89,9 @@ const Background = styled.div`
   position: sticky;
   top: 0;
   background-color: ${(props) => props.theme.navBgColor};
+ /*  background-color: ${(props) => props.theme.blue[0]}; */
   color: ${(props) => props.theme.navFontColor};
+ /* color: ${(props) => props.theme.blue[4]}; or 5 */
   background-size: 100% 100%;
   background-repeat: no-repeat;
   height: auto;
@@ -128,9 +126,11 @@ const Logo = styled(Button)`
   margin: 0;
   background-color: ${(props) => props.theme.backgroundColor};
   color:  ${(props) => props.theme.navFontColor};
+  /* color:  ${(props) => props.theme.blue[5]}; 0 4 */
   &:hover {
     background-color: ${(props) => props.theme.secondaryBackgroundColor};
-    color: ${(props) => props.theme.navActiveFontColor};
+   /* background-color: ${(props) => props.theme.blue[3]}; */
+   /* color: ${(props) => props.theme.navActiveFontColor}; */
     box-shadow: initial;
   }
   font-size: calc(24px + 1.2vw);
@@ -196,10 +196,12 @@ const CollapsedNav = styled.button`
   align-items: center;
   margin-left: 1.0em;
   color: ${(props) => props.theme.navFontColor};
+  /* color:  ${(props) => props.theme.blue[4]}; or 5*/
   opacity: 1.0;
   &:hover {
     opacity: 1.0;
     color: ${(props) => props.theme.navActiveFontColor};
+   /*  color:  ${(props) => props.theme.blue[5]}; */
   }
   ${(props) => props.searchClosed && css`
     margin-left: 0.5em;
@@ -226,15 +228,16 @@ const ExpandedNav = styled.div`
   position: absolute;
   z-index: 5;
   right: 5%;
+ /* top: ${(props) => (props.isExpanded ? '4em' : '-1en')}; */
+ /* transition: 0.5s ease; */
   top: 100%;
   width: 20em;
   max-width: 85vw;
-  border-bottom: ${(props) => props.theme.fontColor} solid 1px;
-  border-top: ${(props) => props.theme.fontColor} solid 1px;
+  border: ${(props) => props.theme.fontColor} solid 1px;
   background-color: ${(props) => props.theme.navBgColor};
+ /* background-color: ${(props) => props.theme.blue[0]}; */
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  border-right: ${(props) => props.theme.fontColor} solid 1px;
-  border-left: ${(props) => props.theme.fontColor} solid 1px;
+
   @media (min-width: 50rem) {
     display: none;
   }

@@ -56,17 +56,18 @@ const GridItem = styled.a`
   cursor: pointer;
   &:link {
     color: ${(props) => props.theme.navFontColor};
+   /* color:  ${(props) => props.theme.blue[5]}; */
     text-decoration: none;
   }
   &:visited {
-    color: ${(props) => props.theme.visitedColor};
+    color: ${(props) => props.theme.visitedColor}; */
   }
   &:hover {
     text-decoration: underline;
-    color: ${(props) => props.theme.navActiveFontColor};
+   /* color: ${(props) => props.theme.navActiveFontColor}; */
   }
   &:active {
-    color: ${(props) => props.theme.visitedColor};
+    color: ${(props) => props.theme.visitedColor}; */
   }
   @media (max-width: 50rem) {
       display: none;
@@ -78,13 +79,15 @@ const GridItem = styled.a`
       width: 100%;
       text-align: left;
       background-color: ${props.theme.navBgColor};
+     /* background-color: ${props.theme.blue[0]}; */
       transition: transform 0.25s ease;
       &.last {
-      border-bottom: none;
+        border-bottom: none;
       }
       &:hover {
         transform: scale(1.025);
         background-color: ${props.theme.submitButton};
+       /* background-color: ${props.theme.blue[3]}; */
         text-decoration: none;
         border: ${props.theme.fontColor} solid 1px;
       }
