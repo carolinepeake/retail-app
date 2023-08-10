@@ -23,7 +23,7 @@
 # About the Project
 
   <p align="left">
-   Atelier Fashion: Retail Application is a single-page React application made using vanilla CSS, Node.js, and Express, tested with Jest, and hosted on AWS.</p>
+   Atelier Fashion: Retail Application is a single-page React application made using Styled-Components (vanilla CSS), Node.js, and Express, tested with Jest, and hosted on AWS.</p>
 
 
 ### Front-End:
@@ -100,23 +100,7 @@ To support the upload of user pictures for the ratings and reviews section, you 
   <p align="right">
                   (<a href="#readme-top">back to top</a>)</p>
 
- # Contributions
-
-I forked this repository from the contributors' group's repository and made significant changes to it before publishing it to my personal github.
-
-My individual contributions are highlighted in the screenshots and details section and include: <!-- INCLUDE SCREENSHOTS -->
-<br/>
-* **Navigation bar layout, collapsed & expanded**
-* **Search bar UI (Nav / Q&A)**
-* **Product Overview UI & UX**
-* **Related Items image coursel UI & UX**
-* **Related Items card UI**
-* **Questions & Answers layout**
-* **Reviews layout and "more reviews" UX**
-* **Responsiveness**
-* **Overall page layout and cohesiveness**
-
-Standardizing the application's spacing, font, and the sizing and styling of some repeated components, mobile and giant layout w/ media queries
+ 
 
 <br/>
 
@@ -126,7 +110,6 @@ Standardizing the application's spacing, font, and the sizing and styling of som
 
 
 # Screenshots & Details
-<h4 align="right">*My contributions are highlighted in red</h4>
 
 <br/>
 
@@ -134,7 +117,7 @@ Standardizing the application's spacing, font, and the sizing and styling of som
 1. Product Overview
    <details>
      <summary>Written Details</summary>
-     <p>The Product Overview section displays product information, available styles, and an image gallery for the selected product. Users may select a particular style by clicking on its thumbnail, and view additional images of this style by clicking through the image carousel on the left side of the main image or using the forward and back arrows to either side of the main image. Clicking on the main image will expand it and clicking on the expanded image will zoom the image 2.5 times and allow the user to pan the zoom image on hover. Clicking the main image again will exit the enlarged view.</p>
+     <p>The Product Overview section displays product information, available styles, and an image gallery for the selected product. Users may select a particular style by clicking on its circular thumbnail image, and view additional images of this style by clicking through the image carousel on the left side of the main image (lefthand side image carousel is not displayed on smaller device widths) or using the forward and back arrows to either side of the main image. Users may also scroll directly to an image of the selected style by clicking on its anchor, which will be either an icon or thumbnail depending on device width. Clicking on the main image will expand the main image and clicking on the expanded image will zoom the image 2.5 times and allow the user to pan the zoom image on hover. Clicking the main image again will exit the enlarged view.</p>
    </details>
     <details>
     <summary>Video: Image Gallery Zoom and Pan Feature</summary>
@@ -155,16 +138,17 @@ Standardizing the application's spacing, font, and the sizing and styling of som
     <summary> Related Products & Outfits List Screenshot</summary>
       <img width="950" align="center" alt="new_related" src="https://user-images.githubusercontent.com/100883305/233085678-8e730dc7-8c6d-46c0-a64c-9538456da3a9.png">
   </details>
-   <br> The Related Products section displays an image carousel of products related to the product currently being viewed. The carousel displays a maximum of 4 items at a time, and users can navigate through any additional related items by clicking the arrows on the right and left side of the carousel, unless the first or last item is showing. Clicking on a product card redirects to that product's page. Users can utilize the outfit list by adding/removing products they might be interested in.
+   <br> The Related Products section displays an image carousel of products related to the currently selected product. The number of carousel items visible at once changes dynamically depending on the view width. Uers can navigate through any additional related items by clicking the arrows on the right and left side of the carousel. The carousel will scroll through all the visible items, and display all items that were previously not visible, unless there are no more list items in the scroll direction, in which case, the carousel will scroll until it reaches the item at the end of list in the scroll direction. The arrows are not visible if the last item in either direction is already showing. Clicking on a related item card redirects to that product's page. Users can create an outfit list by adding/removing products they might be interested in.
+   The user can compare details of the currently selected product and a related product by clicking the star button in the upper righthand corner of a related item card. Clicking the "X" button in the upper righthand corner of an outfit list card removes that product from the user's outfit list.
 
-   Refactoring the related items image carousel to scroll correctly, display arrows only when scrolling is possible, and include a masking effect
+
 
 3.  Questions & Answers
     <details>
     <summary> Questions & Answers Screenshot</summary>
        <img width="950" align="center" alt="questions and answers" src="https://user-images.githubusercontent.com/100883305/233085608-99418387-8828-49e0-9506-a422b7b0260d.png">
     </details>
-   <br> The Questions & Answers section contains a search bar, questions and answers, as well as many more features. Users are also able to add their own question they have about a product. Each question can be marked as helpful or reported, and can also be answered. The search bar will allow the user to filter out questions for any specific term they want to look for.
+   <br> The Questions & Answers section contains a list of questions and their answers, the ability to report or mark as helpful a question or answer, and the ability to add a question or answer. The search bar will allow the user to filter out questions and answers containing the searched term.
 
 
 4.  Ratings & Reviews
@@ -174,7 +158,7 @@ Standardizing the application's spacing, font, and the sizing and styling of som
     </summary>
         <img width="950" align="center" alt="ratings and reviews" src="https://user-images.githubusercontent.com/100883305/233085585-5bdfec2f-ac1d-46e8-a786-4a4383b41fa5.png">
       </details>
-   <br>The ratings and reviews section shows all reviews for the current product being displayed, as well as a breakdown of the ratings and product characteristics. The list of reviews can be sorted by relevance, helpfulness, or date. The user can also filter reviews by their star ratings. A user may add their own review to the list. Reviews can also be marked as helpful or reported.
+   <br>The ratings and reviews section shows all reviews for the current product being displayed, as well as a breakdown of the ratings and product characteristics. The list of reviews can be sorted by relevance, helpfulness, or date. The user can also filter reviews by their star rating. A user may add their own review to the list. Reviews can also be marked as helpful or reported.
 
 
   <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -195,10 +179,11 @@ Standardizing the application's spacing, font, and the sizing and styling of som
   </tr>
   <!-- Sections -->
    <tr>
-    <th>Product Overview & Related Items Carousel</th>
-    <th>Related Items Cards & Outfit List</th>
-    <th>Questions & Answers</th>
-    <th>Ratings & Reviews</th>
+    <th>Product Overview & Related Items Carousel
+      Related Items Cards & Outfit List
+      Questions & Answers
+      Ratings & Reviews
+    </th>
    </tr>
   <tr>
     <td>
@@ -206,21 +191,7 @@ Standardizing the application's spacing, font, and the sizing and styling of som
       <a href="https://github.com/carolinepeake"> <!-- Caroline    -->
         <img src="https://img.shields.io/badge/github%20-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/>
       </a>
-    <td>
-      <a href="https://github.com/andy"> <!-- Andy    -->
-        <img src="https://img.shields.io/badge/github%20-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/>
-      </a>
-    </td>
-    <td>
-      <a href="https://github.com/gary"> <!-- Gary    -->
-        <img src="https://img.shields.io/badge/github%20-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/>
-      </a>
-    </td>
-    <td>
-      <a href="https://github.com/ibr"> <!-- Ibr    -->
-        <img src="https://img.shields.io/badge/github%20-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/>
-      </a>
-    </td>
+   
   <tr>
       <!-- LINKEDIN LINKS      -->
     <td>
@@ -228,21 +199,7 @@ Standardizing the application's spacing, font, and the sizing and styling of som
         <img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/>
       </a>
     </td>
-    <td>
-      <a href="https://www.linkedin.com/in/andy/">  <!-- Andy    -->
-        <img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/>
-      </a>
-    </td>
-    <td>
-      <a href="https://www.linkedin.com/in/gary/">  <!-- Gary    -->
-        <img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/>
-      </a>
-    </td>
-     <td>
-      <a href="https://www.linkedin.com/in/Ibr/"> <!-- Ibr    -->
-        <img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/>
-      </a>
-    </td>
+  </tr>
 </table>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
