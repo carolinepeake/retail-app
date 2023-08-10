@@ -1,3 +1,7 @@
+<h1 align="center">ATTENTION!! I HAVE NOT UPDATED THE SCREENSHOTS ANSD GIFS IN MY README YET TO RELECT THE CURRENT STATUS OF THIS APPLICATION.
+PLEASE VISIT http://ec2-54-177-39-198.us-west-1.compute.amazonaws.com:3000 TO VIEW THE CURRENT ITERATION.</h1>
+
+
 <!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
 <a name="readme-top"></a>
 
