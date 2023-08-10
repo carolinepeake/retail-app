@@ -1,15 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import QuestionEntry from '../QuestionEntry/QuestionEntry';
-import { useGlobalContext } from '../../../contexts/GlobalStore';
 
-export default function QuestionsList({ pageNum, itemsPerPage }) {
+export default function QuestionsList({ pageNum, itemsPerPage, filteredQuestions }) {
   console.log('[QuestionList] is running');
-  const {
-    numQuestions,
-    filteredQuestions,
-    setNumQuestions,
-    questions,
-  } = useGlobalContext();
 
   // may be better to keep with parent component
   const startingSlice = (pageNum - 1) * itemsPerPage;
@@ -21,6 +14,5 @@ export default function QuestionsList({ pageNum, itemsPerPage }) {
         key={`${question.question_id}`}
       />
     ))
-  )
-
-};
+  );
+}

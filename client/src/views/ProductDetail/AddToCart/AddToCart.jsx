@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
-import { Button } from '../../../components/Button';
+import { Button } from '../../../components/Buttons';
 import Cart from './Cart';
 // import {
 //   createStock, sortBySize, getAvailableStock, getQuantityOptions,
@@ -164,6 +164,7 @@ function AddToCart() {
           <AddToCartButton
             type="submit"
             $primary
+            $submit
           >
             <AddToCartText>Add to Cart</AddToCartText>
             <AddToCartText>+</AddToCartText>
@@ -174,15 +175,12 @@ function AddToCart() {
           </Star>
         </BagContainer>
       </AddToBagForm>
-      {showModal
-     && (
-     <Cart
-       showModal={showModal}
-       toggleModal={toggleModal}
-       cart={cart}
-       setCart={setCart}
-     />
-     )}
+      <Cart
+        showModal={showModal}
+        toggleModal={toggleModal}
+        cart={cart}
+        setCart={setCart}
+      />
     </>
   );
 }

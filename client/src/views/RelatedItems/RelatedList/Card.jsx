@@ -21,17 +21,17 @@ function Card({
   // and use this type of function declaration/definition (understand which type it is)
   // https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-no-bind.md
 
-  function changeItem() {
+  const changeItem = () => {
     setProductID(product?.productID);
     setIndex(0);
     setTranslate(0);
-  }
+  };
 
   const rating = calcAverageRating(product?.revMeta?.ratings);
 
   return (
     <CardContainer
-      onClick={() => changeItem()}
+      onClick={changeItem}
     >
       <CardContent>
         {children}

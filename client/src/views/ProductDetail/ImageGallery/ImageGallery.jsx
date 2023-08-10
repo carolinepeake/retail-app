@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import Thumbnails from './Thumbnails';
 import ScrollButton from './ScrollButton';
-import { StyledExitButton } from '../../../components/Button';
+import { CloseButton } from '../../../components/Buttons';
 import useCarouselNavigation from '../../../hooks/useCarouselNavigation';
 
 // TO-DO: fix scroll main image index on zoom-in and expanded view and when resizing
@@ -142,7 +142,8 @@ function ImageGallery({
   const imageContainer = useRef(null);
   const mainImageRef = useRef(null);
 
-  const [position, setPosition] = useState({ x: '', y: '' });
+  // const [position, setPosition] = useState({ x: '', y: '' });
+  const [position, setPosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     console.log('useEffect in main image');
@@ -336,22 +337,24 @@ function ImageGallery({
               visible={place > 0}
               position="left"
               handleClick={handleClickBack}
+              overlay
             />
 
             <ScrollButton
               visible={place < photosLength - 1}
               position="right"
               handleClick={handleClickForward}
+              overlay
             />
 
           {status === 'expanded'
           && (
-            <StyledExitButton
-              type="button"
+            <CloseButton
+              $round
               onClick={handleClickExit}
             >
               &#10005;
-            </StyledExitButton>
+            </CloseButton>
           )}
 
           </AnimationContainer>
@@ -537,15 +540,9 @@ const Carousel = styled.ul`
   width: ${(props) => props.photosLength}00%;
   @media (min-width: 600px) {
     transition: translate 0.5s;
-    /* translate: ${(props) => `calc(-100%  * ${props.place})`} 0; */
     translate: ${(props) => `calc((-100 / ${props.photosLength}) * ${props.place} * 1%)`} 0;
   }
 `;
-// translate: ${(props) => `calc(-100%  * ${props.place})`} 0;
-// @media (min-width: 600px) {
-//   transition: translate 0.5s;
-//   translate: ${(props) => `calc((-100% / ${props.photosLength}) * ${props.place})`} 0;
-// }
 
 const Slide = styled.li`
   scroll-snap-align: start;
@@ -575,37 +572,6 @@ const Slide = styled.li`
 // be careful not to spin your wheels too much/too long
 // get a solid note taking strategy /organization strategy down before class starts (recs; notation)
 // second monitor
-
-
-
-// const Exit = styled.button`
-//   position: absolute;
-//   right: 0.5em;
-//   top: 0.5em;
-//   z-index: 3;
-//   background-color: ${(props) => props.theme.navBgColor};
-//   opacity: 0.8;
-//   &:hover {
-//     opacity: 1;
-//     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-//   };
-//   display: block;
-//   color: ${(props) => props.theme.darkBlueHover};
-//   border: none;
-//   border-radius: 50px;
-//   padding: 0;
-//   line-height: 1;
-//   font-size: 1em;
-//   aspect-ratio: 1;
-//   height: 2em;
-//   align-self: center;
-//   @media (min-width: 700px) {
-//     font-size: 1.17em;
-//   };
-//   @media (min-width: 800px) {
-//     font-size: 1.5em;
-//   };
-// `;
 
 export default ImageGallery;
 

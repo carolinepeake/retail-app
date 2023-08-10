@@ -5,6 +5,8 @@ import Card from '../RelatedList/Card';
 import AddOutfit from './AddOutfit';
 import { CloseButton } from '../../../components/Buttons';
 
+// TODO: remove useEffect with outfits.length dependency
+
 function OutfitList() {
   console.log('[OutfitList] is running');
   const {
@@ -76,7 +78,7 @@ function OutfitList() {
 
         <CardContainer
           index={index}
-          length={outfits.length + 1}
+          length={outfits?.length + 1}
         >
           <AddOutfit setIndex={setIndex} />
         </CardContainer>
@@ -92,7 +94,7 @@ function OutfitList() {
       </LeftButton>
       <RightButton
         onClick={handleNext}
-        length={outfits.length + 1}
+        length={outfits?.length + 1}
         index={index}
       >
         <ArrowBackground />

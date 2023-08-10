@@ -2,14 +2,8 @@ import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import Features from './Features';
 import Collapsable from '../../../components/Collapsable';
-
 import { useGlobalContext } from '../../../contexts/GlobalStore';
-
-// can make each collapsible into an object { header, [ { subheader: content }] }
-
-const RETURN_TEXT = 'Returns must be made within 30 days for refunds to process to the original form of payment.';
-const STANDARD_DELIVERY_TEXT = 'For most orders, allow 4-9 business days for delivery. For delivery to Alaska or Hawaii, please allow 10-15 business days for delivery.';
-const TWO_DAY_DELIVERY_TEXT = 'Order must be submitted before 12:00pm EST Monday-Friday.';
+import { RETURN_TEXT, STANDARD_DELIVERY_TEXT, TWO_DAY_DELIVERY_TEXT } from '../../../constants/ProductDetail';
 
 function CollapsedDetails() {
   const { productInfo } = useGlobalContext();
@@ -30,6 +24,7 @@ function CollapsedDetails() {
       </Collapsable>
 
       <Collapsable header="Returns">
+        <Subheader>Online</Subheader>
         <Content>{RETURN_TEXT}</Content>
       </Collapsable>
     </Container>
@@ -43,7 +38,6 @@ const Container = styled.div`
 const Subheader = styled.h3`
   display: block;
   margin-block-end: 0em;
-  margin-top: 0px;
   font-weight: 400;
   font-size: 1.0em;
   margin-block-start: 0px;

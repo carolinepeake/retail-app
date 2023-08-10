@@ -82,7 +82,10 @@ const Subheader = styled.div`
   margin-bottom: 1em;
 `;
 
-const CharacteristicName = styled.span``;
+const CharacteristicName = styled.span`
+  font-weight: 400;
+  color: rgb(37, 55, 70);
+`;
 
 const Required = styled.sup`
   color: ${(props) => props.theme.formError}

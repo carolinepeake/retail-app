@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-// should prolly move utils out of components folder;
 
 export const GlobalContext = React.createContext();
 
@@ -40,7 +39,6 @@ export function GlobalContextProvider({ children }) {
   // can return filtered data
   // would remove filteredQuestions from context
   // but might want to keep any selected filters or searched terms in context
-  const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [numQuestions, setNumQuestions] = useState(100);
   const [questionPage, setQuestionPage] = useState(1);
 
@@ -94,8 +92,6 @@ export function GlobalContextProvider({ children }) {
       })
       .then((results) => {
         setQuestions(results.data.results);
-        // should prolly deal with this conditionally in the component instead
-        setFilteredQuestions(results.data.results);
       })
       .catch((err) => {
         console.log(err);
@@ -227,7 +223,6 @@ export function GlobalContextProvider({ children }) {
     styles,
     selectedStyle,
     questions,
-    filteredQuestions,
     numQuestions,
     questionPage,
     reviews,
@@ -250,8 +245,6 @@ export function GlobalContextProvider({ children }) {
     setSelectedStyle,
     questions,
     setQuestions,
-    filteredQuestions,
-    setFilteredQuestions,
     numQuestions,
     setNumQuestions,
     questionPage,

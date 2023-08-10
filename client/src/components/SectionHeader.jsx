@@ -11,6 +11,5 @@ const SectionHeading = styled.div`
     padding-top: 2.5%;
   }
 `;
-// font-size:  ${(props) => props.theme.body};
 
 export default SectionHeading;

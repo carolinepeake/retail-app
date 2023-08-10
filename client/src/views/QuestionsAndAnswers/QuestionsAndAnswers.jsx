@@ -11,7 +11,7 @@ import ListTotalCount from '../../components/LargeList/ListTotalCount';
 function QuestionAndAnswers() {
   console.log('[QuestionsAndAnswers] is running');
   const {
-    filteredQuestions, questions,
+    questions,
   } = useGlobalContext();
 
   // should forwarf ref instead of passing this function
@@ -22,6 +22,8 @@ function QuestionAndAnswers() {
     questRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
+  // need to init all and remove from useEffect
+  const [filteredQuestions, setFilteredQuestions] = useState(questions);
   const [pageNum, setPageNum] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(2);
   const startingSlice = (pageNum - 1) * itemsPerPage;
@@ -29,6 +31,7 @@ function QuestionAndAnswers() {
   useEffect(() => {
     setPageNum(1);
     setItemsPerPage(2);
+    setFilteredQuestions(questions);
   }, [questions]);
 
   return (
@@ -36,7 +39,10 @@ function QuestionAndAnswers() {
       <SectionHeader>
         Questions & Answers
       </SectionHeader>
-      <QuestionSearch pageNum={pageNum} itemsPerPage={itemsPerPage} />
+      <QuestionSearch
+        pageNum={pageNum}
+        setFilteredQuestions={setFilteredQuestions}
+      />
       <QuestionListHeader ref={questRef}>
         <ListTotalCount
           listLength={filteredQuestions.length}
@@ -48,14 +54,15 @@ function QuestionAndAnswers() {
       <QuestionListContainer>
         {questions.length === 0
           ? <div>Be the first to ask a question!</div>
-          : (
-            filteredQuestions.slice(startingSlice, (startingSlice + itemsPerPage)).map((q) => (
+          : filteredQuestions.length === 0
+            ? <div>No questions match your search</div>
+            : (filteredQuestions.slice(startingSlice, (startingSlice + itemsPerPage)).map((q) => (
               <QuestionEntry
                 question={q}
                 key={`${q.question_id}`}
               />
             ))
-          )}
+            )}
         {/* <QuestionsList itemsPerPage={itemsPerPage} pageNum={pageNum} /> */}
       </QuestionListContainer>
       {(itemsPerPage > 2 && filteredQuestions.length > 10) && (
@@ -72,6 +79,7 @@ function QuestionAndAnswers() {
         setItemsPerPage={setItemsPerPage}
         scrollToListTop={scrollToListTop}
         setPageNum={setPageNum}
+        listLength={filteredQuestions.length}
       />
     </Container>
   );

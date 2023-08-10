@@ -44,6 +44,7 @@ const ModalBackground = styled.div`
   left: 0;
   top: 0;
   z-index: 51;
+
   @media (min-width: 50rem) {
     z-index: 20;
   }
@@ -63,7 +64,8 @@ const ModalContainer = styled.div`
   max-width: 40em;
 
   @media (min-width: 40rem) {
-    border: 1px solid;
+   /* border: 1px solid; */
+    border-radius: 3px;
     max-height: 90vh;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     padding: 3em;

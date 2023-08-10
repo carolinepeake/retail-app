@@ -7,7 +7,7 @@ import { useGlobalContext } from '../../../contexts/GlobalStore';
 import Thumbnails from './Thumbnails';
 import View from './View';
 import ScrollButton from './ScrollButton';
-import { StyledExitButton } from '../../../components/Button';
+import { CloseButton } from '../../../components/Buttons';
 import useCarouselNavigation from '../../../hooks/useCarouselNavigation';
 
 // TO-DO: fix scroll main image index on zoom-in and expanded view and when resizing
@@ -26,8 +26,6 @@ function ImageGallery2({
   const { productInfo, selectedStyle } = useGlobalContext();
 
   // if thumbnail with corresponding href value is clicked, should automatically scroll to that image
-
-  // const [firstPhotoIndex, setFirstPhotoIndex] = useState(0);
 
   const photosLength = selectedStyle?.photos?.length || 0;
 
@@ -157,8 +155,7 @@ function ImageGallery2({
       ref={imageContainer}
 
     >
-          {/* {status !== 'zoomed'
-          && ( */}
+
 
     <View
       photosLength={selectedStyle?.photos?.length}
@@ -167,25 +164,7 @@ function ImageGallery2({
       handleClickExit={handleClickExit}
       startingIndex={startingIndex}
     >
-          {/* <AnimationContainer> */}
 
-            {/* <MainWrapper
-              id="carousel-container"
-              status={status}
-              place={place}
-              photosLength={selectedStyle?.photos?.length}
-              ref={viewport}
-              onScroll={handleScroll}
-            > */}
-
-              {/* <Carousel
-                id="carousel"
-                // photosLength={photosLength}
-                photosLength={selectedStyle?.photos?.length}
-                place={place}
-                status={status}
-                ref={carousel}
-              > */}
 
                 {selectedStyle?.photos?.map((photo, index) => (
                   <Slide
@@ -195,7 +174,7 @@ function ImageGallery2({
                     // id={index}
                     // ids don't match up
                     // ref={imageContainer}
-                    // status={status}
+                    status={status}
                     // onClick={handleClickMain}
                     id={`seq${index}`}
                     onClick={handleClickMain}
@@ -235,34 +214,6 @@ function ImageGallery2({
                   </Slide>
                 ))}
 
-              {/* </Carousel>
-
-            </MainWrapper> */}
-
-            {/* <ScrollButton
-              visible={place > 0}
-              position="left"
-              handleClick={handleClickBack}
-            />
-
-            <ScrollButton
-              visible={place < photosLength - 1}
-              position="right"
-              handleClick={handleClickForward}
-            /> */}
-
-          {/* {status === 'expanded'
-          && (
-            <StyledExitButton
-              type="button"
-              handleClickExit={handleClickExit}
-            >
-              &#10005;
-            </StyledExitButton>
-          )} */}
-
-          {/* </AnimationContainer> */}
-        {/* )} */}
 
         </View>
 
@@ -283,7 +234,7 @@ function ImageGallery2({
                 // onClick={handleClickMain}
               />
             </MainWrapper>
-          )} */}
+
 
       {/* <Thumbnails
         place={place}
@@ -345,7 +296,7 @@ const ImageGalleryContainer = styled.div`
     align-content: center;
   `};
 
-   ${(props) => props.status === ('zoomed') && css`
+   ${(props) => props.status === 'zoomed' && css`
    /* margin: auto;
     height: max-content;
     justify-content: center;
@@ -353,64 +304,10 @@ const ImageGalleryContainer = styled.div`
     align-content: center;
     flex: row; */
     display: block;
-    overflow: hidden;
+    /* overflow: hidden; */
     padding-bottom: 0;
     position: relative;
 `};
-`;
-
-const AnimationContainer = styled.div`
-  position: relative;
-  height: fit-content;
-  flex: 6 1 0;
-`;
-
-const MainWrapper = styled.div`
-  margin: 0 auto;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
-  overflow: hidden;
-  position: relative;
-  aspect-ratio: 4/6;
-  z-index: 1;
-  overflow-x: scroll;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-
-  @media (min-width: 600px) {
-    height: fit-content;
-    max-height: 120vh;
-    overflow-x: hidden;
-  }
-
-  ${(props) => props.status === 'default' && css`
-    @media (min-width: 600px) {
-      max-height: 840px;
-    }
-    @media (min-width: 800px) {
-      flex: 6 1 450px;
-      height: initial;
-    }
-    @media (min-width: 1200px) {
-      max-width: 800px;
-      max-height: 1200px;
-    }
-  `};
-
-  ${(props) => props.status === 'zoomed' && css`
-    overflow: hidden;
-   /* @media (min-width: 600px) {
-      max-width: 80vh;
-    } */
-  `};
 `;
 
 const MainImage = styled.img`
@@ -440,7 +337,10 @@ const MainImage = styled.img`
   `};
 
   ${(props) => props.status === 'zoomed' && css`
-    position: absolute;
+   position: absolute;
+ /*  position: relative; */
+   width: auto;
+   height: auto;
     z-index: 2;
     cursor: zoom-out;
     transform: scale(2.5);
@@ -486,6 +386,8 @@ const Slide = styled.li`
     object-fit: cover;
     overflow: hidden;
     position: relative;
+   /* position: absolute; */
+
     aspect-ratio: 4/6;
     max-width: 80vh;
     max-height: 120vh;
@@ -499,12 +401,12 @@ const Slide = styled.li`
     -ms-overflow-style: none;
     scrollbar-width: none; */
 
-   /* @media (min-width: 600px) {
+    @media (min-width: 600px) {
       height: fit-content;
       max-height: 120vh;
       /* overflow-x: hidden; */
       max-width: 80vh;
-    } */
+    }
   `};
 `;
 

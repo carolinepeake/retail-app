@@ -3,35 +3,35 @@ import styled from 'styled-components';
 import { Button } from '../../../components/Buttons';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
+// TODO: make outfits array only contain ids
+// and prevent duplication by checking if (outfits.includes(productId))
+
 function AddOutfit({ setIndex }) {
   console.log('[AddOutfit] is running');
   const {
     productID, productInfo, revMeta, selectedStyle, outfits, setOutfits,
   } = useGlobalContext();
 
-  // will want to make outfits array of productIds only, eventually
-  // if (outfits.includes(productId))
-  const add = () => {
+  const handleAddOutfit = () => {
     for (let i = 0; i < outfits.length; i += 1) {
       if (outfits[i].id === productID) {
         return;
       }
     }
-
     const outfit = {
       productID,
       productInfo,
       revMeta,
       selectedStyle,
     };
-    const tempArray = [...outfits, outfit];
-    setOutfits(tempArray);
+    const updatedOutfits = [...outfits, outfit];
+    setOutfits(updatedOutfits);
     setIndex((prev) => prev + 1);
   };
 
   return (
     <Outline>
-      <AddOutfitButton onClick={() => add()}>
+      <AddOutfitButton type="button" onClick={handleAddOutfit}>
         +
         <Text>Add Outfit</Text>
       </AddOutfitButton>

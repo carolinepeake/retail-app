@@ -5,28 +5,10 @@ import axios from 'axios';
 import AnswerEntry from './AnswerEntry';
 import AddAnswerModal from './AddAnswerModal';
 import useModal from '../../../hooks/useModal';
-import { Button } from '../../../components/Button';
+import { Button } from '../../../components/Buttons';
 
 function QuestionEntry({ question }) {
   console.log('[QuestionEntry] is running');
-  QuestionEntry.propTypes = {
-    question: PropTypes.shape({
-      question_id: PropTypes.number.isRequired,
-      question_helpfulness: PropTypes.number.isRequired,
-      question_body: PropTypes.string.isRequired,
-      answers: PropTypes.objectOf(
-        PropTypes.shape({
-          id: PropTypes.number.isRequired,
-          helpfulness: PropTypes.number.isRequired,
-          body: PropTypes.string.isRequired,
-          answerer_name: PropTypes.string.isRequired,
-          date: PropTypes.string.isRequired,
-          photos: PropTypes.arrayOf(PropTypes.string).isRequired,
-        }),
-      ).isRequired,
-    }).isRequired,
-  };
-
   const [showModal, toggleModal] = useModal();
 
   const [numAnswers, setNumAnswers] = useState(2);
@@ -39,20 +21,20 @@ function QuestionEntry({ question }) {
 
   const { answers } = question;
   const allAnswers = Object.values(answers);
-  function sellerFirst(a, b) {
+  const sellerFirst = (a, b) => {
     if (a.answerer_name.toLowerCase() === 'seller') return -1;
     if (b.answerer_name.toLowerCase() === 'seller') return 1;
     return b.helpfulness - a.helpfulness;
-  }
-  function helpfulnessFirst(a, b) {
+  };
+  const helpfulnessFirst = (a, b) => {
     return b.helpfulness - a.helpfulness;
-  }
+  };
   allAnswers.sort(helpfulnessFirst);
   allAnswers.sort(sellerFirst);
 
   const topAnswers = Object.values(allAnswers).slice(0, numAnswers);
 
-  function reportQuestion() {
+  const reportQuestion = () => {
     if (clickedReport) return;
     axios
       .put('/questions/report', {
@@ -64,9 +46,9 @@ function QuestionEntry({ question }) {
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
 
-  function helpfulQuestion() {
+  const helpfulQuestion = () => {
     if (clickedHelpful.current) return;
     axios
       .put('/questions/helpful', {
@@ -79,28 +61,26 @@ function QuestionEntry({ question }) {
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
 
-  function answerQuestion() {
-    // setShowModal(true);
-    console.log('togglingModal');
+  const answerQuestion = () => {
     toggleModal();
-  }
+  };
 
-  function changeNumAnswers(val) {
+  const changeNumAnswers = (val) => {
     const count = Math.max(2, numAnswers + val);
     setNumAnswers(count);
-  }
+  };
 
-  function handleScroll(e) {
+  const handleScroll = (e) => {
     // within 0.9 of the bottom
     const bottom = 0.9 * (e.target.scrollHeight - e.target.scrollTop) <= e.target.clientHeight;
     if (bottom && allAnswers.length > numAnswers) {
       changeNumAnswers(2);
     }
-  }
+  };
 
-  function answersList() {
+  const answersList = () => {
     if (topAnswers.length === 0) {
       return (
         <AnswerNone>
@@ -124,7 +104,7 @@ function QuestionEntry({ question }) {
         {list}
       </AnswersListContainer>
     );
-  }
+  };
 
   // TO-DO: make this a CSS change so can animate it to make it appear smooth; also animate the chevron
   // fix underlining on hover
@@ -140,11 +120,11 @@ function QuestionEntry({ question }) {
 
   const moreAnswersButtonText = moreAnswersShown ? 'Collapse Answers' : 'See More Answers';
 
-  function handleClickMoreAnswers() {
+  const handleClickMoreAnswers = () => {
     const newAnswersNum = moreAnswersShown ? -100 : 2;
     changeNumAnswers(newAnswersNum);
     setMoreAnswersShown((prev) => !prev);
-  }
+  };
 
   const moreAnswers = (
     <MoreAnswers type="button" moreAnswersShown={moreAnswersShown} onClick={(e) => handleClickMoreAnswers(e)}>
@@ -185,7 +165,7 @@ function QuestionEntry({ question }) {
       <A>
         <Question>Q:</Question>
         <QuestionHeader>
-          <QuestionBody id="question_header">{question.question_body}</QuestionBody>
+          <QuestionBody id="question_header">{question?.question_body}</QuestionBody>
           <RightSide>
             <Helpful>
               <div style={{ paddingRight: '0.5em' }}>Helpful?</div>
@@ -193,7 +173,7 @@ function QuestionEntry({ question }) {
                 {clickedHelpful.current ? (
                   <b>Yes</b>
                 ) : (
-                  <Clickable onClick={() => helpfulQuestion()}>Yes</Clickable>
+                  <Clickable onClick={helpfulQuestion}>Yes</Clickable>
                 )}
               </Yes>
               {clickedHelpful.current ? (
@@ -207,14 +187,14 @@ function QuestionEntry({ question }) {
               {clickedReport ? (
                 <Reported>Reported</Reported>
               ) : (
-                <Clickable onClick={() => reportQuestion()}>
+                <Clickable onClick={reportQuestion}>
                   Report
                 </Clickable>
               )}
             </Report>
             <div>|</div>
             <Add>
-              <Clickable onClick={() => answerQuestion()}>
+              <Clickable onClick={answerQuestion}>
                 Add Answer
               </Clickable>
             </Add>
@@ -225,7 +205,7 @@ function QuestionEntry({ question }) {
         <Answer id="answer_header">A:</Answer>
         <Answers>
           {answersList()}
-          {allAnswers.length > 2 && moreAnswers}
+          {allAnswers?.length > 2 && moreAnswers}
         </Answers>
         {showModal
         && (
@@ -238,6 +218,24 @@ function QuestionEntry({ question }) {
     </Entry>
   );
 }
+
+QuestionEntry.propTypes = {
+  question: PropTypes.shape({
+    question_id: PropTypes.number.isRequired,
+    question_helpfulness: PropTypes.number.isRequired,
+    question_body: PropTypes.string.isRequired,
+    answers: PropTypes.objectOf(
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        helpfulness: PropTypes.number.isRequired,
+        body: PropTypes.string.isRequired,
+        answerer_name: PropTypes.string.isRequired,
+        date: PropTypes.string.isRequired,
+        photos: PropTypes.arrayOf(PropTypes.string).isRequired,
+      }),
+    ).isRequired,
+  }).isRequired,
+};
 
 const Entry = styled.div`
   border-bottom: currentColor solid thin;

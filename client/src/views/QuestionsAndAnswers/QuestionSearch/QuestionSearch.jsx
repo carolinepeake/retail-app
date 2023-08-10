@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Search from '../../../components/Search';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
-
 function QuestionSearch({
   setFilteredQuestions,
 }) {
@@ -11,19 +10,6 @@ function QuestionSearch({
   const {
     questions,
   } = useGlobalContext();
-  // would move this to search component,
-  // search function to search component or useSearch hook,
-  // and pass in array of objects that include body to search in and id
-
-  // could also just pass through starting slice or final questions array
-  // const startingSlice = (pageNum - 1) * itemsPerPage;
-
-  // might want to memoize or cache all questions and filtered questions
-  // useMemo(() => {
-  // }, [])
-
-  // cache:
-  // all questions => DONE as part of questions state
 
   const searchQuestions = (searchTerm) => {
     const searchResults = [];

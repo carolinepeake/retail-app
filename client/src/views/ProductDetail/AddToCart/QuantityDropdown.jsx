@@ -18,8 +18,8 @@ export default function QuantityDropdown({ availableQuantity }) {
           name="quantity"
           key={value}
         >
-          Qty:
-          {' '}
+          {/* Qty:
+          {' '} */}
           {value}
         </Option>
       ))}

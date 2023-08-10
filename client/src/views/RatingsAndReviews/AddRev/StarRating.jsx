@@ -60,6 +60,7 @@ const SubheaderContainer = styled.div`
 `;
 
 const Subheader = styled.span`
+  font-weight: 400;
 `;
 
 const Required = styled.sup`

@@ -1,18 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { StyledExitButton } from '../Button';
+import { CloseButton } from '../Buttons';
 
 export default function PhotoPreview({
   preview,
   previews,
-  // setPreviews,
   resetFileInput,
   selectedFile,
   handleInputChange,
 }) {
   const handleClickDeleteFile = () => {
-    // delete photo from photos
     const previewsCopy = previews.slice();
     for (let i = 0; i < previews.length; i++) {
       if (previews[i].public_id === preview.public_id) {
@@ -26,25 +24,21 @@ export default function PhotoPreview({
       },
     };
     handleInputChange(e);
-    // setPreviews(previewsCopy);
-    console.log('selectedFile: ', selectedFile.name, 'preview: ', preview);
     // selectedFile.name includes file type extension and photo.original_filename does not
     if (selectedFile.name === (`${preview.original_filename}.${preview.original_extension}` || `${preview.original_filename}.${preview.format}`)) {
-      console.log('resetting file input');
       resetFileInput();
     }
-    // delete photo from cloudinary
     // TO-DO: use cloudinary delete method if using delete token fails
   };
 
   return (
     <ImageContainer>
       <ImagePreview
-        src={preview.url}
-        alt={preview.original_filename}
+        src={preview?.url}
+        alt={preview?.original_filename}
       />
       <DeleteButton
-        type="button"
+        $round
         onClick={handleClickDeleteFile}
       >
         &#10005;
@@ -66,7 +60,7 @@ const ImagePreview = styled.img`
   height: 100%;
 `;
 
-const DeleteButton = styled(StyledExitButton)`
+const DeleteButton = styled(CloseButton)`
   font-size: 1.5em;
   top: -0.75em;
   right: 0;

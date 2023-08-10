@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 // might need to initialize formState
 
-const useForm = (onSubmit, initialFormState = {}) => {
+const useForm = (onSubmit = (form) => console.log(form), initialFormState = {}) => {
   const [formState, setFormState] = useState(initialFormState);
   const [errors, setErrors] = useState([]);
   // const [validInput, setValidInput] = useState(false);
@@ -38,9 +38,9 @@ const useForm = (onSubmit, initialFormState = {}) => {
       valid = false;
     }
 
-    const validateEmail = (emailName) => {
+    const validateEmail = (email) => {
       const regex = /\S+@\S+\.\S+/;
-      return regex.test(emailName);
+      return regex.test(email);
     };
 
     if (!validateEmail(formState.email)) {
@@ -52,7 +52,7 @@ const useForm = (onSubmit, initialFormState = {}) => {
       valid = false;
     }
 
-    // setValidInput(valid);
+    // not pure function - maybe return errors?;
     setErrors(workingErrors);
     return valid;
   };
@@ -69,7 +69,6 @@ const useForm = (onSubmit, initialFormState = {}) => {
       console.log('formm validation failed');
       return;
     }
-    // onSubmit?.(formState);
     onSubmit(formState);
     resetForm();
   };
@@ -79,7 +78,6 @@ const useForm = (onSubmit, initialFormState = {}) => {
     errors,
     handleInputChange,
     resetForm,
-    // validateInput,
     handleSubmit,
   ];
 };

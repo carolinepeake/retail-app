@@ -40,10 +40,8 @@ export default Summary;
 const RatingHeader = styled.div`
   font-size: 3.0rem;
 `;
-//padding-top: 1.0rem;
 
 const RatingSummary = styled.div`
   font-size: 1.0rem;
   margin: 1.0rem 0;
 `;
-//font-size: 0.9rem;

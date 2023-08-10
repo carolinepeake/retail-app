@@ -1,10 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { Button, StyledExitButton } from '../../../components/Button';
+import { Button, CloseButton } from '../../../components/Buttons';
 import CartItem from './CartItem';
-
-// TODO: fix animation by making cart width 0 instead of conditionally rendering cart
 
 function Cart({
   showModal,
@@ -12,8 +10,6 @@ function Cart({
   cart,
   setCart,
 }) {
-  console.log('cart: ', cart);
-
   const items = cart.map((item) => (
     <CartItem
       key={item.product}
@@ -30,9 +26,9 @@ function Cart({
   return (
     <Container $visible={showModal}>
       <Title>Cart</Title>
-      <StyledExitButton type="button" onClick={handleCloseModal}>
+      <CloseButton $square onClick={handleCloseModal}>
         &#x2715;
-      </StyledExitButton>
+      </CloseButton>
       <ScrollContainer>
         {cart.length > 0 ? items : 'Your cart is empty.'}
       </ScrollContainer>
@@ -68,14 +64,16 @@ Cart.propTypes = {
   setCart: PropTypes.func.isRequired,
 };
 
+// --accent-color: ${(props) => props.theme.darkBlueHover}; ?
+
 const Container = styled.div`
   position: fixed;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  right: 0;
+  right: ${(props) => (props.$visible ? '0' : '-20em')};
   top: 4.5em;
-  width: ${(props) => (props.$visible ? '20em' : '0')};
+  width: 20em;
   height: 80%;
   overflow: auto;
   z-index: 4;
@@ -83,16 +81,18 @@ const Container = styled.div`
   border: 1px black solid;
   border-radiu: 3px;
   padding: 1em;
-  transition: 0.5s;
+  transition: 0.5s ease;
 `;
 
 const Title = styled.h2`
-  margin-bottom: 2em;
+  margin-bottom: 1em;
 `;
 
 const ScrollContainer = styled.div`
   overflow: auto;
   height: 100%;
+  scrollbar-color: ${(props) => props.theme.darkBlueHover};
+
 `;
 
 const ButtonContainer = styled.div`

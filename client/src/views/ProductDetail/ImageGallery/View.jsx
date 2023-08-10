@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import ScrollButton from './ScrollButton';
 import Thumbnails from './Thumbnails';
-import { StyledExitButton } from '../../../components/Button';
+import { CloseButton } from '../../../components/Buttons';
 import useCarouselNavigation from '../../../hooks/useCarouselNavigation';
 
 export default function View({
@@ -60,21 +60,23 @@ export default function View({
               visible={place > 0}
               position="left"
               handleClick={handleClickBack}
+              overlay
             />
 
             <ScrollButton
               visible={place < photosLength - 1}
               position="right"
               handleClick={handleClickForward}
+              overlay
             />
             {status === 'expanded'
           && (
-            <StyledExitButton
-              type="button"
+            <CloseButton
+              $round
               onClick={handleClickExit}
             >
               &#10005;
-            </StyledExitButton>
+            </CloseButton>
           )}
           </AnimationContainer>
         )
@@ -104,9 +106,11 @@ ${(props) => props.status !== 'zoomed' && css`
 
   ${(props) => props.status === 'zoomed' && css`
   /*position: relative; */
-  height: 80vh;
+ /* height: 80vh; */
   margin: 0 auto;
   aspect-ratio: 4/6;
+  position: relative;
+  overflow: hidden;
 `};
 `;
 

@@ -2,7 +2,15 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 
-export default function ScrollButton({ visible, disabled, handleClick, position, status, overlay, background }) {
+export default function ScrollButton({
+  visible,
+  disabled,
+  handleClick,
+  position,
+  status,
+  overlay,
+  background,
+}) {
   return (
     <Buttons
       $visible={visible}

@@ -5,7 +5,6 @@ import { useGlobalContext } from '../contexts/GlobalStore';
 
 // TO-DO: make toggle (whatever the small info banner thing is called)
 // appear above "X" when hovered that says "clear search"
-// TO-DO:
 
 function Search({
   placeholder,

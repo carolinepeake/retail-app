@@ -45,15 +45,14 @@ ReviewsList.propTypes = {
 };
 
 const ReviewTilesContainer = styled.div`
-
 @media (max-width: 600px) {
   border-top: black solid 1px;
-};
+}
 
   @media (min-width: 600px) {
     max-height: 31em;
     overflow: auto;
-  };
+  }
 `;
 
 export default ReviewsList;

@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components';
 import { useGlobalContext } from '../../contexts/GlobalStore';
 import ProductOverview from './ProductOverview/ProductOverview';
 import StyleSelector from './StyleSelector/StyleSelector';
-import ImageGallery from './ImageGallery/ImageGallery';
+import ImageGallery2 from './ImageGallery/ImageGallery2';
 import AddToCart from './AddToCart/AddToCart';
 import CollapsedDetails from './ProductOverview/CollapsedDetails';
 import ProductPath from './ProductOverview/ProductPath';
@@ -12,7 +12,6 @@ import ProductPath from './ProductOverview/ProductPath';
 function ProductDetail() {
   console.log('[ProductDetail] is running');
   const [status, setStatus] = useState('default');
-  // maybe make image_gallery context and maintain status and currentIndex in it
   const [startingIndex, setStartingIndex] = useState(0);
 
   return (
@@ -26,7 +25,7 @@ function ProductDetail() {
       <ProductContainer
         status={status}
       >
-        <ImageGallery
+        <ImageGallery2
           status={status}
           setStatus={setStatus}
           startingIndex={startingIndex}

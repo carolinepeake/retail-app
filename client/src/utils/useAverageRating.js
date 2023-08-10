@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 export const calcAverageRating = (ratingsObj) => {
-  // console.log('ratingsObj: ', ratingsObj);
   let totalRatings = 0;
   let totalVotes = 0;
   const entries = Object.entries(ratingsObj);

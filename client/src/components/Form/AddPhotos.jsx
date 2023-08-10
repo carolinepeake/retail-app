@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import axios from 'axios';
-import { StyledExitButton } from '../Button';
+import { CloseButton } from '../Buttons';
 import PhotoPreview from './PhotoPreview';
 
 // TO-DO: make error if file already uploaded
@@ -104,10 +104,10 @@ function AddPhotos({
     <>
       {photos.length < 5 && (
         <FormField htmlFor="photos">
-          <span>Upload Your Photos</span>
-            <Disclaimer>
-              Max 5
-            </Disclaimer>
+          {/* <span> */}
+            Upload Your Photos
+          {/* </span> */}
+
           <FileInput
             type="file"
             key={fileInputKey || ''}
@@ -118,7 +118,9 @@ function AddPhotos({
             // label="Select File"
             name="photos"
           />
-
+           <Disclaimer>
+              Max 5
+            </Disclaimer>
           {error && <Error>Error: {error}</Error>}
         </FormField>)}
 
@@ -154,11 +156,13 @@ export default AddPhotos;
 const FormField = styled.label`
   font-size: 1rem;
   cursor: initial;
+  color: rgb(37, 55, 70);
+  font-weight: 400;
 `;
 
 const Disclaimer = styled.h5`
   font-style: oblique;
-  padding-top: 0;
+ /* padding-top: 0; */
 `;
 
 const Error = styled(Disclaimer)`

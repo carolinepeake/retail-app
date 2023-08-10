@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components';
 import {
   MdArrowForwardIos, MdArrowBackIos,
 } from 'react-icons/md';
-import { Button } from '../Button';
+import { Button } from '../Buttons';
 
 // TO-DO: test getting more reviews from API on call and see if faster
 
@@ -15,21 +15,21 @@ function ListNavigation({
   itemsPerPage,
   scrollToListTop,
 }) {
-  function handleClick(e) {
+  const handleClick = (e) => {
     const newValue = Number(e.target.value);
     setPageNum(newValue);
     scrollToListTop();
-  }
+  };
 
-  function handleClickBack() {
+  const handleClickBack = () => {
     setPageNum((prev) => prev - 1);
     scrollToListTop();
-  }
+  };
 
-  function handleClickForward() {
+  const handleClickForward = () => {
     setPageNum((prev) => prev + 1);
     scrollToListTop();
-  }
+  };
 
   const totalPages = Math.ceil(listLength / itemsPerPage);
 
@@ -39,8 +39,7 @@ function ListNavigation({
     <ListNavContainer>
 
       <ScrollButton
-        // onClick={(e) => handleClickBack(e)}
-        onClick={() => handleClickBack()}
+        onClick={handleClickBack}
         disabled={pageNum === 1}
       >
         <MdArrowBackIos style={{ transform: 'translateX(25%)' }} />
@@ -53,7 +52,7 @@ function ListNavigation({
       ))}
 
       <ScrollButton
-        onClick={(e) => handleClickForward(e)}
+        onClick={handleClickForward}
         disabled={pageNum === totalPages}
       >
         <MdArrowForwardIos />
@@ -99,7 +98,7 @@ const PageButton = styled(NavButton)`
   &:hover {
     background-color: ${(props) => props.theme.submitButtonHover};
     color: ${(props) => props.theme.submitButtonHoverFont};
-  };
+  }
 `;
 
 const ScrollButton = styled(NavButton)`

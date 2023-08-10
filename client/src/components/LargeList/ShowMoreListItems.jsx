@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Button } from '../Button';
+import { Button } from '../Buttons';
 
 // TO-DO: add animation so expanding list is a smoother transition
 
@@ -12,7 +12,7 @@ function ShowMoreListItems({
   scrollToListTop,
   setPageNum,
 }) {
-  function toggleMoreItems() {
+  const toggleMoreItems = () => {
     // if item list is expanded
     if (itemsPerPage > 2) {
       setItemsPerPage(2);
@@ -21,12 +21,12 @@ function ShowMoreListItems({
     } else {
       setItemsPerPage(10);
     }
-  }
+  };
 
   const buttonText = itemsPerPage > 2 ? `Show Less ${itemText}` : `Show More ${itemText}`;
 
   return (
-    <MoreListItemsButton type="button" onClick={() => toggleMoreItems()}>
+    <MoreListItemsButton type="button" onClick={toggleMoreItems}>
       {buttonText}
     </MoreListItemsButton>
   );

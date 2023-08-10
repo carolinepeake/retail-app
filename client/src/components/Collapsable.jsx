@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
-import { Button } from './Button';
+import { Button } from './Buttons';
 
 function Collapsable({ children, header }) {
   const [collapsed, setCollapsed] = useState(true);
@@ -42,7 +42,7 @@ const Header = styled(Button)`
   border: none;
   &:hover {
     box-shadow: none;
-  };
+  }
   padding-left: 0;
   padding-right: 0;
   font-size: 1em;

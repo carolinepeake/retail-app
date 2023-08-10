@@ -178,8 +178,7 @@ const useCarouselNavigation = (
     // use href maybe to make thumbnail icon highlighted
     const currentItemIndex = Math.floor(Math.abs((leftOffset - leftPadding)
     / Math.floor(carouselItemWidth))) || 0;
-    setActive(currentItemIndex);
-    // setActive(() => currentItemIndex);
+    setActive(() => currentItemIndex);
   };
 
   // const useArrows = () => {
@@ -277,7 +276,7 @@ const useCarouselNavigation = (
 
   // should prolly wrap in useCallback b/c handed down?
   const handleClickPointer = (index) => {
-    setActive(index);
+    setActive(() => index);
     // scrollToId(index);
   };
 

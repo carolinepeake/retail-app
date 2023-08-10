@@ -48,10 +48,6 @@ const SwiperButton = styled.div`
 `;
 
 
-
-
-
-
 // content
 
       <Card class="swiper-slide">
