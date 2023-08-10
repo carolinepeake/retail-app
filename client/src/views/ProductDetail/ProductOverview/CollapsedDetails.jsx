@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import Features from './Features';
 import Collapsable from '../../../components/Collapsable';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
-import { RETURN_TEXT, STANDARD_DELIVERY_TEXT, TWO_DAY_DELIVERY_TEXT } from '../../../constants/ProductDetail';
+import { RETURN_TEXT, STANDARD_DELIVERY_TEXT, TWO_DAY_DELIVERY_TEXT } from '../../../constants/constants';
 
 function CollapsedDetails() {
   const { productInfo } = useGlobalContext();
