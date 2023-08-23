@@ -31,7 +31,7 @@ module.exports.postAnswer = (req, res) => {
 };
 
 module.exports.helpfulAnswer = (req, res) => {
-  const answerID = req.body.answer_id;
+  const answerID = req.body.id;
 
   axios
     .put(
@@ -46,7 +46,7 @@ module.exports.helpfulAnswer = (req, res) => {
 };
 
 module.exports.reportAnswer = (req, res) => {
-  const answerID = req.body.answer_id;
+  const answerID = req.body.id;
 
   axios
     .put(

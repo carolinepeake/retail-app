@@ -38,7 +38,9 @@ module.exports.postReview = (req, res) => {
 };
 
 module.exports.putReviewHelpful = (req, res) => {
-  axios.put(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/reviews/${req.params.review_id}/helpful`)
+  const reviewID = req.body.id;
+
+  axios.put(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/reviews/${reviewID}/helpful`)
     .then((result) => {
       res.status(204).send(result.data);
     })
@@ -49,7 +51,9 @@ module.exports.putReviewHelpful = (req, res) => {
 };
 
 module.exports.putReviewReport = (req, res) => {
-  axios.put(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/reviews/${req.params.review_id}/report`)
+  const reviewID = req.body.id;
+
+  axios.put(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/reviews/${reviewID}/report`)
     .then((result) => {
       res.status(204).send(result.data);
     })

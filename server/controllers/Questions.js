@@ -40,14 +40,14 @@ module.exports.postQuestion = (req, res) => {
 };
 
 module.exports.helpfulQuestion = (req, res) => {
-  const questionID = req.body.question_id;
+  const questionID = req.body.id;
 
   axios
     .put(
       `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/qa/questions/${questionID}/helpful`,
     )
-    .then(() => {
-      res.status(204);
+    .then((result) => {
+      res.status(204).send(result.data);
     })
     .catch((err) => {
       res.status(400).send(err);
@@ -55,14 +55,14 @@ module.exports.helpfulQuestion = (req, res) => {
 };
 
 module.exports.reportQuestion = (req, res) => {
-  const questionID = req.body.question_id;
+  const questionID = req.body.id;
 
   axios
     .put(
       `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/qa/questions/${questionID}/report`,
     )
-    .then(() => {
-      res.status(204);
+    .then((result) => {
+      res.status(204).send(result.data);
     })
     .catch((err) => {
       res.status(400).send(err);
