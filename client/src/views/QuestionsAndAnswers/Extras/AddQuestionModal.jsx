@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import Modal from '../../../components/Modal';
 import { Button } from '../../../components/Buttons';
+import CharacterCount from '../../../components/Form/CharacterCount';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
 // TODO: extract form inputs, form layout, and modal css components
@@ -73,16 +74,15 @@ function AddQuestionModal({ toggleModal }) {
     <Modal
       closeModal={closeModal}
     >
-      <Form onSubmit={askQuestion}>
-        <ModalTitle>Ask a Question</ModalTitle>
-        <ProductName>
+      <form onSubmit={askQuestion}>
+        <h2>Ask a Question</h2>
+        <h1>
           {productInfo.name}
-        </ProductName>
-        <FormField htmlFor="body">
-          Question
-          <Required>*</Required>
-        </FormField>
-        <InputQuestion
+        </h1>
+        <StyledLabel htmlFor="body">
+          Question *
+        </StyledLabel>
+        <StyledTextArea
           onChange={handleInputChange}
           rows="6"
           maxLength="1000"
@@ -90,46 +90,45 @@ function AddQuestionModal({ toggleModal }) {
           value={formState.body}
           name="body"
           id="body"
+          as="textarea"
+        />
+        <CharacterCount
+          characterLimit={1000}
+          charactersUsed={formState.body.length}
         />
         <br />
-        <FormField htmlFor="name">
-          Username
-          <Required>*</Required>
-        </FormField>
-        <div>
-          <FormEntry
-            onChange={handleInputChange}
-            maxLength="60"
-            type="text"
-            id="name"
-            name="name"
-            placeholder="Example: jackson11!"
-            value={formState.name}
-          />
-          <Disclaimer>
-            For privacy reasons, do not use your full name or email
-            address.
-          </Disclaimer>
-        </div>
+        <StyledLabel htmlFor="name">
+          Username *
+        </StyledLabel>
+        <StyledInput
+          onChange={handleInputChange}
+          maxLength="60"
+          type="text"
+          id="name"
+          name="name"
+          placeholder="Example: jackson11!"
+          value={formState.name}
+        />
+        <Disclaimer>
+          For privacy reasons, do not use your full name or email
+          address.
+        </Disclaimer>
         <br />
-        <FormField htmlFor="email">
-          Email
-          <Required>*</Required>
-        </FormField>
-        <div>
-          <FormEntry
-            onChange={handleInputChange}
-            maxLength="60"
-            type="email"
-            id="email"
-            name="email"
-            placeholder="jack@email.com"
-            value={formState.email}
-          />
-          <Disclaimer>
-            For authentication reasons, you will not be emailed.
-          </Disclaimer>
-        </div>
+        <StyledLabel htmlFor="email">
+          Email *
+        </StyledLabel>
+        <StyledInput
+          onChange={handleInputChange}
+          maxLength="60"
+          type="email"
+          id="email"
+          name="email"
+          placeholder="jack@email.com"
+          value={formState.email}
+        />
+        <Disclaimer>
+          For authentication reasons, you will not be emailed.
+        </Disclaimer>
         <br />
         {!validInput ? (
           <Disclaimer>
@@ -153,7 +152,7 @@ function AddQuestionModal({ toggleModal }) {
             Cancel
           </FooterButton>
         </Footer>
-      </Form>
+      </form>
     </Modal>
   );
 }
@@ -162,71 +161,47 @@ AddQuestionModal.propTypes = {
   toggleModal: PropTypes.func.isRequired,
 };
 
-const ModalTitle = styled.h2`
-  margin-top: 0px;
-  font-size: 1.75em;
-  color: rgb(55, 78, 98);
-`;
-
-const ProductName = styled.h4`
-  margin-top: 0px;
-  font-size: 1.5em;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  width: 100%;
-
-  @media (min-width: 40rem) {
-    width: 90%;
-  }
-`;
-
-const FormField = styled.label`
-  font-size: 1.0rem;
-  cursor: initial;
-`;
-
-const FormEntry = styled.input`
-  cursor: initial;
-  margin-top: 0.25em;
+const StyledLabel = styled.label`
+  font-size: ${(props) => props.theme.body};
+  font-weight: 400;
+  color: rgb(37, 55, 70);
   display: block;
+`;
+
+const StyledInput = styled.input`
   width: 100%;
+  padding: 1em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  border: currentColor solid thin;
+  border-radius: 3px;
+  box-shadow: inset 0.25px 0.25px 2px 2px ${(props) => props.theme.insetBoxShadow};
+  cursor: initial;
+  font-size: ${(props) => props.theme.input};
   color: ${(props) => props.theme.fontColor};
-  &:focus {
-    background-color: ${(props) => props.theme.navBgColor};
-  }
   background-color: ${(props) => props.theme.backgroundColor};
+
   ::placeholder {
     color: ${(props) => props.theme.inputPlaceholder};
   }
-  border: currentColor solid thin;
-  border-radius: 3px;
-  padding: 0.5em;
-  font-family: inherit;
-  font-size: ${(props) => props.theme.input};
+
+  &:focus {
+    outline-color: ${(props) => props.theme.blue[5]};
+    outline-offset: 2px;
+    border: none;
+  }
+
+  ::label {
+    font-size: ${(props) => props.theme.body};
+    font-weight: 400;
+    color: rgb(37, 55, 70);
+    display: block;
+  }
 `;
 
-const InputQuestion = styled.textarea`
-  resize: none;
-  margin-top: 0.25em;
-  display: block;
-  width: 100%;
-  font-family: inherit;
-  color: ${(props) => props.theme.fontColor};
-  &:focus {
-    background-color: ${(props) => props.theme.navBgColor};
-  }
-  background-color: ${(props) => props.theme.backgroundColor};
-  ::placeholder {
-    color: ${(props) => props.theme.inputPlaceholder};
-  }
-  border: currentColor solid thin;
-  border-radius: 3px;
-  padding: 0.5em;
-  font-size: ${(props) => props.theme.input};
+const StyledTextArea = styled(StyledInput)`
+  resize: auto;
+  line-height: 1.5em;
 `;
 
 const Footer = styled.div`
@@ -253,12 +228,9 @@ const FooterButton = styled(Button)`
   }
 `;
 
-const Required = styled.sup`
-  color: ${(props) => props.theme.formError};
-`;
-
 const Disclaimer = styled.h5`
   font-style: oblique;
+  padding-top: 0;
 `;
 
 export default AddQuestionModal;

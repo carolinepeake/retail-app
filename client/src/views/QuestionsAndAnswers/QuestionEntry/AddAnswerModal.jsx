@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Button } from '../../../components/Buttons';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import AddPhotos from '../../../components/Form/AddPhotos';
+import CharacterCount from '../../../components/Form/CharacterCount';
 import Modal from '../../../components/Modal';
 import useForm from '../../../hooks/useForm';
 
@@ -20,7 +21,7 @@ function AddAnswerModal({ question, toggleModal }) {
     photos: [],
   };
 
-  const askQuestion = (form) => {
+  const addAnswer = (form) => {
     const previews = form.photos.map((photo) => photo.url);
     const postBody = { ...form, photos: previews };
     console.log('postBody: ', postBody);
@@ -45,7 +46,7 @@ function AddAnswerModal({ question, toggleModal }) {
     handleInputChange,
     resetForm,
     handleSubmit,
-  ] = useForm(askQuestion, initialFormState);
+  ] = useForm(addAnswer, initialFormState);
 
   const closeModal = () => {
     toggleModal();
@@ -56,29 +57,34 @@ function AddAnswerModal({ question, toggleModal }) {
     <Modal
       closeModal={closeModal}
     >
-      <Form
+      <form
         id="form"
         onSubmit={handleSubmit}
       >
-        <ModalTitle>
+        <h2>
           Submit Your Answer
-        </ModalTitle>
-        <ProductName>
+        </h2>
+        <h1>
           {`${productInfo.name} : ${question.question_body}`}
-        </ProductName>
+        </h1>
 
-        <FormField htmlFor="body">
-          Answer
-          <Required>*</Required>
-        </FormField>
-        <InputAnswer
+        <StyledLabel htmlFor="body">
+          Answer *
+        </StyledLabel>
+        <StyledTextArea
           required
-          onChange={(e) => handleInputChange(e.target)}
+          as="textarea"
+          onChange={handleInputChange}
           maxLength="1000"
           rows="6"
           placeholder="Enter your answer"
           value={formState.body}
           name="body"
+          id="body"
+        />
+        <CharacterCount
+          characterLimit={1000}
+          charactersUsed={formState.body.length}
         />
         <br />
         <AddPhotos
@@ -86,46 +92,40 @@ function AddAnswerModal({ question, toggleModal }) {
           photos={formState.photos}
         />
         <br />
-        <FormField htmlFor="name">
-          Username
-          <Required>*</Required>
-        </FormField>
-        <div>
-          <FormEntry
-            onChange={(e) => handleInputChange(e.target)}
-            required
-            maxLength="60"
-            type="text"
-            id="name"
-            name="name"
-            value={formState.name}
-            placeholder="Example: jackson11!"
-          />
-          <Disclaimer>
-            For privacy reasons, do not use your full name or email
-            address.
-          </Disclaimer>
-        </div>
+        <StyledLabel htmlFor="name">
+          Username *
+        </StyledLabel>
+        <StyledInput
+          onChange={handleInputChange}
+          required
+          maxLength="60"
+          type="text"
+          id="name"
+          name="name"
+          value={formState.name}
+          placeholder="Example: jackson11!"
+        />
+        <Disclaimer>
+          For privacy reasons, do not use your full name or email
+          address.
+        </Disclaimer>
         <br />
-        <FormField htmlFor="email">
-          Email
-          <Required>*</Required>
-        </FormField>
-        <div>
-          <FormEntry
-            onChange={(e) => handleInputChange(e.target)}
-            maxLength="60"
-            required
-            type="email"
-            id="email"
-            placeholder="Example: jack@email.com"
-            value={formState.email}
-            name="email"
-          />
-          <Disclaimer>
-            For authentication reasons, you will not be emailed.
-          </Disclaimer>
-        </div>
+        <StyledLabel htmlFor="email">
+          Email *
+        </StyledLabel>
+        <StyledInput
+          onChange={handleInputChange}
+          maxLength="60"
+          required
+          type="email"
+          id="email"
+          placeholder="Example: jack@email.com"
+          value={formState.email}
+          name="email"
+        />
+        <Disclaimer>
+          For authentication reasons, you will not be emailed.
+        </Disclaimer>
         <br />
         {errors.length > 0 && (
           <Disclaimer>
@@ -148,7 +148,7 @@ function AddAnswerModal({ question, toggleModal }) {
             Cancel
           </FooterButton>
         </Footer>
-      </Form>
+      </form>
     </Modal>
   );
 }
@@ -161,42 +161,22 @@ AddAnswerModal.propTypes = {
   toggleModal: PropTypes.func.isRequired,
 };
 
-const ModalTitle = styled.h2`
-  margin-top: 0px;
-  font-size: 1.75em;
-  color: rgb(55, 78, 98);
-`;
-
-const ProductName = styled.h4`
-  margin-top: 0px;
-  font-size: 1.5em;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  width: 100%;
-
-  @media (min-width: 40rem) {
-    width: 90%;
-  }
-`;
-
-const FormField = styled.label`
-  font-size: 1rem;
-  cursor: initial;
-`;
-
-const FormEntry = styled.input`
+const StyledLabel = styled.label`
+  font-size: ${(props) => props.theme.body};
+  font-weight: 400;
+  color: rgb(37, 55, 70);
   display: block;
+`;
+
+const StyledInput = styled.input`
   width: 100%;
-  padding: 0.5em;
-  margin-top: 0.25em;
+  padding: 1em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
   border: currentColor solid thin;
   border-radius: 3px;
+  box-shadow: inset 0.25px 0.25px 2px 2px ${(props) => props.theme.insetBoxShadow};
   cursor: initial;
-  font-family: inherit;
   font-size: ${(props) => props.theme.input};
   color: ${(props) => props.theme.fontColor};
   background-color: ${(props) => props.theme.backgroundColor};
@@ -206,34 +186,22 @@ const FormEntry = styled.input`
   }
 
   &:focus {
-    background-color: ${(props) => props.theme.navBgColor};
+    outline-color: ${(props) => props.theme.blue[5]};
+    outline-offset: 2px;
+    border: none;
   }
 
   ::label {
-    font-size: 1rem;
-    color: ${(props) => props.theme.fontColor};
+    font-size: ${(props) => props.theme.body};
+    font-weight: 400;
+    color: rgb(37, 55, 70);
+    display: block;
   }
 `;
 
-const InputAnswer = styled.textarea`
-  resize: none;
-  display: block;
-  width: 100%;
-  margin-top: 0.25em;
-  font-family: inherit;
-  font-size: ${(props) => props.theme.input};
-  color: ${(props) => props.theme.fontColor};
-  background-color: ${(props) => props.theme.backgroundColor};
-  ::placeholder {
-    color: ${(props) => props.theme.inputPlaceholder};
-  }
-  border: currentColor solid thin;
-  border-radius: 3px;
-  padding: 0.5em;
-
-  &:focus {
-    background-color: ${(props) => props.theme.navBgColor};
-  }
+const StyledTextArea = styled(StyledInput)`
+  resize: auto;
+  line-height: 1.5em;
 `;
 
 const Footer = styled.div`
@@ -256,12 +224,13 @@ const FooterButton = styled(Button)`
   margin: 0;
 `;
 
-const Required = styled.sup`
-  color: ${(props) => props.theme.formError};
-`;
+// const Required = styled.sup`
+//   color: ${(props) => props.theme.formError};
+// `;
 
 const Disclaimer = styled.h5`
   font-style: oblique;
+  padding-top: 0;
 `;
 
 const Error = styled.div`
