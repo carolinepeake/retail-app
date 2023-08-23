@@ -1,7 +1,7 @@
 // const radioButtons = Object.entries(characteristic?.values).map(([value, label]) => (
 // will want to separate into new component and useId to make unique ids
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 
 export default function RecommendRadio({
@@ -9,71 +9,132 @@ export default function RecommendRadio({
   handleChange,
   checked,
   label,
+  name,
+  required,
+  selected,
 }) {
   return (
     <Radio
-      required
+      required={required}
       value={value}
       checked={checked}
       type="radio"
-      name="recommend"
+      name={name}
       onChange={handleChange}
       label={label}
       aria-label={label}
+      $selected={selected}
     />
   );
 }
 
 RecommendRadio.propTypes = {
-  value: PropTypes.number.isRequired,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
   handleChange: PropTypes.func.isRequired,
   checked: PropTypes.bool.isRequired,
   label: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  required: PropTypes.bool,
+  selected: PropTypes.bool,
+};
+
+RecommendRadio.defaultProps = {
+  required: false,
+  selected: false,
 };
 
 const Radio = styled.input`
   appearance: none;
-  border: 1px ${(props) => props.theme.submitButtonHover} solid;
+  border: 1px ${(props) => props.theme.blue[5]} solid;
   height: 4em;
   aspect-ratio: 1;
   border-radius: 3px;
   margin: 0;
   background-color: ${(props) => props.theme.backgroundColor};
-  color: ${(props) => props.theme.submitButtonHover};
+  color: ${(props) => props.theme.blue[5]};
   overflow: visible;
   font-weight: 400;
+  ${(props) => props.name === 'rating' && css`
+    background-color: ${props.theme.navBgColor};
+  `}
 
   &::after {
     content: '${(props) => props.label}';
-    color: inherit;
     width: 100%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: inherit;
-    border-radius: inherit;
     font-weight: inherit;
+    border-radius: inherit;
+    border: none;
+    ${(props) => props.name === 'rating' && css`
+      color: inherit;
+      content: '☆';
+      font-size: 2em;
+      line-height:1em;
+    `};
   }
+
+ ${(props) => props.name === 'rating' && props.$selected && css`
+    &::after {
+      content: '★';
+      color: ${props.theme.backgroundColor};
+      background-color: ${props.theme.blue[5]};
+      border: none;
+    }
+`};
 
   &:hover {
     cursor: pointer;
     font-weight: 500;
-    background-color: ${(props) => props.theme.navBgColor};
     border: 2px currentColor solid;
-    /* box-shadow? */
+    ${(props) => props.name === 'rating' && css`
+      border: none;
+      &::after {
+        content: '★';
+        color: ${props.theme.backgroundColor};
+        background-color: ${props.theme.blue[5]};
+        border: none;
+      }
+      & ~ input {
+        &::after {
+          background-color: ${props.theme.blue[5]};
+          color: ${props.theme.backgroundColor};
+          content: '★';
+          border: none;
+        }
+      }
+    `};
   }
 
   &:checked {
-    background-color: ${(props) => props.theme.submitButtonHover};
-    color: ${(props) => props.theme.submitButtonHoverFont};
-    /* box-shadow? */
+    background-color: ${(props) => props.theme.blue[5]};
+    color: ${(props) => props.theme.backgroundColor};
+
+    ${(props) => props.name === 'rating' && css`
+     background-color: ${props.theme.blue[5]};
+     color: ${props.theme.backgroundColor};
+   `};
 
     &:hover {
-      color: ${(props) => props.theme.submitButtonHoverFont};
-      background-color:  ${(props) => props.theme.submitButtonHover};
-      border: 1px ${(props) => props.theme.submitButtonHover} solid;
+      color: ${(props) => props.theme.backgroundColor};
+      background-color:  ${(props) => props.theme.blue[5]};
+      border: 1px ${(props) => props.theme.blue[5]} solid;
       border-radius: 3px;
+
+    ${(props) => props.name === 'rating' && css`
+      & ~ &:before {
+        background-color:  ${props.theme.blue[5]};
+        border: none;
+      }
+      background-color: ${props.theme.blue[5]};
+      color: ${props.theme.backgroundColor};
+    `};
     }
   }
 

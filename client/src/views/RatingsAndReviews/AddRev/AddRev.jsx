@@ -1,22 +1,29 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import StarRating from './StarRating';
 import RecommendRadio from './RecommendRadio';
 import Characteristics from './Characteristics';
 import AddPhotos from '../../../components/Form/AddPhotos';
 import Modal from '../../../components/Modal';
+import CharacterCount from '../../../components/Form/CharacterCount';
 import useForm from '../../../hooks/useForm';
-import { CHARACTERISTICS } from '../../../constants/constants';
+import useModal from '../../../hooks/useModal';
+import { CHARACTERISTICS, RATING } from '../../../constants/constants';
 import { Button } from '../../../components/Buttons';
 
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
-function AddRev({ toggleModal }) {
+function AddRev({ toggleModal, showModal }) {
   const {
     productID, productInfo, revMeta,
   } = useGlobalContext();
+
+  const [showSuccessModal, toggleSuccessModal] = useModal();
+
+  const closeSuccessModal = () => {
+    toggleSuccessModal();
+  };
 
   const initialFormState = {
     product_id: Number(productID),
@@ -69,7 +76,8 @@ function AddRev({ toggleModal }) {
       .then(() => {
         // show success message
         console.log('review submitted successfully');
-        toggleModal();
+        toggleSuccessModal();
+        // toggleModal();
         // repopulate reviews?
       })
       .catch((err) => {
@@ -92,80 +100,119 @@ function AddRev({ toggleModal }) {
     resetForm();
   };
 
+  const handleCloseSuccessModal = () => {
+    toggleSuccessModal();
+    toggleModal();
+  };
+
   return (
-    <Modal closeModal={closeModal}>
-      <FormContainer onSubmit={handleSubmit}>
+    <>
+      <Modal closeModal={closeModal}>
+        {!showSuccessModal && (
+        <form onSubmit={handleSubmit}>
 
-        <ModalTitle>Write a Review</ModalTitle>
-        <ProductName>
-          {productInfo.name}
-        </ProductName>
+          <h2>Write a Review</h2>
+          <h1>
+            {productInfo.name}
+          </h1>
 
-        <StarRating
-          handleInputChange={handleInputChange}
-          rating={formState.rating}
-        />
-        <br />
+          <RecommendProdLabel>
+            Overall Rating *
 
-        <RecommendProdLabel>
-          Would you recommend this product to a friend?
-          <Required>*</Required>
-          <RadioButtonsContainer>
+            {formState.rating
+              ? (
+                <SelectedValue>
+                  {formState.rating}
+                  {' '}
+                  out of 5 stars selected. Product is
+                  {' '}
+                  {RATING[formState.rating]}
+                  .
+                </SelectedValue>
+              )
+              : <Placeholder>None Selected</Placeholder>}
 
-            <RecommendRadio
-              label="Yes"
-              value="true"
-              handleChange={handleInputChange}
-              checked={formState.recommend === 'true'}
-            />
-            <RecommendRadio
-              label="No"
-              value="false"
-              handleChange={handleInputChange}
-              checked={formState.recommend === 'false'}
-            />
+            <RadioButtonsContainer $rating>
+              {Object.keys(RATING).map((value) => {
+                console.log('star rating value: ', value, typeof value);
+                console.log('formstate rating: ', formState.rating, typeof formState.rating);
+                return (
+                  <RecommendRadio
+                    key={`star${value}`}
+                    label="☆"
+                    value={6 - Number(value)}
+                    handleChange={handleInputChange}
+                    checked={Number(formState.rating) === (6 - Number(value))}
+                    name="rating"
+                    $rating
+                    required={value === '1'}
+                    selected={Number(formState.rating) >= (6 - Number(value))}
+                  />
+                );
+              })}
+            </RadioButtonsContainer>
+          </RecommendProdLabel>
 
-          </RadioButtonsContainer>
-        </RecommendProdLabel>
-        <br />
+          <br />
 
-        {Object.keys(revMeta.characteristics).map((name) => {
-          const characteristic = CHARACTERISTICS[name];
-          return (
-            <Characteristics
-              key={name}
-              id={name.id}
-              name={name}
-              characteristic={characteristic}
-              handleInputChange={handleInputChange}
-              inputState={formState.characteristics}
-            />
-          );
-        })}
-        <br />
+          <RecommendProdLabel>
+            Would you recommend this product to a friend? *
+            <RadioButtonsContainer>
 
-        <RevSummaryDiv>
-          <CustomLabel label="summary">
+              <RecommendRadio
+                key="recommendYes"
+                label="Yes"
+                value="true"
+                handleChange={handleInputChange}
+                checked={formState.recommend === 'true'}
+                name="recommend"
+                required
+              />
+              <RecommendRadio
+                key="recommendNo"
+                label="No"
+                value="false"
+                handleChange={handleInputChange}
+                checked={formState.recommend === 'false'}
+                name="recommend"
+              />
+
+            </RadioButtonsContainer>
+          </RecommendProdLabel>
+
+          <br />
+
+          {Object.keys(revMeta.characteristics).map((name) => {
+            const characteristic = CHARACTERISTICS[name];
+            return (
+              <Characteristics
+                key={`radio${name}`}
+                id={name.id}
+                title={name}
+                characteristic={characteristic}
+                handleInputChange={handleInputChange}
+                inputState={formState.characteristics}
+              />
+            );
+          })}
+
+          <StyledLabel label="summary">
             Review Summary
-            <TextInput
+            <StyledInput
               placeholder="Example: Best purchase ever!"
               maxLength="60"
               id="summary"
               name="summary"
               type="text"
-              as="input"
               value={formState.summary}
               onChange={handleInputChange}
             />
-          </CustomLabel>
-        </RevSummaryDiv>
-        <br />
+          </StyledLabel>
+          <br />
 
-        <RevBodyDiv>
-          <CustomLabel label="body">
-            Review body
-            <Required>*</Required>
-            <TextAreaDiv
+          <StyledLabel label="body">
+            Review body *
+            <StyledTextArea
               placeholder="Why did you like the product or not?"
               minLength="50"
               maxLength="1000"
@@ -175,58 +222,58 @@ function AddRev({ toggleModal }) {
               id="body"
               name="body"
               value={formState.body}
+              as="textarea"
             />
-          </CustomLabel>
-        </RevBodyDiv>
-        <br />
-
-        <AddPhotos
-          handleInputChange={handleInputChange}
-          photos={formState.photos}
-        />
-        <br />
-
-        <CustomLabel label="name">
-          Username
-          <Required>*</Required>
-          <TextInput
-            type="text"
-            as="input"
-            maxLength="60"
-            placeholder="Example: jackson11!"
-            onChange={handleInputChange}
-            value={formState.name}
-            required
-            id="name"
-            name="name"
+          </StyledLabel>
+          <CharacterCount
+            characterLimit={1000}
+            charactersUsed={formState.body.length}
           />
-        </CustomLabel>
-        <AuthTag>
-          For privacy reasons, do not use your full name or email
-          address.
-        </AuthTag>
-        <br />
+          <br />
 
-        <CustomLabel label="email">
-          Your Email
-          <Required>*</Required>
-          <TextInput
-            type="email"
-            as="input"
-            maxLength="60"
-            placeholder="Example: jackson11@email.com"
-            rows="1"
-            onChange={handleInputChange}
-            value={formState.email}
-            required
-            id="email"
-            name="email"
+          <AddPhotos
+            handleInputChange={handleInputChange}
+            photos={formState.photos}
           />
-        </CustomLabel>
-        <AuthTag>For authentication reasons, you will not be emailed</AuthTag>
-        <br />
+          <br />
 
-        {errors.length > 0
+          <StyledLabel label="name">
+            Username *
+            <StyledInput
+              type="text"
+              maxLength="60"
+              placeholder="Example: jackson11!"
+              onChange={handleInputChange}
+              value={formState.name}
+              required
+              id="name"
+              name="name"
+            />
+          </StyledLabel>
+          <AuthTag>
+            For privacy reasons, do not use your full name or email
+            address.
+          </AuthTag>
+          <br />
+
+          <StyledLabel label="email">
+            Your Email *
+            <StyledInput
+              type="email"
+              maxLength="60"
+              placeholder="Example: jackson11@email.com"
+              rows="1"
+              onChange={handleInputChange}
+              value={formState.email}
+              required
+              id="email"
+              name="email"
+            />
+          </StyledLabel>
+          <AuthTag>For authentication reasons, you will not be emailed</AuthTag>
+          <br />
+
+          {errors.length > 0
           && (
           <AuthTag>
             {errors.map((error) => (
@@ -235,43 +282,43 @@ function AddRev({ toggleModal }) {
           </AuthTag>
           )}
 
-        <ButtonContainer>
-          <ButtonDiv $primary $submit type="submit">Submit</ButtonDiv>
-          <ButtonDiv $cancel type="button" onClick={closeModal}> Cancel </ButtonDiv>
-        </ButtonContainer>
+          <ButtonContainer>
+            <ButtonDiv $primary $submit type="submit">Submit</ButtonDiv>
+            <ButtonDiv $cancel type="button" onClick={closeModal}> Cancel </ButtonDiv>
+          </ButtonContainer>
 
-      </FormContainer>
-    </Modal>
+        </form>
+        )}
+        {showSuccessModal
+        && (
+        <>
+          <div>
+            Review successfully submitted
+          </div>
+          <ButtonContainer>
+            <ButtonDiv type="button" onClick={handleCloseSuccessModal}> Close </ButtonDiv>
+          </ButtonContainer>
+        </>
+        )}
+      </Modal>
+      {/* {!showSuccessModal && (
+      <Modal closeModal={closeSuccessModal}>
+        Review submitted successfully
+        <ButtonContainer>
+          <ButtonDiv type="button" onClick={toggleSuccessModal}> Close </ButtonDiv>
+        </ButtonContainer>
+      </Modal>
+      )} */}
+    </>
   );
 }
 
 AddRev.propTypes = {
   toggleModal: PropTypes.func.isRequired,
+  showModal: PropTypes.bool.isRequired,
 };
 
 export default AddRev;
-
-const ModalTitle = styled.h2`
-  margin-top: 0px;
-  font-size: 1.75em;
-  color: rgb(55, 78, 98);
-`;
-
-const ProductName = styled.h4`
-  margin-top: 0px;
-  font-size: 1.5em;
-`;
-
-const FormContainer = styled.form`
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  width: 100%;
-
-  @media (min-width: 40rem) {
-    width: 90%;
-  }
-`;
 
 const RadioButtonsContainer = styled.div`
   margin-top: 0.75em;
@@ -281,73 +328,80 @@ const RadioButtonsContainer = styled.div`
   justify-content: flex-start;
   gap: 2em;
   position: relative;
-  /* margin: 0 4px; */
+  ${(props) => props.$rating && css`
+    width: auto;
+    gap: 0.5em;
+    flex-wrap: wrap;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+  `};
 `;
 
 const RecommendProdLabel = styled.span`
   display: block;
-  font-weight: 300;
-  color: ${(props) => props.theme.fontColor};
   font-size: ${(props) => props.theme.body};
   font-weight: 400;
   color: rgb(37, 55, 70);
 `;
 
-const CustomLabel = styled.label`
-  display: block;
+const StyledLabel = styled.label`
+  font-size: ${(props) => props.theme.body};
+  font-weight: 400;
   color: rgb(37, 55, 70);
+  display: block;
+`;
+
+const Placeholder = styled.span`
+  color: ${(props) => props.theme.inputPlaceholder};
+  display: block;
+  margin-top: 0.75em;
+  font-size: ${(props) => props.theme.input};
   font-weight: 400;
 `;
 
-const TextAreaDiv = styled.textarea`
-  resize: none;
-  display: block;
+const SelectedValue = styled(Placeholder)`
+  color: ${(props) => props.theme.secondaryFontColor};
+`;
+
+const StyledInput = styled.input`
   width: 100%;
-  font-family: inherit;
+  padding: 1em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  border: currentColor solid thin;
+  border-radius: 3px;
+  box-shadow: inset 0.25px 0.25px 2px 2px ${(props) => props.theme.insetBoxShadow};
+  cursor: initial;
+  font-size: ${(props) => props.theme.input};
   color: ${(props) => props.theme.fontColor};
   background-color: ${(props) => props.theme.backgroundColor};
-  margin-top: 0.5em;
-  padding: 0.5em;
-  border: 1px solid currentColor;
-  border-radius: 3px;
-  font-size: ${(props) => props.theme.input};
-  boxShadow: inset -1px 1px 3px 0.5px ${(props) => props.theme.insetBoxShadow}, inset 0.5px -0.5px 3px 1px ${(props) => props.theme.insetBoxShadow};
+
   ::placeholder {
     color: ${(props) => props.theme.inputPlaceholder};
   }
+
   &:focus {
-    background-color: ${(props) => props.theme.navBgColor};
-    transform: scale(1.01);
-    transition: scale 0.2s ease;
-    outline-offset: 3px;
-    outline-color: ${(props) => props.theme.focusColor}
-    outline-width: 2px;
+    outline-color: ${(props) => props.theme.blue[5]};
+    outline-offset: 2px;
+    border: none;
   }
-  &:focus-visible: {
-    outline: 2px ${(props) => props.theme.focusColor} solid;
-    outline-offset: 3px;
+
+  ::label {
+    font-size: ${(props) => props.theme.body};
+    font-weight: 400;
+    color: rgb(37, 55, 70);
+    display: block;
   }
 `;
 
-const TextInput = styled(TextAreaDiv)`
-`;
-
-const Required = styled.sup`
-  color: ${(props) => props.theme.formError}
-`;
-
-const RevSummaryDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const RevBodyDiv = styled.div`
-  display: flex;
-  flex-direction: column;
+const StyledTextArea = styled(StyledInput)`
+  resize: auto;
+  line-height: 1.5em;
 `;
 
 const AuthTag = styled.h5`
   font-style: oblique;
+  padding-top: 0;
 `;
 
 const ErrorsContainer = styled.div`
