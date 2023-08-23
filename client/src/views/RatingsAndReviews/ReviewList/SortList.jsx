@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import ListTotalCount from '../../../components/LargeList/ListTotalCount';
 import StyledSelect from '../../../components/StyledSelect';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
-import { capitalizeFirstLetter } from '../../../utils/capitalize';
+import { capitalizeFirstLetter } from '../../../utils/getFormat';
 
 const SORT_OPTIONS = ['relevant', 'newest', 'helpful'];
 

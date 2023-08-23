@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { format, parseISO } from 'date-fns';
 import HelpfulReport from './HelpfulReport';
 import StarCount from './StarCount';
 import ExpandedImageModal from '../../QuestionsAndAnswers/QuestionEntry/ExpandedImageModal';
+import { formatDate } from '../../../utils/getFormat';
 
 function ReviewTile({ review }) {
   const [showModal, setShowModal] = useState(false);
@@ -25,7 +25,7 @@ function ReviewTile({ review }) {
             &nbsp;
           </ReviewerName>
           <Date>
-            {format(parseISO(review?.date), 'MMMM dd, yyyy')}
+            {formatDate(review?.date)}
           </Date>
         </DateName>
       </StarsDateName>

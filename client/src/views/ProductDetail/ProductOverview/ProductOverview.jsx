@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Stars from '../../RelatedItems/RelatedList/Stars';
 import SocialMedia from './SocialMedia';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
-import { calcAverageRating } from '../../../utils/useAverageRating';
+import { calcAverageRating } from '../../../utils/getAverageRating';
 
 function ProductOverview() {
   const {

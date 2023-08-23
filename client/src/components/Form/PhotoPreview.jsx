@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { CloseButton } from '../Buttons';
-import removeFileExtension from '../../utils/removeFileExtension';
+import { removeFileExtension } from '../../utils/getFormat';
 
 export default function PhotoPreview({
   preview,

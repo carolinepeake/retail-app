@@ -90,7 +90,6 @@ export const CloseButton = styled.button.attrs(() => ({
     color: ${props.theme.neutral[2]};
     background-color: transparent;
     display: inline-flex;
-   /* font-size: 1.5em; */
     font-size: 2em;
     right: 1em;
     top: 0.75em;

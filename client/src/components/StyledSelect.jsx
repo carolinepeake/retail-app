@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import DropdownChevron from './DropdownChevron';
-import { capitalizeFirstLetter } from '../utils/capitalize';
+import { capitalizeFirstLetter } from '../utils/getFormat';
 
 function StyledSelect({
   placeholder = 'Select Dropdown Option',

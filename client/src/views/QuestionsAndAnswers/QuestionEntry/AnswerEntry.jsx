@@ -2,9 +2,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { format, parseISO } from 'date-fns';
 import ExpandedImageModal from './ExpandedImageModal';
 import HelpfulReport from '../../RatingsAndReviews/ReviewList/HelpfulReport';
+import { formatDate } from '../../../utils/getFormat';
 
 function AnswerEntry({ answer }) {
   console.log('[AnswerEntry] is running');
@@ -53,7 +53,7 @@ function AnswerEntry({ answer }) {
           ) : (
             answer.answerer_name
           )}
-          {` on ${format(parseISO(answer.date), 'MMM dd, yyyy')}`}
+          {` on ${formatDate(answer.date)}`}
         </Answerer>
         <div>|</div>
       </HelpfulReport>

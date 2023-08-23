@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import CardImage from './CardImage';
 import Stars from './Stars';
-import {
-  calcAverageRating,
-} from '../../../utils/useAverageRating';
+import { calcAverageRating } from '../../../utils/getAverageRating';
 
 function Card({
   product, setIndex, setTranslate, children

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { calcAverageRating } from '../../../utils/useAverageRating';
+import { calcAverageRating } from '../../../utils/getAverageRating';
 
 function Summary({ revMeta }) {
   const recommendPercentage = Math.trunc(

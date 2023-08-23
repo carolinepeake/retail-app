@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components';
 import axios from 'axios';
 import { CloseButton } from '../Buttons';
 import PhotoPreview from './PhotoPreview';
-import removeFileExtension from '../../utils/removeFileExtension';
+import { removeFileExtension } from '../../utils/getFormat';
 
 function AddPhotos({
   handleInputChange,
