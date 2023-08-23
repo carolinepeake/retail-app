@@ -63,6 +63,8 @@ function App() {
   // secondary button
 
 
+  // neutral: white, light grey, dark grey, black
+  // color: spacing line, nav bckground, hovered icon background, other button, color text/submit button, hovered color text/hovered submit button
 
 
   const themeLight = {
@@ -73,6 +75,11 @@ function App() {
     // blue[4] is primary buttons (including submit) hover bg, thumbnail icon hover, hovered list nav, nav font color
     // blue[5] is submit buttons bg & blue text, selected thumbnail icon
     blue: ['rgb(209,217,235)', 'rgba(190, 203, 210, 0.3)', 'rgba(190, 203, 210, 0.5)', '#becbd2', 'rgb(32,45,74)', 'rgb(55, 78, 98)'],
+    green: ['#cff7cd', '#70e869', '#0ec305', '#0a8203', '#054102', '#032b01', '#021601'],
+    darkBlue: ['#d1d1e2', '#7575a9', '#47478d', '#171765', '#0f0f43', '#03030b'],
+    UIBlue: ['rgb(239,246,255)', 'rgb(219,234,254)', 'rgb(191,219,254)', 'rgb(147,197,253)', 'rgb(96,165,250)', 'rgb(59,130,246)', 'rgb(37,99,235)', 'rgb(29,78,216)', 'rgb(30,64,175)', 'rgb(30,58,138)'],
+    neutral: ['white', '#C2C2C2', '#5C6166', '#424242', '#2A3642', '#000005'],
+    greenCompliment: '#006633',
     backgroundColor: 'white',
     navBgColor: '#f5f7f8',
     secondaryBackgroundColor: 'rgba(190, 203, 210)',
@@ -233,15 +240,21 @@ const StyledContainer = createGlobalStyle`
     padding: 0px;
   }
 
-  /* PRODUCT NAME IN PRODUCT DETAIL */
+  /* PRODUCT NAME IN PRODUCT DETAIL & FORM MODAL */
   h1 {
     font-size: 2em;
     font-weight: 500;
+    color: ${(props) => props.theme.blue[5]};
+    margin: 0.5em 0;
   }
 
+  /* MODAL HEADING */
   h2 {
     font-size: 1.5em;
     font-weight: 300;
+    color: ${(props) => props.theme.fontColor};
+    height: 1em;
+    margin: 0;
   }
 
   h3 {
@@ -290,7 +303,7 @@ const StyledContainer = createGlobalStyle`
     font-size: clamp(16px, 1.6vw, 22px);
     &::placeholder {
       color: ${(props) => props.theme.inputPlaceholder};
-      font-size: 0.875em;
+    /*  font-size: 0.875em; */
     }
   }
 
