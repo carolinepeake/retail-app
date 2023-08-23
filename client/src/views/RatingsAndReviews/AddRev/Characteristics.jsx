@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import RadioButton from './RadioButton';
 
 function Characteristics({
-  name,
+  title,
   characteristic,
   handleInputChange,
   inputState,
@@ -35,9 +35,9 @@ function Characteristics({
     <>
       <Subheader>
         <CharacteristicName>
-          {name}
+          {title}
+          *
         </CharacteristicName>
-        <Required>*</Required>
         {selectedValue
           ? (
             <SelectedLabel>
@@ -55,6 +55,7 @@ function Characteristics({
 
         {characteristic.values.map(({ value, label }) => (
           <RadioButton
+            key={`${label}${value}`}
             required
             value={value}
             label={label}
@@ -69,11 +70,18 @@ function Characteristics({
 }
 
 Characteristics.propTypes = {
-  revMeta: PropTypes.shape({
-    characteristics: PropTypes.shape({}),
-  }).isRequired,
   handleInputChange: PropTypes.func.isRequired,
-  characteristics: PropTypes.shape({}).isRequired,
+  characteristic: PropTypes.shape({
+    id: PropTypes.number,
+    values: PropTypes.arrayOf(
+      PropTypes.shape({
+        value: PropTypes.number,
+        label: PropTypes.string,
+      }),
+    ),
+  }).isRequired,
+  title: PropTypes.string.isRequired,
+  inputState: PropTypes.shape({}).isRequired,
 };
 
 export default Characteristics;
@@ -85,10 +93,8 @@ const Subheader = styled.div`
 const CharacteristicName = styled.span`
   font-weight: 400;
   color: rgb(37, 55, 70);
-`;
-
-const Required = styled.sup`
-  color: ${(props) => props.theme.formError}
+  font-size: ${(props) => props.theme.body};
+  display: block;
 `;
 
 const Placeholder = styled.span`
