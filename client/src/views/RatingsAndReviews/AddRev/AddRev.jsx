@@ -106,9 +106,8 @@ function AddRev({ toggleModal, showModal }) {
   };
 
   return (
-    <>
-      <Modal closeModal={closeModal}>
-        {!showSuccessModal && (
+    <Modal closeModal={closeModal}>
+      {!showSuccessModal && (
         <form onSubmit={handleSubmit}>
 
           <h2>Write a Review</h2>
@@ -288,8 +287,8 @@ function AddRev({ toggleModal, showModal }) {
           </ButtonContainer>
 
         </form>
-        )}
-        {showSuccessModal
+      )}
+      {showSuccessModal
         && (
         <>
           <div>
@@ -300,16 +299,7 @@ function AddRev({ toggleModal, showModal }) {
           </ButtonContainer>
         </>
         )}
-      </Modal>
-      {/* {!showSuccessModal && (
-      <Modal closeModal={closeSuccessModal}>
-        Review submitted successfully
-        <ButtonContainer>
-          <ButtonDiv type="button" onClick={toggleSuccessModal}> Close </ButtonDiv>
-        </ButtonContainer>
-      </Modal>
-      )} */}
-    </>
+    </Modal>
   );
 }
 
