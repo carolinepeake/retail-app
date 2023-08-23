@@ -28,6 +28,37 @@ function StyleSelector() {
             />
             {selectedStyle.style_id === style.style_id
             && (
+              // <div
+              //   style={{
+              //     aspectRatio: '1',
+              //     height: '25%',
+              //     borderRadius: '50px',
+              //     zIndex: 2,
+              //     position: 'absolute',
+              //     top: '0%',
+              //     right: '0%',
+              //     color: 'rgba(255,255,255, 0.9)',
+              //     backgroundColor: '#101010',
+              //     border: '1.5px currentColor solid',
+              //     overflow: 'hidden',
+              //     display: 'flex',
+              //     justifyContent: 'center',
+              //     alignItems: 'center',
+              //     opacity: '0.9',
+              //   }}
+              // >
+              //   <span
+              //     style={{
+              //       // fontSize: '0.5em',
+              //       fontSize: '0.6em',
+              //       position: 'absolute',
+              //       // transform: 'translateY(12.25%)',
+              //       fontWeight: '400',
+              //     }}
+              //   >
+              //     &#x2713;
+              //   </span>
+              // </div>
             <IoIosCheckmarkCircle
               style={{
                 width: '25%',
@@ -78,14 +109,21 @@ const StyleName = styled.h4`
 
 const ThumbnailsContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   grid-column-gap: 1em;
   grid-row-gap: 1em;
   position: relative;
   z-index: 1;
-  grid-column-gap: 1.5em;
 
-  @media (min-width: 300px) {
+  @media (min-width: 200px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (min-width: 250px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @media (min-width: 450px) {
     grid-column-gap: 1.5em;
   }
 
