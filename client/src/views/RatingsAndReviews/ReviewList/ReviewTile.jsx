@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import HelpfulReport from './HelpfulReport';
 import StarCount from './StarCount';
-import ExpandedImageModal from '../../QuestionsAndAnswers/QuestionEntry/ExpandedImageModal';
+import ExpandedImageModal from '../../../components/ExpandedImageModal';
 import { formatDate } from '../../../utils/getFormat';
 
 function ReviewTile({ review }) {
