@@ -106,8 +106,7 @@ const CategoryContainer = styled.h3`
 `;
 
 const ProductName = styled.h1`
-  margin-top: 0px;
-  margin-bottom: 0px;
+  margin: 0;
 
   @media (max-width: 600px) {
     order: -1;
@@ -115,8 +114,6 @@ const ProductName = styled.h1`
 `;
 
 const PriceContainer = styled.div`
-  grid-row: 1;
-  grid-column: 4;
   font-size: ${(props) => props.theme.body};
   font-weight: 300;
 `;
