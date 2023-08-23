@@ -1,4 +1,3 @@
-// import React from 'react';
 import styled, { css } from 'styled-components';
 
 export const Button = styled.button`
@@ -34,8 +33,9 @@ export const Button = styled.button`
 
   ${(props) => props.$cancel && css`
     border: none;
+    text-decoration: underline;
     &:hover {
-      text-decoration: underline;
+      text-decoration: none;
       box-shadow: initial;
     }
   `};
@@ -54,12 +54,12 @@ export const CloseButton = styled.button.attrs(() => ({
   type: 'button',
 }))`
   position: absolute;
-  right: 0.5em;
-  top: 0.5em;
   z-index: 3;
   border: none;
   aspect-ratio: 1;
  ${(props) => props.$round && css`
+   right: 0.5em;
+    top: 0.5em;
     color: black;
     background-color: white;
     opacity: 0.8;
@@ -86,11 +86,14 @@ export const CloseButton = styled.button.attrs(() => ({
   `};
 
   ${(props) => props.$square && css`
-    color: ${props.theme.darkBlueHover};
+   /* color: ${props.theme.darkBlueHover}; */
+    color: ${props.theme.neutral[2]};
     background-color: transparent;
     display: inline-flex;
-    font-size: 1.5em;
-    font-weight: 500;
+   /* font-size: 1.5em; */
+    font-size: 2em;
+    right: 1em;
+    top: 0.75em;
     width: 1.5em;
     height: 1.5em;
     line-height: 1.5em;
@@ -104,8 +107,8 @@ export const CloseButton = styled.button.attrs(() => ({
       box-shadow: none;
       transform: scale(1.05);
       transition: scale 0.2s ease;
-      font-weight: 600;
       background-color: rgba(190,203,210,0.3);
+     /* color: ${props.theme.darkBlueHover}; */
     }
   `};
 `;
