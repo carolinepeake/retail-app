@@ -2,13 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { CloseButton } from '../Buttons';
+import removeFileExtension from '../../utils/removeFileExtension';
 
 export default function PhotoPreview({
   preview,
   previews,
   resetFileInput,
   selectedFile,
+  setSelectedFile,
   handleInputChange,
+  setError,
 }) {
   const handleClickDeleteFile = () => {
     const previewsCopy = previews.slice();
@@ -24,9 +27,11 @@ export default function PhotoPreview({
       },
     };
     handleInputChange(e);
-    // selectedFile.name includes file type extension and photo.original_filename does not
-    if (selectedFile.name === (`${preview.original_filename}.${preview.original_extension}` || `${preview.original_filename}.${preview.format}`)) {
+    const selectedFileName = removeFileExtension(selectedFile.name);
+    if (selectedFileName === preview.original_filename) {
       resetFileInput();
+      setSelectedFile(null);
+      setError(null);
     }
     // TO-DO: use cloudinary delete method if using delete token fails
   };
@@ -48,22 +53,22 @@ export default function PhotoPreview({
 }
 
 const ImageContainer = styled.div`
-  width: 20%;
-  height: 100%;
   position: relative;
   font-size: 0.5em;
-  padding-right: 1.5em;
 `;
 
 const ImagePreview = styled.img`
   width: 100%;
   height: 100%;
+  max-width: 140px;
+  max-height: 140px;
+  object-fit: scale-down;
 `;
 
 const DeleteButton = styled(CloseButton)`
   font-size: 1.5em;
   top: -0.75em;
-  right: 0;
-  background-color: black;
-  color: white;
+  right: -0.75em;
+  background-color: ${(props) => props.theme.blue[5]};
+  color: ${(props) => props.theme.submitButtonHoverFont};
 `;
