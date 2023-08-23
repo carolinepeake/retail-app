@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { CloseButton } from '../../../components/Buttons';
+import { CloseButton } from './Buttons';
 
 function ExpandedImageModal({ src, setShowModal }) {
   const closeModal = (event) => {
@@ -17,11 +17,17 @@ function ExpandedImageModal({ src, setShowModal }) {
     >
       <ModalContainer>
         <CloseButtonDiv>
-          <CloseButton $round onClick={() => setShowModal(false)}>
+          <CloseButton
+            $round
+            onClick={() => setShowModal(false)}
+          >
             &#x2715;
           </CloseButton>
         </CloseButtonDiv>
-        <Image src={src} alt="modal-image" />
+        <Image
+          src={src}
+          alt="modal-image"
+        />
       </ModalContainer>
     </ModalBackground>
   );
@@ -51,7 +57,6 @@ const ModalContainer = styled.div`
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   display: flex;
   flex-direction: column;
- /* padding: 25px; */
   background-color: ${(props) => props.theme.backgroundColor};
   color: ${(props) => props.theme.fontColor};
 `;
