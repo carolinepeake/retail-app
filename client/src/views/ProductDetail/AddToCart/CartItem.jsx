@@ -4,7 +4,11 @@ import PropTypes from 'prop-types';
 import { CloseButton } from '../../../components/Buttons';
 import QuantityDropdown from './QuantityDropdown';
 
-export default function CartItem({ item, cart, setCart }) {
+export default function CartItem({
+  item,
+  cart,
+  setCart,
+}) {
   const handleRemoveItem = () => {
     const updatedCart = cart.filter((cartItem) => cartItem.sku !== item.sku);
     setCart(updatedCart);
@@ -29,7 +33,10 @@ export default function CartItem({ item, cart, setCart }) {
 
   return (
     <Container>
-      <Thumbnail src={item?.photo} alt={item?.name}/>
+      <Thumbnail
+        src={item?.photo}
+        alt={item?.name}
+      />
       <div>
         <Name>
           {item?.name}
@@ -43,11 +50,13 @@ export default function CartItem({ item, cart, setCart }) {
           {item?.styleName}
         </h5>
         <h5>
-          <b>Qty:</b>
+          <b>Qty: </b>
           <SelectedQuantity
             defaultValue={item?.quantity}
           >
-            <QuantityDropdown availableQuantity={item?.availableQuantity}/>
+            <QuantityDropdown
+              availableQuantity={item?.availableQuantity}
+            />
           </SelectedQuantity>
         </h5>
         {price}
@@ -55,7 +64,9 @@ export default function CartItem({ item, cart, setCart }) {
       <Delete
         $square
         onClick={handleRemoveItem}
-      > &#x2715;</Delete>
+      >
+        &#x2715;
+      </Delete>
     </Container>
   );
 }
