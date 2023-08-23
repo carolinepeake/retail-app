@@ -55,7 +55,7 @@ function ComparisonModal({ details, closeModal }) {
       <Table>
         <Caption>
           <span>Compare Products</span>
-          <StyledCloseButton $squre onClick={closeModal}>&#x2715;</StyledCloseButton>
+          <StyledCloseButton $square onClick={closeModal}>&#x2715;</StyledCloseButton>
         </Caption>
         <thead>
           <tr>
@@ -139,6 +139,8 @@ const Caption = styled.caption`
 
 const StyledCloseButton = styled(CloseButton)`
   top: 0.25em;
+  right: 0.25em;
+  font-size: 1.5em;
 `;
 
 const Heading = styled.th`
