@@ -225,7 +225,6 @@ const StyledSelect = styled(Button)`
   flex-grow: 3;
   flex-shrink: 1;
   margin-right: 1em;
-  /* might want to just make size of body / other buttons */
   font-size: 1rem;
   border-color: ${(props) => props.error && props.theme.error};
 
@@ -235,6 +234,11 @@ const StyledSelect = styled(Button)`
     flex-shrink: 3;
     margin-right: 0;
   `};
+
+  @media (min-width: 600px) {
+    padding: calc(1px + 1.2vw) calc(6px + 1.2vw);
+    height: 3em;
+  }
 `;
 
 const Option = styled.option`
