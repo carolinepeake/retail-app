@@ -54,21 +54,17 @@ const ModalContainer = styled.div`
   width: 100vw;
   max-height: 100vh;
   z-index: 52;
-  padding: 2.5em;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  padding: 2em;
   background-color: ${(props) => props.theme.backgroundColor};
   overflow: auto;
   position: relative;
   max-width: 40em;
 
   @media (min-width: 40rem) {
-   /* border: 1px solid; */
     border-radius: 3px;
     max-height: 90vh;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    padding: 3em;
+   padding: 2em 3em;
   }
 
   @media (min-width: 50rem) {
