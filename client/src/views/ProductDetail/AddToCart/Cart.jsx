@@ -10,6 +10,10 @@ function Cart({
   cart,
   setCart,
 }) {
+  const handleCloseModal = () => {
+    toggleModal();
+  };
+
   const items = cart.map((item) => (
     <CartItem
       key={item.product}
@@ -19,24 +23,37 @@ function Cart({
     />
   ));
 
-  const handleCloseModal = () => {
-    toggleModal();
-  };
-
   return (
-    <Container $visible={showModal}>
-      <Title>Cart</Title>
-      <CloseButton $square onClick={handleCloseModal}>
+    <Container
+      $visible={showModal}
+    >
+      <Title>
+        Cart
+      </Title>
+
+      <CartCloseButton
+        $square
+        onClick={handleCloseModal}
+      >
         &#x2715;
-      </CloseButton>
+      </CartCloseButton>
+
       <ScrollContainer>
-        {cart.length > 0 ? items : 'Your cart is empty.'}
+        {cart.length > 0
+          ? items
+          : 'Your cart is empty.'}
       </ScrollContainer>
+
       <ButtonContainer>
-        <CartButton $primary>
+        <CartButton
+          $primary
+        >
           Checkout
         </CartButton>
-        <CartButton type="button" onClick={handleCloseModal}>
+        <CartButton
+          type="button"
+          onClick={handleCloseModal}
+        >
           Keep Shopping
         </CartButton>
       </ButtonContainer>
@@ -88,19 +105,21 @@ const Title = styled.h2`
   margin-bottom: 1em;
 `;
 
+const CartCloseButton = styled(CloseButton)`
+  top: 0.25em;
+  right: 0.25em;
+`;
+
 const ScrollContainer = styled.div`
   overflow: auto;
   height: 100%;
   scrollbar-color: ${(props) => props.theme.darkBlueHover};
-
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding-top: 1.0em;
- /* position: absolute;
-  bottom: 1em; */
 `;
 
 const CartButton = styled(Button)`
