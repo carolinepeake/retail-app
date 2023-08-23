@@ -28,8 +28,8 @@ router.put('/answers/report', Answers.reportAnswer);
 router.get('/reviews', Reviews.getReviews);
 router.get('/reviews/meta', Reviews.getReviewsMeta);
 router.post('/reviews', Reviews.postReview);
-router.put('/reviews/:review_id/helpful', Reviews.putReviewHelpful);
-router.put('/reviews/:review_id/report', Reviews.putReviewReport);
+router.put('/reviews/helpful', Reviews.putReviewHelpful);
+router.put('/reviews/report', Reviews.putReviewReport);
 
 router.post('/cloudinary/upload', Cloudinary.uploadFile);
 
