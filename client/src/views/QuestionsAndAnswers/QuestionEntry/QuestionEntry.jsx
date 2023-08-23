@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import axios from 'axios';
 import AnswerEntry from './AnswerEntry';
 import AddAnswerModal from './AddAnswerModal';
 import useModal from '../../../hooks/useModal';
+import HelpfulReport from '../../RatingsAndReviews/ReviewList/HelpfulReport';
 import { Button } from '../../../components/Buttons';
 
 function QuestionEntry({ question }) {
@@ -12,12 +12,6 @@ function QuestionEntry({ question }) {
   const [showModal, toggleModal] = useModal();
 
   const [numAnswers, setNumAnswers] = useState(2);
-  const [helpfulness, setHelpfulness] = useState(
-    question.question_helpfulness,
-  );
-  const [clickedReport, setClickedReport] = useState(false);
-
-  const clickedHelpful = useRef(false);
 
   const { answers } = question;
   const allAnswers = Object.values(answers);
@@ -33,35 +27,6 @@ function QuestionEntry({ question }) {
   allAnswers.sort(sellerFirst);
 
   const topAnswers = Object.values(allAnswers).slice(0, numAnswers);
-
-  const reportQuestion = () => {
-    if (clickedReport) return;
-    axios
-      .put('/questions/report', {
-        question_id: question.question_id,
-      })
-      .then(() => {
-        setClickedReport(true);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const helpfulQuestion = () => {
-    if (clickedHelpful.current) return;
-    axios
-      .put('/questions/helpful', {
-        question_id: question.question_id,
-      })
-      .then(() => {
-        setHelpfulness((prevHelpfulness) => prevHelpfulness + 1);
-        clickedHelpful.current = true;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   const answerQuestion = () => {
     toggleModal();
@@ -127,7 +92,7 @@ function QuestionEntry({ question }) {
   };
 
   const moreAnswers = (
-    <MoreAnswers type="button" moreAnswersShown={moreAnswersShown} onClick={(e) => handleClickMoreAnswers(e)}>
+    <MoreAnswers type="button" moreAnswersShown={moreAnswersShown} onClick={handleClickMoreAnswers}>
       {/* <i className="fa-solid fa-chevron-down" /> */}
       <MoreAnswersButtonText
         moreAnswersButtonText={moreAnswersButtonText}
@@ -166,39 +131,16 @@ function QuestionEntry({ question }) {
         <Question>Q:</Question>
         <QuestionHeader>
           <QuestionBody id="question_header">{question?.question_body}</QuestionBody>
-          <RightSide>
-            <Helpful>
-              <div style={{ paddingRight: '0.5em' }}>Helpful?</div>
-              <Yes>
-                {clickedHelpful.current ? (
-                  <b>Yes</b>
-                ) : (
-                  <Clickable onClick={helpfulQuestion}>Yes</Clickable>
-                )}
-              </Yes>
-              {clickedHelpful.current ? (
-                <b>{`(${helpfulness})`}</b>
-              ) : (
-                <span>{`(${helpfulness})`}</span>
-              )}
-            </Helpful>
+          <HelpfulReport
+            name="questions"
+            id={question?.question_id}
+            helpfulCount={question?.question_helpfulness}
+          >
             <div>|</div>
-            <Report>
-              {clickedReport ? (
-                <Reported>Reported</Reported>
-              ) : (
-                <Clickable onClick={reportQuestion}>
-                  Report
-                </Clickable>
-              )}
-            </Report>
-            <div>|</div>
-            <Add>
-              <Clickable onClick={answerQuestion}>
-                Add Answer
-              </Clickable>
-            </Add>
-          </RightSide>
+            <Clickable onClick={answerQuestion}>
+              Add Answer
+            </Clickable>
+          </HelpfulReport>
         </QuestionHeader>
       </A>
       <B>
@@ -280,40 +222,6 @@ const QuestionBody = styled.h3`
   margin-block-start: 0;
   padding-top: 0.5rem;
   font-weight: 600;
-`;
-
-const RightSide = styled.h6`
-  display: flex;
-  justify-content: flex-end;
-  align-self: center;
-  flex-wrap: nowrap;
-  margin-block-end: 0;
-  margin-block-start: 0;
-  text-decoration: none;
-`;
-
-const Helpful = styled.div`
-  padding-right: 1em;
-  display: flex;
-`;
-
-const Yes = styled.span`
-  padding-right: 0.25em;
-`;
-
-const Report = styled.div`
-  padding: 0 1em;
-`;
-
-const Reported = styled.span`
-  font-weight: bold;
-  &:visited {
-    color: ${(props) => props.theme.clicked};
-  }
-`;
-
-const Add = styled.div`
-  padding-left: 1em;
 `;
 
 const B = styled.div`

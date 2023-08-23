@@ -60,7 +60,11 @@ function ReviewTile({ review }) {
         </div>
         )}
 
-      <HelpfulReport review={review} />
+      <HelpfulReport
+        name="reviews"
+        id={review?.review_id}
+        helpfulCount={review?.helpfulness}
+      />
       {showModal && (
         <ExpandedImageModal
           src={source || ''}
