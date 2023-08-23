@@ -25,7 +25,6 @@ function AddToCart() {
 
   const [showModal, toggleModal] = useModal();
 
-  // can move to only row 1
   if (!selectedStyle.skus) {
     return null;
   }
@@ -43,6 +42,7 @@ function AddToCart() {
         </Option>
       );
     }
+    return null;
   });
 
   const handleInputChange = (e) => {
@@ -71,6 +71,7 @@ function AddToCart() {
       originalPrice: selectedStyle.original_price,
       availableQuantity: selectedStyle.skus[selectedItem.sku].quantity,
     };
+    // TODO: if sku present in cart, add quantity to existing quantity instead of adding item again
     setCart((prev) => [...prev, item]);
     // TODO: save cart to local storage
     toggleModal();
@@ -300,9 +301,11 @@ const Star = styled(Button)`
     flex-grow: 1;
     flex-shrink: 4;
     font-size: 1rem;
+    padding: 0.5em;
+    aspect-ratio: 1;
     &:hover {
       color: ${(props) => props.theme.starFilled};
-      border-color: ${(props) => props.theme.fontColor};
+      border-color: ${(props) => props.theme.blue[5]};
     }
   }
 `;
@@ -316,6 +319,9 @@ const StarText = styled.span`
 
   @media (min-width: 600px) {
     display: ${(props) => (props.small ? 'none' : 'initial')};
+    font-size: 2em;
+    aspect-ratio: 1;
+    line-height: 1em;
   }
 `;
 
