@@ -2,8 +2,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import ExpandedImageModal from './ExpandedImageModal';
 import HelpfulReport from '../../RatingsAndReviews/ReviewList/HelpfulReport';
+import ListImage from './ListImage';
 import { formatDate } from '../../../utils/getFormat';
 
 function AnswerEntry({ answer }) {
@@ -18,33 +18,27 @@ function AnswerEntry({ answer }) {
       photos: PropTypes.arrayOf(PropTypes.string),
     }).isRequired,
   };
-  const [showModal, setShowModal] = useState(false);
-  const [source, setSource] = useState('');
-
-  const handlePhotoClick = (event) => {
-    setShowModal(true);
-    setSource(event.target.src);
-  };
 
   return (
     <Answer key={answer.id}>
+
       <AnswerBody>{answer.body}</AnswerBody>
+
       {answer.photos.length > 0 && (
       <AnswerPhotos>
         {answer.photos.map((photo) => (
-          <AnswerImage
-            src={photo}
-            alt=""
+          <ListImage
+            photo={photo}
             key={photo}
-            onClick={handlePhotoClick}
           />
         ))}
       </AnswerPhotos>
       )}
+
       <HelpfulReport
         name="answers"
-        id={answer?.id}
-        helpfulCount={answer?.helpfulness}
+        id={answer.id}
+        helpfulCount={answer.helpfulness}
       >
         <Answerer>
           {'by '}
@@ -57,12 +51,7 @@ function AnswerEntry({ answer }) {
         </Answerer>
         <div>|</div>
       </HelpfulReport>
-      {showModal && (
-        <ExpandedImageModal
-          src={source || ''}
-          setShowModal={setShowModal}
-        />
-      )}
+
     </Answer>
   );
 }
@@ -70,20 +59,16 @@ function AnswerEntry({ answer }) {
 const Answer = styled.div`
   font-size: 1.0em;
   padding-right: 1.0em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
 `;
 
 const AnswerPhotos = styled.div`
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-start;
-`;
-
-const AnswerImage = styled.img`
-  max-height: 8em;
-  max-width: 8em;
-  padding: .5em;
-  cursor: pointer;
-  object-fit: scale-down;
+ /* align-items: flex-start; */
+  align-items: center;
 `;
 
 const Answerer = styled.div`
@@ -93,8 +78,9 @@ const Answerer = styled.div`
 `;
 
 const AnswerBody = styled.p`
-  margin-block-end: 0.5em;
+  /* margin-block-end: 0.5em; */
   font-weight: 400;
+  margin: 0;
 `;
 
 export default AnswerEntry;

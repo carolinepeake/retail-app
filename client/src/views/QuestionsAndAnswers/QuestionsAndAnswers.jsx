@@ -115,5 +115,10 @@ const QuestionListContainer = styled.div`
     scroll-behavior: smooth;
     max-height: 31em;
   }
+
+ /* @media (min-width: 600px) {
+    max-height: 31em;
+    overflow: auto;
+  } */
 `;
 // overflow: auto;

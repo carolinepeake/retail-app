@@ -224,10 +224,6 @@ const FooterButton = styled(Button)`
   margin: 0;
 `;
 
-// const Required = styled.sup`
-//   color: ${(props) => props.theme.formError};
-// `;
-
 const Disclaimer = styled.h5`
   font-style: oblique;
   padding-top: 0;

@@ -122,7 +122,6 @@ const InputWrapper = styled.div`
 
 const SortBy = styled.div`
   padding-right: 0.25em;
-  height: 1em;
   line-height: 1em;
  /* width: 3.75em; */
 `;
