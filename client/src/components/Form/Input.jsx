@@ -14,11 +14,11 @@ function FormInput({
 }) {
   return (
     <>
-      <FormLabel htmlFor={id}>
+      <StyledLabel htmlFor={id}>
         {label}
         {required && <Required>*</Required>}
-      </FormLabel>
-      <StyledFormInput
+      </StyledLabel>
+      <StyledInput
         id={id}
         required={required}
         {...props}
@@ -41,19 +41,20 @@ function FormInput({
   );
 }
 
-const FormLabel = styled.label`
+const StyledLabel = styled.label`
   font-size: 1rem;
   cursor: initial;
 `;
 
-const StyledFormInput = styled.input`
-  display: block;
+const StyledInput = styled.input`
   width: 100%;
-  padding: 0.5em;
-  margin-top: 0.25em;
+  padding: 1em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
   border: currentColor solid thin;
+  border-radius: 3px;
+  box-shadow: inset 0.25px 0.25px 2px 2px ${(props) => props.theme.insetBoxShadow};
   cursor: initial;
-  font-family: inherit;
   font-size: ${(props) => props.theme.input};
   color: ${(props) => props.theme.fontColor};
   background-color: ${(props) => props.theme.backgroundColor};
@@ -63,24 +64,21 @@ const StyledFormInput = styled.input`
   }
 
   &:focus {
-    background-color: ${(props) => props.theme.navBgColor};
+    outline-color: ${(props) => props.theme.blue[5]};
+    outline-offset: 2px;
+    border: none;
   }
 
   ::label {
-    font-size: 1rem;
-    color: ${(props) => props.theme.fontColor};
+    font-size: ${(props) => props.theme.body};
+    font-weight: 400;
+    color: rgb(37, 55, 70);
   }
-
-  /* ::error {
-  } ? */
-`;
-
-const Required = styled.sup`
-  color: ${(props) => props.theme.formError};
 `;
 
 const Disclaimer = styled.h5`
   font-style: oblique;
+  padding-top: 0;
 `;
 
 const Error = styled.div`
