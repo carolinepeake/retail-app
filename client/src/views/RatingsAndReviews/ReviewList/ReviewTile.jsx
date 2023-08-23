@@ -18,28 +18,28 @@ function ReviewTile({ review }) {
   return (
     <Container>
       <StarsDateName>
-        <StarCount rating={review?.rating} />
+        <StarCount rating={review.rating} />
         <DateName>
           <ReviewerName>
             {`${review.reviewer_name},`}
             &nbsp;
           </ReviewerName>
           <Date>
-            {formatDate(review?.date)}
+            {formatDate(review.date)}
           </Date>
         </DateName>
       </StarsDateName>
-      <Summary>{review?.summary}</Summary>
+      <Summary>{review.summary}</Summary>
       {/* need to add word break truncation to summary */}
       <Body>
-        {review?.body}
+        {review.body}
         {/* need to add conditional formatting for past 250 words */}
       </Body>
       {review.recommend
       && <Recommend> &#10003; I recommend this product</Recommend>}
 
       <PhotosDiv>
-        {review?.photos?.map((photo) => (
+        {review.photos.map((photo) => (
           <RevImg
             key={photo.id}
             alt=""
@@ -49,7 +49,7 @@ function ReviewTile({ review }) {
         ))}
       </PhotosDiv>
 
-      {review?.response
+      {review.response
         && (
         <div>
           <Response>
@@ -62,8 +62,8 @@ function ReviewTile({ review }) {
 
       <HelpfulReport
         name="reviews"
-        id={review?.review_id}
-        helpfulCount={review?.helpfulness}
+        id={review.review_id}
+        helpfulCount={review.helpfulness}
       />
       {showModal && (
         <ExpandedImageModal
@@ -84,6 +84,9 @@ ReviewTile.propTypes = {
     reviewer_name: PropTypes.string,
     date: PropTypes.string,
     response: PropTypes.string,
+    review_id: PropTypes.number,
+    helpfulness: PropTypes.number,
+    photos: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
 };
 
