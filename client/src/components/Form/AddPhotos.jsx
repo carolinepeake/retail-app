@@ -11,16 +11,13 @@ function AddPhotos({
   photos,
 }) {
   const [selectedFile, setSelectedFile] = useState(null);
+
   const [uploadProgress, setUploadProgress] = useState(0);
   const [showProgressBar, setShowProgressBar] = useState(false);
+
   const [error, setError] = useState(null);
 
   const [fileInputKey, setFileInputKey] = useState('');
-
-  const resetFileInput = () => {
-    const randomString = Math.random().toString(36);
-    setFileInputKey(randomString);
-  };
 
   const handleFileChange = (e) => {
     setError(null);
@@ -28,33 +25,31 @@ function AddPhotos({
     const file = e.target.files[0];
     setSelectedFile(file);
 
-    const validateFileInput = (file) => {
-      if (file.size === 0) {
+    const validateFileInput = (fileInput) => {
+      if (fileInput.size === 0) {
         setError('Empty file');
         return false;
       }
-      if (!file.type.match('image.*')) {
+      if (!fileInput.type.match('image.*')) {
         setError('You cannot upload this file because it is not an image.');
         return false;
       }
-      if (file.size >= 2000000) {
+      if (fileInput.size >= 2000000) {
         setError('You cannot upload this file because its size exceeds the maximum limit of 2 MB.');
         return false;
       }
-      const uploadedFiles = photos.map(photo => photo.original_filename);
-      const selectedFileName = removeFileExtension(file.name);
+      const uploadedFiles = photos.map((photo) => photo.original_filename);
+      const selectedFileName = removeFileExtension(fileInput.name);
       if (uploadedFiles.includes(selectedFileName)) {
         // double check size also same (and thus unlikely to be two diff files in diff directories w/ same name)
         const matchingIndex = uploadedFiles.indexOf(selectedFileName);
         const matchingFileSize = photos[matchingIndex].bytes;
-        console.log('photos: ', photos, 'selectedFileName: ', selectedFileName, 'matching index: ', matchingIndex, 'matching file size: ', matchingFileSize);
-        console.log('matchingFileSize: ', matchingFileSize, 'file size: ', file.size);
-        if (matchingFileSize === file.size) {
+        if (matchingFileSize === fileInput.size) {
           setError('File already uploaded');
           return false;
         }
       }
-      if (file.error) {
+      if (fileInput.error) {
         setError('Upload failed. Please try again.');
         return false;
       }
@@ -65,40 +60,40 @@ function AddPhotos({
       return;
     }
 
-    const handleFileUpload = (file) => {
+    const handleFileUpload = (fileInput) => {
       setShowProgressBar(true);
 
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append('file', fileInput);
       formData.append('upload_preset', 'retail-app');
 
       // const CLOUD_NAME = process.env.REACT_APP_CLOUD_NAME;
       const CLOUD_NAME = 'di0afgxmj';
       const url = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
       const options = {
-        onUploadProgress: (e) => {
-          const { loaded, total } = e;
-          setUploadProgress(loaded / total * 100);
+        onUploadProgress: (event) => {
+          const { loaded, total } = event;
+          setUploadProgress((loaded / total) * 100);
         },
       };
 
       axios.post(url, formData, options)
         .then((response) => response.data)
         .then((uploadedPhoto) => {
-          const e = {
+          const event = {
             target: {
               name: 'photos',
               value: [...photos, uploadedPhoto],
             },
           };
-          handleInputChange(e);
-          // changes visible selected file name to "no file chosen"
+          handleInputChange(event);
+          // to change visible selected file name to "no file chosen"
           // setSelectedFile(null);
           // resetFileInput();
         })
-        .catch((error) => {
-          console.log('error uploading photo: ', error);
-          const message = error.response.data.error.message || 'Image Upload Failed';
+        .catch((err) => {
+          console.log('error uploading photo: ', err);
+          const message = err.response.data.error.message || 'Image Upload Failed';
           setError(message);
         })
         .finally(() => {
@@ -109,10 +104,48 @@ function AddPhotos({
     handleFileUpload(file);
   };
 
+  const handleClickDeleteFile = (photo) => {
+    const previewsCopy = photos.slice();
+    for (let i = 0; i < photos.length; i++) {
+      if (photos[i].public_id === photo.public_id) {
+        previewsCopy.splice(i, 1);
+      }
+    }
+
+    const e = {
+      target: {
+        name: 'photos',
+        value: previewsCopy,
+      },
+    };
+    handleInputChange(e);
+
+    const resetFileInput = () => {
+      const randomString = Math.random().toString(36);
+      setFileInputKey(randomString);
+    };
+
+    const selectedFileName = removeFileExtension(selectedFile?.name);
+    if (selectedFileName === photo.original_filename) {
+      resetFileInput();
+      setSelectedFile(null);
+      setError(null);
+    }
+    // TO-DO: use cloudinary delete method if using delete token fails
+  };
+
   const progressBar = (
     <ProgressBar>
       <Progress $width={uploadProgress} />
     </ProgressBar>
+  );
+
+  const errorMessage = (
+    <Error>
+      Error:
+      &nbsp;
+      {error}
+    </Error>
   );
 
   return (
@@ -128,7 +161,7 @@ function AddPhotos({
           id="photos"
           accept="image/png, image/jpeg"
           onChange={handleFileChange}
-          $fileSelected={selectedFile?.name?.length > 0}
+          $fileSelected={selectedFile}
           // multiple
           name="photos"
         />
@@ -137,13 +170,7 @@ function AddPhotos({
           You may add up to 5 images at 2MB max per image.
         </Disclaimer>
 
-        {error && (
-        <Error>
-          Error:
-          &nbsp;
-          {error}
-        </Error>
-        )}
+        {error && errorMessage}
 
       </StyledLabel>
       )}
@@ -155,13 +182,8 @@ function AddPhotos({
           {photos.map((photo) => (
             <PhotoPreview
               preview={photo}
-              previews={photos}
-              resetFileInput={resetFileInput}
+              handleClickDeleteFile={handleClickDeleteFile}
               key={photo.public_id}
-              selectedFile={selectedFile}
-              setSelectedFile={setSelectedFile}
-              handleInputChange={handleInputChange}
-              setError={setError}
             />
           ))}
         </PhotoPreviews>
@@ -172,7 +194,11 @@ function AddPhotos({
 
 AddPhotos.propTypes = {
   handleInputChange: PropTypes.func.isRequired,
-  photos: PropTypes.arrayOf(PropTypes.string),
+  photos: PropTypes.arrayOf(
+    PropTypes.shape({
+      public_id: PropTypes.string,
+    }),
+  ),
 };
 
 AddPhotos.defaultProps = {
