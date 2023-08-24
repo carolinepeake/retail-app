@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { CloseButton } from './Buttons';
 
 function Modal({
   closeModal,
   children,
+  submitted,
 }) {
   const clickOutsideModal = (event) => {
     if (event.target.id === 'modalBackground') {
@@ -18,8 +19,14 @@ function Modal({
       id="modalBackground"
       onClick={clickOutsideModal}
     >
-      <ModalContainer>
-        <CloseButton $square onClick={closeModal}>
+      <ModalContainer
+        $submitted={submitted}
+      >
+        <CloseButton
+          $square
+          onClick={closeModal}
+          $submitted={submitted}
+        >
           &#x2715;
         </CloseButton>
         {children}
@@ -31,6 +38,11 @@ function Modal({
 Modal.propTypes = {
   closeModal: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
+  submitted: PropTypes.bool,
+};
+
+Modal.defaultProps = {
+  submitted: false,
 };
 
 const ModalBackground = styled.div`
@@ -72,6 +84,10 @@ const ModalContainer = styled.div`
     z-index: 21;
     top: 1.5rem;
   }
+
+  ${(props) => props.$submitted && css`
+    width: fit-content;
+  `};
 `;
 
 export default Modal;
