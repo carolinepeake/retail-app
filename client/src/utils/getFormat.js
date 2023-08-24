@@ -10,6 +10,10 @@ export const formatDate = (date) => (
 );
 
 export const removeFileExtension = (fileName) => {
+  if (typeof fileName !== 'string') {
+    return null;
+  }
+
   const fileParts = fileName.split('.');
   const fileNameOnly = fileParts[0];
   return fileNameOnly;
