@@ -28,4 +28,5 @@ export default StarCount;
 
 const StarContainer = styled.div`
   display: flex;
+  padding-right: 0.5em;
 `;

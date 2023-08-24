@@ -5,8 +5,7 @@ import ListTotalCount from '../../../components/LargeList/ListTotalCount';
 import StyledSelect from '../../../components/StyledSelect';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import { capitalizeFirstLetter } from '../../../utils/getFormat';
-
-const SORT_OPTIONS = ['relevant', 'newest', 'helpful'];
+import { SORT_OPTIONS } from '../../../constants/constants';
 
 function SortList({
   itemsPerPage, listLength, pageNum, setPageNum,
@@ -16,10 +15,10 @@ function SortList({
     setSortOrder, sortOrder,
   } = useGlobalContext();
 
+  // may need to move up in hierarchy
   useEffect(() => {
-    if (pageNum > 1) {
-      setPageNum(() => 1);
-    }
+    // request reviews
+    setPageNum(1);
   }, [sortOrder]);
 
   const handleSelectSortValue = (newValue) => {
@@ -27,7 +26,7 @@ function SortList({
   };
 
   const getDropdownLabel = (value) => {
-    const sortValue = value ?? 'relevant';
+    const sortValue = value || 'relevant';
     const formattedValue = capitalizeFirstLetter(sortValue);
     const dropdownLabel = `Sort by ${formattedValue}`;
     return dropdownLabel;
@@ -65,7 +64,7 @@ SortList.defaultProps = {
 export default SortList;
 
 const RevListHeader = styled.div`
-  font-size: 1.17em;
+  font-size: 1em;
   font-weight: 500;
   margin-block-start: 1em;
   margin-block-end: 1em;

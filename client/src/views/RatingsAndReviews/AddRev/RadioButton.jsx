@@ -1,5 +1,3 @@
-// const radioButtons = Object.entries(characteristic?.values).map(([value, label]) => (
-// will want to separate into new component and useId to make unique ids
 import React, { useId } from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
@@ -24,6 +22,7 @@ export default function RadioButton({
         onChange={handleChange}
         checked={checked}
         id={id}
+        aria-label={label}
       />
       {(value % 2 === 1)
       && <Label htmlFor={id} value={value}>{label}</Label>}
@@ -74,12 +73,12 @@ const Radio = styled.div`
     transform: scale(1.01);
     transition: scale 0.2s ease;
   }
-  &:focus {
+ /* &:focus {
     outline-color: ${(props) => props.theme.focusColor};
     outline-color: ${(props) => props.theme.darkBlueHover};
     outline-style: dashed;
     outline-width: 1.5px;
-  }
+  } */
   &:focus-visible {
     outline-color: ${(props) => props.theme.focusColor};
     outline-color: ${(props) => props.theme.darkBlueHover};

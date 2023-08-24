@@ -10,13 +10,14 @@ function ReviewTile({ review }) {
   const [showModal, setShowModal] = useState(false);
   const [source, setSource] = useState('');
 
-  function handlePhotoClick(event) {
+  const handlePhotoClick = (event) => {
     setShowModal(true);
     setSource(event.target.src);
-  }
+  };
 
   return (
     <Container>
+
       <StarsDateName>
         <StarCount rating={review.rating} />
         <DateName>
@@ -29,14 +30,21 @@ function ReviewTile({ review }) {
           </Date>
         </DateName>
       </StarsDateName>
+
       <Summary>{review.summary}</Summary>
       {/* need to add word break truncation to summary */}
+
       <Body>
         {review.body}
         {/* need to add conditional formatting for past 250 words */}
       </Body>
+
       {review.recommend
-      && <Recommend> &#10003; I recommend this product</Recommend>}
+      && (
+      <Recommend>
+        &#10003; I recommend this product
+      </Recommend>
+      )}
 
       <PhotosDiv>
         {review.photos.map((photo) => (
@@ -44,7 +52,7 @@ function ReviewTile({ review }) {
             key={photo.id}
             alt=""
             src={photo.url}
-            onClick={(event) => handlePhotoClick(event)}
+            onClick={handlePhotoClick}
           />
         ))}
       </PhotosDiv>
@@ -65,12 +73,14 @@ function ReviewTile({ review }) {
         id={review.review_id}
         helpfulCount={review.helpfulness}
       />
+
       {showModal && (
         <ExpandedImageModal
           src={source || ''}
           setShowModal={setShowModal}
         />
       )}
+
     </Container>
   );
 }
@@ -96,33 +106,30 @@ const Container = styled.div`
   border-bottom: currentColor solid thin;
   overflow-wrap: anywhere;
   background-color: ${(props) => props.theme.backgroundColor};
-  padding: 0.5rem 0 0.5rem 0.5rem;
-  margin-top: 0.5rem;
-  margin-right: 0.5rem;
+  padding: 0.5em 0 0.5em 0.5em;
+  margin-top: 0.5em;
+  margin-right: 0.5em;
 `;
 
 const StarsDateName = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-top: 0.5rem;
-
+  margin-top: 0.5em;
 `;
-  // margin-top: 1rem;
-
-//   const DateName = styled.h4`
-//   display: flex;
-//   justify-content: flex-end;
-// `;
 
 const DateName = styled.h5`
   display: flex;
   justify-content: flex-end;
-  font-size: 1rem;
+  font-size: 1em;
   padding-top: 0;
 `;
 
 const ReviewerName = styled.div`
-  padding-right: 1rem;
+  padding-right: 1em;
+
+  @media (min-width: 600px) AND (max-width: 700 px) {
+    padding-right: 0.5em;
+  }
 `;
 
 const Date = styled.div`
@@ -154,10 +161,10 @@ const Summary = styled.h3`
 
 const Body = styled.p`
   display: flex;
-  font-size: 1.0rem;
-  margin: 1rem 0;
+  font-size: 1.0em;
+  margin: 1em 0;
 `;
 
 const Recommend = styled.h4`
-  margin-bottom: 1rem;
+  margin-bottom: 1em;
 `;

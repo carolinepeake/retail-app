@@ -10,13 +10,13 @@ function ShowMoreListItems({
   setItemsPerPage,
   itemText,
   scrollToListTop,
-  setPageNum,
+  // setPageNum,
 }) {
   const toggleMoreItems = () => {
     // if item list is expanded
     if (itemsPerPage > 2) {
       setItemsPerPage(2);
-      setPageNum(1);
+      // setPageNum(1);
       scrollToListTop();
     } else {
       setItemsPerPage(10);
@@ -26,7 +26,10 @@ function ShowMoreListItems({
   const buttonText = itemsPerPage > 2 ? `Show Less ${itemText}` : `Show More ${itemText}`;
 
   return (
-    <MoreListItemsButton type="button" onClick={toggleMoreItems}>
+    <MoreListItemsButton
+      type="button"
+      onClick={toggleMoreItems}
+    >
       {buttonText}
     </MoreListItemsButton>
   );
@@ -37,7 +40,7 @@ ShowMoreListItems.propTypes = {
   setItemsPerPage: PropTypes.func.isRequired,
   itemText: PropTypes.string,
   scrollToListTop: PropTypes.func.isRequired,
-  setPageNum: PropTypes.func.isRequired,
+  // setPageNum: PropTypes.func.isRequired,
 };
 
 ShowMoreListItems.defaultProps = {

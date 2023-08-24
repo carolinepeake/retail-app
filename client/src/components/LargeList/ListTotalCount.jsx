@@ -5,7 +5,8 @@ import styled from 'styled-components';
 function ListTotalCount({
   itemsPerPage, listLength, pageNum, itemText,
 }) {
-  const beginningIndex = ((pageNum - 1) * itemsPerPage) + 1 || 1;
+  const beginningIndex = ((pageNum - 1) * itemsPerPage) + 1 < listLength
+    ? ((pageNum - 1) * itemsPerPage) + 1 : 1;
   const endingIndex = (pageNum * itemsPerPage) > listLength ? listLength : (pageNum * itemsPerPage);
 
   return (
@@ -30,6 +31,8 @@ ListTotalCount.defaultProps = {
 const TotalCount = styled.h5`
   margin-block-start: 0px;
   margin-block-end: 0px;
+
+  font-size: 1.0em
 `;
 
 export default ListTotalCount;

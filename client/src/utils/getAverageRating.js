@@ -1,5 +1,15 @@
 import axios from 'axios';
 
+export const calcTotalVotes = (ratingsObj) => {
+  let totalVotes = 0;
+  const entries = Object.entries(ratingsObj);
+  entries.forEach((entry) => {
+    const votes = parseInt(entry[1], 10);
+    totalVotes += votes;
+  });
+  return totalVotes;
+};
+
 export const calcAverageRating = (ratingsObj) => {
   let totalRatings = 0;
   let totalVotes = 0;
@@ -22,6 +32,14 @@ export const calculateStars = (rating) => {
   console.log('average in stars: ', average, 'partialTemp: ', partialStarCount);
   return partialStarCount;
 };
+
+export const calcRecommendPercentage = (recommended) => (
+  Math.trunc(
+    (parseInt(recommended.true, 10)
+    / (parseInt(recommended.false, 10)
+   + parseInt(recommended.true, 10))) * 100,
+  )
+);
 
 export const getProductInfo = (id) => {
   axios

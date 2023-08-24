@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import axios from 'axios';
 import PropTypes from 'prop-types';
@@ -11,18 +11,20 @@ import useForm from '../../../hooks/useForm';
 import useModal from '../../../hooks/useModal';
 import { CHARACTERISTICS, RATING } from '../../../constants/constants';
 import { Button } from '../../../components/Buttons';
-
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
-function AddRev({ toggleModal, showModal }) {
+function AddRev({
+  toggleModal,
+}) {
   const {
     productID, productInfo, revMeta,
   } = useGlobalContext();
 
-  const [showSuccessModal, toggleSuccessModal] = useModal();
-
-  const closeSuccessModal = () => {
-    toggleSuccessModal();
+  const [showSubmittedModal, toggleSubmittedModal] = useModal();
+  const [submittedMessage, setSubmittedMessage] = useState('');
+  const closeSubmittedModal = () => {
+    toggleSubmittedModal();
+    toggleModal();
   };
 
   const initialFormState = {
@@ -39,7 +41,6 @@ function AddRev({ toggleModal, showModal }) {
 
   const submitReview = (form) => {
     // need to make data transformation a function so can catch errors from it
-    console.log('submitting review: ', form);
     const previews = form.photos.map((photo) => photo.url);
 
     const ratingNum = Number(form.rating);
@@ -56,7 +57,6 @@ function AddRev({ toggleModal, showModal }) {
 
     const characteristicsNums = {};
     const revCharacteristics = Object.keys(form.characteristics);
-    console.log('revCharacteristics: ', revCharacteristics);
     for (let i = 0; i < revCharacteristics.length; i++) {
       const characteristicId = revCharacteristics[i];
       characteristicsNums[characteristicId] = Number(form.characteristics[characteristicId]);
@@ -69,20 +69,18 @@ function AddRev({ toggleModal, showModal }) {
       recommend: recommendBool,
       characteristics: characteristicsNums,
     };
-    console.log('postBody: ', postBody);
 
     axios
       .post('/reviews', postBody)
       .then(() => {
-        // show success message
-        console.log('review submitted successfully');
-        toggleSuccessModal();
-        // toggleModal();
         // repopulate reviews?
+        setSubmittedMessage('Review Submitted Successfully');
+        toggleSubmittedModal();
       })
       .catch((err) => {
-        // show error message
         console.log('there was an error adding review: ', err);
+        setSubmittedMessage(err.message || 'Error submitting review');
+        toggleSubmittedModal();
       });
   };
 
@@ -100,42 +98,34 @@ function AddRev({ toggleModal, showModal }) {
     resetForm();
   };
 
-  const handleCloseSuccessModal = () => {
-    toggleSuccessModal();
-    toggleModal();
-  };
-
   return (
-    <Modal closeModal={closeModal}>
-      {!showSuccessModal && (
-        <form onSubmit={handleSubmit}>
+    <Modal
+      closeModal={closeModal}
+      submitted={showSubmittedModal}
+    >
 
-          <h2>Write a Review</h2>
-          <h1>
-            {productInfo.name}
-          </h1>
+      {!showSubmittedModal
+        ? (
+          <form onSubmit={handleSubmit}>
 
-          <RecommendProdLabel>
-            Overall Rating *
+            <h2>Write a Review</h2>
+            <h1>
+              {productInfo.name}
+            </h1>
 
-            {formState.rating
-              ? (
-                <SelectedValue>
-                  {formState.rating}
-                  {' '}
-                  out of 5 stars selected. Product is
-                  {' '}
-                  {RATING[formState.rating]}
-                  .
-                </SelectedValue>
-              )
-              : <Placeholder>None Selected</Placeholder>}
+            <RecommendProdLabel>
+              Overall Rating *
 
-            <RadioButtonsContainer $rating>
-              {Object.keys(RATING).map((value) => {
-                console.log('star rating value: ', value, typeof value);
-                console.log('formstate rating: ', formState.rating, typeof formState.rating);
-                return (
+              {formState.rating
+                ? (
+                  <SelectedValue>
+                    {`${formState.rating} out of 5 stars selected. Product is ${RATING[formState.rating]}.`}
+                  </SelectedValue>
+                )
+                : <Placeholder>None Selected</Placeholder>}
+
+              <RadioButtonsContainer $rating>
+                {Object.keys(RATING).map((value) => (
                   <RecommendRadio
                     key={`star${value}`}
                     label="☆"
@@ -147,165 +137,177 @@ function AddRev({ toggleModal, showModal }) {
                     required={value === '1'}
                     selected={Number(formState.rating) >= (6 - Number(value))}
                   />
-                );
-              })}
-            </RadioButtonsContainer>
-          </RecommendProdLabel>
+                ))}
+              </RadioButtonsContainer>
+            </RecommendProdLabel>
 
-          <br />
+            <br />
 
-          <RecommendProdLabel>
-            Would you recommend this product to a friend? *
-            <RadioButtonsContainer>
+            <RecommendProdLabel>
+              Would you recommend this product to a friend? *
+              <RadioButtonsContainer>
 
-              <RecommendRadio
-                key="recommendYes"
-                label="Yes"
-                value="true"
-                handleChange={handleInputChange}
-                checked={formState.recommend === 'true'}
-                name="recommend"
-                required
-              />
-              <RecommendRadio
-                key="recommendNo"
-                label="No"
-                value="false"
-                handleChange={handleInputChange}
-                checked={formState.recommend === 'false'}
-                name="recommend"
-              />
+                <RecommendRadio
+                  key="recommendYes"
+                  label="Yes"
+                  value="true"
+                  handleChange={handleInputChange}
+                  checked={formState.recommend === 'true'}
+                  name="recommend"
+                  required
+                />
+                <RecommendRadio
+                  key="recommendNo"
+                  label="No"
+                  value="false"
+                  handleChange={handleInputChange}
+                  checked={formState.recommend === 'false'}
+                  name="recommend"
+                />
 
-            </RadioButtonsContainer>
-          </RecommendProdLabel>
+              </RadioButtonsContainer>
+            </RecommendProdLabel>
 
-          <br />
+            <br />
 
-          {Object.keys(revMeta.characteristics).map((name) => {
-            const characteristic = CHARACTERISTICS[name];
-            return (
+            {Object.keys(revMeta.characteristics).map((name) => (
               <Characteristics
                 key={`radio${name}`}
                 id={name.id}
                 title={name}
-                characteristic={characteristic}
+                characteristic={CHARACTERISTICS[name]}
                 handleInputChange={handleInputChange}
                 inputState={formState.characteristics}
               />
-            );
-          })}
+            ))}
 
-          <StyledLabel label="summary">
-            Review Summary
-            <StyledInput
-              placeholder="Example: Best purchase ever!"
-              maxLength="60"
-              id="summary"
-              name="summary"
-              type="text"
-              value={formState.summary}
-              onChange={handleInputChange}
+            <StyledLabel label="summary">
+              Review Summary
+              <StyledInput
+                placeholder="Example: Best purchase ever!"
+                maxLength="60"
+                id="summary"
+                name="summary"
+                type="text"
+                value={formState.summary}
+                onChange={handleInputChange}
+              />
+            </StyledLabel>
+            <br />
+
+            <StyledLabel label="body">
+              Review body *
+              <StyledTextArea
+                placeholder="Why did you like the product or not?"
+                minLength="50"
+                maxLength="1000"
+                rows="6"
+                onChange={handleInputChange}
+                required
+                id="body"
+                name="body"
+                value={formState.body}
+                as="textarea"
+              />
+            </StyledLabel>
+            <CharacterCount
+              characterLimit={1000}
+              charactersUsed={formState.body.length}
             />
-          </StyledLabel>
-          <br />
+            <br />
 
-          <StyledLabel label="body">
-            Review body *
-            <StyledTextArea
-              placeholder="Why did you like the product or not?"
-              minLength="50"
-              maxLength="1000"
-              rows="6"
-              onChange={handleInputChange}
-              required
-              id="body"
-              name="body"
-              value={formState.body}
-              as="textarea"
+            <AddPhotos
+              handleInputChange={handleInputChange}
+              photos={formState.photos}
             />
-          </StyledLabel>
-          <CharacterCount
-            characterLimit={1000}
-            charactersUsed={formState.body.length}
-          />
-          <br />
+            <br />
 
-          <AddPhotos
-            handleInputChange={handleInputChange}
-            photos={formState.photos}
-          />
-          <br />
+            <StyledLabel label="name">
+              Username *
+              <StyledInput
+                type="text"
+                maxLength="60"
+                placeholder="Example: jackson11!"
+                onChange={handleInputChange}
+                value={formState.name}
+                required
+                id="name"
+                name="name"
+              />
+            </StyledLabel>
+            <Disclaimer>
+              For privacy reasons, do not use your full name or email
+              address.
+            </Disclaimer>
+            <br />
 
-          <StyledLabel label="name">
-            Username *
-            <StyledInput
-              type="text"
-              maxLength="60"
-              placeholder="Example: jackson11!"
-              onChange={handleInputChange}
-              value={formState.name}
-              required
-              id="name"
-              name="name"
-            />
-          </StyledLabel>
-          <AuthTag>
-            For privacy reasons, do not use your full name or email
-            address.
-          </AuthTag>
-          <br />
+            <StyledLabel label="email">
+              Your Email *
+              <StyledInput
+                // type="email"
+                maxLength="60"
+                placeholder="Example: jackson11@email.com"
+                onChange={handleInputChange}
+                value={formState.email}
+                // required
+                id="email"
+                name="email"
+              />
+            </StyledLabel>
+            <Disclaimer>For authentication reasons, you will not be emailed</Disclaimer>
+            <br />
 
-          <StyledLabel label="email">
-            Your Email *
-            <StyledInput
-              type="email"
-              maxLength="60"
-              placeholder="Example: jackson11@email.com"
-              rows="1"
-              onChange={handleInputChange}
-              value={formState.email}
-              required
-              id="email"
-              name="email"
-            />
-          </StyledLabel>
-          <AuthTag>For authentication reasons, you will not be emailed</AuthTag>
-          <br />
-
-          {errors.length > 0
-          && (
-          <AuthTag>
             {errors.map((error) => (
               <ErrorsContainer key={error.id}>{error.message}</ErrorsContainer>
             ))}
-          </AuthTag>
-          )}
 
-          <ButtonContainer>
-            <ButtonDiv $primary $submit type="submit">Submit</ButtonDiv>
-            <ButtonDiv $cancel type="button" onClick={closeModal}> Cancel </ButtonDiv>
-          </ButtonContainer>
+            <ButtonContainer>
+              <ButtonDiv
+                $primary
+                $submit
+                type="submit"
+              >
+                Submit
+              </ButtonDiv>
 
-        </form>
-      )}
-      {showSuccessModal
-        && (
-        <>
-          <div>
-            Review successfully submitted
-          </div>
-          <ButtonContainer>
-            <ButtonDiv type="button" onClick={handleCloseSuccessModal}> Close </ButtonDiv>
-          </ButtonContainer>
-        </>
+              <ButtonDiv
+                $cancel
+                type="button"
+                onClick={closeModal}
+              >
+                Cancel
+              </ButtonDiv>
+            </ButtonContainer>
+
+          </form>
+        )
+        : (
+          <>
+            <div>
+              {submittedMessage}
+            </div>
+            <ButtonContainer>
+              <ButtonDiv
+                type="button"
+                onClick={closeSubmittedModal}
+                $submitted
+              >
+                Close
+              </ButtonDiv>
+            </ButtonContainer>
+          </>
+          // <SubmittedModal
+          //   submittedMessage={submittedMessage}
+          //   closeSubmittedModal={closeSubmittedModal}
+          // />
         )}
+
     </Modal>
   );
 }
 
 AddRev.propTypes = {
   toggleModal: PropTypes.func.isRequired,
-  showModal: PropTypes.bool.isRequired,
 };
 
 export default AddRev;
@@ -389,15 +391,16 @@ const StyledTextArea = styled(StyledInput)`
   line-height: 1.5em;
 `;
 
-const AuthTag = styled.h5`
+const Disclaimer = styled.h5`
   font-style: oblique;
   padding-top: 0;
 `;
 
 const ErrorsContainer = styled.div`
-  color: ${(props) => props.theme.formError}
+  color: ${(props) => props.theme.formError};
   font-style: oblique;
-  font-size: 0.83em;
+  margin-bottom: 1em;
+  font-size: 0.875em;
 `;
 
 const ButtonContainer = styled.div`
@@ -416,9 +419,14 @@ const ButtonContainer = styled.div`
 
 const ButtonDiv = styled(Button)`
   flex: 1;
-  margin: 0.5rem 0;
+  margin: 0.5em 0;
 
   @media (min-width: 600px) {
     margin: 0;
   }
+
+  ${(props) => props.$submitted && css`
+    background-color: ${props.theme.blue[5]};
+    color: ${props.theme.submitButtonHoverFont};
+  `};
 `;

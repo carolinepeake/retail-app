@@ -16,6 +16,7 @@ export default function HelpfulReport({
 
   const handleHelpfulClick = () => {
     if (helpfulClicked) return;
+
     axios
       .put(`/${name}/helpful`, {
         id,
@@ -31,6 +32,7 @@ export default function HelpfulReport({
 
   const handleReport = () => {
     if (reportClicked) return;
+
     axios
       .put(`/${name}/report`, {
         id,
@@ -47,9 +49,9 @@ export default function HelpfulReport({
     <HelpfulnessDiv>
       {name === 'answers' && children}
       <Helpful>
-        <Subheader>
+        <span>
           Helpful?
-        </Subheader>
+        </span>
         <YesButton
           $clicked={helpfulClicked}
           onClick={handleHelpfulClick}
@@ -102,24 +104,23 @@ const Helpful = styled.div`
   display: flex;
 `;
 
-const Subheader = styled.span`
-`;
-
 const YesButton = styled.span`
   display: flex;
-  margin-left: 0.5rem;
+  margin-left: 0.5em;
   cursor: pointer;
   font-weight: 300;
   text-decoration: underline;
+
+  &:hover {
+    text-decoration: initial;
+  }
+
   ${(props) => props.$clicked && css`
     cursor: default;
     font-weight: bold;
     text-decoration: none;
     color: ${props.theme.clicked};
   `};
-  &:hover {
-    text-decoration: initial;
-  }
 `;
 
 const ReportButton = styled(YesButton)`

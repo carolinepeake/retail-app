@@ -9,7 +9,6 @@ function Characteristics({
   handleInputChange,
   inputState,
 }) {
-  // wrap in useCallback
   const handleChange = (e) => {
     const { name, value } = e.target;
     const updatedCharacteristics = { ...inputState, [name]: value };

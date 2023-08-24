@@ -15,7 +15,7 @@ function ListNavigation({
   itemsPerPage,
   scrollToListTop,
 }) {
-  const handleClick = (e) => {
+  const handleClickAnchor = (e) => {
     const newValue = Number(e.target.value);
     setPageNum(newValue);
     scrollToListTop();
@@ -46,7 +46,13 @@ function ListNavigation({
       </ScrollButton>
 
       {buttons.map((page) => (
-        <PageButton type="button" value={page} onClick={(e) => handleClick(e)} key={page} active={pageNum === page}>
+        <PageButton
+          type="button"
+          value={page}
+          onClick={handleClickAnchor}
+          key={page}
+          active={pageNum === page}
+        >
           {page}
         </PageButton>
       ))}
