@@ -14,10 +14,8 @@ function QuestionAndAnswers() {
     questions,
   } = useGlobalContext();
 
-  // should forwarf ref instead of passing this function
-  // to avoid creating a new function every render
-  // might not happen with ref?
   const questRef = useRef(null);
+
   const scrollToListTop = () => {
     questRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
@@ -27,6 +25,7 @@ function QuestionAndAnswers() {
   const [pageNum, setPageNum] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(2);
   const startingSlice = (pageNum - 1) * itemsPerPage;
+  const endingSlice = startingSlice + itemsPerPage;
 
   useEffect(() => {
     setPageNum(1);
@@ -39,10 +38,12 @@ function QuestionAndAnswers() {
       <SectionHeader>
         Questions & Answers
       </SectionHeader>
+
       <QuestionSearch
         pageNum={pageNum}
         setFilteredQuestions={setFilteredQuestions}
       />
+
       <QuestionListHeader ref={questRef}>
         <ListTotalCount
           listLength={filteredQuestions.length}
@@ -51,21 +52,24 @@ function QuestionAndAnswers() {
           itemText="Questions"
         />
       </QuestionListHeader>
+
       <QuestionListContainer>
         {questions.length === 0
           ? <div>Be the first to ask a question!</div>
           : filteredQuestions.length === 0
             ? <div>No questions match your search</div>
-            : (filteredQuestions.slice(startingSlice, (startingSlice + itemsPerPage)).map((q) => (
+            : (filteredQuestions.slice(startingSlice, endingSlice).map((question) => (
               <QuestionEntry
-                question={q}
-                key={`${q.question_id}`}
+                question={question}
+                key={`${question.question_id}`}
               />
             ))
             )}
         {/* <QuestionsList itemsPerPage={itemsPerPage} pageNum={pageNum} /> */}
       </QuestionListContainer>
-      {(itemsPerPage > 2 && filteredQuestions.length > 10) && (
+
+      {(itemsPerPage > 2 && filteredQuestions.length > 10)
+      && (
         <ListNavigation
           listLength={filteredQuestions.length}
           setPageNum={setPageNum}
@@ -74,6 +78,7 @@ function QuestionAndAnswers() {
           scrollToListTop={scrollToListTop}
         />
       )}
+
       <ExtraButtons
         itemsPerPage={itemsPerPage}
         setItemsPerPage={setItemsPerPage}
@@ -81,6 +86,7 @@ function QuestionAndAnswers() {
         setPageNum={setPageNum}
         listLength={filteredQuestions.length}
       />
+
     </Container>
   );
 }
@@ -99,7 +105,8 @@ const Container = styled.div`
 `;
 
 const QuestionListHeader = styled.div`
-  font-size: 1.17em;
+ /* font-size: 1.17em; */
+  font-size: 1em;
   margin-block-start: 1.0em;
   margin-block-end: 1.0em;
 `;

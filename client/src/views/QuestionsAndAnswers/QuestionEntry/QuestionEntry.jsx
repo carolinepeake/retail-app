@@ -1,12 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import styled, { css } from 'styled-components';
-import AnswerEntry from './AnswerEntry';
+import styled from 'styled-components';
 import AddAnswerModal from './AddAnswerModal';
 import useModal from '../../../hooks/useModal';
 import HelpfulReport from '../../RatingsAndReviews/ReviewList/HelpfulReport';
 import AnswersList from './AnswersList';
-import { Button } from '../../../components/Buttons';
 
 function QuestionEntry({ question }) {
   console.log('[QuestionEntry] is running');
@@ -18,33 +16,44 @@ function QuestionEntry({ question }) {
 
   return (
     <Entry>
-      <A>
+      <QuestionContainer>
         <Question>Q:</Question>
+
         <QuestionHeader>
-          <QuestionBody id="question_header">{question?.question_body}</QuestionBody>
+          <QuestionBody
+            id="question_header"
+          >
+            {question.question_body}
+          </QuestionBody>
+
           <HelpfulReport
             name="questions"
-            id={question?.question_id}
-            helpfulCount={question?.question_helpfulness}
+            id={question.question_id}
+            helpfulCount={question.question_helpfulness}
           >
             <div>|</div>
             <Clickable onClick={answerQuestion}>
               Add Answer
             </Clickable>
           </HelpfulReport>
+
         </QuestionHeader>
-      </A>
-      <B>
+      </QuestionContainer>
+
+      <AnswersContainer>
         <Answer id="answer_header">A:</Answer>
-        <AnswersList answers={question.answers}/>
-      </B>
+        <AnswersList answers={question.answers} />
+      </AnswersContainer>
+
       {showModal
         && (
         <AddAnswerModal
-          question={question}
+          questionId={question.question_id}
+          questionBody={question.question_body}
           toggleModal={toggleModal}
         />
         )}
+
     </Entry>
   );
 }
@@ -76,11 +85,9 @@ const Entry = styled.div`
   margin-right: 0.5em;
 `;
 
-const A = styled.div`
+const QuestionContainer = styled.div`
   display: flex;
   align-items: center;
-/*  padding-bottom: 0.25rem; */
-  /* margin-bottom: 0.5em; */
   justify-content: flex-start;
 `;
 
@@ -112,7 +119,7 @@ const QuestionBody = styled.h3`
   font-weight: 600;
 `;
 
-const B = styled.div`
+const AnswersContainer = styled.div`
   display: flex;
 `;
 

@@ -9,12 +9,16 @@ import CharacterCount from '../../../components/Form/CharacterCount';
 import Modal from '../../../components/Modal';
 import useForm from '../../../hooks/useForm';
 
-function AddAnswerModal({ question, toggleModal }) {
+function AddAnswerModal({
+  questionId,
+  toggleModal,
+  questionBody,
+}) {
   console.log('[AddAnswerModal] is running');
   const { productInfo } = useGlobalContext();
 
   const initialFormState = {
-    question_ID: question.question_id,
+    question_ID: questionId,
     name: '',
     email: '',
     body: '',
@@ -65,7 +69,7 @@ function AddAnswerModal({ question, toggleModal }) {
           Submit Your Answer
         </h2>
         <h1>
-          {`${productInfo.name} : ${question.question_body}`}
+          {`${productInfo.name} : ${questionBody}`}
         </h1>
 
         <StyledLabel htmlFor="body">

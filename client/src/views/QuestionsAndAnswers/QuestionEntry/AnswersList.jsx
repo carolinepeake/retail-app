@@ -76,7 +76,7 @@ export default function AnswersList({ answers }) {
       <MoreAnswersButtonText>
         {moreAnswersButtonText}
       </MoreAnswersButtonText>
-      <Arrow moreAnswersShown={moreAnswersShown}>&#9662;</Arrow>
+      <Arrow $expanded={moreAnswersShown}>&#9662;</Arrow>
     </MoreAnswers>
   );
 
@@ -91,11 +91,9 @@ export default function AnswersList({ answers }) {
 const Answers = styled.div`
   padding-bottom: 1rem;
   font-size: 1.0em;
-/*  width: 90%; */
 `;
 
 const AnswersListContainer = styled.div`
-/*  max-height: 25em; */
   overflow-x: hidden;
   overflow-y: auto;
   text-align: justify;
@@ -110,9 +108,9 @@ const AnswerNone = styled.p`
 
 const MoreAnswers = styled(Button)`
   display: flex;
+  gap: 0.375em;
   cursor: pointer;
   background-color: ${(props) => props.theme.backgroundColor};
-  }
   border: none;
   font-family: inherit;
   font-weight: bold;
@@ -126,15 +124,18 @@ const MoreAnswers = styled(Button)`
 `;
 
 const MoreAnswersButtonText = styled.span`
-  padding-right: 0.25em;
   ${MoreAnswers}&:hover {
+    text-decoration: underline;
+  };
+  &:hover {
     text-decoration: underline;
   }
 `;
 
 const Arrow = styled.span`
-  margin-top: -0.1rem;
-  ${(props) => props.moreAnswersShown && css`
-    transform: translateY(0.5em) rotateX(-180deg);
+  font-size: 1.25em;
+  margin-top: -0.125rem;
+  ${(props) => props.$expanded && css`
+    transform: translateY(0.125em) rotateX(-180deg);
   `}
 `;
