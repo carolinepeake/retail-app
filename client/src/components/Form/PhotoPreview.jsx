@@ -2,55 +2,39 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { CloseButton } from '../Buttons';
-import { removeFileExtension } from '../../utils/getFormat';
 
 export default function PhotoPreview({
   preview,
-  previews,
-  resetFileInput,
-  selectedFile,
-  setSelectedFile,
-  handleInputChange,
-  setError,
+  handleClickDeleteFile,
 }) {
-  const handleClickDeleteFile = () => {
-    const previewsCopy = previews.slice();
-    for (let i = 0; i < previews.length; i++) {
-      if (previews[i].public_id === preview.public_id) {
-        previewsCopy.splice(i, 1);
-      }
-    }
-    const e = {
-      target: {
-        name: 'photos',
-        value: previewsCopy,
-      },
-    };
-    handleInputChange(e);
-    const selectedFileName = removeFileExtension(selectedFile.name);
-    if (selectedFileName === preview.original_filename) {
-      resetFileInput();
-      setSelectedFile(null);
-      setError(null);
-    }
-    // TO-DO: use cloudinary delete method if using delete token fails
+  const handleClickDelete = () => {
+    handleClickDeleteFile(preview);
   };
 
   return (
     <ImageContainer>
       <ImagePreview
-        src={preview?.url}
-        alt={preview?.original_filename}
+        src={preview.url}
+        alt={preview.original_filename}
       />
       <DeleteButton
         $round
-        onClick={handleClickDeleteFile}
+        onClick={handleClickDelete}
       >
         &#10005;
       </DeleteButton>
     </ImageContainer>
   );
 }
+
+PhotoPreview.propTypes = {
+  preview: PropTypes.shape({
+    url: PropTypes.string,
+    original_filename: PropTypes.string,
+    public_id: PropTypes.string,
+  }).isRequired,
+  handleClickDeleteFile: PropTypes.func.isRequired,
+};
 
 const ImageContainer = styled.div`
   position: relative;
