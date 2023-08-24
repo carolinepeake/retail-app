@@ -101,7 +101,7 @@ const CustomSelect = styled.div`
   border: thin solid currentColor;
   border-radius: 5px;
   color: ${(props) => props.theme.secondaryFontColor};
-  font-size: 1rem;
+  font-size: 1em;
   font-weight: 400;
   background-color: ${(props) => props.theme.backgroundColor};
   cursor: pointer;
@@ -110,6 +110,10 @@ const CustomSelect = styled.div`
   }
   position: relative;
   width: 12.0em;
+
+  @media (min-width: 600px) AND (max-width: 700px) {
+    width: 10em;
+  }
 `;
 
 const InputWrapper = styled.div`
@@ -118,12 +122,20 @@ const InputWrapper = styled.div`
   align-items: center;
   padding: 0.25em 0.25em 0.25em 1em;
   transition: 1s ease-in-out;
+
+  @media (min-width: 600px) AND (max-width: 700px) {
+    padding: 0.25em;
+  }
 `;
 
 const SortBy = styled.div`
   padding-right: 0.25em;
   line-height: 1em;
  /* width: 3.75em; */
+
+ @media (min-width: 600px) AND (max-width: 700px) {
+    padding-right: 0;
+  }
 `;
 
 const Dropdown = styled.div`

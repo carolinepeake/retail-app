@@ -263,7 +263,7 @@ const StyledContainer = createGlobalStyle`
   }
 
   h4 {
-    font-size: clamp(1rem, calc(1rem + 0.2vw), 1.25rem);
+    font-size: clamp(1em, calc(1em + 0.2vw), 1.25em);
     font-weight: 400;
     margin-block-start: 1em;
     margin-block-end: 1em;
@@ -316,7 +316,7 @@ const StyledContainer = createGlobalStyle`
   }
 
   button {
-    font-size: clamp(1rem, calc(0.875rem + 0.268vw), 1.25rem);
+    font-size: clamp(1em, calc(0.875em + 0.268vw), 1.25em);
     font-weight: 500;
   }
 

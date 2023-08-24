@@ -91,7 +91,7 @@ const ProductContainer = styled.div`
 const RightColumn = styled.div`
   background-color: ${(props) => props.theme.backgroundColor};
   flex: 1 1 300px;
-  max-width: 450px;
+ /* max-width: 450px; */
   position: relative;
 
   @media (min-width: 600px) {
@@ -100,6 +100,7 @@ const RightColumn = styled.div`
     align-items: space-between;
     justify-content: space-evenly;
     padding-left: 0.5em;
+    max-width: 450px;
   }
 
   @media (min-width: 700px) {

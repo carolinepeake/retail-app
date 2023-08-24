@@ -221,6 +221,7 @@ const SelectSizeAndQuantityContainer = styled.div`
 
 const StyledSelect = styled(Button)`
   width: 100%;
+  min-height: 3em;
   flex-basis: 9.8em;
   flex-grow: 3;
   flex-shrink: 1;
@@ -237,7 +238,6 @@ const StyledSelect = styled(Button)`
 
   @media (min-width: 600px) {
     padding: calc(1px + 1.2vw) calc(6px + 1.2vw);
-    height: 3em;
   }
 `;
 

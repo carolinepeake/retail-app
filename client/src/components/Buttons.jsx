@@ -5,7 +5,8 @@ export const Button = styled.button`
   border-radius: 3px;
   margin: 0.5em 0;
   padding: 1em;
-  font-size: ${(props) => props.theme.body};
+  /* font-size: ${(props) => props.theme.body}; */
+  font-size: 1em;
   font-weight: 500;
   background-color: ${(props) => props.theme.backgroundColor};
   color: ${(props) => props.theme.fontColor};
@@ -110,6 +111,7 @@ export const CloseButton = styled.button.attrs(() => ({
      /* color: ${props.theme.darkBlueHover}; */
     }
   `};
+  ${(props) => props.$submitted && 'display: none'};
 `;
 
 // icon?
