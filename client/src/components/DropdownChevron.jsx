@@ -31,6 +31,10 @@ const DropdownIcon = styled.div`
     transform: translateY(0.5em) rotateX(-180deg);
     opacity: 1;
   `};
+
+  @media (min-width: 600px) AND (max-width: 700px) {
+    width: 0.5em;
+  }
 `;
 
 export default DropdownChevron;
