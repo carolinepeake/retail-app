@@ -11,7 +11,7 @@ function ListTotalCount({
 
   return (
     <TotalCount>
-      {`${beginningIndex} –– ${endingIndex} of ${listLength} ${itemText}`}
+      {`${beginningIndex} – ${endingIndex} of ${listLength} ${itemText}`}
     </TotalCount>
   );
 }
@@ -31,7 +31,6 @@ ListTotalCount.defaultProps = {
 const TotalCount = styled.h5`
   margin-block-start: 0px;
   margin-block-end: 0px;
-
   font-size: 1.0em
 `;
 
