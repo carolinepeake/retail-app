@@ -4,10 +4,14 @@ import React, {
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
-import Thumbnails from './Thumbnails';
+import Thumbnails from './Thumbnails/Thumbnails';
+import Images from './Thumbnails/Images';
+import ZoomedImage from './ZoomedImage';
+import CarouselItem from './CarouselItem';
 import ScrollButton from './ScrollButton';
 import { CloseButton } from '../../../components/Buttons';
 import useCarouselNavigation from '../../../hooks/useCarouselNavigation';
+import useMediaQueries from '../../../hooks/useMediaQueries';
 
 // TO-DO: fix scroll main image index on zoom-in and expanded view and when resizing
 // TO-DO: maybe make scroll below 600px and arrow buttons above
@@ -35,6 +39,14 @@ function ImageGallery({
 
   const itemsRef = useRef(null);
 
+  function getMap() {
+    if (!itemsRef.current) {
+      // Initialize the Map on first usage.
+      itemsRef.current = new Map();
+    }
+    return itemsRef.current;
+  }
+
   function scrollToId(itemId) {
     const map = getMap();
     const node = map.get(itemId);
@@ -43,14 +55,6 @@ function ImageGallery({
       block: 'nearest',
       inline: 'center'
     });
-  }
-
-  function getMap() {
-    if (!itemsRef.current) {
-      // Initialize the Map on first usage.
-      itemsRef.current = new Map();
-    }
-    return itemsRef.current;
   }
 
   const handleClickThumbnail = (url) => {
@@ -139,96 +143,6 @@ function ImageGallery({
     handleClickArrow(1);
   };
 
-  const imageContainer = useRef(null);
-  const mainImageRef = useRef(null);
-
-  // const [position, setPosition] = useState({ x: '', y: '' });
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    console.log('useEffect in main image');
-    function handlePanImage(e) {
-      const zoomContainer = imageContainer.current;
-      // if (imageContainer.current) {
-        // const containerWidth = imageContainer.current.clientWidth;
-        const containerWidth = zoomContainer.clientWidth;
-        // const containerHeight = imageContainer.current.clientHeight;
-        const containerHeight = zoomContainer.clientHeight;
-        // should maybe do offset from parent element, not page, b/c if scroll
-        // const x = e.pageX - imageContainer.current.offsetLeft;
-        // const y = e.pageY - imageContainer.current.offsetTop;
-        console.log('zoomContainer: ', zoomContainer);
-        const x = e.pageX - zoomContainer.offsetLeft;
-        const y = e.pageY - zoomContainer.offsetTop;
-        const translateX = `${(x / (containerWidth / 100)) * 1.25}%`;
-        const translateY = `${(y / (containerHeight / 100)) * 1.25}%`;
-        setPosition({
-          x: translateX,
-          y: translateY,
-        });
-      }
-
-      mainImageRef?.current?.addEventListener('mousemove', handlePanImage);
-
-      return () => {
-        mainImageRef?.current?.removeEventListener('mousemove', handlePanImage);
-      };
-
-  }, [imageContainer]);
-  // const imageContainer = useRef(null);
-
-  // const [position, setPosition] = useState({ x: '', y: '' });
-
-  // function getProportionalZoom(e) {
-  //   const zoomContainer = imageContainer.current;
-  //   // if (imageContainer.current) {
-  //     // const containerWidth = imageContainer.current.clientWidth;
-  //     const containerWidth = zoomContainer.clientWidth;
-  //     // const containerHeight = imageContainer.current.clientHeight;
-  //     const containerHeight = zoomContainer.clientHeight;
-  //     // should maybe do offset from parent element, not page, b/c if scroll
-  //     // const x = e.pageX - imageContainer.current.offsetLeft;
-  //     // const y = e.pageY - imageContainer.current.offsetTop;
-  //     console.log('zoomContainer: ', zoomContainer);
-  //     const x = e.pageX - zoomContainer.offsetLeft;
-  //     const y = e.pageY - zoomContainer.offsetTop;
-  //     const translateX = `${(x / (containerWidth / 100)) * 1.25}%`;
-  //     const translateY = `${(y / (containerHeight / 100)) * 1.25}%`;
-  //     setPosition({
-  //       x: translateX,
-  //       y: translateY,
-  //     });
-  //   }
-  // https://react.dev/reference/react/useEffect  handleMove
-
-  const handleProportionalZoom = (e) => {
-    if (imageContainer.current) {
-      const containerWidth = imageContainer.current.clientWidth;
-      const containerHeight = imageContainer.current.clientHeight;
-      // should maybe do offset from parent element, not page, b/c if scroll
-      const x = e.pageX - imageContainer.current.offsetLeft;
-      const y = e.pageY - imageContainer.current.offsetTop;
-      const translateX = `${(x / (containerWidth / 100)) * 1.25}%`;
-      const translateY = `${(y / (containerHeight / 100)) * 1.25}%`;
-      setPosition({
-        x: translateX,
-        y: translateY,
-      });
-    }
-  }
-
-  // wrap getProportionalZoom in an effectEvent and call it in a useEffects
-  // as the handler for the mousemove event listeners
-  // add the event listeners if the status is zoomed
-  // if the status is not zoomed, add a scroll(specify direction) event listener
-  // add a ref to the carouselviewport and thats the element I should attach the event listeners to
-
-  const handlePanImage = (e) => {
-    if (status !== 'default') {
-      handleProportionalZoom(e);
-    }
-  };
-
   const handleClickMain = (e) => {
     switch (status) {
       case 'default':
@@ -237,10 +151,11 @@ function ImageGallery({
       case 'expanded':
         setStatus('zoomed');
         // handleZoom(e);
-         handlePanImage(e);
+        handlePanImage(e);
         break;
       case 'zoomed':
         setStatus('expanded');
+        scrollToId(place);
         break;
       default:
         console.log('error handling expand main');
@@ -269,12 +184,66 @@ function ImageGallery({
 
   console.log('place in IG: ', place);
 
+  // const translate = `calc((-100 / ${photosLength}) * ${place} * 1%) 0`;
+
+  const translate = (-100 / photosLength) * place * 1;
+  console.log('translate: ', translate);
+
+  // useEffect(() => {
+  //   const scrollToId = () => {
+  //     node.scrollIntoView({
+  //       behavior: 'smooth',
+  //       block: 'nearest',
+  //       inline: 'center'
+  //     });
+  //   }
+
+  //  window.addEventListener('resize', scrollToId);
+
+  //   return (
+  //     window.removeEventListener('resize', scrollToId);
+  //   )
+
+  // }, []);
+
+  const { sm, md, lg } = useMediaQueries();
+
+
+  if (status === 'zoomed') {
+    return (
+      <ImageGalleryContainer
+        status={status}
+      >
+        <ZoomedImage
+          handleClickMain={handleClickMain}
+          photo={selectedStyle?.photos[place || 0]?.url}
+          alternative={`${productInfo?.name} in ${selectedStyle?.name} style photo number ${place}`}
+        />
+      </ImageGalleryContainer>
+    );
+  }
+
+  // if (sm) {
+  //   return (
+  //     <ImageGalleryContainer
+  //       status={status}
+  //     >
+  //     </ImageGalleryContainer>
+  //   )
+  // }
+
   return (
     <ImageGalleryContainer
       status={status}
     >
-          {status !== 'zoomed'
-          && (
+      {/* <Gallery
+
+
+      />
+
+      </Gallery> */}
+          {/* {status !== 'zoomed'
+          && ( */}
           <AnimationContainer>
 
             <MainWrapper
@@ -293,6 +262,7 @@ function ImageGallery({
                 place={place}
                 status={status}
                 ref={carousel}
+                translate={translate}
               >
 
                 {selectedStyle?.photos?.map((photo, index) => (
@@ -304,12 +274,20 @@ function ImageGallery({
                     // ids don't match up
                     id={`seq${index}`}
                     onClick={handleClickMain}
+                    // ref={(node) => {
+                    //   const map = getMap();
+                    //   if (node) {
+                    //     map.set(photo.url, node);
+                    //   } else {
+                    //     map.delete(photo.url);
+                    //   }
+                    // }}
                     ref={(node) => {
                       const map = getMap();
                       if (node) {
-                        map.set(photo.url, node);
+                        map.set(index, node);
                       } else {
-                        map.delete(photo.url);
+                        map.delete(index);
                       }
                     }}
 
@@ -324,9 +302,17 @@ function ImageGallery({
                        // use url to store productName, selectedStyle and seq#
                       alt={`${productInfo?.name} in ${selectedStyle?.name} style photo number ${index}`}
                       status={status}
-                      // id={`seq${index}`}
+                      id={`seq${index}`}
                     />
                   </Slide>
+                  // <CarouselItem
+                  //   key={photo.url}
+                  //   index={index}
+                  //   handleClickMain={handleClickMain}
+                  //   photo={photo}
+                  //   status={status}
+                  //   alternative={`${productInfo?.name} in ${selectedStyle?.name} style photo number ${index}`}
+                  // />
                 ))}
 
               </Carousel>
@@ -358,28 +344,34 @@ function ImageGallery({
           )}
 
           </AnimationContainer>
-        )}
+        {/* )} */}
 
-          {status === 'zoomed'
+          {/* {status === 'zoomed'
           && (
-            <MainWrapper
-              ref={imageContainer}
-              status={status}
-              onClick={handleClickMain}
-            >
-              <MainImage
-                src={selectedStyle?.photos[place || 0]?.url}
-                alt={`${productInfo?.name} in ${selectedStyle?.name} style photo number ${place}`}
-                status={status}
-                onMouseMove={handlePanImage}
-                position={position}
-                ref={mainImageRef}
-                // onClick={handleClickMain}
-              />
-            </MainWrapper>
-          )}
+            // <MainWrapper
+            //   ref={imageContainer}
+            //   status={status}
+            //   onClick={handleClickMain}
+            // >
+            //   <MainImage
+            //     src={selectedStyle?.photos[place || 0]?.url}
+            //     alt={`${productInfo?.name} in ${selectedStyle?.name} style photo number ${place}`}
+            //     status={status}
+            //     onMouseMove={handlePanImage}
+            //     position={position}
+            //     ref={mainImageRef}
+            //     // onClick={handleClickMain}
+            //   />
+            // </MainWrapper>
 
-      <Thumbnails
+            <ZoomedImage
+              handleClickMain={handleClickMain}
+              photo={selectedStyle?.photos[place || 0]?.url}
+              alternative={`${productInfo?.name} in ${selectedStyle?.name} style photo number ${place}`}
+            />
+          )} */}
+
+<Thumbnails
         place={place}
         setPlace={setPlace}
         status={status}
@@ -387,7 +379,6 @@ function ImageGallery({
         setFirstPhotoIndex={setFirstPhotoIndex}
         handleClickThumbnail={handleClickAnchor}
         // handleClickThumbnail={handleClickThumbnail}
-
       />
 
     </ImageGalleryContainer>
@@ -407,6 +398,7 @@ const ImageGalleryContainer = styled.div`
   padding-bottom: 1.5em;
   display: flex;
   flex-direction: column;
+  position: relative;
 
   @media (min-width: 600px) {
     flex: 1 2 400px;
@@ -437,6 +429,7 @@ const ImageGalleryContainer = styled.div`
     justify-content: center;
     align-items: center;
     align-content: center;
+    position: relative;
   `};
 `;
 
@@ -447,7 +440,7 @@ const AnimationContainer = styled.div`
 `;
 
 const MainWrapper = styled.div`
-  margin: 0 auto;
+ margin: 0 auto;
   padding: 0;
   width: 100%;
   height: 100%;
@@ -455,40 +448,37 @@ const MainWrapper = styled.div`
   object-fit: cover;
   overflow: hidden;
   position: relative;
-  aspect-ratio: 4/6;
   z-index: 1;
-  overflow-x: scroll;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+
+  aspect-ratio: 4/6;
+  overflow-x: hidden;
 
   @media (min-width: 600px) {
-    height: fit-content;
+   /* height: fit-content; */
     max-height: 120vh;
     overflow-x: hidden;
   }
 
   ${(props) => props.status === 'default' && css`
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
     @media (min-width: 600px) {
       max-height: 840px;
+      overflow-x: hidden;
     }
     @media (min-width: 800px) {
       flex: 6 1 450px;
-      height: initial;
+     /* height: initial; */
     }
     @media (min-width: 1200px) {
       max-width: 800px;
       max-height: 1200px;
-    }
-  `};
-
-  ${(props) => props.status === 'zoomed' && css`
-    @media (min-width: 600px) {
-      max-width: 80vh;
     }
   `};
 `;
@@ -518,17 +508,6 @@ const MainImage = styled.img`
   ${(props) => props.status === 'expanded' && css`
     cursor: crosshair;
   `};
-
-  ${(props) => props.status === 'zoomed' && css`
-    position: absolute;
-    z-index: 2;
-    cursor: zoom-out;
-    transform: scale(2.5);
-    transition: transform 0.25s ease;
-    transform-origin: top left;
-    transition: translate 0.25s smooth;
-    translate: -${props.position.x} -${props.position.y};
-  `};
 `;
 
 const Carousel = styled.ul`
@@ -538,9 +517,12 @@ const Carousel = styled.ul`
   margin: 0;
   padding: 0;
   width: ${(props) => props.photosLength}00%;
+ /* transition: translate 0.5s;
+  translate: ${(props) => `calc((-100 / ${props.photosLength}) * ${props.place} * 1%)`} 0; */
   @media (min-width: 600px) {
     transition: translate 0.5s;
-    translate: ${(props) => `calc((-100 / ${props.photosLength}) * ${props.place} * 1%)`} 0;
+   /* translate: ${(props) => `calc((-100 / ${props.photosLength}) * ${props.place} * 1%)`} 0; */
+    translate: ${(props) => props.translate}% 0;
   }
 `;
 

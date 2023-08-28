@@ -3,9 +3,11 @@ import React, {
 } from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
-import ScrollButton from './ScrollButton';
+import ScrollButton from '../ScrollButton';
+import Images from './Images';
+import useMediaQueries from '../../../../hooks/useMediaQueries';
 
-import { useGlobalContext } from '../../../contexts/GlobalStore';
+import { useGlobalContext } from '../../../../contexts/GlobalStore';
 
 // TO-DO: uninstall react-icons/md
 
@@ -21,6 +23,8 @@ function Thumbnails({
 
   // should optomize this better
   // https://react.dev/learn/manipulating-the-dom-with-refs
+
+  // will want to put with scroll arrows
   useEffect(() => {
     if (place < firstPhotoIndex) {
       setFirstPhotoIndex((prev) => prev - 1);
@@ -56,14 +60,57 @@ function Thumbnails({
     setFirstPhotoIndex((prev) => prev - 1);
   };
 
-  const thumbnails = selectedStyle?.photos?.map((photo, index) => (
+  const clickThumbnail = (i) => {
+    handleClickThumbnail(i);
+  };
+
+  const { sm } = useMediaQueries();
+
+  let thumbnails;
+  if (sm) {
+    thumbnails = selectedStyle?.photos?.map((photo, index) => (
+      <ThumbnailContainer
+        key={photo?.thumbnail_url}
+        // href={`#seq${index + 1}`}
+        // href={`#seq${index}`}
+        // index={index}
+        alt={`${selectedStyle?.name} thumbnail`}
+        // onClick={() => handleClickThumbnail(index)}
+        onClick={() => clickThumbnail(index)}
+        // onClick={() => setPlace(index)}
+        // onClick={() => handleClickThumbnail(photo.url)}
+        // place={place}
+        // setPlace={setPlace}
+        type="button"
+        status={status}
+        length={thumbnailsCount}
+      >
+        <ThumbnailIcon
+          status={status}
+          place={place}
+          index={index}
+          // href={`#seq${index + 1}`}
+          href={`#seq${index}`}
+        />
+        <ThumbnailImage
+          src={photo?.thumbnail_url}
+          status={status}
+          place={place}
+          index={index}
+          // href={`#seq${index + 1}`}
+        />
+      </ThumbnailContainer>
+    ));
+  } else {
+    thumbnails = selectedStyle?.photos?.map((photo, index) => (
     <ThumbnailContainer
       key={photo?.thumbnail_url}
       // href={`#seq${index + 1}`}
-      // href={`#seq${index}`}
+      href={`#seq${index}`}
       // index={index}
       alt={`${selectedStyle?.name} thumbnail`}
-      onClick={() => handleClickThumbnail(index)}
+      onClick={() => clickThumbnail(index)}
+      // onClick={() => setPlace(index)}
       // onClick={() => handleClickThumbnail(photo.url)}
       // place={place}
       // setPlace={setPlace}
@@ -87,6 +134,7 @@ function Thumbnails({
       />
     </ThumbnailContainer>
   ));
+  }
 
   return (
     <ThumbnailsContainer
@@ -108,25 +156,25 @@ function Thumbnails({
         </ThumbnailsCarousel>
       </ThumbnailsViewport>
 
-      {thumbnails?.length > 6 && (
-        <>
-          <ScrollButton
-            status={status}
-            disabled={firstPhotoIndex >= thumbnailsCount - 6}
-            handleClick={handleClickNext}
-            position="bottom"
-            background
-          />
+      {selectedStyle?.photos?.length > 6 && (
+    <>
+      <ScrollButton
+        disabled={firstPhotoIndex >= thumbnailsCount - 6}
+        handleClick={handleClickNext}
+        position="bottom"
+        background
+        // visible={true}
+      />
 
-          <ScrollButton
-            status={status}
-            disabled={firstPhotoIndex < 1}
-            handleClick={handleClickPrev}
-            position="top"
-            background
-          />
-        </>
-      )}
+      <ScrollButton
+        disabled={firstPhotoIndex < 1}
+        handleClick={handleClickPrev}
+        position="top"
+        background
+        // visible={true}
+      />
+    </>
+  )}
 
     </ThumbnailsContainer>
   );
@@ -233,7 +281,7 @@ const ThumbnailContainer = styled.a`
       color: ${props.theme.submitButton};
     `};
 
-  &:focus {
+  /* &:focus {
     color: ${(props) => props.theme.submitButtonHover};
     border: black solid 1.5px;
     transform: scale(1.05) ease;
@@ -247,7 +295,7 @@ const ThumbnailContainer = styled.a`
     &:visited {
       color: ${(props) => props.theme.submitButtonHover};
       border: black solid 1.5px;
-      /* transform: scale(1.05) ease; */
+      transform: scale(1.05) ease;
       padding: 1.5px;
     }
 
@@ -259,7 +307,7 @@ const ThumbnailContainer = styled.a`
     &:active {
       color: ${(props) => props.theme.submitButtonHover};
       border: black solid 1.5px;
-      /* transform: scale(1.05) ease; */
+      transform: scale(1.05) ease;
       padding: 1.5px;
     }
 
@@ -268,7 +316,7 @@ const ThumbnailContainer = styled.a`
       border: black solid 1.5px;
       transform: scale(1.05) ease;
       padding: 1.5px;
-    }
+    } */
 `;
 
 const ThumbnailIcon = styled.span`
@@ -304,12 +352,13 @@ const ThumbnailImage = styled.img`
   display: none;
 
   @media (min-width: 800px) {
+    padding: 1.5px;
     display: ${(props) => (props.status === 'default' ? 'block' : 'none')};
     ${(props) => props.index === props.place && css`
       border: black solid 1.5px;
-      padding: 1.5px;
-      transform: scale(1.05);
-      transition: scale 0.2s ease;
+     /* padding: 1.5px; */
+     /* transform: scale(1.05);
+      transition: scale 0.2s ease; */
     `};
   }
 `;

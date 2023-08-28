@@ -5,7 +5,7 @@ import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import ScrollButton from './ScrollButton';
-import Thumbnails from './Thumbnails';
+import Thumbnails from './Thumbnails/Thumbnails';
 import { CloseButton } from '../../../components/Buttons';
 import useCarouselNavigation from '../../../hooks/useCarouselNavigation';
 
@@ -168,6 +168,8 @@ const Carousel = styled.ul`
   margin: 0;
   padding: 0;
   width: ${(props) => props.photosLength}00%;
+  /* transition: translate 0.5s;
+  translate: ${(props) => `calc((-100 / ${props.photosLength}) * ${props.place} * 1%)`} 0; */
   @media (min-width: 600px) {
     transition: translate 0.5s;
     /* translate: ${(props) => `calc(-100%  * ${props.place})`} 0; */
