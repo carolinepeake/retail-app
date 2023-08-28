@@ -27,9 +27,7 @@ Stars.propTypes = {
 
 const StarsContainer = styled.div`
   position: relative;
-  font-size: ${(props) => props.theme.tertiary};
   color: ${(props) => props.theme.fontColor};
-  margin-top: 0.25rem;
   margin-right: auto;
   display: inline-block;
 `;

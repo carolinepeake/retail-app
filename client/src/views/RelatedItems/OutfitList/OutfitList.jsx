@@ -3,7 +3,6 @@ import styled, { css } from 'styled-components';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import Card from '../RelatedList/Card';
 import AddOutfit from './AddOutfit';
-import { CloseButton } from '../../../components/Buttons';
 
 // TODO: remove useEffect with outfits.length dependency
 
@@ -33,9 +32,9 @@ function OutfitList() {
     setIndex((prev) => prev + 1);
   };
 
-  const removeOutfit = (event, i) => {
+  const removeOutfit = (i) => {
     // moving index used for translation back 1 if currently at end of list
-    event.stopPropagation();
+    // event.stopPropagation();
     if (index === outfits.length) {
       setIndex((prev) => prev - 1);
     }
@@ -65,13 +64,9 @@ function OutfitList() {
               setIndex={setIndex}
               setTranslate={setTranslate}
               i={i}
+              onClickRightButton={removeOutfit}
+              icon="remove"
             >
-              <Close
-                $round
-                onClick={(event) => removeOutfit(event, i)}
-              >
-                &#10005;
-              </Close>
             </Card>
           </CardContainer>
         ))}
@@ -165,14 +160,15 @@ const CardContainer = styled.div`
   width: calc(100% / ${(props) => props.length});
   padding-right: 2.5vw;
   padding-left: 2.5vw;
-  box-sizing: border-box;
-  height: 100%;
-  aspect-ratio: 4/6;
+  /* height: 100%;
+  aspect-ratio: 4/6; */
   @media (min-width: 900px) {
     padding-right: 1.25vw;
     padding-left: 1.25vw;
   };
 `;
+// width: 100%
+// no aspect ratio
 
 const CarouselButton = styled.button`
   position: absolute;
@@ -281,8 +277,6 @@ const ArrowIcon = styled.span`
       width: 50%;
       transform: translate(50%,-50%);
       padding: 0 6.25%;
-      font-family: futura-pt, sans-serif;
-      box-sizing: border-box;
     }
   `};
 
@@ -296,19 +290,8 @@ const ArrowIcon = styled.span`
       width: 25%;
       transform: translate(-50%,-50%);
       padding: 0 12.5%;
-      font-family: futura-pt, sans-serif;
     }
   `};
-`;
-
-const Close = styled(CloseButton)`
- */ font-size: 1em; */
-  top: 0.25em;
-  right: 0.25em;
-  opacity: 0.5;
-  &:hover {
-    opacity: 0.8;
-  }
 `;
 
 export default OutfitList;

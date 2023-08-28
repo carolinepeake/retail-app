@@ -1,15 +1,14 @@
 import React, { useState, useCallback } from 'react';
 import styled, { css } from 'styled-components';
-import { useGlobalContext } from '../../../contexts/GlobalStore';
+import PropTypes from 'prop-types';
+// import { useGlobalContext } from '../../../contexts/GlobalStore';
 import Card from './Card';
 import ComparisonModal from './ComparisonModal';
-import StarButton from './StarButton';
 
-function CardsList() {
+function CardsList({
+  productList,
+}) {
   console.log('[CardsList] is running');
-  const {
-    productList,
-  } = useGlobalContext();
 
   const [translate, setTranslate] = useState(0);
   const [index, setIndex] = useState(0);
@@ -49,7 +48,6 @@ function CardsList() {
 
   return (
     <>
-
       <CarouselContainer>
 
         <CarouselContent
@@ -58,31 +56,21 @@ function CardsList() {
           index={index}
         >
 
-          {productList.length === 0
-            ? <Text>No related items</Text>
-
-            : productList.map((product, i) => (
-              <CardContainer
-                className="carousel-item"
-                index={index}
-                key={product.productID}
-                length={productList.length}
+          {productList.map((product, i) => (
+            <CardContainer
+              key={product.productID}
+              length={productList.length}
+            >
+              <Card
+                product={product}
+                setTranslate={setTranslate}
+                setIndex={setIndex}
+                onClickRightButton={setModal}
                 i={i}
-              >
-                <Card
-                  className="carousel-card"
-                  product={product}
-                // index={index}
-                  setTranslate={setTranslate}
-                  setIndex={setIndex}
-                >
-                  <StarButton
-                    setModal={setModal}
-                    i={i}
-                  />
-                </Card>
-              </CardContainer>
-            ))}
+                icon="star"
+              />
+            </CardContainer>
+          ))}
 
         </CarouselContent>
 
@@ -109,11 +97,10 @@ function CardsList() {
       && (
         <ModalBackground
           id="CompareProductsBackground"
-          onClick={(e) => handleBackgroundClick(e)}
+          onClick={handleBackgroundClick}
         >
           <ComparisonModal
             onClick={(e) => { e.stopPropagation(); }}
-            // details={product?.productInfo}
             details={productList[modal].productInfo}
             closeModal={closeModal}
           />
@@ -123,6 +110,36 @@ function CardsList() {
     </>
   );
 }
+
+CardsList.propTypes = {
+  productList: PropTypes.arrayOf(
+    PropTypes.shape({
+      productID: PropTypes.number,
+      productInfo: PropTypes.shape({
+        name: PropTypes.string,
+        category: PropTypes.string,
+        default_price: PropTypes.string,
+      }),
+      selectedStyle: PropTypes.shape({
+        style_id: PropTypes.number,
+        name: PropTypes.string,
+        original_price: PropTypes.string,
+        sale_price: PropTypes.string,
+        'default?': PropTypes.bool,
+        photos: PropTypes.arrayOf(
+          PropTypes.shape({
+            thumbnail_url: PropTypes.string,
+            url: PropTypes.string,
+          }),
+        ),
+        skus: PropTypes.shape({
+          quantity: PropTypes.number,
+          size: PropTypes.string,
+        }),
+      }),
+    }),
+  ).isRequired,
+};
 
 const CarouselContainer = styled.div`
   position: relative;
@@ -184,18 +201,10 @@ const CardContainer = styled.div`
   width: calc(100% / ${(props) => props.length});
   padding-right: 2.5vw;
   padding-left: 2.5vw;
-  box-sizing: border-box;
-  height: 100%;
-  aspect-ratio: 4/6;
   @media (min-width: 900px) {
     padding-right: 1.25vw;
     padding-left: 1.25vw;
   };
-`;
-
-const Text = styled.div`
-  font-size: 2rem;
-  font-width: bold;
 `;
 
 const CarouselButton = styled.button`
@@ -224,6 +233,14 @@ const CarouselButton = styled.button`
     font-size: 1.17em;
   };
 `;
+
+// box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+//   /* left: calc(2.5% - 0.5em); */
+//   opacity: 1.0;
+//   border-radius: 3px;
+//   border: 1px lightgrey solid;
+//   left: calc(2.5% + 0.25em);
+//   /* left: calc(5% + 4px); */
 
 const RightButton = styled(CarouselButton)`
   right: 0;
@@ -256,6 +273,7 @@ const RightButton = styled(CarouselButton)`
 
 const LeftButton = styled(CarouselButton)`
   left: 5%;
+ /* left: calc(2.5% + 0.25em); */
   display: ${(props) => (props.hidePrev ? 'none' : 'block')};
   @media (min-width: 900px) {
     left: 2.5%;
@@ -279,8 +297,6 @@ const ArrowIcon = styled.span`
       width: 50%;
       transform: translate(50%,-50%);
       padding: 0 6.25%;
-      font-family: futura-pt, sans-serif;
-      box-sizing: border-box;
     }
   `};
 
@@ -294,7 +310,6 @@ const ArrowIcon = styled.span`
       width: 25%;
       transform: translate(-50%,-50%);
       padding: 0 12.5%;
-      font-family: futura-pt, sans-serif;
     }
   `};
 `;

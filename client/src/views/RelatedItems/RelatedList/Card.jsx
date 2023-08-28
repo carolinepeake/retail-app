@@ -4,10 +4,17 @@ import PropTypes from 'prop-types';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import CardImage from './CardImage';
 import Stars from './Stars';
+import StarButton from './StarButton';
 import { calcAverageRating } from '../../../utils/getAverageRating';
 
+// TODO: make "x" button appear only on hover
 function Card({
-  product, setIndex, setTranslate, children
+  product,
+  setIndex,
+  setTranslate,
+  icon,
+  onClickRightButton,
+  i,
 }) {
   console.log('[Card] is running');
   const {
@@ -32,7 +39,12 @@ function Card({
       onClick={changeItem}
     >
       <CardContent>
-        {children}
+
+        <StarButton
+          icon={icon}
+          onClickRightButton={onClickRightButton}
+          i={i}
+        />
 
         <CardImage
           imageUrl={product?.selectedStyle?.photos[0]?.thumbnail_url}
@@ -41,9 +53,21 @@ function Card({
           <Text category>{product?.productInfo?.category}</Text>
           <Text productName>{product?.productInfo?.name}</Text>
           <Text price>
-            $
-            {product?.productInfo?.default_price}
-          </Text>
+            {/* $ */}
+            {/* {product?.productInfo?.default_price} */}
+            {product?.selectedStyle?.sale_price
+              ? (
+                <>
+                  <SalePrice>
+                    {`$${product.selectedStyle.sale_price}    `}
+                  </SalePrice>
+                  <s>{product.selectedStyle?.original_price}</s>
+                </>
+              )
+              : (
+                <span>{`$${product?.selectedStyle?.original_price}`}</span>
+              )}
+            </Text>
           <Stars
             rating={rating}
           />
@@ -53,43 +77,52 @@ function Card({
   );
 }
 
-// Card.propTypes = {
-//   product: PropTypes.shape({
-//     productID: PropTypes.number,
-//     productInfo: PropTypes.shape({
-//       name: PropTypes.string,
-//       category: PropTypes.string,
-//       default_price: PropTypes.string,
-//     }),
-//     selectedStyle: PropTypes.arrayOf(
-//       PropTypes.shape({
-//         style_id: PropTypes.number,
-//         name: PropTypes.string,
-//         original_price: PropTypes.string,
-//         sale_price: PropTypes.string,
-//         'default?': PropTypes.bool,
-//         photos: PropTypes.arrayOf(
-//           thumbnail_url: PropTypes.string,
-//           url: PropTypes.string,
-//         ),
-//         skus: PropTypes.shape({
-//           PropTypes.string: PropTypes.shape({
-//             size: PropTypes.number,
-//   }).isRequired,
-// };
+Card.propTypes = {
+  product: PropTypes.shape({
+    productID: PropTypes.number,
+    productInfo: PropTypes.shape({
+      name: PropTypes.string,
+      category: PropTypes.string,
+      default_price: PropTypes.string,
+    }),
+    selectedStyle: PropTypes.shape({
+      style_id: PropTypes.number,
+      name: PropTypes.string,
+      original_price: PropTypes.string,
+      sale_price: PropTypes.string,
+      'default?': PropTypes.bool,
+      photos: PropTypes.arrayOf(
+        PropTypes.shape({
+          thumbnail_url: PropTypes.string,
+          url: PropTypes.string,
+        }),
+      ),
+      skus: PropTypes.shape({
+        quantity: PropTypes.number,
+        size: PropTypes.string,
+      }),
+    }),
+  }).isRequired,
+  setIndex: PropTypes.func.isRequired,
+  setTranslate: PropTypes.func.isRequired,
+  icon: PropTypes.string.isRequired,
+  onClickRightButton: PropTypes.func.isRequired,
+  i: PropTypes.number.isRequired,
+};
+
 
 const CardContainer = styled.div`
   position: relative;
   background-color: ${(props) => props.theme.backgroundColor};
   margin: 0 auto;
   width: 100%;
-  height: 100%;
+ /* height: 100%; */
 `;
 
 const CardContent = styled.div`
   display: flex;
   flex-direction: column;
-  border: lightgrey solid thin;
+ /* border: lightgrey solid thin; */
   justify-content: flex-end;
   height: 100%;
   position: relative;
@@ -116,22 +149,31 @@ const TextContainer = styled.div`
 `;
 
 const Text = styled.div`
-  margin-right: auto;
-  font-size: ${(props) => props.theme.tertiary};
-  padding-top: ${(props) => (props.category ? '0.1em' : props.productName ? '0.05em' : props.price ? '0.25em' : '')};
-  padding-bottom: ${(props) => props.price && '0.25em'};
   ${(props) => props.productName && css`
-    font-size: ${props.theme.body};
+    font-size: 1.17em;
     font-weight: 500;
     &:hover {
       text-decoration: underline;
     }
+    margin-top: 0.05em 0;
   `};
+
   ${(props) => props.category && css`
     &:hover {
       text-decoration: underline;
     }
+    margin-top: 0.1em;
   `};
+
+  ${(props) => props.price && css`
+    margin: 0.25em 0;
+  `};
+
+  margin-right: auto;
+`;
+
+const SalePrice = styled.span`
+  color: ${(props) => props.theme.formError};
 `;
 
 export default Card;
