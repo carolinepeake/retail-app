@@ -8,6 +8,8 @@ import LinksList from './LinksList';
 // TO-DO: add scroll event listener for nav sections
 // TO-DO: add animation to make expanding nav smooth
 // TO-DO: collapse nav when click away
+// TODO: make search RightIcon width 2em instead of 2.5em
+// & search input padding 0.5em instead of 0.75em
 
 function NavBar({ toggleTheme }) {
   console.log('[NavBar] is running');
@@ -33,6 +35,18 @@ function NavBar({ toggleTheme }) {
     }
   }
 
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleChange = (e) => {
+    const term = e.target.value.toLowerCase();
+    setSearchTerm(term);
+  };
+
+  const handleClickIcon = () => {
+    toggleSearchBarVisibility();
+    setSearchTerm('');
+  };
+
   return (
     <Background id="navbar" searchClosed={searchClosed}>
 
@@ -44,7 +58,11 @@ function NavBar({ toggleTheme }) {
         <Search
           placeholder="Search..."
           searchClosed={searchClosed}
-          handleSearch={toggleSearchBarVisibility}
+          // handleClickIcon={toggleSearchBarVisibility}
+          handleClickIcon={handleClickIcon}
+          searchTerm={searchTerm}
+          handleChange={handleChange}
+          nav
         />
 
         <CollapsedNav
@@ -90,6 +108,7 @@ const Background = styled.div`
   top: 0;
   background-color: ${(props) => props.theme.navBgColor};
  /*  background-color: ${(props) => props.theme.blue[0]}; */
+  background-color: ${(props) => props.theme.backgroundColor};
   color: ${(props) => props.theme.navFontColor};
  /* color: ${(props) => props.theme.blue[4]}; or 5 */
   background-size: 100% 100%;
@@ -99,13 +118,18 @@ const Background = styled.div`
   justify-content: space-between;
   align-content: center;
   align-items: center;
-  font-weight: 700;
+ /* font-weight: 700; */
+  font-weight: 600;
   font-stretch: ultra-condensed;
-  font-size: clamp(0.875rem, calc(0.5rem + 0.75vw), 1.25rem);
+ /* font-size: clamp(0.875rem, calc(0.5rem + 0.75vw), 1.25rem); */
   padding: 0.5em 5%;
+  /* padding: 0 5%; */
 
   @media (min-width: 50rem) {
-    padding: 0.75em 2.5%;
+   /* padding: 0.75em 2.5%; */
+   /* padding: 0 2.5%; */
+    padding-right: 2.5%;
+    padding-left: 2.5%;
     flex-wrap: ${(props) => (props.searchClosed ? 'nowrap' : 'wrap')};
   }
 
@@ -114,7 +138,8 @@ const Background = styled.div`
   }
 
   @media (min-width: 62rem) {
-    padding: 0.75em 5%;
+ /*   padding: 0.75em 5%; */
+    padding: 0 5%;
   }
 `;
 
@@ -137,8 +162,8 @@ const Logo = styled(Button)`
   padding: 0px calc(4px + 0.25vw);
 
   @media (min-width: 900px) {
-    padding: calc(1px + 0.5vw) calc(4px + 0.5vw);
-    font-size: calc(10px + 1.2vw);
+  /*  padding: calc(1px + 0.5vw) calc(4px + 0.5vw);
+    font-size: calc(10px + 1.2vw); */
   }
 `;
 

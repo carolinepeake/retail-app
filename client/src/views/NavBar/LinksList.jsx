@@ -43,11 +43,14 @@ LinksList.propTypes = {
 };
 
 const GridItem = styled.a`
-  font-family: futura-pt, sans-serif;
+ /* font-family: futura-pt, sans-serif; */
   font-style: normal;
-  font-weight: 700;
+ /* font-weight: 700; */
+  font-weight: 600;
   font-stretch: ultra-condensed;
-  font-size: clamp(0.875rem, calc(0.5rem + 0.75vw), 1.25rem);
+  /* font-size: clamp(0.875rem, calc(0.5rem + 0.75vw), 1.25rem); */
+  font-size: ${(props) => props.theme.body};
+  font-size: ${(props) => props.theme.input};
   display: flex;
   align-items: center;
   justify-content: space-evenly;
@@ -73,7 +76,7 @@ const GridItem = styled.a`
       display: none;
     ${(props) => props.secondary && css`
       display: ${props.isExpanded ? 'block' : 'none'};
-      font-size: calc(0.625em + 1vw);
+   /*   font-size: calc(0.625em + 1vw); */
       border-bottom: grey solid 1px;
       padding: 1em;
       width: 100%;
