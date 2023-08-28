@@ -21,7 +21,9 @@ export default function ScrollButton({
       $background={background}
       $overlay={overlay}
     >
-      <ArrowBackground />
+      <ArrowBackground
+        $background={background}
+      />
       <ArrowIcon
         $position={position}
       />
@@ -52,16 +54,18 @@ const Buttons = styled.button`
   position: absolute;
   z-index: 3;
   background-color: ${(props) => props.theme.navBgColor};
+  background-color: ${(props) => props.theme.backgroundColor};
   color: ${(props) => props.theme.fontColor};
   padding: 0;
   border: none;
   line-height: 1;
-  font-size: 1em;
+  font-size: 1.17em;
   aspect-ratio: 1;
 
   ${(props) => props.$overlay && css`
     align-self: center;
-    opacity: 0.8;
+   /* opacity: 0.8; */
+    background-color: rgba(255,255,255,0.4);
     font-weight: 500;
     height: 2em;
     top: 50%;
@@ -80,7 +84,7 @@ const Buttons = styled.button`
   `};
 
   @media (min-width: 700px) {
-    font-size: 1.17em;
+    font-size: 1.25em;
   }
 
   @media (min-width: 900px) {
@@ -111,7 +115,10 @@ const ArrowBackground = styled.span`
   aspect-ratio: 1;
   display: flex;
   position: relative;
-  height: ${(props) => props.$background && '100%'};
+  ${(props) => props.$background && css`
+    height: 100%;
+  `};
+/*  height: ${(props) => props.$background && '100%'}; */
 `;
 
 const ArrowIcon = styled.span`
@@ -120,6 +127,7 @@ const ArrowIcon = styled.span`
     height: 100%;
     position: absolute;
   `};
+
   &::before {
     position: absolute;
    /* font-family: futura-pt, sans-serif; */
@@ -132,6 +140,9 @@ const ArrowIcon = styled.span`
       padding: 0 6.25%;
       top: 50%;
       height: 50%;
+      /* position: relative;
+      top: -75%;
+      right: 18.75%; */
     `};
 
     ${(props) => props.$position === 'right' && css`
