@@ -21,21 +21,20 @@ CardImage.defaultProps = {
 };
 
 const Outline = styled.div`
-  position: relative;
-  height: 100%;
+  /* height: 100%; */
+  aspect-ratio: 4/5;
+  overflow: hidden;
 `;
 
 const ImageCard = styled.img`
-  position: relative;
-  margin-left: auto;
-  margin-right: auto;
   width: 100%;
+  height: 100%;
   object-fit: cover;
+  cursor: pointer;
+
   &:hover {
     opacity: 0.80;
   }
-  cursor: pointer;
-  height: 100%;
 `;
 
 export default CardImage;
