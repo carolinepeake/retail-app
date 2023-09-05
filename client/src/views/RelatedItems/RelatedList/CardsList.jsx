@@ -13,37 +13,43 @@ function CardsList({
   const [translate, setTranslate] = useState(0);
   const [index, setIndex] = useState(0);
 
-  const [hidePrev, setHidePrev] = useState(true);
-  const [hideNext, setHideNext] = useState(false);
+  // const [hidePrev, setHidePrev] = useState(true);
+  // const [hideNext, setHideNext] = useState(false);
 
   const handlePrev = () => {
-    setHideNext(false);
+    // setHideNext(false);
     const transform = -100 / productList.length;
     setTranslate(transform);
-    if (index === 1) {
-      setHidePrev(true);
-    }
+    // if (index === 1) {
+    //   setHidePrev(true);
+    // }
     setIndex((prev) => prev - 1);
   };
 
   const handleNext = () => {
-    setHidePrev(false);
+    // setHidePrev(false);
     const transform = -100 / productList.length;
     setTranslate(transform);
     setIndex((prev) => prev + 1);
   };
 
-  const [modal, setModal] = useState(null);
+  const [compProdIdx, setCompProdIdx] = useState(null);
 
+  // useCallback might be unnecessary here
   const closeModal = useCallback(() => {
-    setModal(null);
-  }, [setModal]);
+    setCompProdIdx(null);
+  }, [setCompProdIdx]);
 
   const handleBackgroundClick = (event) => {
     if (event.target.id === 'CompareProductsBackground') {
       closeModal();
     }
     event.stopPropagation();
+  };
+
+  const resetCarousel = () => {
+    setIndex(0);
+    setTranslate(0);
   };
 
   return (
@@ -56,34 +62,31 @@ function CardsList({
           index={index}
         >
 
-          {productList.map((product, i) => (
-            <CardContainer
+          {productList.map((product, idx) => (
+            <Card
               key={product.productID}
               length={productList.length}
-            >
-              <Card
-                product={product}
-                setTranslate={setTranslate}
-                setIndex={setIndex}
-                onClickRightButton={setModal}
-                i={i}
-                icon="star"
-              />
-            </CardContainer>
+              product={product}
+              onClickRightButton={setCompProdIdx}
+              idx={idx}
+              compProdIdx={compProdIdx}
+              icon="star"
+              onChangeProd={resetCarousel}
+            />
           ))}
 
         </CarouselContent>
 
         <LeftButton
           onClick={handlePrev}
-          hidePrev={hidePrev}
+          // hidePrev={hidePrev}
         >
           <ArrowBackground />
           <ArrowIcon prev />
         </LeftButton>
         <RightButton
           onClick={handleNext}
-          hideNext={hideNext}
+          // hideNext={hideNext}
           length={productList.length}
           index={index}
         >
@@ -93,19 +96,19 @@ function CardsList({
 
       </CarouselContainer>
 
-      {typeof modal === 'number'
+      {/* {typeof compProdIdx === 'number'
       && (
         <ModalBackground
           id="CompareProductsBackground"
           onClick={handleBackgroundClick}
         >
           <ComparisonModal
-            onClick={(e) => { e.stopPropagation(); }}
-            details={productList[modal].productInfo}
+            // onClick={(e) => { e.stopPropagation(); }}
+            details={productList[compProdIdx].productInfo}
             closeModal={closeModal}
           />
         </ModalBackground>
-      )}
+      )} */}
 
     </>
   );
@@ -147,6 +150,7 @@ const CarouselContainer = styled.div`
   padding-left: 2.5%;
   margin-right: 5%;
   overflow: hidden;
+
   @media (min-width: 900px) {
     margin-left: 2.5%;
     padding-left: 1.25%;
@@ -158,7 +162,6 @@ const CarouselContent = styled.div`
   display: flex;
   transform: ${(props) => ((props.length - (1 * props.index) < 1) ? `translateX(calc(${props.translate}% * ${props.index - 1} * 1 + (${props.translate}% * (${props.length % 1}))))` : `translateX(calc(${props.translate}% * ${props.index} * 1))`)};
   transition: transform 0.4s;
-
   width: calc((100% + 2.5vw) / 1 * ${(props) => props.length});
 
   @media (min-width: 21.875em) {
@@ -195,18 +198,6 @@ const CarouselContent = styled.div`
   }
 `;
 
-// TO-DO: implement scroll for mobile
-const CardContainer = styled.div`
-  margin: 0;
-  width: calc(100% / ${(props) => props.length});
-  padding-right: 2.5vw;
-  padding-left: 2.5vw;
-  @media (min-width: 900px) {
-    padding-right: 1.25vw;
-    padding-left: 1.25vw;
-  };
-`;
-
 const CarouselButton = styled.button`
   position: absolute;
   align-self: center;
@@ -233,7 +224,6 @@ const CarouselButton = styled.button`
     font-size: 1.17em;
   };
 `;
-
 // box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 //   /* left: calc(2.5% - 0.5em); */
 //   opacity: 1.0;

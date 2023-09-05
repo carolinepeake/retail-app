@@ -4,21 +4,21 @@ import { useGlobalContext } from '../../../contexts/GlobalStore';
 import Card from '../RelatedList/Card';
 import AddOutfit from './AddOutfit';
 
-// TODO: remove useEffect with outfits.length dependency
-
 function OutfitList() {
-  console.log('[OutfitList] is running');
   const {
-    outfits, setOutfits,
+    productID, productInfo, revMeta, selectedStyle,
   } = useGlobalContext();
+  console.log('[OutfitList] is running');
+
+  const [outfits, setOutfits] = useState([]);
 
   const [translate, setTranslate] = useState(100 / outfits.length);
   const [index, setIndex] = useState(0);
 
-  useEffect(() => {
-    const updatedTransform = -100 / (outfits.length + 1);
-    setTranslate(updatedTransform);
-  }, [outfits.length]);
+  // useEffect(() => {
+  //   const updatedTransform = -100 / (outfits.length + 1);
+  //   setTranslate(updatedTransform);
+  // }, [outfits.length]);
 
   const handlePrev = () => {
     const transform = -100 / (outfits.length + 1);
@@ -35,12 +35,39 @@ function OutfitList() {
   const removeOutfit = (i) => {
     // moving index used for translation back 1 if currently at end of list
     // event.stopPropagation();
+    const updatedTransform = -100 / outfits.length;
+    setTranslate(updatedTransform);
+
     if (index === outfits.length) {
       setIndex((prev) => prev - 1);
     }
+
     const tempArray = [...outfits];
     tempArray.splice(i, 1);
     setOutfits(tempArray);
+  };
+
+  const handleAddOutfit = () => {
+    for (let i = 0; i < outfits.length; i += 1) {
+      if (outfits[i].productID === productID) {
+        return;
+      }
+    }
+
+    const scrollAfterAdding = () => {
+      const updatedTransform = -100 / (outfits.length + 2);
+      setTranslate(updatedTransform);
+      setIndex((prev) => prev + 1);
+    };
+    scrollAfterAdding();
+
+    const outfit = {
+      productID,
+      productInfo,
+      revMeta,
+      selectedStyle,
+    };
+    setOutfits((prev) => [...prev, outfit]);
   };
 
   return (
@@ -51,32 +78,26 @@ function OutfitList() {
         length={outfits.length + 1}
         index={index}
       >
-        {outfits.map((product, i) => (
-          <CardContainer
-            index={index}
+        {outfits.map((product, idx) => (
+          <Card
             key={product.productID}
             length={outfits.length + 1}
-          >
-            <Card
-              index={index}
-              product={product}
-              key={product.productID}
-              setIndex={setIndex}
-              setTranslate={setTranslate}
-              i={i}
-              onClickRightButton={removeOutfit}
-              icon="remove"
-            >
-            </Card>
-          </CardContainer>
+            idx={idx}
+            product={product}
+            onClickRightButton={removeOutfit}
+            icon="remove"
+            outfits={outfits}
+          />
         ))}
 
-        <CardContainer
-          index={index}
-          length={outfits?.length + 1}
-        >
-          <AddOutfit setIndex={setIndex} />
-        </CardContainer>
+        {/* <CardContainer
+          length={outfits.length + 1}
+        > */}
+          <AddOutfit
+            length={outfits.length + 1}
+            handleAddOutfit={handleAddOutfit}
+          />
+        {/* </CardContainer> */}
 
       </CarouselContent>
 
@@ -85,15 +106,15 @@ function OutfitList() {
         index={index}
       >
         <ArrowBackground />
-        <ArrowIcon prev />
+        <ArrowIcon $prev />
       </LeftButton>
       <RightButton
         onClick={handleNext}
-        length={outfits?.length + 1}
+        length={outfits.length + 1}
         index={index}
       >
         <ArrowBackground />
-        <ArrowIcon next />
+        <ArrowIcon $next />
       </RightButton>
 
     </CarouselContainer>
@@ -107,6 +128,7 @@ const CarouselContainer = styled.div`
   padding-left: 2.5%;
   margin-right: 5%;
   overflow: hidden;
+
   @media (min-width: 900px) {
     margin-left: 2.5%;
     padding-left: 1.25%;
@@ -267,7 +289,7 @@ const ArrowBackground = styled.span`
 `;
 
 const ArrowIcon = styled.span`
-  ${(props) => props.prev && css`
+  ${(props) => props.$prev && css`
     &::before {
       content: '〈';
       right: 75%;
@@ -280,7 +302,7 @@ const ArrowIcon = styled.span`
     }
   `};
 
-  ${(props) => props.next && css`
+  ${(props) => props.$next && css`
     &::before {
       content: ' 〉';
       left: 50%;

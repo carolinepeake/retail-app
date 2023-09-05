@@ -4,17 +4,19 @@ import PropTypes from 'prop-types';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import CardImage from './CardImage';
 import Stars from './Stars';
-import StarButton from './StarButton';
+import CardButton from './CardButton';
 import { calcAverageRating } from '../../../utils/getAverageRating';
 
 // TODO: make "x" button appear only on hover
 function Card({
   product,
-  setIndex,
-  setTranslate,
   icon,
   onClickRightButton,
-  i,
+  idx,
+  onChangeProd,
+  compProdIdx,
+  outfits,
+  length,
 }) {
   console.log('[Card] is running');
   const {
@@ -26,24 +28,34 @@ function Card({
   // and use this type of function declaration/definition (understand which type it is)
   // https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-no-bind.md
 
+  // might not want to rest outfit list carousel
   const changeItem = () => {
     setProductID(product?.productID);
-    setIndex(0);
-    setTranslate(0);
+    onChangeProd && onChangeProd();
+  };
+
+  // useCallback?
+  const handleClickIconBtn = (e) => {
+    e.stopPropagation();
+    onClickRightButton(idx)
   };
 
   const rating = calcAverageRating(product?.revMeta?.ratings);
 
   return (
-    <CardContainer
+  <CardContainer
+    // length={outfits?.length + 1}
+    length={length}
+  >
+    <StyledCard
       onClick={changeItem}
     >
       <CardContent>
 
-        <StarButton
+        <CardButton
           icon={icon}
-          onClickRightButton={onClickRightButton}
-          i={i}
+          handleClickIconBtn={handleClickIconBtn}
+          active={idx === compProdIdx}
         />
 
         <CardImage
@@ -73,7 +85,8 @@ function Card({
           />
         </TextContainer>
       </CardContent>
-    </CardContainer>
+      </StyledCard>
+  </CardContainer>
   );
 }
 
@@ -103,15 +116,34 @@ Card.propTypes = {
       }),
     }),
   }).isRequired,
-  setIndex: PropTypes.func.isRequired,
-  setTranslate: PropTypes.func.isRequired,
+  onChangeProd: PropTypes.func.isRequired,
   icon: PropTypes.string.isRequired,
   onClickRightButton: PropTypes.func.isRequired,
-  i: PropTypes.number.isRequired,
+  idx: PropTypes.number.isRequired,
+  compProdIdx: PropTypes.number,
 };
 
+Card.defaultProps = {
+  compProdIdx: null,
+};
 
+// TO-DO: implement scroll for mobile
 const CardContainer = styled.div`
+  margin: 0;
+  width: calc(100% / ${(props) => props.length});
+  padding-right: 2.5vw;
+  padding-left: 2.5vw;
+  /* height: 100%;
+  aspect-ratio: 4/6; */
+  @media (min-width: 900px) {
+    padding-right: 1.25vw;
+    padding-left: 1.25vw;
+  };
+`;
+// width: 100%
+// no aspect ratio
+
+const StyledCard = styled.div`
   position: relative;
   background-color: ${(props) => props.theme.backgroundColor};
   margin: 0 auto;
