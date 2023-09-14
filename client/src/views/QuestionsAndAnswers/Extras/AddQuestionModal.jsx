@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import axios from 'axios';
 import Modal from '../../../components/Modal';
-import { Button } from '../../../components/Buttons';
+import { Button, CloseButton } from '../../../components/Buttons';
 import CharacterCount from '../../../components/Form/CharacterCount';
+import Header from '../../../components/Form/Header';
+// import RequiredDisclaimer from '../../../components/Form/RequiredDisclaimer';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 
 // TODO: extract form inputs, form layout, and modal css components
@@ -13,7 +15,7 @@ import { useGlobalContext } from '../../../contexts/GlobalStore';
 function AddQuestionModal({ toggleModal }) {
   console.log('[AddQuestionModal] is running');
 
-  const { productID, productInfo } = useGlobalContext();
+  const { productID, productInfo, selectedStyle } = useGlobalContext();
 
   const initialFormState = {
     product_id: productID,
@@ -75,67 +77,96 @@ function AddQuestionModal({ toggleModal }) {
       closeModal={closeModal}
     >
       <form onSubmit={askQuestion}>
-        <h2>Ask a Question</h2>
-        <h1>
-          {productInfo.name}
-        </h1>
-        <StyledLabel htmlFor="body">
-          Question *
-        </StyledLabel>
-        <StyledTextArea
-          onChange={handleInputChange}
-          rows="6"
-          maxLength="1000"
-          placeholder="Ask your question"
-          value={formState.body}
-          name="body"
-          id="body"
-          as="textarea"
+        <Header
+          closeModal={closeModal}
+          title="Ask a Question"
+          product={productInfo.name}
         />
-        <CharacterCount
-          characterLimit={1000}
-          charactersUsed={formState.body.length}
-        />
-        <br />
-        <StyledLabel htmlFor="name">
-          Username *
-        </StyledLabel>
-        <StyledInput
-          onChange={handleInputChange}
-          maxLength="60"
-          type="text"
-          id="name"
-          name="name"
-          placeholder="Example: jackson11!"
-          value={formState.name}
-        />
-        <Disclaimer>
-          For privacy reasons, do not use your full name or email
-          address.
-        </Disclaimer>
-        <br />
-        <StyledLabel htmlFor="email">
-          Email *
-        </StyledLabel>
-        <StyledInput
-          onChange={handleInputChange}
-          maxLength="60"
-          type="email"
-          id="email"
-          name="email"
-          placeholder="jack@email.com"
-          value={formState.email}
-        />
-        <Disclaimer>
-          For authentication reasons, you will not be emailed.
-        </Disclaimer>
-        <br />
-        {!validInput ? (
-          <Disclaimer>
-            <div>1. Not all fields have been provided.</div>
-            <div>2. Email is not in the correct email format.</div>
-          </Disclaimer>
-        ) : null}
+        {/* <Header>
+          <ModalTitle>
+            <span>
+              Ask a Question
+            </span>
+            <ExitModal
+              $square
+              onClick={closeModal}
+            >
+              &#x2715;
+            </ExitModal>
+          </ModalTitle>
+          <ProductName>
+            {productInfo.name}
+          </ProductName>
+          <RequiredDisclaimer />
+        </Header> */}
+
+        <Body>
+          <Field>
+            <StyledLabel htmlFor="body">
+              Question *
+            </StyledLabel>
+            <StyledTextArea
+              onChange={handleInputChange}
+              rows="6"
+              maxLength="1000"
+              placeholder="Ask your question"
+              value={formState.body}
+              name="body"
+              id="body"
+              as="textarea"
+            />
+            <CharacterCount
+              characterLimit={1000}
+              charactersUsed={formState.body.length}
+            />
+          </Field>
+
+          <Field>
+            <StyledLabel htmlFor="name">
+              Username *
+            </StyledLabel>
+            <StyledInput
+              onChange={handleInputChange}
+              maxLength="60"
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Example: jackson11!"
+              value={formState.name}
+            />
+            <Disclaimer>
+              For privacy reasons, do not use your full name or email
+              address.
+            </Disclaimer>
+          </Field>
+
+          <Field>
+            <StyledLabel htmlFor="email">
+              Email *
+            </StyledLabel>
+            <StyledInput
+              onChange={handleInputChange}
+              maxLength="60"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Example: jack@email.com"
+              value={formState.email}
+            />
+            <Disclaimer>
+              For authentication reasons, you will not be emailed.
+            </Disclaimer>
+          </Field>
+
+          {!validInput ? (
+            <Disclaimer>
+              <Error>1. Not all fields have been provided.</Error>
+              <Error>2. Email is not in the correct email format.</Error>
+            </Disclaimer>
+          ) : null}
+
+        </Body>
+
         <Footer>
           <FooterButton
             $primary
@@ -160,6 +191,32 @@ function AddQuestionModal({ toggleModal }) {
 AddQuestionModal.propTypes = {
   toggleModal: PropTypes.func.isRequired,
 };
+
+// const Header = styled.div``;
+
+const ExitModal = styled(CloseButton)`
+  right: -0.25em;
+  top: -0.25em;
+  font-size: 1em;
+  line-height: 1em;
+`;
+
+const Body = styled.div``;
+
+const ModalTitle = styled.h2`
+  line-height: 1.5em;
+  line-height: 1em;
+  position: relative;
+  height: auto;
+`;
+
+const ProductName = styled.h1`
+  margin: default;
+`;
+
+const Field = styled.div`
+  margin: 1.5em 0;
+`;
 
 const StyledLabel = styled.label`
   font-size: ${(props) => props.theme.body};
@@ -207,30 +264,37 @@ const StyledTextArea = styled(StyledInput)`
 const Footer = styled.div`
   display: flex;
   flex-direction: column;
-  padding-top: 1.5em;
+  padding-top: 0;
+  margin-top: 2.5em;
   row-gap: 1em;
   width: 100%;
+  margin-bottom: 3em;
 
-  @media (min-width: 600px) {
+  @media (min-width: 40rem) {
     flex-direction: row;
     column-gap: 2rem;
     justify-content: space-evenly;
     align-items: center;
+    margin-bottom: 1em;
   }
 `;
 
 const FooterButton = styled(Button)`
   flex: 1;
-  margin: 0.5rem 0;
+  margin: 0;
 
-  @media (min-width: 600px) {
-    margin: 0;
+  @media (min-width: 40rem) {
+    margin: 0.5rem 0;
   }
 `;
 
 const Disclaimer = styled.h5`
   font-style: oblique;
   padding-top: 0;
+`;
+
+const Error = styled.div`
+  color: ${(props) => props.theme.formError};
 `;
 
 export default AddQuestionModal;

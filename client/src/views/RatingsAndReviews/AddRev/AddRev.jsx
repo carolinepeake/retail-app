@@ -7,6 +7,8 @@ import Characteristics from './Characteristics';
 import AddPhotos from '../../../components/Form/AddPhotos';
 import Modal from '../../../components/Modal';
 import CharacterCount from '../../../components/Form/CharacterCount';
+// import RequiredDisclaimer from '../../../components/Form/RequiredDisclaimer';
+import Header from '../../../components/Form/Header';
 import useForm from '../../../hooks/useForm';
 import useModal from '../../../hooks/useModal';
 import { CHARACTERISTICS, RATING } from '../../../constants/constants';
@@ -21,7 +23,7 @@ function AddRev({
   } = useGlobalContext();
 
   const [showSubmittedModal, toggleSubmittedModal] = useModal();
-  const [submittedMessage, setSubmittedMessage] = useState('');
+  const [submittedMessage, setSubmittedMessage] = useState('Review Submitted Successfully');
   const closeSubmittedModal = () => {
     toggleSubmittedModal();
     toggleModal();
@@ -108,10 +110,17 @@ function AddRev({
         ? (
           <form onSubmit={handleSubmit}>
 
-            <h2>Write a Review</h2>
+            {/* <h2>Write a Review</h2>
             <h1>
               {productInfo.name}
             </h1>
+            <RequiredDisclaimer /> */}
+
+            <Header
+              title="Write a Review"
+              product={productInfo.name}
+              closeModal={closeModal}
+            />
 
             <RecommendProdLabel>
               Overall Rating *
@@ -170,16 +179,27 @@ function AddRev({
 
             <br />
 
-            {Object.keys(revMeta.characteristics).map((name) => (
-              <Characteristics
-                key={`radio${name}`}
-                id={name.id}
-                title={name}
-                characteristic={CHARACTERISTICS[name]}
-                handleInputChange={handleInputChange}
-                inputState={formState.characteristics}
-              />
-            ))}
+
+            <fieldset>
+
+              <legend>Product Characteristics</legend>
+
+              <div>
+
+                {Object.keys(revMeta.characteristics).map((name) => (
+                  <Characteristics
+                    key={`radio${name}`}
+                    id={name.id}
+                    title={name}
+                    characteristic={CHARACTERISTICS[name]}
+                    handleInputChange={handleInputChange}
+                    inputState={formState.characteristics}
+                  />
+                ))}
+
+              </div>
+
+            </fieldset>
 
             <StyledLabel label="summary">
               Review Summary
@@ -282,7 +302,7 @@ function AddRev({
           </form>
         )
         : (
-          <>
+          <div>
             <div>
               {submittedMessage}
             </div>
@@ -295,7 +315,7 @@ function AddRev({
                 Close
               </ButtonDiv>
             </ButtonContainer>
-          </>
+          </div>
           // <SubmittedModal
           //   submittedMessage={submittedMessage}
           //   closeSubmittedModal={closeSubmittedModal}

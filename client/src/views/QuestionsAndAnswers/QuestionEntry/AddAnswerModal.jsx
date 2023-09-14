@@ -6,6 +6,8 @@ import { Button } from '../../../components/Buttons';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import AddPhotos from '../../../components/Form/AddPhotos';
 import CharacterCount from '../../../components/Form/CharacterCount';
+import Header from '../../../components/Form/Header';
+// import RequiredDisclaimer from '../../../components/Form/RequiredDisclaimer';
 import Modal from '../../../components/Modal';
 import useForm from '../../../hooks/useForm';
 
@@ -65,12 +67,18 @@ function AddAnswerModal({
         id="form"
         onSubmit={handleSubmit}
       >
-        <h2>
+        <Header
+          title="Submit Your Answer"
+          product={`${productInfo.name}: ${questionBody}`}
+          closeModal={closeModal}
+        />
+        {/* <h2>
           Submit Your Answer
         </h2>
         <h1>
           {`${productInfo.name} : ${questionBody}`}
         </h1>
+        <RequiredDisclaimer /> */}
 
         <StyledLabel htmlFor="body">
           Answer *
