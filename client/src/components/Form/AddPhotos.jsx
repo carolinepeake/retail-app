@@ -150,7 +150,7 @@ function AddPhotos({
 
   return (
     <>
-      {photos.length < 5
+      {photos.length < 6
       && (
       <StyledLabel htmlFor="photos">
         Upload Your Photos
@@ -167,7 +167,7 @@ function AddPhotos({
         />
 
         <Disclaimer>
-          You may add up to 5 images at 2MB max per image.
+          You may add up to 6 images at 2MB max per image.
         </Disclaimer>
 
         {error && errorMessage}
@@ -216,7 +216,7 @@ const StyledLabel = styled.label`
 
 const Disclaimer = styled.h5`
   font-style: oblique;
-  padding-top: 0.25em;
+/*  padding-top: 0.25em; */
 `;
 
 const Error = styled(Disclaimer)`
@@ -235,6 +235,8 @@ const FileInput = styled.input`
   color: ${(props) => (props.$fileSelected ? props.theme.fontColor : props.theme.inputPlaceholder)};
   background-color: ${(props) => props.theme.backgroundColor};
 
+  border: ${(props) => props.theme.submitButton} solid thin;
+
   ::file-selector-button {
     color: ${(props) => props.theme.fontColor};
     background-color: ${(props) => props.theme.submitButton};
@@ -245,6 +247,22 @@ const FileInput = styled.input`
     border: none;
     border-radius: 3px;
     border: ${(props) => props.theme.submitButton} solid thin;
+
+    apperance: none;
+
+    &::after {
+      height: 2em;
+      padding: 0.5em;
+      width: 2em;
+      line-height: 1em;
+      font-size: 1em;
+      content: 'X';
+      margin-right: 1em;
+      border-radius: inherit;
+      font-weight: 500;
+      border: none;
+      background: ${(props) => props.theme.submitButton};
+    }
 
     &:hover {
       color: ${(props) => props.theme.submitButtonHoverFont};
@@ -278,10 +296,25 @@ const Progress = styled.div`
 `;
 
 const PhotoPreviews = styled.div`
-  display: flex;
+ /* display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-items: flex-start;
   margin-top: 1.0em;
-  gap: 1.0em;
+  gap: 1.0em; */
+
+  margin: 2em 0.25em;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2em;
+
+  @media (min-width: 350px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (min-width: 450px) {
+    gap: 2.5em;
+  }
+
+
 `;
