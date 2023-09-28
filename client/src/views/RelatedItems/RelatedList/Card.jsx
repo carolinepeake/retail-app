@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
@@ -7,7 +7,7 @@ import Stars from './Stars';
 import CardButton from './CardButton';
 import { calcAverageRating } from '../../../utils/getAverageRating';
 
-// TODO: make "x" button appear only on hover
+// TODO: make "x" button appear only on hover & fade in - maybe use CSS instead of state
 function Card({
   product,
   icon,
@@ -30,7 +30,7 @@ function Card({
 
   // might not want to rest outfit list carousel
   const changeItem = () => {
-    setProductID(product?.productID);
+    setProductID(product.productID);
     onChangeProd && onChangeProd();
   };
 
@@ -42,15 +42,38 @@ function Card({
 
   const rating = calcAverageRating(product?.revMeta?.ratings);
 
+  const [hoverCard, setHoverCard] = useState(false);
+
+  const handleMouseEnter = () => {
+    setHoverCard(true);
+    console.log('hndling enyer');
+  };
+
+  const handleMouseExit = () => {
+    setHoverCard(false);
+    console.log('hndling exit');
+  };
+
   return (
   <CardContainer
     // length={outfits?.length + 1}
     length={length}
   >
-    <StyledCard
+    {/* <StyledCard
       onClick={changeItem}
-    >
-      <CardContent>
+    > */}
+      <CardContent
+        onClick={changeItem}
+        // onMouseEnter={handleMouseEnter}
+        // onMouseLeave={handleMouseExit}
+        // i={idx}
+      >
+
+       {/* {hoverCard && <CardButton
+          icon={icon}
+          handleClickIconBtn={handleClickIconBtn}
+          active={idx === compProdIdx}
+        />} */}
 
         <CardButton
           icon={icon}
@@ -85,14 +108,14 @@ function Card({
           />
         </TextContainer>
       </CardContent>
-      </StyledCard>
+      {/* </StyledCard> */}
   </CardContainer>
   );
 }
 
 Card.propTypes = {
   product: PropTypes.shape({
-    productID: PropTypes.number,
+    productID: PropTypes.string,
     productInfo: PropTypes.shape({
       name: PropTypes.string,
       category: PropTypes.string,
@@ -155,10 +178,22 @@ const CardContent = styled.div`
   display: flex;
   flex-direction: column;
  /* border: lightgrey solid thin; */
+  border-radius: 7.5px;
   justify-content: flex-end;
   height: 100%;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
+
+  background-color: ${(props) => props.theme.backgroundColor};
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  width: 100%;
+
+ /* &:hover {
+    transform: translateY(-5%);
+    transition: translateY 0.5s ease;
+  } */
+
 `;
 // box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 // &:hover {
@@ -175,33 +210,42 @@ const CardContent = styled.div`
 const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
-  cursor: pointer;
-  margin-top: 0.2em;
-  margin-left: 0.25em;
+ /* margin-top: 0.2em;
+  margin-left: 0.25em; */
+  padding: 0.25em;
+/*  padding: 0.5em; */
+  gap: 0.25em;
+  padding-bottom: calc(0.25rem + 0.25em);
+
 `;
 
 const Text = styled.div`
+
   ${(props) => props.productName && css`
     font-size: 1.17em;
     font-weight: 500;
+    margin-bottom: 0.25em;
+
     &:hover {
       text-decoration: underline;
     }
-    margin-top: 0.05em 0;
   `};
 
   ${(props) => props.category && css`
+    margin-top: 0.125em;
+
     &:hover {
       text-decoration: underline;
     }
-    margin-top: 0.1em;
   `};
 
   ${(props) => props.price && css`
-    margin: 0.25em 0;
+    margin-bottom: calc(0.25rem + 0.125em);
+    margin-top: 0.125em;
   `};
 
   margin-right: auto;
+  line-height: 1em;
 `;
 
 const SalePrice = styled.span`
