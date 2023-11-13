@@ -4,6 +4,8 @@ import styled, { css } from 'styled-components';
 import DropdownChevron from './DropdownChevron';
 import { capitalizeFirstLetter } from '../utils/getFormat';
 
+// TO-DO: make bigger on focus (for mobile)
+
 function StyledSelect({
   placeholder = 'Select Dropdown Option',
   options = [],
@@ -95,8 +97,6 @@ StyledSelect.defaultProps = {
   handleSelect: (value) => console.log(value),
 };
 
-// TO-DO: make bigger on focus (for mobile)
-
 const CustomSelect = styled.div`
   border: thin solid currentColor;
   border-radius: 5px;
@@ -143,13 +143,14 @@ const Dropdown = styled.div`
   flex-direction: column;
   display: ${(props) => (props.dropdownOpened ? 'flex' : 'none')};
   position: absolute;
-  background-color: ${(props) => props.theme.navBgColor};
+  background-color: ${(props) => props.theme.backgroundColor};
   max-height: 10em;
   top: calc(2.5em + 1.5px);
   width: 100%;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  border-bottom: ${(props) => props.theme.fontColor} solid 1px;
-  border-top: ${(props) => props.theme.fontColor} solid 1px;
+ /* border-bottom: ${(props) => props.theme.fontColor} solid 1px;
+  border-top: ${(props) => props.theme.fontColor} solid 1px; */
+  border-radius: 3px
 `;
 // box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.35);
 // border-radius: 5px;
@@ -157,33 +158,31 @@ const Dropdown = styled.div`
 // overflow-x: hidden;
 
 const DropdownOption = styled.div`
-  padding: 0.75em 0.5em 0.75em 4.5em;
+  padding: 0.75em 0.5em 0.75em 2.75em;
   line-height: 1em;
-  border-left: ${(props) => props.theme.fontColor} solid 1px;
-  border-right: ${(props) => props.theme.fontColor} solid 1px;
-  border-top: lightgrey solid 1px;
+ /* border-left: ${(props) => props.theme.fontColor} solid 1px;
+  border-right: ${(props) => props.theme.fontColor} solid 1px; */
+ /* border-top: lightgrey solid 1px; */
   transition: transform 0.25s ease;
-  font-weight: 400;
+  /* font-weight: 400; */
+  font-weight: 300;
   &:hover {
-    color: ${(props) => props.theme.fontColor};
-    border: currentColor solid 1px;
-    transform: scale(1.025);
+  /*  color: ${(props) => props.theme.fontColor}; */
+    font-weight: 400;
+  /*  border: currentColor solid 1px;
+    transform: scale(1.025); */
     background-color: ${(props) => props.theme.submitButton};
+  /*  background-color: ${(props) => props.theme.navBgColor}; */
   }
   ${(props) => (props.selectedValue === props.value) && css`
     font-weight: 600;
     padding-left: 0.5em;
+    background-color: ${props.theme.navBgColor};
     &::before {
       content: '\\2713';
       padding-right: 2.75em;
+      padding-right: 1em;
       padding-left: 0.5em;
-    }
-    ${Dropdown}:hover && {
-      color: ${props.theme.fontColor};
-      border: ${props.theme.fontColor} solid 1px;
-      &:hover {
-        border: ${props.theme.fontColor} solid 1px;
-      }
     }
   `};
 `;
