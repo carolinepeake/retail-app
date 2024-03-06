@@ -1,36 +1,58 @@
 const express = require('express');
-const Products = require('./controllers/Products');
-const Answers = require('./controllers/Answers');
-const Questions = require('./controllers/Questions');
-const Related = require('./controllers/Related');
-const Reviews = require('./controllers/Reviews');
-const Cloudinary = require('./controllers/Cloudinary');
+const { getProducts, getStyles } = require('./controllers/Products');
+const { helpfulAnswer, postAnswer, reportAnswer } = require('./controllers/Answers');
+const { getQuestions, postQuestion, reportQuestion, helpfulQuestion } = require('./controllers/Questions');
+const { getRelatedItem, getRelatedImage, getRelatedStars } = require('./controllers/Related');
+const { postReview, getReviews, getReviewsMeta, putReviewHelpful, postsRouter, putReviewReport } = require('./controllers/Reviews');
+const { uploadFile } = require('./controllers/Cloudinary');
 
 const router = express.Router();
+const answersRouter = express.Router();
+const productsRouter = express.Router();
+const questionsRouter = express.Router();
+const reviewsRouter = express.Router();
+const relatedRouter = express.Router();
+const stylesRouter = express.Router();
+const cloudinaryRouter = express.Router();
 
-router.get('/products', Products.getProducts);
-router.get('/styles', Products.getStyles);
+module.exports = { answersRouter, productsRouter, questionsRouter, reviewsRouter, relatedRouter, stylesRouter, cloudinaryRouter, router };
 
-router.get('/related', Related.getRelated);
-router.get('/relatedItem', Related.getRelatedItem);
-router.get('/relatedImage', Related.getRelatedImage);
-router.get('/relatedStars', Related.getRelatedStars);
+// postsRouter.delete('/:postId', deletePost);
 
-router.get('/questions', Questions.getQuestions);
-router.post('/questions', Questions.postQuestion);
-router.put('/questions/helpful', Questions.helpfulQuestion);
-router.put('/questions/report', Questions.reportQuestion);
+// module.exports.Router = {
+//   router,
+//   cloudinary: cloudinaryRouter,
+//   products: productsRouter,
+//   questions: questionsRouter,
+//   reviews: reviewsRouter,
+//   related: relatedRouter,
+//   answers: answersRouter,
+//   styles: stylesRouter,
+// };
 
-router.post('/answers', Answers.postAnswer);
-router.put('/answers/helpful', Answers.helpfulAnswer);
-router.put('/answers/report', Answers.reportAnswer);
+// router.get('/products' params: { productId: 40344 }, Products.getProducts);
+productsRouter.get('/', getProducts);
+productsRouter.get('/:productId/styles', getStyles);
 
-router.get('/reviews', Reviews.getReviews);
-router.get('/reviews/meta', Reviews.getReviewsMeta);
-router.post('/reviews', Reviews.postReview);
-router.put('/reviews/helpful', Reviews.putReviewHelpful);
-router.put('/reviews/report', Reviews.putReviewReport);
+// router.get('/related', (req, res) => (Related.getRelated);
+relatedRouter.get('/relatedItem', getRelatedItem);
+relatedRouter.get('/relatedImage', getRelatedImage);
+relatedRouter.get('/relatedStars', getRelatedStars);
 
-router.post('/cloudinary/upload', Cloudinary.uploadFile);
+questionsRouter.get('/', getQuestions);
+questionsRouter.post('/', postQuestion);
+questionsRouter.put('/:questionID/helpful', helpfulQuestion);
+questionsRouter.put('/:questionID/report', reportQuestion);
 
-module.exports = router;
+answersRouter.post('/', postAnswer);
+answersRouter.put('/helpful', helpfulAnswer);
+answersRouter.put('/report', reportAnswer);
+
+reviewsRouter.get('/', getReviews);
+reviewsRouter.get('/meta', getReviewsMeta);
+reviewsRouter.post('/', postReview);
+reviewsRouter.put('helpful', putReviewHelpful);
+reviewsRouter.put('/report', putReviewReport);
+
+cloudinaryRouter.post('/upload', uploadFile);
+
