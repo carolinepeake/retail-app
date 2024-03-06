@@ -30,11 +30,11 @@ const ImageCard = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  cursor: pointer;
+ /* cursor: pointer;
 
   &:hover {
     opacity: 0.80;
-  }
+  } */
 `;
 
 export default CardImage;

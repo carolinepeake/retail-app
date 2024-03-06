@@ -12,6 +12,7 @@ export default function CartItem({
   const handleRemoveItem = () => {
     const updatedCart = cart.filter((cartItem) => cartItem.sku !== item.sku);
     setCart(updatedCart);
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
 
   const price = (
@@ -32,7 +33,8 @@ export default function CartItem({
   );
 
   return (
-    <Container>
+    <ListItem>
+    {/* <Container> */}
       <Thumbnail
         src={item?.photo}
         alt={item?.name}
@@ -67,7 +69,8 @@ export default function CartItem({
       >
         &#x2715;
       </Delete>
-    </Container>
+    {/* </Container> */}
+    </ListItem>
   );
 }
 
@@ -103,19 +106,30 @@ CartItem.propTypes = {
   }).isRequired,
 };
 
+const ListItem = styled.li`
+  padding: 1em 0;
+  border-bottom: ${props => props.theme.lightBorder};
+ /* &:last-child {
+    border-bottom: none;
+  } */
+  display: flex;
+  gap: 0.5em;
+  position: relative;
+`;
+
 const Container = styled.div`
-  height: 10em;
-  width: calc(100% - 0.5em);
+ /* height: 9em; */
+ /* width: calc(100% - 0.5em);
+  margin-right: 0.5em; */
   overflow: hidden;
   display: flex;
   gap: 0.5em;
   position: relative;
-  padding: 1.5em 0;
-  margin-right: 0.5em;
-  border-bottom: ${props => props.theme.lightBorder};
-  &:first-child {
+ /* padding: 1em 0;
+  border-bottom: ${props => props.theme.lightBorder}; */
+ /* &:first-child {
     border-top: ${props => props.theme.lightBorder};
-  }
+  } */
 `;
 
 const Thumbnail = styled.img`
@@ -132,6 +146,11 @@ const Name = styled.h4`
 
 const SelectedQuantity = styled.select`
   margin-left: 0.1em;
+  border: none;
+  border-bottom: 1px lightgrey solid;
+  font-size: ${(props) => props.theme.tertiary};
+  font-weight: 300;
+  color: ${(props) => props.theme.minorFontColor};
 `;
 
 
@@ -149,7 +168,11 @@ const SalePrice = styled.span`
 `;
 
 const Delete = styled(CloseButton)`
-  height: 1em;
+  height: 1.2em;
   font-size: 1em;
-  top: 1.5em;
+  top: 0;
+  right: 0;
+  width: auto;
+  padding: 0;
+  top: 1.0em;
 `;

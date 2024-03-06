@@ -6,7 +6,7 @@ export const capitalizeFirstLetter = (string) => {
 };
 
 export const formatDate = (date) => (
-  format(parseISO(date), 'MMMM dd, yyyy')
+  format(parseISO(date), 'MMM dd, yyyy')
 );
 
 export const removeFileExtension = (fileName) => {

@@ -99,6 +99,7 @@ const BreakdownContainer = styled.div`
 
   @media (min-width: 600px) {
     margin-top: 1em;
+    margin-bottom: auto;
     max-width: 20em;
     flex-basis: auto;
     flex-grow: 5;
@@ -107,7 +108,6 @@ const BreakdownContainer = styled.div`
     width: 15em;
     padding: 2.5%;
     padding-top: 1.75%;
-    margin-bottom: 1em;
   }
 `;
 

@@ -31,18 +31,16 @@ AddOutfit.propTypes = {
 
 const Outline = styled.div`
   justify-self: stretch;
-  width: 100%;
   width: calc(100% / ${(props) => props.length});
   height: 100%;
   display: flex;
   padding-right: 2.5vw;
   padding-left: 2.5vw;
-  /* height: 100%;
-  aspect-ratio: 4/6; */
+
   @media (min-width: 900px) {
     padding-right: 1.25vw;
     padding-left: 1.25vw;
-  };
+  }
 `;
 
 const AddOutfitButton = styled(Button)`
@@ -52,6 +50,7 @@ const AddOutfitButton = styled(Button)`
   font-size: calc(8px + 1vw);
   margin: 0;
   height: 100%;
+  aspect-ratio: 4/5;
   background-color: ${(props) => props.theme.navBgColor};
   color: ${(props) => props.theme.fontColor};
 `;

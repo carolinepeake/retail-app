@@ -8,6 +8,7 @@ export default function HelpfulReport({
   id,
   helpfulCount,
   children,
+  margin,
 }) {
   console.log('[HelpfulReport] is running');
   const [helpfulness, setHelpfulness] = useState(helpfulCount);
@@ -46,7 +47,9 @@ export default function HelpfulReport({
   };
 
   return (
-    <HelpfulnessDiv>
+    <HelpfulnessDiv
+      $topMargin={margin}
+    >
       {name === 'answers' && children}
       <Helpful>
         <span>
@@ -94,10 +97,15 @@ const HelpfulnessDiv = styled.h6`
   overflow-wrap: break-word;
   flex-wrap: wrap;
   gap: 1.0em;
-  margin-bottom: 1em;
+ /* margin-bottom: 1rem; */
+  margin-top: 1rem;
+  margin-top: ${(props) => props.$topMargin};
   text-decoration: none;
-  font-size: 0.875em;
+  font-size: 0.875rem;
+  font-size: ${(props) => props.theme.tertiary};
   cursor: default;
+
+  padding: 0;
 `;
 
 const Helpful = styled.div`

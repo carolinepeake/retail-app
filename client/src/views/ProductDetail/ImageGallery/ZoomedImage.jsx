@@ -11,11 +11,37 @@ export default function ZoomedImage({
   handleClickMain,
   photo,
   alternative,
+  initialPosition,
 }) {
+
+  // could also not include translation in styles until mouse moved
+
   const imageContainer = useRef(null);
   const mainImageRef = useRef(null);
 
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  // const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [position, setPosition] = useState({ x: initialPosition?.x, y: initialPosition?.y });
+
+
+  // could do useEffect based on status
+  // to determine whether to add scroll handler or moveMouse handler
+  // need to initialize xPerc and yPerc once status is expanded
+  // is being called, but maybe rendering before x and y set
+  // might want to use useCallback or useMemo to make quicker?
+  // can make useMeasurements hook
+
+// https://react.dev/learn/reusing-logic-with-custom-hooks
+// export function usePointerPosition() {
+//   const [position, setPosition] = useState({ x: 0, y: 0 });
+//   useEffect(() => {
+//     function handleMove(e) {
+//       setPosition({ x: e.clientX, y: e.clientY });
+//     }
+//     window.addEventListener('pointermove', handleMove);
+//     return () => window.removeEventListener('pointermove', handleMove);
+//   }, []);
+//   return position;
+// }
 
   useEffect(() => {
     console.log('useEffect in main image');
@@ -25,10 +51,16 @@ export default function ZoomedImage({
       const containerWidth = zoomContainer.clientWidth;
       const containerHeight = zoomContainer.clientHeight;
       console.log('zoomContainer: ', zoomContainer);
-      const x = e.pageX - zoomContainer.offsetLeft;
-      const y = e.pageY - zoomContainer.offsetTop;
-      const translateX = `${(x / (containerWidth / 100)) * 1.25}%`;
-      const translateY = `${(y / (containerHeight / 100)) * 1.25}%`;
+      // const x = e.pageX - zoomContainer.offsetLeft;
+      // const y = e.pageY - zoomContainer.offsetTop;
+      const x = e.offsetX;
+      const y = e.offsetY;
+      // const translateX = `${(x / (containerWidth / 100)) * 1.25}%`;
+      // const translateY = `${(y / (containerHeight / 100)) * 1.25}%`;
+      // const translateX = `${(x / (containerWidth / 100)) * 1.5}%`;
+      // const translateY = `${(y / (containerHeight / 100)) * 1.5}%`;
+      const translateX = `${x * 1.5}px`;
+      const translateY = `${y * 1.5}px`;
       setPosition({
         x: translateX,
         y: translateY,
@@ -42,6 +74,8 @@ export default function ZoomedImage({
     };
 
   }, [imageContainer]);
+
+  console.log('position x: ', position.x, 'position y: ', position.y);
 
   return (
     <MainWrapper

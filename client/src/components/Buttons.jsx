@@ -59,7 +59,7 @@ export const CloseButton = styled.button.attrs(() => ({
   border: none;
   aspect-ratio: 1;
  ${(props) => props.$round && css`
-   right: 0.5em;
+    right: 0.5em;
     top: 0.5em;
     color: black;
     background-color: white;

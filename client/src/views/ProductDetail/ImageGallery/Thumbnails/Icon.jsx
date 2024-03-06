@@ -12,7 +12,7 @@ export default function Icon({
   };
   return (
     <ThumbnailContainer
-      href={`#seq${index}`}
+      // href={`#seq${index}`}
       onClick={() => handleClickThumbnail(index)}
       type="button"
     >

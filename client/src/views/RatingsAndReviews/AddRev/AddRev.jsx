@@ -100,6 +100,14 @@ function AddRev({
     resetForm();
   };
 
+  // const handleMouseEnter = () => {
+
+  // };
+
+  // cont handleMouseExit = () => {
+
+  // };
+
   return (
     <Modal
       closeModal={closeModal}
@@ -110,172 +118,178 @@ function AddRev({
         ? (
           <form onSubmit={handleSubmit}>
 
-            {/* <h2>Write a Review</h2>
-            <h1>
-              {productInfo.name}
-            </h1>
-            <RequiredDisclaimer /> */}
-
             <Header
               title="Write a Review"
               product={productInfo.name}
               closeModal={closeModal}
             />
 
-            <RecommendProdLabel>
-              Overall Rating *
+            <Field>
+              <RecommendProdLabel>
+                Overall Rating *
 
-              {formState.rating
-                ? (
-                  <SelectedValue>
-                    {`${formState.rating} out of 5 stars selected. Product is ${RATING[formState.rating]}.`}
-                  </SelectedValue>
-                )
-                : <Placeholder>None Selected</Placeholder>}
+                {formState.rating
+                  ? (
+                    <SelectedValue>
+                      {`${formState.rating} out of 5 stars selected. Product is ${RATING[formState.rating]}.`}
+                    </SelectedValue>
+                  )
+                  : <Placeholder>None Selected</Placeholder>}
 
-              <RadioButtonsContainer $rating>
-                {Object.keys(RATING).map((value) => (
+                <RadioButtonsContainer $rating>
+                  {Object.keys(RATING).map((value) => (
+                    <RecommendRadio
+                      key={`star${value}`}
+                      label="☆"
+                      // value={6 - Number(value)}
+                      // value={1 + Number(value)}
+                      value={Number(value)}
+                      handleChange={handleInputChange}
+                      // checked={Number(formState.rating) === (6 - Number(value))}
+                      checked={Number(formState.rating) === (Number(value))}
+                      name="rating"
+                      $rating
+                      required={value === '1'}
+                      // selected={Number(formState.rating) >= (6 - Number(value))}
+                      selected={Number(formState.rating) >= (Number(value))}
+                      notSelected={!((Number(formState.rating) || 0) >= (Number(value)))}
+                      // handleeMouse
+                    />
+                  ))}
+                </RadioButtonsContainer>
+              </RecommendProdLabel>
+            </Field>
+
+            <Field>
+              <RecommendProdLabel>
+                Would you recommend this product to a friend? *
+                <RadioButtonsContainer>
+
                   <RecommendRadio
-                    key={`star${value}`}
-                    label="☆"
-                    value={6 - Number(value)}
+                    key="recommendYes"
+                    label="Yes"
+                    value="true"
                     handleChange={handleInputChange}
-                    checked={Number(formState.rating) === (6 - Number(value))}
-                    name="rating"
-                    $rating
-                    required={value === '1'}
-                    selected={Number(formState.rating) >= (6 - Number(value))}
+                    checked={formState.recommend === 'true'}
+                    name="recommend"
+                    required
                   />
-                ))}
-              </RadioButtonsContainer>
-            </RecommendProdLabel>
+                  <RecommendRadio
+                    key="recommendNo"
+                    label="No"
+                    value="false"
+                    handleChange={handleInputChange}
+                    checked={formState.recommend === 'false'}
+                    name="recommend"
+                  />
 
-            <br />
+                </RadioButtonsContainer>
+              </RecommendProdLabel>
+            </Field>
 
-            <RecommendProdLabel>
-              Would you recommend this product to a friend? *
-              <RadioButtonsContainer>
+            <Field>
+              {/* <fieldset>
 
-                <RecommendRadio
-                  key="recommendYes"
-                  label="Yes"
-                  value="true"
-                  handleChange={handleInputChange}
-                  checked={formState.recommend === 'true'}
-                  name="recommend"
+                <legend>Product Characteristics</legend>
+
+                <div> */}
+
+                  {Object.keys(revMeta.characteristics).map((name) => (
+                    <Characteristics
+                      key={`radio${name}`}
+                      id={name.id}
+                      title={name}
+                      characteristic={CHARACTERISTICS[name]}
+                      handleInputChange={handleInputChange}
+                      inputState={formState.characteristics}
+                    />
+                  ))}
+{/*
+                </div>
+
+              </fieldset> */}
+            </Field>
+
+            <Field>
+              <StyledLabel label="summary">
+                Review Summary
+                <StyledInput
+                  placeholder="Example: Best purchase ever!"
+                  maxLength="60"
+                  id="summary"
+                  name="summary"
+                  type="text"
+                  value={formState.summary}
+                  onChange={handleInputChange}
+                />
+              </StyledLabel>
+            </Field>
+
+            <Field>
+              <StyledLabel label="body">
+                Review body *
+                <StyledTextArea
+                  placeholder="Why did you like the product or not?"
+                  minLength="50"
+                  maxLength="1000"
+                  rows="6"
+                  onChange={handleInputChange}
                   required
+                  id="body"
+                  name="body"
+                  value={formState.body}
+                  as="textarea"
                 />
-                <RecommendRadio
-                  key="recommendNo"
-                  label="No"
-                  value="false"
-                  handleChange={handleInputChange}
-                  checked={formState.recommend === 'false'}
-                  name="recommend"
+              </StyledLabel>
+              <CharacterCount
+                characterLimit={1000}
+                charactersUsed={formState.body.length}
+              />
+            </Field>
+
+            <Field>
+              <AddPhotos
+                handleInputChange={handleInputChange}
+                photos={formState.photos}
+              />
+            </Field>
+
+            <Field>
+              <StyledLabel label="name">
+                Username *
+                <StyledInput
+                  type="text"
+                  maxLength="60"
+                  placeholder="Example: jackson11!"
+                  onChange={handleInputChange}
+                  value={formState.name}
+                  required
+                  id="name"
+                  name="name"
                 />
+              </StyledLabel>
+              <Disclaimer>
+                For privacy reasons, do not use your full name or email
+                address.
+              </Disclaimer>
+            </Field>
 
-              </RadioButtonsContainer>
-            </RecommendProdLabel>
-
-            <br />
-
-
-            <fieldset>
-
-              <legend>Product Characteristics</legend>
-
-              <div>
-
-                {Object.keys(revMeta.characteristics).map((name) => (
-                  <Characteristics
-                    key={`radio${name}`}
-                    id={name.id}
-                    title={name}
-                    characteristic={CHARACTERISTICS[name]}
-                    handleInputChange={handleInputChange}
-                    inputState={formState.characteristics}
-                  />
-                ))}
-
-              </div>
-
-            </fieldset>
-
-            <StyledLabel label="summary">
-              Review Summary
-              <StyledInput
-                placeholder="Example: Best purchase ever!"
-                maxLength="60"
-                id="summary"
-                name="summary"
-                type="text"
-                value={formState.summary}
-                onChange={handleInputChange}
-              />
-            </StyledLabel>
-            <br />
-
-            <StyledLabel label="body">
-              Review body *
-              <StyledTextArea
-                placeholder="Why did you like the product or not?"
-                minLength="50"
-                maxLength="1000"
-                rows="6"
-                onChange={handleInputChange}
-                required
-                id="body"
-                name="body"
-                value={formState.body}
-                as="textarea"
-              />
-            </StyledLabel>
-            <CharacterCount
-              characterLimit={1000}
-              charactersUsed={formState.body.length}
-            />
-            <br />
-
-            <AddPhotos
-              handleInputChange={handleInputChange}
-              photos={formState.photos}
-            />
-            <br />
-
-            <StyledLabel label="name">
-              Username *
-              <StyledInput
-                type="text"
-                maxLength="60"
-                placeholder="Example: jackson11!"
-                onChange={handleInputChange}
-                value={formState.name}
-                required
-                id="name"
-                name="name"
-              />
-            </StyledLabel>
-            <Disclaimer>
-              For privacy reasons, do not use your full name or email
-              address.
-            </Disclaimer>
-            <br />
-
-            <StyledLabel label="email">
-              Your Email *
-              <StyledInput
+            <Field>
+              <StyledLabel label="email">
+                Your Email *
+                <StyledInput
                 // type="email"
-                maxLength="60"
-                placeholder="Example: jackson11@email.com"
-                onChange={handleInputChange}
-                value={formState.email}
+                  maxLength="60"
+                  placeholder="Example: jackson11@email.com"
+                  onChange={handleInputChange}
+                  value={formState.email}
                 // required
-                id="email"
-                name="email"
-              />
-            </StyledLabel>
-            <Disclaimer>For authentication reasons, you will not be emailed</Disclaimer>
-            <br />
+                  id="email"
+                  name="email"
+                />
+              </StyledLabel>
+              <Disclaimer>For authentication reasons, you will not be emailed</Disclaimer>
+            </Field>
 
             {errors.map((error) => (
               <ErrorsContainer key={error.id}>{error.message}</ErrorsContainer>
@@ -332,20 +346,32 @@ AddRev.propTypes = {
 
 export default AddRev;
 
+const Field = styled.div`
+  margin: 1.5em 0;
+`;
+
 const RadioButtonsContainer = styled.div`
   margin-top: 0.75em;
   display: flex;
   min-height: calc(2em + 24px);
   width: 50%;
   justify-content: flex-start;
-  gap: 2em;
+  gap: 0.5em;
   position: relative;
   ${(props) => props.$rating && css`
     width: auto;
-    gap: 0.5em;
     flex-wrap: wrap;
-    flex-direction: row-reverse;
-    justify-content: flex-end;
+  /*  flex-direction: row-reverse;
+    justify-content: flex-end; */
+    color: ${props.theme.blue[5]};
+  /*  background-color: ${props.theme.backgroundColor}; */
+    &:hover {
+      color: ${props.theme.backgroundColor};
+      /* ${props.theme.blue[5]}; */
+    /*  background-color: ${props.theme.blue[5]}; */
+    background: transparent;
+    color: transparent;
+    }
   `};
 `;
 
@@ -385,6 +411,7 @@ const StyledInput = styled.input`
   box-shadow: inset 0.25px 0.25px 2px 2px ${(props) => props.theme.insetBoxShadow};
   cursor: initial;
   font-size: ${(props) => props.theme.input};
+  line-height: 1.5em;
   color: ${(props) => props.theme.fontColor};
   background-color: ${(props) => props.theme.backgroundColor};
 
@@ -408,7 +435,8 @@ const StyledInput = styled.input`
 
 const StyledTextArea = styled(StyledInput)`
   resize: auto;
-  line-height: 1.5em;
+  margin-bottom: 0.375em;
+ /* line-height: 1.5em; */
 `;
 
 const Disclaimer = styled.h5`

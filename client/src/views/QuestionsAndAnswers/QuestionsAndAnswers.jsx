@@ -7,6 +7,9 @@ import ExtraButtons from './Extras/ExtraButtons';
 import SectionHeader from '../../components/SectionHeader';
 import ListNavigation from '../../components/LargeList/ListNavigation';
 import ListTotalCount from '../../components/LargeList/ListTotalCount';
+import Search from '../../components/Search';
+
+// TODO: create useSearch hook
 
 function QuestionAndAnswers() {
   console.log('[QuestionsAndAnswers] is running');
@@ -16,22 +19,59 @@ function QuestionAndAnswers() {
 
   const questRef = useRef(null);
 
+  const ref = useRef(null);
+
+  // const scrollToListTop = () => {
+  //   questRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // };
+
   const scrollToListTop = () => {
-    questRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    questRef.current.scrollTo({
+      behavior: 'smooth',
+      top: '-6rem',
+    });
+    ref.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   // need to init all and remove from useEffect
-  const [filteredQuestions, setFilteredQuestions] = useState(questions);
+  // const [filteredQuestions, setFilteredQuestions] = useState(questions);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleChange = (e) => {
+    const term = e.target.value.toLowerCase();
+    setSearchTerm(term);
+  };
+
   const [pageNum, setPageNum] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(2);
-  const startingSlice = (pageNum - 1) * itemsPerPage;
-  const endingSlice = startingSlice + itemsPerPage;
+  // const startingSlice = (pageNum - 1) * itemsPerPage;
 
   useEffect(() => {
     setPageNum(1);
     setItemsPerPage(2);
-    setFilteredQuestions(questions);
+    // setFilteredQuestions(questions);
   }, [questions]);
+
+  const filterQuestions = (list, term) => {
+    if (term.length > 0) {
+      const searchResults = [];
+      Object.values(list).forEach((listItem) => {
+        const searchBody = listItem.question_body.toLowerCase();
+        if (searchBody.includes(term)) {
+          searchResults.push(listItem);
+        }
+      });
+      return searchResults;
+    }
+    return list;
+    // setFilteredQuestions(searchResults);
+  };
+
+  const filteredQuestions = filterQuestions(questions, searchTerm);
+
+  const startingSlice = (pageNum - 1) * itemsPerPage <= filteredQuestions.length
+    ? (pageNum - 1) * itemsPerPage : 0;
+  const endingSlice = startingSlice + itemsPerPage;
 
   return (
     <Container id="question-and-answers">
@@ -39,12 +79,26 @@ function QuestionAndAnswers() {
         Questions & Answers
       </SectionHeader>
 
-      <QuestionSearch
+      {/* <QuestionSearch
         pageNum={pageNum}
-        setFilteredQuestions={setFilteredQuestions}
+        // setFilteredQuestions={setFilteredQuestions}
+        handleChange={handleChange}
+        searchTerm={searchTerm || ''}
+      /> */}
+
+      <Search
+        placeholder="Have a Question? Search For Answers..."
+        handleChange={handleChange}
+        searchTerm={searchTerm}
+        handleClickIcon={() => setSearchTerm('')}
+        // handleSearch={searchQuestions}
+        // handleClearSearch={handleClearResults}
       />
 
-      <QuestionListHeader ref={questRef}>
+      <QuestionListHeader
+        // ref={questRef}
+        ref={ref}
+      >
         <ListTotalCount
           listLength={filteredQuestions.length}
           itemsPerPage={itemsPerPage}
@@ -53,7 +107,7 @@ function QuestionAndAnswers() {
         />
       </QuestionListHeader>
 
-      <QuestionListContainer>
+      <QuestionListContainer ref={questRef}>
         {questions.length === 0
           ? <div>Be the first to ask a question!</div>
           : filteredQuestions.length === 0
@@ -116,16 +170,11 @@ const QuestionListContainer = styled.div`
   background-color: ${(props) => props.theme.backgroundColor};
   padding: 0;
   margin: 1em 0 0 0;
-  @media (min-width: 600px) {
+
+ /* @media (min-width: 600px) {
     overflow-y: auto;
     overflow-x: hidden;
     scroll-behavior: smooth;
     max-height: 31em;
-  }
-
- /* @media (min-width: 600px) {
-    max-height: 31em;
-    overflow: auto;
   } */
 `;
-// overflow: auto;

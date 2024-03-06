@@ -72,73 +72,74 @@ function AddAnswerModal({
           product={`${productInfo.name}: ${questionBody}`}
           closeModal={closeModal}
         />
-        {/* <h2>
-          Submit Your Answer
-        </h2>
-        <h1>
-          {`${productInfo.name} : ${questionBody}`}
-        </h1>
-        <RequiredDisclaimer /> */}
 
-        <StyledLabel htmlFor="body">
-          Answer *
-        </StyledLabel>
-        <StyledTextArea
-          required
-          as="textarea"
-          onChange={handleInputChange}
-          maxLength="1000"
-          rows="6"
-          placeholder="Enter your answer"
-          value={formState.body}
-          name="body"
-          id="body"
-        />
-        <CharacterCount
-          characterLimit={1000}
-          charactersUsed={formState.body.length}
-        />
-        <br />
-        <AddPhotos
-          handleInputChange={handleInputChange}
-          photos={formState.photos}
-        />
-        <br />
-        <StyledLabel htmlFor="name">
-          Username *
-        </StyledLabel>
-        <StyledInput
-          onChange={handleInputChange}
-          required
-          maxLength="60"
-          type="text"
-          id="name"
-          name="name"
-          value={formState.name}
-          placeholder="Example: jackson11!"
-        />
-        <Disclaimer>
-          For privacy reasons, do not use your full name or email
-          address.
-        </Disclaimer>
-        <br />
-        <StyledLabel htmlFor="email">
-          Email *
-        </StyledLabel>
-        <StyledInput
-          onChange={handleInputChange}
-          maxLength="60"
-          required
-          type="email"
-          id="email"
-          placeholder="Example: jack@email.com"
-          value={formState.email}
-          name="email"
-        />
-        <Disclaimer>
-          For authentication reasons, you will not be emailed.
-        </Disclaimer>
-        <br />
+        <Field>
+          <StyledLabel htmlFor="body">
+            Answer *
+          </StyledLabel>
+          <StyledTextArea
+            required
+            as="textarea"
+            onChange={handleInputChange}
+            maxLength="1000"
+            rows="6"
+            placeholder="Enter your answer"
+            value={formState.body}
+            name="body"
+            id="body"
+          />
+          <CharacterCount
+            characterLimit={1000}
+            charactersUsed={formState.body.length}
+          />
+        </Field>
+
+        <Field>
+          <AddPhotos
+            handleInputChange={handleInputChange}
+            photos={formState.photos}
+          />
+        </Field>
+
+        <Field>
+          <StyledLabel htmlFor="name">
+            Username *
+          </StyledLabel>
+          <StyledInput
+            onChange={handleInputChange}
+            required
+            maxLength="60"
+            type="text"
+            id="name"
+            name="name"
+            value={formState.name}
+            placeholder="Example: jackson11!"
+          />
+          <Disclaimer>
+            For privacy reasons, do not use your full name or email
+            address.
+          </Disclaimer>
+        </Field>
+
+        <Field>
+          <StyledLabel htmlFor="email">
+            Email *
+          </StyledLabel>
+          <StyledInput
+            onChange={handleInputChange}
+            maxLength="60"
+            required
+            type="email"
+            id="email"
+            placeholder="Example: jack@email.com"
+            value={formState.email}
+            name="email"
+          />
+          <Disclaimer>
+            For authentication reasons, you will not be emailed.
+          </Disclaimer>
+        </Field>
+
         {errors.length > 0 && (
           <Disclaimer>
             {errors.map((error) => <Error key={error.id}>{error.message}</Error>)}
@@ -173,6 +174,10 @@ AddAnswerModal.propTypes = {
   toggleModal: PropTypes.func.isRequired,
 };
 
+const Field = styled.div`
+  margin: 1.5em 0;
+`;
+
 const StyledLabel = styled.label`
   font-size: ${(props) => props.theme.body};
   font-weight: 400;
@@ -190,6 +195,7 @@ const StyledInput = styled.input`
   box-shadow: inset 0.25px 0.25px 2px 2px ${(props) => props.theme.insetBoxShadow};
   cursor: initial;
   font-size: ${(props) => props.theme.input};
+  line-height: 1.5em;
   color: ${(props) => props.theme.fontColor};
   background-color: ${(props) => props.theme.backgroundColor};
 
@@ -213,7 +219,8 @@ const StyledInput = styled.input`
 
 const StyledTextArea = styled(StyledInput)`
   resize: auto;
-  line-height: 1.5em;
+/*  line-height: 1.5em; */
+  margin-bottom: 0.375em;
 `;
 
 const Footer = styled.div`

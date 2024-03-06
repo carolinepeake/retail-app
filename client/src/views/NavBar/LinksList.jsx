@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 
-function LinksList({ toggleTheme, isExpanded = false, secondary = false }) {
+function LinksList({ isExpanded = false, secondary = false }) {
   console.log('[LinksList] is running');
 
   LinksList.defaultProps = {
@@ -23,21 +23,11 @@ function LinksList({ toggleTheme, isExpanded = false, secondary = false }) {
           {link.label}
         </GridItem>
       ))}
-
-      <GridItem
-        onClick={() => toggleTheme()}
-        secondary={secondary}
-        isExpanded={isExpanded}
-        className="last"
-      >
-        Toggle Dark Mode
-      </GridItem>
     </>
   );
 }
 
 LinksList.propTypes = {
-  toggleTheme: PropTypes.func.isRequired,
   isExpanded: PropTypes.bool.isRequired,
   secondary: PropTypes.bool,
 };
@@ -75,24 +65,32 @@ const GridItem = styled.a`
   @media (max-width: 50rem) {
       display: none;
     ${(props) => props.secondary && css`
-      display: ${props.isExpanded ? 'block' : 'none'};
+    /*  display: ${props.isExpanded ? 'block' : 'none'}; */
+      display: block;
    /*   font-size: calc(0.625em + 1vw); */
-      border-bottom: grey solid 1px;
+    /*  border-bottom: lightgrey solid 1px; */
       padding: 1em;
       width: 100%;
       text-align: left;
-      background-color: ${props.theme.navBgColor};
+      font-size: 1em;
+      line-height: 1em;
+      font-weight: 300;
+     /* background-color: ${props.theme.navBgColor}; */
+      background-color: ${props.theme.backgroundColor};
      /* background-color: ${props.theme.blue[0]}; */
+     border-radius: 3px;
       transition: transform 0.25s ease;
-      &.last {
+     /* &.last {
         border-bottom: none;
-      }
+      } */
+
       &:hover {
-        transform: scale(1.025);
+      /*  transform: scale(1.025); */
+      font-weight: 500;
         background-color: ${props.theme.submitButton};
        /* background-color: ${props.theme.blue[3]}; */
         text-decoration: none;
-        border: ${props.theme.fontColor} solid 1px;
+       /* border: ${props.theme.fontColor} solid 1px; */
       }
     `}
   };

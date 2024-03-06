@@ -94,6 +94,8 @@ const Buttons = styled.button`
   ${(props) => props.$background && css`
     height: 1.5em;
     left: 42.5%;
+    display: ${props.$visible && 'block'};
+    display: none;
     top: ${props.$position === 'top' && '0'};
     bottom: ${props.$position === 'bottom' && '0'};
     transform: translateX(-50%);
@@ -107,6 +109,7 @@ const Buttons = styled.button`
     }
     @media (min-width: 800px) {
       display: ${props.status === 'default' && 'flex'};
+      display: ${props.$visible && 'block'};
     }
   `};
 `;
@@ -125,7 +128,7 @@ const ArrowIcon = styled.span`
   ${(props) => props.$position === ('bottom' || 'top') && css`
     width: 100%;
     height: 100%;
-    position: absolute;
+  /*  position: absolute; */
   `};
 
   &::before {

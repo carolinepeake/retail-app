@@ -72,8 +72,23 @@ function AddToCart() {
       availableQuantity: selectedStyle.skus[selectedItem.sku].quantity,
     };
     // TODO: if sku present in cart, add quantity to existing quantity instead of adding item again
-    setCart((prev) => [...prev, item]);
+    // setCart((prev) => [...prev, item]);
     // TODO: save cart to local storage
+    // localStorage.removeItem('cart');
+    localStorage.setItem('cart', JSON.stringify([...cart, item]));
+    setCart((prev) => [...prev, item]);
+    // function storeCart() {
+    // }
+    // localStorage.removeItem('cart');
+    // const oldCart = JSON.parse(localStorage.getItem('cart')) || [];
+    // // return localStorage.getItem('cart') || [];
+    // // .then(oldCart => [...oldCart, item])
+    // console.log('old cart: ', oldCart);
+    // const updatedCart = oldCart.push(item);
+    // // const updatedCart = [...oldCart, item];
+    // console.log('updatedCart: ', updatedCart);
+    // localStorage.setItem('cart', JSON.stringify(updatedCart));
+    // console.log('updatedCart: ', updatedCart);
     toggleModal();
     setSelectedItem((prev) => ({ ...prev, sku: '', quantity: '1' }));
   };
@@ -171,7 +186,10 @@ function AddToCart() {
             <AddToCartText>+</AddToCartText>
           </AddToCartButton>
           <Star type="button">
-            <StarText small>Add to Wish List</StarText>
+            <StarText small>
+              Add to Wish List
+              {/* Save Item */}
+            </StarText>
             <StarText>&#9733;</StarText>
           </Star>
         </BagContainer>

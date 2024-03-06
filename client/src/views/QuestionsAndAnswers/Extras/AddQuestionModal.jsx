@@ -235,6 +235,7 @@ const StyledInput = styled.input`
   box-shadow: inset 0.25px 0.25px 2px 2px ${(props) => props.theme.insetBoxShadow};
   cursor: initial;
   font-size: ${(props) => props.theme.input};
+  line-height: 1.5em;
   color: ${(props) => props.theme.fontColor};
   background-color: ${(props) => props.theme.backgroundColor};
 
@@ -258,7 +259,8 @@ const StyledInput = styled.input`
 
 const StyledTextArea = styled(StyledInput)`
   resize: auto;
-  line-height: 1.5em;
+  margin-bottom: 0.375em;
+ /* line-height: 1.5em; */
 `;
 
 const Footer = styled.div`

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import Card from '../RelatedList/Card';
@@ -14,11 +14,6 @@ function OutfitList() {
 
   const [translate, setTranslate] = useState(100 / outfits.length);
   const [index, setIndex] = useState(0);
-
-  // useEffect(() => {
-  //   const updatedTransform = -100 / (outfits.length + 1);
-  //   setTranslate(updatedTransform);
-  // }, [outfits.length]);
 
   const handlePrev = () => {
     const transform = -100 / (outfits.length + 1);
@@ -93,10 +88,10 @@ function OutfitList() {
         {/* <CardContainer
           length={outfits.length + 1}
         > */}
-          <AddOutfit
-            length={outfits.length + 1}
-            handleAddOutfit={handleAddOutfit}
-          />
+        <AddOutfit
+          length={outfits.length + 1}
+          handleAddOutfit={handleAddOutfit}
+        />
         {/* </CardContainer> */}
 
       </CarouselContent>
@@ -127,7 +122,7 @@ const CarouselContainer = styled.div`
   display: block;
   padding-left: 2.5%;
   margin-right: 5%;
-  overflow: hidden;
+/*  overflow: hidden; */
 
   @media (min-width: 900px) {
     margin-left: 2.5%;

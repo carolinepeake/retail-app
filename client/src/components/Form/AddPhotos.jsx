@@ -24,6 +24,7 @@ function AddPhotos({
 
     const file = e.target.files[0];
     setSelectedFile(file);
+    console.log('file: ', file);
 
     const validateFileInput = (fileInput) => {
       if (fileInput.size === 0) {
@@ -98,10 +99,12 @@ function AddPhotos({
         })
         .finally(() => {
           setShowProgressBar(false);
+          setSelectedFile(null);
+          resetFileInput();
         });
     };
 
-    handleFileUpload(file);
+    // handleFileUpload(file);
   };
 
   const handleClickDeleteFile = (photo) => {
@@ -216,7 +219,7 @@ const StyledLabel = styled.label`
 
 const Disclaimer = styled.h5`
   font-style: oblique;
-/*  padding-top: 0.25em; */
+  padding-top: 0;
 `;
 
 const Error = styled(Disclaimer)`
@@ -249,6 +252,7 @@ const FileInput = styled.input`
     border: ${(props) => props.theme.submitButton} solid thin;
 
     apperance: none;
+    appearance: none;
 
     &::after {
       height: 2em;

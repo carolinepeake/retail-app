@@ -5,6 +5,9 @@ import { useGlobalContext } from '../../contexts/GlobalStore';
 import ProductOverview from './ProductOverview/ProductOverview';
 import StyleSelector from './StyleSelector/StyleSelector';
 import ImageGallery2 from './ImageGallery/ImageGallery2';
+import ImageGallery3 from './ImageGallery/ImageGallery2';
+import ImageGallery from './ImageGallery/ImageGallery';
+import DefaultView from './ImageGallery/DefaultView';
 import AddToCart from './AddToCart/AddToCart';
 import CollapsedDetails from './ProductOverview/CollapsedDetails';
 import ProductPath from './ProductOverview/ProductPath';
@@ -13,6 +16,26 @@ function ProductDetail() {
   console.log('[ProductDetail] is running');
   const [status, setStatus] = useState('default');
   const [startingIndex, setStartingIndex] = useState(0);
+  const { productInfo } = useGlobalContext();
+
+  // const handleClickMain = () => {
+  //   switch (status) {
+  //     case 'default':
+  //       setStatus('expanded');
+  //       break;
+  //     case 'expanded':
+  //       setStatus('zoomed');
+  //       // handleZoom(e);
+  //       // handlePanImage(e);
+  //       break;
+  //     case 'zoomed':
+  //       setStatus('expanded');
+  //       // scrollToId(place);
+  //       break;
+  //     default:
+  //       console.log('error handling expand main');
+  //   }
+  // };
 
   return (
     <ProductSec id="product-details">
@@ -25,12 +48,34 @@ function ProductDetail() {
       <ProductContainer
         status={status}
       >
-        <ImageGallery2
+        {/* <ImageGallery2
+          status={status}
+          setStatus={setStatus}
+          startingIndex={startingIndex}
+          setStartingIndex={setStartingIndex}
+        /> */}
+
+        <ImageGallery
           status={status}
           setStatus={setStatus}
           startingIndex={startingIndex}
           setStartingIndex={setStartingIndex}
         />
+
+           {/* <ImageGallery3
+          status={status}
+          setStatus={setStatus}
+          startingIndex={startingIndex}
+          setStartingIndex={setStartingIndex}
+        /> */}
+
+        {/* <DefaultView
+          handleClickMain={handleClickMain}
+          status={status}
+          setStatus={setStatus}
+          startingIndex={startingIndex}
+          setStartingIndex={setStartingIndex}
+        /> */}
 
         {status === 'default'
         && (
@@ -38,7 +83,6 @@ function ProductDetail() {
             <ProductOverview />
             <StyleSelector />
             <AddToCart />
-
             <CollapsedDetails />
           </RightColumn>
         )}
@@ -51,7 +95,7 @@ function ProductDetail() {
 export default ProductDetail;
 
 const ProductSec = styled.div`
-  padding-left: 5%;
+ /* padding-left: 5%;
   padding-right: 5%;
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
@@ -65,10 +109,29 @@ const ProductSec = styled.div`
   @media (min-width: 1200px) {
     margin-right: auto;
     margin-left: auto;
-  }
+  } */
 `;
 
 const ProductContainer = styled.div`
+  padding-left: 5%;
+  padding-right: 5%;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 5%;
+
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+
+  @media (min-width: 600px) {
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  @media (min-width: 1200px) {
+    margin-right: auto;
+    margin-left: auto;
+  }
   width: 100%;
   height: 100%;
   ${(props) => (props.status === 'zoomed' || props.status === 'expanded') && css`
@@ -76,9 +139,11 @@ const ProductContainer = styled.div`
     flex-direction: column;
     overflow: none;
     justify-content: center;
+    position: relative;
+    z-index: 200;
   `};
 
-  @media (min-width: 600px) {
+   @media (min-width: 600px) {
     ${(props) => props.status === 'default' && css`
       display: flex;
       flex-direction: row;

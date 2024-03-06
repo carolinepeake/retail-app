@@ -37,7 +37,7 @@ const StyledImage = styled.img`
   max-height: 4em;
   max-width: 4em;
   /* padding: .5em; */
-  padding: 0 0.5em;
+  /* padding: 0 0.5em; */
   cursor: pointer;
   object-fit: scale-down;
 `;

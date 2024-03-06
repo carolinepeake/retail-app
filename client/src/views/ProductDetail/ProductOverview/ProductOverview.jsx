@@ -125,7 +125,7 @@ const Price = styled.h4`
 `;
 
 const SalePrice = styled.span`
-  color: ${(props) => props.theme.formError};;
+  color: ${(props) => props.theme.formError};
 `;
 
 export default ProductOverview;

@@ -57,10 +57,12 @@ const Radio = styled.div`
     justify-content: flex-start;
   `};
   width: 20%;
-  top: -0.75em;
+ /* top: -0.75em; */
+  top: -0.5em;
   height: 4em;
   border-radius: 3px;
-  font-size: ${(props) => props.theme.tertiary};
+ /* font-size: ${(props) => props.theme.tertiary}; */
+  font-size: ${(props) => props.theme.input};
   overflow: visible;
   position: relative;
 
@@ -110,10 +112,12 @@ const Input = styled.input`
   margin: 0;
   position: relative;
   height: 1em;
+ /* height: 1.5em; */
   left: ${(props) => (props.value === 2 ? '-25%' : props.value === 4 ? '25%' : '')};
   aspect-ratio: 1;
   background-color: ${(props) => props.theme.backgroundColor};
   color: ${(props) => props.theme.submitButtonHover};
+  font-size: 1em;
   overflow: visible;
   border: 1px currentColor solid;
   border-radius: 50px;

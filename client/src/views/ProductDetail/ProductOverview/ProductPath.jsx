@@ -26,7 +26,12 @@ const Path = styled.div`
   order: -1;
   font-weight: 300;
   font-size: ${(props) => props.theme.tertiary};
-  padding-bottom: 1em;
+ /* padding-bottom: 1em; */
+  height: 3em;
+  display: flex;
+  padding-left: 5%;
+  background-color: ${(props) => props.theme.navBgColor};
+  align-items: center;
 `;
 
 const SubPath = styled.span`

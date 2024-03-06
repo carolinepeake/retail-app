@@ -16,7 +16,7 @@ export default function Thumbnail({
 
   return (
     <ThumbnailContainer
-      href={`#seq${index}`}
+      // href={`#seq${index}`}
       onClick={() => handleClickThumbnail(index)}
       type="button"
       length={length}

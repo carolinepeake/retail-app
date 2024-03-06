@@ -10,6 +10,10 @@ import useModal from '../../../hooks/useModal';
 import { Button } from '../../../components/Buttons';
 import { filterReviews } from '../../../utils/getReviews';
 import ReviewTile from './ReviewTile';
+import { capitalizeFirstLetter } from '../../../utils/getFormat';
+import { SORT_OPTIONS } from '../../../constants/constants';
+import ListTotalCount from '../../../components/LargeList/ListTotalCount';
+import StyledSelect from '../../../components/StyledSelect';
 
 export default function Reviews({
   reviews,
@@ -39,12 +43,14 @@ export default function Reviews({
   }, [productID]);
 
   const listRef = useRef(null);
+  const ref1 = useRef(null);
 
   const scrollToListTop = () => {
     listRef.current.scrollTo({
       behavior: 'smooth',
       top: '-6rem',
     });
+    ref1.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   const [showModal, toggleModal] = useModal();
@@ -53,17 +59,48 @@ export default function Reviews({
     toggleModal();
   };
 
+  const handleSelectSortValue = (newValue) => {
+    setSortOrder(newValue);
+    setPageNum(1);
+  };
+
+  const getDropdownLabel = (value) => {
+    const sortValue = value || 'relevant';
+    const formattedValue = capitalizeFirstLetter(sortValue);
+    const dropdownLabel = `Sort by ${formattedValue}`;
+    return dropdownLabel;
+  };
+
   return (
     <Container>
 
-      {reviews.length > 0
+      {/* {reviews.length > 0
       && (
         <SortList
           itemsPerPage={itemsPerPage}
           listLength={visibleReviews.length}
           pageNum={pageNum}
           setPageNum={setPageNum}
+          ref={ref}
         />
+      )} */}
+
+      {reviews.length > 0
+      && (
+        <RevListHeader ref={ref1}>
+          <ListTotalCount
+            pageNum={pageNum}
+            itemsPerPage={itemsPerPage}
+            listLength={visibleReviews.length}
+            itemText="Reviews"
+          />
+          <StyledSelect
+            initialValue="relevant"
+            options={SORT_OPTIONS}
+            getLabel={getDropdownLabel}
+            handleSelect={handleSelectSortValue}
+          />
+        </RevListHeader>
       )}
 
       {visibleReviews.length > 0
@@ -160,6 +197,27 @@ const Container = styled.div`
   }
 `;
 
+const RevListHeader = styled.div`
+  font-size: 1em;
+  font-weight: 500;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @media (min-width: 400px) {
+    flex-direction: row;
+    margin-left: 1em;
+  }
+
+  @media (min-width 600px) {
+    margin-inline-end: 1em;
+  }
+`;
+
 const MoreAddContainer = styled.div`
   padding: 1em 0px;
   display: flex;
@@ -167,9 +225,9 @@ const MoreAddContainer = styled.div`
 
   @media (min-width: 700px) {
     flex-direction: row;
-    justify-content: space-around;
+   /* justify-content: space-around; */
     column-gap: 2.0em;
-    padding: 1em 0 1em 0;
+   /* padding: 1em 0 1em 0; */
   }
 `;
 
@@ -178,12 +236,12 @@ const AddRevButton = styled(Button)`
 `;
 
 const ReviewTilesContainer = styled.div`
-  @media (max-width: 600px) {
-    border-top: black solid 1px;
-  }
+ /* @media (max-width: 600px) {
+    border-top: ${(props) => props.theme.lightBorder};
+  } */
 
-  @media (min-width: 600px) {
+ /* @media (min-width: 600px) {
     max-height: 31em;
     overflow: auto;
-  }
+  } */
 `;

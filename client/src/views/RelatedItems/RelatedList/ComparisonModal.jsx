@@ -9,6 +9,7 @@ function ComparisonModal({ details, closeModal }) {
     productInfo,
   } = useGlobalContext();
 
+  // could def do this less messy
   const currentProduct = productInfo?.features;
   const comparedProduct = details?.features;
 
@@ -55,15 +56,24 @@ function ComparisonModal({ details, closeModal }) {
       <Table>
         <Caption>
           <span>Compare Products</span>
-          <StyledCloseButton $square onClick={closeModal}>&#x2715;</StyledCloseButton>
+          <StyledCloseButton
+            $square
+            onClick={closeModal}
+          >
+            &#x2715;
+          </StyledCloseButton>
         </Caption>
         <thead>
           <tr>
-            <ProductHeading id={productInfo?.name}>
+            <ProductHeading
+              id={productInfo?.name}
+            >
               {productInfo?.name}
             </ProductHeading>
             <FeaturesHeading />
-            <ProductHeading id={details?.name}>
+            <ProductHeading
+              id={details?.name}
+            >
               {details?.name}
             </ProductHeading>
           </tr>

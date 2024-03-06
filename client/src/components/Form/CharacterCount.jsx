@@ -25,6 +25,8 @@ CharacterCount.propTypes = {
 const StyledCharacterCount = styled.h5`
   font-style: oblique;
   padding-top: 0;
-  display: flex;
-  flex-direction: row-reverse;
+  width: 100%;
+  text-align: end;
+ /* display: flex;
+  flex-direction: row-reverse; */
 `;

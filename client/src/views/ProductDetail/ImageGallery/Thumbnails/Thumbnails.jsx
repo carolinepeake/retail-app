@@ -25,14 +25,14 @@ function Thumbnails({
   // https://react.dev/learn/manipulating-the-dom-with-refs
 
   // will want to put with scroll arrows
-  useEffect(() => {
-    if (place < firstPhotoIndex) {
-      setFirstPhotoIndex((prev) => prev - 1);
-    }
-    if (place > firstPhotoIndex + 5) {
-      setFirstPhotoIndex((prev) => prev + 1);
-    }
-  }, [place]);
+  // useEffect(() => {
+  //   if (place < firstPhotoIndex) {
+  //     setFirstPhotoIndex((prev) => prev - 1);
+  //   }
+  //   if (place > firstPhotoIndex + 5) {
+  //     setFirstPhotoIndex((prev) => prev + 1);
+  //   }
+  // }, [place]);
 
   const thumbnailsCount = selectedStyle?.photos?.length;
 
@@ -73,6 +73,7 @@ function Thumbnails({
         key={photo?.thumbnail_url}
         // href={`#seq${index + 1}`}
         // href={`#seq${index}`}
+        // href={`#${index}`}
         // index={index}
         alt={`${selectedStyle?.name} thumbnail`}
         // onClick={() => handleClickThumbnail(index)}
@@ -90,7 +91,7 @@ function Thumbnails({
           place={place}
           index={index}
           // href={`#seq${index + 1}`}
-          href={`#seq${index}`}
+          // href={`#seq${index}`}
         />
         <ThumbnailImage
           src={photo?.thumbnail_url}
@@ -106,7 +107,8 @@ function Thumbnails({
     <ThumbnailContainer
       key={photo?.thumbnail_url}
       // href={`#seq${index + 1}`}
-      href={`#seq${index}`}
+      // href={`#seq${index}`}
+      // href={`#${index}`}
       // index={index}
       alt={`${selectedStyle?.name} thumbnail`}
       onClick={() => clickThumbnail(index)}
@@ -123,7 +125,7 @@ function Thumbnails({
         place={place}
         index={index}
         // href={`#seq${index + 1}`}
-        href={`#seq${index}`}
+        // href={`#seq${index}`}
       />
       <ThumbnailImage
         src={photo?.thumbnail_url}
@@ -163,6 +165,8 @@ function Thumbnails({
         handleClick={handleClickNext}
         position="bottom"
         background
+        visible
+        // visible={true}
         // visible={true}
       />
 
@@ -171,7 +175,7 @@ function Thumbnails({
         handleClick={handleClickPrev}
         position="top"
         background
-        // visible={true}
+        visible
       />
     </>
   )}
@@ -195,8 +199,12 @@ Thumbnails.propTypes = {
 };
 
 const ThumbnailsContainer = styled.div`
-  display: ${(props) => (props.status === 'zoomed' ? 'none' : 'block')};
+/*  display: ${(props) => (props.status === 'zoomed' ? 'none' : 'block')};
+  padding: 0.5em; */
   position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   @media (min-width: 800px) {
     ${(props) => props.status === 'default' && css`
       order: -1;
@@ -325,6 +333,8 @@ const ThumbnailIcon = styled.span`
   aspect-ratio: 1/1;
   height: 2vh;
   height: minmax(8px, 2vh);
+  height: 1em;
+  width: 1em;
   &:hover {
     cursor: pointer;
     background-color: ${(props) => props.theme.darkBlueHover};

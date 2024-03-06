@@ -1,12 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 
 // using ref.scrollIntoView() method:
-  // assign each carousel item a ref https://react.dev/learn/manipulating-the-dom-with-refs
-  // when navigation pointer is clicked, scroll associated ref into view
-  // when arrows are clicked calculate next or prev ref id and scroll that into view
-    // can multiply by scroll size when calculating next or prev ref
-    // can name associated navigation pointer with prefix and same id and scroll into view when arrows clicked
-
+// assign each carousel item a ref https://react.dev/learn/manipulating-the-dom-with-refs
+// when navigation pointer is clicked, scroll associated ref into view
+// when arrows are clicked calculate next or prev ref id and scroll that into view
+// can multiply by scroll size when calculating next or prev ref
+// can name associated navigation pointer with prefix and same id and scroll into view when arrows clicked
 // using ref.scrollIntoView() method and conditionally setting ref to stored index
 // https://react.dev/learn/manipulating-the-dom-with-refs
 
@@ -16,9 +15,16 @@ import { useState, useEffect, useCallback } from 'react';
 
 // If your Effect animates something in, the cleanup function should reset the animation to the initial values:
 // https://react.dev/learn/synchronizing-with-effects
+// useEffect(() => {
+//   const node = ref.current;
+//   node.style.opacity = 1; // Trigger the animation
+//   return () => {
+//     node.style.opacity = 0; // Reset to the initial value
+//   };
+// }, []);
 
 // maybe use debounce value so everything is consistent
-  // between thumbnails, url, main image
+// between thumbnails, url, main image
 // if wrap handlers in useCallback will imageGallery re-render every time click arrow in thumbnails?
 
 // instead of using place/currentIndex, use translate amount
@@ -69,11 +75,15 @@ import { useState, useEffect, useCallback } from 'react';
 const useCarouselNavigation = (
   carouselRef,
   // viewportRef,
-  // length,
+  length,
   startingIndex,
   // scrollSize,
 ) => {
   const [active, setActive] = useState(startingIndex || 0);
+  const [styles, setStyles] = useState({
+    // left: 0,
+    translate: 0,
+  });
   // const [active, setActive] = useState(0);
   // const [styles, setStyles] = useState({});
   // const [visibleElements, setVisibleElements] = useState([]);
@@ -179,6 +189,14 @@ const useCarouselNavigation = (
     const currentItemIndex = Math.floor(Math.abs((leftOffset - leftPadding)
     / Math.floor(carouselItemWidth))) || 0;
     setActive(() => currentItemIndex);
+    // setActive(currentItemIndex);
+    console.log('handling scroll , active index: ', currentItemIndex);
+    setStyles({
+      translate: 0,
+      // left: 0,
+    });
+    // set translate to 0 (or left offset to 0)
+    // setTranslate()
   };
 
   // const useArrows = () => {
@@ -204,11 +222,19 @@ const useCarouselNavigation = (
     // const scrollSize ?? galleryWidth;
     const scrollSize = 1;
     // const styles = getTranslation();
-    // setActive((prev) => prev - (arrowDirection * scrollSize));
+    const updatedTransform = (-100 / length) * active + (arrowDirection * scrollSize);
+    setStyles({
+      // left: 0,
+      translate: updatedTransform,
+    });
     setActive((prev) => prev + (arrowDirection * scrollSize));
     // setStyle(styles);
-
-    // setCurrentIndex((prev) => prev + arrowDirection);
+    // will want to make this a function so updates even when pressing quickly
+    // const updatedTransform = (-100 / length) * index * 1;
+    // setStyles({
+    //   // left: 0,
+    //   translate: updatedTransform,
+    // });
 
     // stop at end
     // if newPoint is outside of visible track, move track
@@ -276,17 +302,15 @@ const useCarouselNavigation = (
 
   // should prolly wrap in useCallback b/c handed down?
   const handleClickPointer = (index) => {
-    setActive(() => index);
+    // const updatedTransform = (-100 / length) * index * 1;
+    setStyles({
+      left: 0,
+      // translate: updatedTransform,
+    });
+    // setActive(() => index);
+    setActive(index);
     // scrollToId(index);
   };
-
-  // useEffect(() => {
-  //   const node = ref.current;
-  //   node.style.opacity = 1; // Trigger the animation
-  //   return () => {
-  //     node.style.opacity = 0; // Reset to the initial value
-  //   };
-  // }, []);
 
   // for translate instead of doing media queries can multiply by how many cards could fit
 
@@ -304,39 +328,34 @@ const useCarouselNavigation = (
   //   }
 
   // const style = {
-  //   transform: ,
+  //   transform: translate(`-${(100 / length) * active}%`) 0,
+  //   transition: translate 0.5s;
   //   // width: `${100 * (length + 2)}%`,
-  //   width: width,
+  //  //  width: width,
+  //   width: `${100 * length}%`,
   //   // left: `-${(active) * 100}%`,
-  //   // left: `-${(state.active + 1) * 100}%`,
+  //   left: 0,
   // };
 
-  //   return [
-  //     showBackArrow,
-  //     setShowBackArrow,
-  //     showForwardArrow,
-  //     setShowForwardArrow,
-  //     currentIndex,
-  //     setCurrentIndex,
-  //     handleClickArrow,
-  //   ];
-  // };
 
   // could return handlers in an object
-  // return [currentIndex, setCurrentIndex, handleScroll, handleClickPrev, handleClickNext, handleClickThumbnail];
-  // console.log('active: ', active, 'setActive: ', setActive, 'styles: ', styles, 'setStyles: ', setStyles, 'handleScroll: ', handleScroll, 'handleClickBackArrow: ', handleClickBackArrow, 'handleClickForwardArrow: ', handleClickForwardArrow, 'handleClickThumbnail: ', handleClickThumbnail);
   console.log('active: ', active, 'setActive: ', setActive, 'handleClickArrow: ', handleClickArrow, 'handleClickPointer: ', handleClickPointer);
-  // return [active, setActive, styles, setStyles, handleScroll, handleClickBackArrow, handleClickForwardArrow, handleClickThumbnail];
+
   return [
     active,
     setActive,
-    // styles,
+    styles,
     // setStyles,
     handleScroll,
     handleClickArrow,
-    // handleClickBackArrow,
-    // handleClickForwardArrow,
+    // handleClickPrev,
+    // handleClickNext,
+    // showBackArrow,
+    // setShowBackArrow,
+    // showForwardArrow,
+    // setShowForwardArrow,
     handleClickPointer,
+    // thumbnail, anchor
   ];
 };
 

@@ -13,21 +13,13 @@ function CardsList({
   const [translate, setTranslate] = useState(0);
   const [index, setIndex] = useState(0);
 
-  // const [hidePrev, setHidePrev] = useState(true);
-  // const [hideNext, setHideNext] = useState(false);
-
   const handlePrev = () => {
-    // setHideNext(false);
     const transform = -100 / productList.length;
     setTranslate(transform);
-    // if (index === 1) {
-    //   setHidePrev(true);
-    // }
     setIndex((prev) => prev - 1);
   };
 
   const handleNext = () => {
-    // setHidePrev(false);
     const transform = -100 / productList.length;
     setTranslate(transform);
     setIndex((prev) => prev + 1);
@@ -79,14 +71,13 @@ function CardsList({
 
         <LeftButton
           onClick={handlePrev}
-          // hidePrev={hidePrev}
+          index={index}
         >
           <ArrowBackground />
           <ArrowIcon prev />
         </LeftButton>
         <RightButton
           onClick={handleNext}
-          // hideNext={hideNext}
           length={productList.length}
           index={index}
         >
@@ -96,7 +87,7 @@ function CardsList({
 
       </CarouselContainer>
 
-      {/* {typeof compProdIdx === 'number'
+      {typeof compProdIdx === 'number'
       && (
         <ModalBackground
           id="CompareProductsBackground"
@@ -108,7 +99,7 @@ function CardsList({
             closeModal={closeModal}
           />
         </ModalBackground>
-      )} */}
+      )}
 
     </>
   );
@@ -149,7 +140,7 @@ const CarouselContainer = styled.div`
   display: block;
   padding-left: 2.5%;
   margin-right: 5%;
-  overflow: hidden;
+/*  overflow: hidden; */
 
   @media (min-width: 900px) {
     margin-left: 2.5%;
@@ -209,17 +200,17 @@ const CarouselButton = styled.button`
   transform: translateY(-50%);
   padding: 0;
   margin: 0;
-  &:hover {
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    opacity: 1;
-  };
   font-weight: 500;
-  background-color: ${(props) => props.theme.navBgColor};
-  opacity: 0.8;
+ /* background-color: ${(props) => props.theme.navBgColor}; */
+  background-color: rgb(255,255,255,0.8);
   line-height: 1;
   font-size: 1em;
   aspect-ratio: 1;
   height: 2em;
+  &:hover {
+   /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
+    background-color: rgb(255,255,255);
+  };
   @media (min-width: 700px) {
     font-size: 1.17em;
   };
@@ -234,39 +225,41 @@ const CarouselButton = styled.button`
 
 const RightButton = styled(CarouselButton)`
   right: 0;
-  display: ${(props) => ((props.hideNext || ((props.index + 1) * 1 >= props.length)) ? 'none' : 'block')};
+  display: ${(props) => (((props.index + 1) * 1 >= props.length) ? 'none' : 'block')};
   @media (min-width: 21.875em) {
-    display: ${(props) => ((props.hideNext || ((props.index + 1) * 2 >= props.length)) ? 'none' : 'block')};
+    display: ${(props) => (((props.index + 1) * 2 >= props.length) ? 'none' : 'block')};
   }
   @media (min-width: 37.5em) {
-    display: ${(props) => ((props.hideNext || ((props.index + 1) * 3 >= props.length)) ? 'none' : 'block')};
+    display: ${(props) => (((props.index + 1) * 3 >= props.length) ? 'none' : 'block')};
   }
   @media (min-width: 56em) {
-    display: ${(props) => ((props.hideNext || ((props.index + 1) * 4 >= props.length)) ? 'none' : 'block')};
+    display: ${(props) => (((props.index + 1) * 4 >= props.length) ? 'none' : 'block')};
   }
   @media (min-width: 1300px) {
-    display: ${(props) => ((props.hideNext || ((props.index + 1) * 5 >= props.length)) ? 'none' : 'block')};
+    display: ${(props) => (((props.index + 1) * 5 >= props.length) ? 'none' : 'block')};
   }
   @media (min-width: 1650px) {
-    display: ${(props) => ((props.hideNext || ((props.index + 1) * 6 >= props.length)) ? 'none' : 'block')};
+    display: ${(props) => (((props.index + 1) * 6 >= props.length) ? 'none' : 'block')};
   }
   @media (min-width: 2000px) {
-    display: ${(props) => ((props.hideNext || ((props.index + 1) * 7 >= props.length)) ? 'none' : 'block')};
+    display: ${(props) => (((props.index + 1) * 7 >= props.length) ? 'none' : 'block')};
   }
   @media (min-width: 2350px) {
-    display: ${(props) => ((props.hideNext || ((props.index + 1) * 8 >= props.length)) ? 'none' : 'block')};
+    display: ${(props) => (((props.index + 1) * 8 >= props.length) ? 'none' : 'block')};
   }
   @media (min-width: 2700px) {
-    display: ${(props) => ((props.hideNext || ((props.index + 1) * 9 >= props.length)) ? 'none' : 'block')};
+    display: ${(props) => (((props.index + 1) * 9 >= props.length) ? 'none' : 'block')};
   }
 `;
 
 const LeftButton = styled(CarouselButton)`
-  left: 5%;
+ /* left: 5%; */
  /* left: calc(2.5% + 0.25em); */
-  display: ${(props) => (props.hidePrev ? 'none' : 'block')};
+  left: calc(2.5% + 2.5vw);
+  display: ${(props) => (props.index === 0 ? 'none' : 'block')};
   @media (min-width: 900px) {
-    left: 2.5%;
+    /* left: 2.5%; */
+    left: calc(1.25% + 1.25vw);
   };
 `;
 
