@@ -1,64 +1,79 @@
-const axios = require('axios');
-require('dotenv').config();
+const axiosInstance = require('./axiosInstance');
 
-axios.defaults.headers.common.Authorization = process.env.AUTH_TOKEN;
-
-module.exports.getReviews = (req, res) => {
-  axios.get('https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/reviews', { params: req.query })
-    .then((result) => {
-      console.log(' *********   result in getReviews: ', result);
-      res.send(result.data);
-    })
-    .catch((err) => {
-      console.error('There was an error in the getReviews controller function:\n', err);
-      res.sendStatus(400);
-    });
+module.exports.getReviews = async (req, res, next) => {
+  const id = req.params.productId;
+  const count = req.params.numReviews || 100;
+  const page = req.params.revPage || 1;
+  const sort = req.params.sortOrder || 'helpful';
+  try {
+    const reviews = await axiosInstance.get(`/reviews/?product_id=${id}&&count=${count}&&page=${page}&&sort=${sort}`);
+    if (reviews) {
+      res.send(reviews);
+      next();
+    } else {
+      res.status(404).error({ message: 'atellier api route incorrect' });
+    }
+  } catch (error) {
+    res.status(500).error({ message: error.message });
+  }
 };
 
-module.exports.getReviewsMeta = (req, res) => {
-  axios.get('https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/reviews/meta', { params: req.query })
-    .then((result) => {
-      res.send(result.data);
-    })
-    .catch((err) => {
-      console.error('There was an error in the getReviewsMeta controller function:\n', err);
-      res.sendStatus(400);
-    });
+module.exports.getReviewsMeta = async (req, res, next) => {
+  try {
+    const metaData = await axiosInstance.get('reviews/meta', { params: req.query }); // not sure what req.query is here
+    if (metaData) {
+      res.send(metaData);
+      next();
+    } else {
+      // not sure about this
+      res.status(404).send({ message: 'atellier api route incorrect' });
+    }
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
 };
 
-module.exports.postReview = (req, res) => {
-  axios.post('https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/reviews', req.body)
-    .then((result) => {
-      res.status(201).send(result.data);
-    })
-    .catch((err) => {
-      console.error('There was an error in the postReview controller function:\n', err);
-      res.status(400).send(err);
-    });
+module.exports.postReview = async (req, res, next) => {
+  const postBody = req.body;
+  try {
+    const response = await axiosInstance.post('/reviews', postBody);
+    if (response.status === 'ok') { // not sure this is correct
+      res.status(201);
+      next();
+    } else {
+      res.status(400).send({ message: 'atellier api route incorrect' });
+    }
+  } catch (err) {
+    res.status(200).error({ message: err.message });
+  }
 };
 
-module.exports.putReviewHelpful = (req, res) => {
-  const reviewID = req.body.id;
-
-  axios.put(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/reviews/${reviewID}/helpful`)
-    .then((result) => {
-      res.status(204).send(result.data);
-    })
-    .catch((err) => {
-      console.error('There was an error in the putReviewHelpful controller function:\n', err);
-      res.status(400).send(err);
-    });
+module.exports.putReviewHelpful = async (req, res, next) => {
+  const reviewId = req.body.id;
+  try {
+    const response = await axiosInstance.put(`/reviews/${reviewId}/helpful`);
+    if (response.status === 'ok') {
+      res.status(201).send({ docId: reviewId });
+      next();
+    } else {
+      res.status(400).send({ message: 'atellier api route incorrect' });
+    }
+  } catch (err) {
+    res.status(201).error({ message: err.message });
+  }
 };
 
-module.exports.putReviewReport = (req, res) => {
-  const reviewID = req.body.id;
-
-  axios.put(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/reviews/${reviewID}/report`)
-    .then((result) => {
-      res.status(204).send(result.data);
-    })
-    .catch((err) => {
-      console.error('There was an error in the putReviewReport controller function:\n', err);
-      res.status(400).send(err);
-    });
+module.exports.putReviewReport = async (req, res, next) => {
+  const reviewId = req.body.id;
+  try {
+    const response = await axiosInstance.put(`/reviews/${reviewId}/report`);
+    if (response.status === 'ok') {
+      res.status(201).send({ docId: reviewId });
+      next();
+    } else {
+      res.status(400).send({ message: 'atellier api route incorrect' });
+    }
+  } catch (err) {
+    res.status(201).error({ message: err.message });
+  }
 };

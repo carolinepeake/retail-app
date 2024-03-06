@@ -7,28 +7,21 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-module.exports.uploadFile = async (req, res) => {
+module.exports.uploadFile = async (req, res, next) => {
+  const file = req.body.image;
   try {
-    // const file = req.body.image;
     const uploadedResponse = await cloudinary.uploader.upload({
       // upload_preset: 'retail-app',
-      file: req.body.image,
+      file,
       return_delete_token: true,
-
     });
-    // const uploadedResponse = await cloudinary.uploader.upload(file, {
-    //   // upload_preset: 'retail-app',
-    //   return_delete_token: true,
-    // });
-    // const uploadedResponse = await cloudinary.uploader.upload(file);
-    res.status(201).send(uploadedResponse);
-  } catch (err) {
-    console.log(err);
-    // send error message and code
-    // { message: 'Missing required parameter - file',
-  // name: 'Error',
-  // http_code: 400
-// }
-    res.status(400).send(err);
+    if (uploadedResponse) {
+      res.status(201).send(uploadedResponse);
+      next();
+    } else {
+      res.status(404).error({ message: 'cloudinary api route or data form incorrect' });
+    }
+  } catch (error) {
+    res.status(500).error({ message: error.message });
   }
 };
