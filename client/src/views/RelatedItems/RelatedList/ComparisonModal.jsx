@@ -4,12 +4,60 @@ import PropTypes from 'prop-types';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
 import { CloseButton } from '../../../components/Buttons';
 
-function ComparisonModal({ details, closeModal }) {
+
+export default function ComparisonModal({
+  // resetCarousel,
+  productInfo,
+  setCompProdIndex
+}) {
+
+  const closeModal = () => {
+    setCompProdIndex(null);
+  };
+
+  const handleBackgroundClick = (event) => {
+    if (event.target.id === 'CompareProductsBackground') {
+      closeModal();
+    }
+    event.stopPropagation();
+  };
+
+return (
+    <ModalBackground
+      id="CompareProductsBackground"
+      onClick={handleBackgroundClick}
+    >
+      <ModalContent
+        details={productInfo}
+        closeModal={closeModal}
+      />
+    </ModalBackground>
+  )
+}
+
+const ModalBackground = styled.div`
+  width: 90vw;
+  height: 100%;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 1.25vw;
+  top: 0%;
+  z-index: 10;
+  flex-direction: column;
+`;
+// width: 100vw;
+// height: 100vh;
+
+
+
+function ModalContent({ details, closeModal }) {
   const {
     productInfo,
   } = useGlobalContext();
 
-  // could def do this less messy
+  // could def do this less messy - define as "related product"
   const currentProduct = productInfo?.features;
   const comparedProduct = details?.features;
 
@@ -98,7 +146,7 @@ function ComparisonModal({ details, closeModal }) {
   );
 }
 
-ComparisonModal.propTypes = {
+ModalContent.propTypes = {
   details: PropTypes.shape({
     name: PropTypes.string,
     category: PropTypes.string,
@@ -214,4 +262,4 @@ const Cell = styled.td`
   color: ${(props) => props.theme.secondaryFontColor};
 `;
 
-export default ComparisonModal;
+
