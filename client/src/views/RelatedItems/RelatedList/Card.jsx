@@ -2,20 +2,21 @@ import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { useGlobalContext } from '../../../contexts/GlobalStore';
-import CardImage from './CardImage';
-import Stars from './Stars';
+import StarRating from '../../../components/StarRating';
 import CardButton from './CardButton';
+import ComparisonModal from './ComparisonModal';
 import { calcAverageRating } from '../../../utils/getAverageRating';
+
+const DEFAULT_IMAGE = 'https://www.escapeauthority.com/wp-content/uploads/2116/11/No-image-found.jpg';
 
 // TODO: make "x" button appear only on hover & fade in - maybe use CSS instead of state
 function Card({
   product,
+  // handleClickIcon,
   icon,
-  onClickRightButton,
-  idx,
-  onChangeProd,
-  compProdIdx,
-  outfits,
+  index,
+  // onChangeProd,
+  // outfits,
   length,
 }) {
   console.log('[Card] is running');
@@ -31,65 +32,42 @@ function Card({
   // might not want to rest outfit list carousel
   const changeItem = () => {
     setProductID(product.productID);
-    onChangeProd && onChangeProd();
+    // onChangeProd && onChangeProd();
   };
 
-  // useCallback?
-  const handleClickIconBtn = (e) => {
+  const [compProdIndex, setCompProdIndex] = useState(null);
+
+  const handleClickIconBtn = (e, index) => {
+    e.preventDefault()
     e.stopPropagation();
-    onClickRightButton(idx)
+    setCompProdIndex(index)
   };
 
   const rating = calcAverageRating(product?.revMeta?.ratings);
 
-  const [hoverCard, setHoverCard] = useState(false);
-
-  const handleMouseEnter = () => {
-    setHoverCard(true);
-    console.log('hndling enyer');
-  };
-
-  const handleMouseExit = () => {
-    setHoverCard(false);
-    console.log('hndling exit');
-  };
-
   return (
-  <CardContainer
-    // length={outfits?.length + 1}
-    length={length}
-  >
-    {/* <StyledCard
-      onClick={changeItem}
-    > */}
+  <CardContainer>
+
       <CardContent
         onClick={changeItem}
-        // onMouseEnter={handleMouseEnter}
-        // onMouseLeave={handleMouseExit}
-        // i={idx}
       >
-
-       {/* {hoverCard && <CardButton
-          icon={icon}
-          handleClickIconBtn={handleClickIconBtn}
-          active={idx === compProdIdx}
-        />} */}
 
         <CardButton
           icon={icon}
+          // icon='remove'
           handleClickIconBtn={handleClickIconBtn}
-          active={idx === compProdIdx}
+          active={index === compProdIndex}
+          index={index}
         />
 
-        <CardImage
-          imageUrl={product?.selectedStyle?.photos[0]?.thumbnail_url}
-        />
+     <CardImageWrapper>
+        <Image src={product?.selectedStyle?.photos[0]?.thumbnail_url || DEFAULT_IMAGE} alt="RelatedProductImage" />
+      </CardImageWrapper>
+
         <TextContainer>
-          <Text category>{product?.productInfo?.category}</Text>
+          <Text>{product?.productInfo?.category}</Text>
           <Text productName>{product?.productInfo?.name}</Text>
           <Text price>
-            {/* $ */}
-            {/* {product?.productInfo?.default_price} */}
             {product?.selectedStyle?.sale_price
               ? (
                 <>
@@ -103,102 +81,96 @@ function Card({
                 <span>{`$${product?.selectedStyle?.original_price}`}</span>
               )}
             </Text>
-          <Stars
+          <StarRating
             rating={rating}
           />
         </TextContainer>
       </CardContent>
-      {/* </StyledCard> */}
+
+
+      {typeof compProdIndex === 'number' && <ComparisonModal
+      // resetCarousel={resetCarousel}
+      compProdIndex={compProdIndex}
+      productInfo={product.productInfo}
+      setCompProdIndex={setCompProdIndex}
+      // details={comparisonProduct?.productInfo}
+      />}
+
+
   </CardContainer>
   );
 }
 
-Card.propTypes = {
-  product: PropTypes.shape({
-    productID: PropTypes.string,
-    productInfo: PropTypes.shape({
-      name: PropTypes.string,
-      category: PropTypes.string,
-      default_price: PropTypes.string,
-    }),
-    selectedStyle: PropTypes.shape({
-      style_id: PropTypes.number,
-      name: PropTypes.string,
-      original_price: PropTypes.string,
-      sale_price: PropTypes.string,
-      'default?': PropTypes.bool,
-      photos: PropTypes.arrayOf(
-        PropTypes.shape({
-          thumbnail_url: PropTypes.string,
-          url: PropTypes.string,
-        }),
-      ),
-      skus: PropTypes.shape({
-        quantity: PropTypes.number,
-        size: PropTypes.string,
-      }),
-    }),
-  }).isRequired,
-  onChangeProd: PropTypes.func.isRequired,
-  icon: PropTypes.string.isRequired,
-  onClickRightButton: PropTypes.func.isRequired,
-  idx: PropTypes.number.isRequired,
-  compProdIdx: PropTypes.number,
-};
+// Card.propTypes = {
+//   product: PropTypes.shape({
+//     productID: PropTypes.number,
+//     productInfo: PropTypes.shape({
+//       name: PropTypes.string,
+//       category: PropTypes.string,
+//       default_price: PropTypes.string,
+//     }),
+//     selectedStyle: PropTypes.shape({
+//       style_id: PropTypes.number,
+//       name: PropTypes.string,
+//       original_price: PropTypes.string,
+//       sale_price: PropTypes.string,
+//       'default?': PropTypes.bool,
+//       photos: PropTypes.arrayOf(
+//         PropTypes.shape({
+//           thumbnail_url: PropTypes.string,
+//           url: PropTypes.string,
+//         }),
+//       ),
+//       skus: PropTypes.shape({
+//         quantity: PropTypes.number,
+//         size: PropTypes.string,
+//       }),
+//     }),
+//   }).isRequired,
+//   onChangeProd: PropTypes.func,
+//   // icon: PropTypes.string.isRequired,
+//   // onClickRightButton: PropTypes.func.isRequired,
+//   // idx: PropTypes.number.isRequired,
+//   // compProdIdx: PropTypes.number,
+// };
 
 Card.defaultProps = {
-  compProdIdx: null,
+  compProdIndex: null,
+  onChangeProd: null,
 };
 
 // TO-DO: implement scroll for mobile
 const CardContainer = styled.div`
   margin: 0;
-  width: calc(100% / ${(props) => props.length});
-  padding-right: 2.5vw;
-  padding-left: 2.5vw;
-  /* height: 100%;
-  aspect-ratio: 4/6; */
-  @media (min-width: 900px) {
-    padding-right: 1.25vw;
-    padding-left: 1.25vw;
-  };
-`;
-// width: 100%
-// no aspect ratio
+  padding: 0 2.5vw;
 
-const StyledCard = styled.div`
-  position: relative;
-  background-color: ${(props) => props.theme.backgroundColor};
-  margin: 0 auto;
-  width: 100%;
- /* height: 100%; */
+  @media (min-width: 900px) {
+    padding: 0 1.25vw;
+  }
 `;
 
 const CardContent = styled.div`
-  display: flex;
-  flex-direction: column;
- /* border: lightgrey solid thin; */
-  border-radius: 7.5px;
-  justify-content: flex-end;
   height: 100%;
   position: relative;
+  border-radius: 7.5px;
   overflow: hidden;
   cursor: pointer;
 
   background-color: ${(props) => props.theme.backgroundColor};
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  width: 100%;
 
  /* &:hover {
     transform: translateY(-5%);
     transition: translateY 0.5s ease;
   } */
 
+  &:hover {
+/*    opacity: 0.8; */
+    transform: scale(1.025);
+    transition: scale 0.25s ease;
+  }
 `;
-// box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-// &:hover {
-//   opacity: 0.80;
-// }
+
 
 // mask-image: ${(props) => (props.i === 3 ?
 // 'linear-gradient(to right, rgba(0,0,0,1), 40%, rgba(0,0,0,0) 80%)' : ' ')};
@@ -210,46 +182,41 @@ const CardContent = styled.div`
 const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
- /* margin-top: 0.2em;
-  margin-left: 0.25em; */
-  padding: 0.25em;
-/*  padding: 0.5em; */
   gap: 0.25em;
-  padding-bottom: calc(0.25rem + 0.25em);
-
+  padding: 0.5em 0.25em;
 `;
 
 const Text = styled.div`
-
   ${(props) => props.productName && css`
     font-size: 1.17em;
     font-weight: 500;
-    margin-bottom: 0.25em;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  `};
-
-  ${(props) => props.category && css`
-    margin-top: 0.125em;
-
-    &:hover {
-      text-decoration: underline;
-    }
+    line-height: 1em;
   `};
 
   ${(props) => props.price && css`
-    margin-bottom: calc(0.25rem + 0.125em);
-    margin-top: 0.125em;
+    line-height: 1.5em
   `};
-
-  margin-right: auto;
-  line-height: 1em;
 `;
 
 const SalePrice = styled.span`
   color: ${(props) => props.theme.formError};
+`;
+
+
+const CardImageWrapper = styled.div`
+/* only need to set height and width if setting aspect ratio of card instead of image wrapper */
+  aspect-ratio: 4/5;
+  overflow: hidden;
+`;
+
+const Image = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+ ${CardContent}:hover & {
+    opacity: 0.8;
+  }
 `;
 
 export default Card;
