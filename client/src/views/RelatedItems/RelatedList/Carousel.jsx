@@ -25,16 +25,18 @@ function CardCarousel({
 
   const [width, setWidth] = useState();
 
-  // const [translate, setTranslate] = useState(0);
+  const [translate, setTranslate] = useState(0);
   const [index, setIndex] = useState(0);
 
-  // step is a parameter for whether increase by 1, a set number, or all the visible items
+  //  step = # of items scrolled in one click, 1 || a set number || all the visible items
   const handlePrev = (step = 1) => {
-    setIndex((prev) => prev - (1 * step));
+    // setIndex((prev) => prev - (1 * step));
+    setIndex((prev) => prev - 1);
   };
 
   const handleNext = (step = 1) => {
-    setIndex((prev) => prev + (1 * step));
+    // setIndex((prev) => prev + (1 * step));
+    setIndex((prev) => prev + 1);
   };
 
   const resetCarousel = () => {
@@ -44,35 +46,20 @@ function CardCarousel({
 
   useLayoutEffect(() => {
     function onResize() {
-
       if (slidesShown) {
         setVisibleItems(slidesShown)
       } else {
-
-      // get updated viewport width
-      let viewportWidth
-      if (viewportRef.current) {
-        const viewportRect = viewportRef.current.getBoundingClientRect();
-        if (viewportRect && itemMaxWidth) {
-          viewportWidth = viewportRect.width;
-          console.log('viewportRect: ', viewportRect);
-
-          const visibleItems = Math.floor(viewportWidth / itemMaxWidth);
-          console.log('visble Items: ', visibleItems, ' itemMaxWidth',  itemMaxWidth);
-          setVisibleItems(visibleItems);
+        // get updated viewport width
+        let viewportWidth
+        if (viewportRef.current) {
+          const viewportRect = viewportRef.current.getBoundingClientRect();
+          if (viewportRect && itemMaxWidth) {
+            viewportWidth = viewportRect.width;
+            const visibleItems = Math.floor(viewportWidth / itemMaxWidth);
+            setVisibleItems(visibleItems);
+          }
         }
       }
-    }
-
-      // let updatedTranslateX;
-      // let offset = index * itemWidth;
-      // let updatedTranslateX = carouselWidth /
-
-      // previous index of first visible item = index * visibleI, so previous Xtranslation = width / totalI * firstItemIndex / visibleI
-      //  new index of first visible item = index * visibleI, so new Xtranslation = firstItemIndex (totalI / visibleI firstItemIndex) * width
-
-      // memorialized calculation / useCallback to prevent rerendering carousel if translateX doesn't change
-
     }
     onResize();
     window.addEventListener('resize', onResize);
@@ -81,13 +68,6 @@ function CardCarousel({
 
   }, [viewportRef.current]);
 
-
-  // const translateX = getTranslation(productList.length, index, visibleItems);
-  // think this will automatically rerender
-
-  // either attach width & translation to styles attribute or set props to calculating function ?
-
-
   useEffect(() => {
     if (items.length && visibleItems) {
       let width = items.length / visibleItems * 100;
@@ -95,16 +75,24 @@ function CardCarousel({
     }
   }, [items.length, visibleItems])
 
-  console.log('width: ', width, 'visibleItems: ', visibleItems, 'items length: ', items.length);
 
-  // calculate if scroll buttons visible
+  useEffect(() => {
+    if (index >= 0) {
+      if (items.length > 1) {
+        if (typeof visibleItems === 'number') {
+          const translateX = getTranslation(items.length, index, visibleItems);
+          setTranslate(translateX);
+        }
+      }
+    }
+  }, [index]);
 
   return (
       <Viewport ref={viewportRef}>
 
          <Carousel
           ref={carouselRef}
-          // translate={translateX}
+          translate={translate}
           visibleItems={visibleItems}
           length={items.length}
           width={width}
@@ -113,7 +101,7 @@ function CardCarousel({
         </Carousel>
 
       <ScrollButton
-        onClick={handlePrev}
+        handleClick={handlePrev}
         position="left"
         overlay
         visible={index !== 0}
@@ -122,8 +110,8 @@ function CardCarousel({
       <ScrollButton
         position="right"
         overlay
-        onClick={handleNext}
-        visible={index < items?.length - 1}
+        handleClick={handleNext}
+        visible={index < items?.length - visibleItems}
       />
 
       </Viewport>
@@ -173,16 +161,17 @@ const Viewport = styled.div`
 `;
 
 const Carousel = styled.div`
-  position: relative;
   display: inline-flex;
   wrap: no-wrap;
   align-items: stretch;
   justify-content: space-between;
 
-  transform: translateX(-${(props) => props.translate}%);
-  transition: transform 0.4s;
-
   width: ${props => props.width}%;
+
+  position: relative;
+
+  transform: translateX(${(props) => props.translate}%);
+  transition: transform 0.4s;
 `;
 
 export default CardCarousel;
