@@ -12,12 +12,12 @@ export default function RecommendRadio({
   name,
   required,
   selected,
-  notSelected
 }) {
   return (
     <Radio
       required={required}
       value={value}
+      $checked={checked}
       checked={checked}
       type="radio"
       name={name}
@@ -25,7 +25,6 @@ export default function RecommendRadio({
       label={label}
       aria-label={label}
       $selected={selected}
-      // $not={notSelected}
     />
   );
 }
@@ -37,7 +36,7 @@ RecommendRadio.propTypes = {
   ]).isRequired,
   handleChange: PropTypes.func.isRequired,
   checked: PropTypes.bool.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   name: PropTypes.string.isRequired,
   required: PropTypes.bool,
   selected: PropTypes.bool,
@@ -46,232 +45,219 @@ RecommendRadio.propTypes = {
 RecommendRadio.defaultProps = {
   required: false,
   selected: false,
+  label: '',
 };
 
 const Radio = styled.input`
   appearance: none;
-  border: 1px ${(props) => props.theme.blue[5]} solid;
+  color: ${(props) => props.theme.blue[4]}; /* or inherit or declare form accent or array of form accent colors in theme */
+  background: ${(props) => props.theme.backgroundColor};
+  border: 1px  ${(props) => props.theme.blue[4]} solid;
   height: 4em;
   aspect-ratio: 1;
   border-radius: 3px;
   margin: 0;
-  background-color: ${(props) => props.theme.backgroundColor};
-  color: ${(props) => props.theme.blue[5]};
   overflow: visible;
   font-weight: 400;
+  cursor: pointer;
+  /* transition: all 0.3s ease-in; */
 
-  ${(props) => props.name === 'rating' && css`
-    background-color: ${props.theme.navBgColor};
-  /*  background-color: currentColor; */
-   /* color: inherit; */
-  /*  background: inherit; */
-    border: 1px ${props.theme.blue[5]} solid;
-    border-radius: 3px;
-    color: transparent;
-    color: inherit;
-    background-color: ${props.theme.navBgColor};
+ /* &::before {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: inherit;
     position: relative;
-    background: ${props.theme.blue[5]};
-  `};
+  } */
 
-  &::after {
+   &::after {
     content: '${(props) => props.label}';
     width: 100%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: inherit;
+    background-color: transparent;
     font-weight: inherit;
     border-radius: inherit;
     border: none;
     color: inherit;
+  }
 
-    ${(props) => props.name === 'rating' && css`
-      content: '☆';
-      font-size: 2em;
-      line-height: 1em;
-      background: transparent;
-      position: absolute;
-      top: 0;
+ ${(props) => props.name === 'rating' && css`
+ /* color: inherit; */
+ position: relative;
 
-    /*  background: ${props.theme.navBgColor}; */
-      color: ${props.theme.blue[5]};
-    /*  border: 1px ${props.theme.blue[5]}; solid; */
-      border: none;
+ &::after {
+  content: '☆';
+  font-size: 2em;
+  line-height: 1em;
+  position: absolute;
+  top: 0;
+  background-color: transparent;
+  color: inherit;
+   }
+
+
+ /* ::before {
+   width: 100%;
+   height: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-weight: inherit;
+   position: relative;
+     content: '★';
+     font-size: 2em;
+     line-height: 1em;
+     color: ${props.theme.backgroundColor};
+     border: none;
+     border-radius: 3px;
+
+ } */
+ `};
+
+
+
+${(props) => (props.name === 'rating' && props.$selected) && css`
+
+ /* background-color: ${props.theme.backgroundColor};*/
+/*  background-color:  ${props.theme.blue[4]}; */
+/*  color: ${props.theme.backgroundColor}; */
+background-color: ${props.theme.blue[4]};
+
+/* &::after {
+    background: transparent;
+    color: transparent;
+    content: '☆';
+  } */
+
+ /* &::before {
+    background: transparent;
+    content: '★';
+    color: ${props.theme.backgroundColor};
+   /* color: ${props.theme.blue[4]};
+    color: white; */
+  } */
+
+   content: '★';
+
+  &::after {
+    content: '★';
+     }
+
+  & ~ input {
+    &::after {
+      content: '★';
+      color: ${props.theme.backgroundColor};
+      background-color: transparent;
+    }
+  }
+
+/* &::after {
+    content: '★';
+   /* color: ${props.theme.backgroundColor};
+    background-color: transparent;
+    border-radius: inherit; */
+    color: ${props.theme.backgroundColor};
+  } */
+
+  /* check to see if works */
+/*   & ~ input {
+    background-color:  ${props.theme.blue[4]};
+
+    &::after {
+      content: '★';
+    }
+
+    &::before {
+      content: '★';
+      color: ${props.theme.backgroundColor};
+      background-color: transparent;
       border-radius: inherit;
-      color: currentColor
-      color: inherit;
-      background: inherit;
-      background: transparent;
-
-    `};
-  }
-
-  &::before {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: inherit;
-    font-weight: inherit;
-    border-radius: inherit;
-    border: none;
-    color: inherit;
-    position: relative;
-
-    ${(props) => props.name === 'rating' && css`
-      content: '★';
-      font-size: 2em;
-      line-height: 1em;
-      color: ${props.theme.backgroundColor};
-      background: ${props.theme.navBgColor};
-     /* background: ${props.theme.blue[5]}; */
-      background: currentColor;
-      border: none;
-      border-radius: 3px;
-  `};
-  }
-
- /* ${(props) => props.name === 'rating' && props.$not && css`
-    background-color: ${props.theme.backgroundColor};
-    color: ${props.theme.blue[5]};
-    &::after {
-      content: '☆';
-      color: inherit;
-      background: inherit;
     }
+  } */
 
-    &:hover {
-      background-color:  ${props.theme.blue[5]};
-      color: ${props.theme.backgroundColor};
-    }
-  `}; */
-
-
- ${(props) => props.name === 'rating' && props.$selected && css`
-      background-color:  ${props.theme.blue[5]};
-    & ~ &:before {
-      background-color:  ${props.theme.blue[5]};
-      background-color: green;
-    }
-    &::after {
-      content: '★';
-      color: ${props.theme.backgroundColor};
-      background: transparent;
-    }
-
-   & ~ input {
-    /*  background-color: ${props.theme.blue[5]}; */
-      background-color: ${props.theme.backgroundColor};
-      &::after {
-      /*  background: transparent; */
-        background: inherit;
-      /*  color: ${props.theme.backgroundColor}; */
-        color: ${props.theme.blue[5]};
-      /*  content: '★'; */
-        content: '☆';
-      }
-    }
 `};
 
-  &:hover {
-    cursor: pointer;
-    font-weight: 600;
-    border: 2px currentColor solid;
 
-    ${(props) => props.name === 'rating' && css`
-    /*  background-color: ${props.theme.blue[5]};
+&:hover, &:hover ~ input {
+  font-weight: 600;
+  border: 2px currentColor solid;
+  background-color: ${(props) => props.theme.blue[4]};
+  color: ${(props) => props.theme.backgroundColor};
+
+ /* &::after {
+    background-color: transparent;
+    content: ${(props) => props.label};
+  } */
+
+  ${(props) => props.name === 'rating' && css`
+
+    border: 1px ${props.theme.blue[4]} solid; /* should never change for stars */
+
+    &::after {
       background-color: transparent;
-      border: 1px ${props.theme.blue[5]} solid; */
+      content: '★';
+      color: ${props.theme.backgroundColor};
+    }
 
-      background-color: ${props.theme.blue[5]};
-      border: 1px ${props.theme.blue[5]} solid;
-      border-radius: 3px;
+  /*  &::before {
+      background: transparent;
+      content: '★';
+      color: ${props.theme.backgroundColor};
+    }*/
+
+  /* & ~ input {
+
+      background: ${props.theme.blue[4]};
 
       &::after {
-      /*  content: '★'; */
-        color: ${props.theme.backgroundColor};
-        background: transparent;
-        color: transparent;
-      }
-
-      &::before {
-        background: transparent;
+        background-color: ${props.theme.blue[4]};
         content: '★';
         color: ${props.theme.backgroundColor};
-      }
-    /*  input {
-        background-color: ${props.theme.blue[5]};
-        border: 1px ${props.theme.blue[5]} solid;
-        &::after {
-          color: ${props.theme.backgroundColor};
-          content: '★';
-          background: transparent;
-        }
       } */
-      & ~ input {
-        background-color: ${props.theme.backgroundColor};
-        color: ${props.theme.blue[5]};
-        font-weight: 400;
-      /*  border: 1px currentColor solid; */
-        background: ${props.theme.blue[5]};
 
-        &::after {
-          background-color: ${props.theme.backgroundColor};
-          color: inherit;
-          content: '☆';
-          color: ${props.theme.blue[5]};
-          background: transparent;
-        }
-
-        &::before {
-          background: ${props.theme.navBgColor};
-          content: '★';
-          color: ${props.theme.backgroundColor};
-          border-radius: inherit;
-        }
-      }
-    `};
-  }
-
-  &:checked {
-    background-color: ${(props) => props.theme.blue[5]};
-    color: ${(props) => props.theme.backgroundColor};
-    font-weight: 600;
-
-  /*  ${(props) => props.name === 'rating' && css`
-      background-color: ${props.theme.blue[5]};
-      color: ${props.theme.backgroundColor};
-      border: none;
-   `}; */
-
-    &:hover {
-   /*   color: ${(props) => props.theme.backgroundColor};
-      background-color:  ${(props) => props.theme.blue[5]}; */
-      border: 1px ${(props) => props.theme.blue[5]} solid;
-      border-radius: 3px;
-
-    ${(props) => props.name === 'rating' && css`
-      & ~ &:before {
-        background-color: ${props.theme.blue[5]};
-        background: transparent;
-      /*  border: none; */
-      /*  border: 1px ${props.theme.blue[5]} solid; */
+    /*  &::before {
+        background: ${props.theme.navBgColor};
+        content: '★';
+         color: ${props.theme.backgroundColor};
         border-radius: inherit;
-        border: none;
-      }
-      background-color: ${props.theme.blue[5]};
-      color: ${props.theme.backgroundColor};
-    /*  border: none; */
-    `};
+      } */
     }
+
+  `};
+}
+
+/ * can also be written as &:checked, &:checked ~ input { ... }; */
+&:checked {
+  font-weight: 600;
+  background-color: ${(props) => props.theme.blue[4]};
+  color: ${(props) => props.theme.backgroundColor};
+
+  &::after {
+    content: '★';
   }
+
+  ${(props) => props.name === 'rating' && css`
+
+    & ~ input {
+      background-color: ${props.theme.blue[4]};
+      color: ${props.theme.backgroundColor};
+
+      &::after {
+        content: '★';
+      }
+    }
+
+  `};
+}
 
   &:active {
-    transform: scale(1.01);
-    transition: scale 0.2s ease;
+    transform: scale(1.025);
+    transition: scale 0.25s ease;
   }
 
   &:focus {
@@ -282,9 +268,27 @@ const Radio = styled.input`
   }
 
   &:focus-visible {
-   /* outline-color: ${(props) => props.theme.focusColor};
-    outline-width: 1.5px; */
     outline-style: dashed;
     outline-offset: 3px;
   }
-`;
+
+  `;
+
+
+    /* & ~ &:before {
+        background: transparent;
+        border-radius: inherit;
+        border: none;
+        content: '★';
+        color: white;
+      }
+
+       &::after {
+        color: transparent;
+        content: '☆';
+        background: transparent;
+       } */
+
+
+
+
