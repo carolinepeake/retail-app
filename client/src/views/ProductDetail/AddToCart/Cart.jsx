@@ -1,59 +1,84 @@
-import React from 'react';
+import React, { Fragment, useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { Button, CloseButton } from '../../../components/Buttons';
+import { Button, PrimaryButton, BoxShadowButton, SquareCloseButton } from '../../../components/Buttons';
 import CartItem from './CartItem';
 
-function Cart({
-  showModal,
-  toggleModal,
-  cart,
-  setCart,
-}) {
-  const handleCloseModal = () => {
-    toggleModal();
-  };
+// TODO: make universal sidebar /modal component and use same as side nav
 
-  const items = cart.map((item) => (
-    <CartItem
-      key={item.sku}
-      item={item}
-      cart={cart}
-      setCart={setCart}
-    />
+// TODO: make sure properly lined up on right edge of page
+
+function Cart({
+  showCart,
+  toggleCart,
+  // closeCart,
+}) {
+  console.log('[CART] is running');
+
+  // need to re-render every time showCart changes
+  function getStorageValue(key, defaultValue) {
+    // getting stored value
+    const saved = localStorage.getItem(key);
+    const initial = JSON.parse(saved);
+    return initial || defaultValue;
+  }
+
+  const [cart, setCart] = useState(() => (
+    getStorageValue('cart', [])
   ));
 
-  const subtotal = cart.reduce((accumulator, currentValue) => accumulator + Number(currentValue.originalPrice), 0);
+  if (!cart) {
+    return null;
+  }
+
+  const subtotal = cart.reduce((accumulator, currentValue) => (
+    accumulator + Number(currentValue.originalPrice)
+  ), 0);
 
   return (
     <>
+      {showCart && (
       <Background
         id="appBackground"
-        onClick={handleCloseModal}
-        $visible={showModal}
+        onClick={toggleCart}
+        $visible={showCart}
       />
+      )}
       <Container
-        $visible={showModal}
+        $visible={showCart}
       >
         <Header>
           <Title>
             Cart
           </Title>
 
-          <CartCloseButton
-            $square
-            onClick={handleCloseModal}
+          <CloseSidebarBtn
+            onClick={toggleCart}
           >
             &#x2715;
-          </CartCloseButton>
+          </CloseSidebarBtn>
         </Header>
 
         <ScrollContainer>
-          <List>
-            {cart.length > 0
-              ? items
-              : 'Your cart is empty.'}
-          </List>
+
+          {cart.length > 0 ? (
+            <List>
+              {cart.map((item, index) => (
+                <ListItem key={index} id={index}>
+                  <CartItem
+                    item={item}
+                    index={index}
+                    id={item.sku}
+                    setCart={setCart}
+                    cart={cart} // TODO: control for whether deleting 1/all of 1 product or deleting 2 of an item that has 10 of it in the cart
+                  />
+
+                </ListItem>
+              ))}
+
+            </List>
+          ) : 'Your cart is empty.'}
+
         </ScrollContainer>
 
         <Footer>
@@ -61,9 +86,7 @@ function Cart({
             <span>Subtotal</span>
             <span>{`$${subtotal}.00`}</span>
           </Subtotal>
-          <CartButton
-            $primary
-          >
+          <CartButton>
             Checkout
           </CartButton>
         </Footer>
@@ -73,33 +96,29 @@ function Cart({
 }
 
 Cart.propTypes = {
-  showModal: PropTypes.bool.isRequired,
-  toggleModal: PropTypes.func.isRequired,
-  cart: PropTypes.arrayOf(
-    PropTypes.shape({
-      style_id: PropTypes.number,
-      name: PropTypes.string,
-      styleName: PropTypes.string,
-      originalPrice: PropTypes.string,
-      salePrice: PropTypes.string,
-      photo: PropTypes.string,
-      sku: PropTypes.string,
-      product: PropTypes.string,
-      size: PropTypes.string,
-      quantity: PropTypes.string,
-    }),
-  ).isRequired,
-  setCart: PropTypes.func.isRequired,
+  showCart: PropTypes.bool.isRequired,
+  toggleCart: PropTypes.func.isRequired,
+  // cart: PropTypes.arrayOf(
+  //   PropTypes.shape({
+  //     style_id: PropTypes.number,
+  //     name: PropTypes.string,
+  //     styleName: PropTypes.string,
+  //     originalPrice: PropTypes.string,
+  //     salePrice: PropTypes.string,
+  //     photo: PropTypes.string,
+  //     sku: PropTypes.string,
+  //     product: PropTypes.Number,
+  //     size: PropTypes.string,
+  //     quantity: PropTypes.string,
+  //   }),
+  // ).isRequired,
+  // setCart: PropTypes.func.isRequired,
 };
 
-// --accent-color: ${(props) => props.theme.darkBlueHover}; ?
-
 const Background = styled.div`
-  display: none;
-  display: ${(props) => props.$visible && 'block'};
+  display: block;
   width: 100vw;
   height: 100vh;
-  position: absolute;
   position: fixed;
   left: 0;
   top: 0;
@@ -111,12 +130,11 @@ const Container = styled.div`
   position: fixed;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   right: ${(props) => (props.$visible ? '0' : '-20em')};
   top: 0;
   width: 20em;
+  width: 22em;
   height: 100vh;
-  overflow: auto;
   z-index: 100;
   background: ${(props) => props.theme.backgroundColor};
   background: ${(props) => props.theme.navBgColor};
@@ -125,10 +143,13 @@ const Container = styled.div`
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
  /* padding: 1em; */
   transition: 0.5s ease;
+
+  overflow: auto;
+  justify-content: space-between;
 `;
 
 const Header = styled.div`
-  padding: 1em;
+ padding: 1em;
 `;
 
 const Title = styled.h2`
@@ -137,7 +158,7 @@ const Title = styled.h2`
   height: auto;
 `;
 
-const CartCloseButton = styled(CloseButton)`
+const CloseSidebarBtn = styled(SquareCloseButton)`
   top: 0.5em;
   right: 0.5em;
   font-size: 1.5em;
@@ -147,7 +168,9 @@ const ScrollContainer = styled.div`
   overflow: auto;
   scrollbar-color: ${(props) => props.theme.darkBlueHover};
   padding: 1em 2em 1em 2em;
-  background: ${(props) => props.theme.backgroundColor};
+  background-color: ${(props) => props.theme.backgroundColor};
+  background-color: ${(props) => props.theme.blue[0]};
+  background-color: ${(props) => props.theme.backgroundColor};
   flex: 1;
 `;
 
@@ -159,8 +182,6 @@ const List = styled.ul`
 const Footer = styled.div`
   display: flex;
   flex-direction: column;
-  padding-top: 1.0em;
- /* height: 8em; */
   padding: 1em;
 `;
 
@@ -171,13 +192,25 @@ const Subtotal = styled.div`
   font-weight: 400;
 `;
 
-const CartButton = styled(Button)`
+const CartButton = styled(BoxShadowButton)`
   flex: 1;
-  margin: 0.5rem 0;
+/*  margin: 0.5rem 0; */
   margin: 1rem 0;
-  background-color: ${(props) => props.theme.blue[5]};
+ /* background-color: ${(props) => props.theme.blue[4]};
   color: white;
-  border: none;
+  border: none; */
+  border-radius: 25px;
+`;
+
+const ListItem = styled.li`
+  padding: 1em 0;
+  padding: 1em;
+  margin: 1em 0;
+  border-bottom: ${(props) => props.theme.lightBorder};
+  border-radius: 7.5px;
+  box-shadow: rgba(0,0,0,0.25) 0px 5px 10px; /* Lighter than box-shadow used for cards elsewhere */
+  background-color: rgba(209,217,235, 0.2);
+
 `;
 
 export default Cart;
