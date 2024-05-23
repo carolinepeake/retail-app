@@ -1,31 +1,30 @@
-import React, { useState } from 'react';
-import styled, { css } from 'styled-components';
+import React from 'react';
+import styled from 'styled-components';
 import Features from './Features';
 import Collapsable from '../../../components/Collapsable';
-import { useGlobalContext } from '../../../contexts/GlobalStore';
 import { RETURN_TEXT, STANDARD_DELIVERY_TEXT, TWO_DAY_DELIVERY_TEXT } from '../../../constants/constants';
 
-function CollapsedDetails() {
-  const { productInfo } = useGlobalContext();
+// TODO: start with details and features and maybe return collapsible open
 
+function CollapsedDetails({ slogan, description, features }) {
   return (
     <Container>
       <Collapsable header="Details">
-        <Subheader>{productInfo?.slogan}</Subheader>
-        <Content>{productInfo?.description}</Content>
-        {productInfo?.features?.length > 0 && <Features />}
+        <Subheader>{slogan}</Subheader>
+        <Content>{description}</Content>
+        {features && <Features features={features} />}
       </Collapsable>
 
       <Collapsable header="Shipping">
         <Subheader>Standard</Subheader>
         <Content>{STANDARD_DELIVERY_TEXT}</Content>
         <Subheader>Two Day Delivery</Subheader>
-        <Content>{TWO_DAY_DELIVERY_TEXT}</Content>
+        <Content style={{ marginBlockEnd: '0px' }}>{TWO_DAY_DELIVERY_TEXT}</Content>
       </Collapsable>
 
       <Collapsable header="Returns">
         <Subheader>Online</Subheader>
-        <Content>{RETURN_TEXT}</Content>
+        <Content style={{ marginBlockEnd: '0px' }}>{RETURN_TEXT}</Content>
       </Collapsable>
     </Container>
   );

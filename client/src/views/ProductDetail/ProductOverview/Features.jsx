@@ -1,24 +1,27 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useGlobalContext } from '../../../contexts/GlobalStore';
 
-function Features() {
-  const { features } = useGlobalContext().productInfo;
+function Features({ features }) {
+  function getFeaturesComponents(featuresList) {
+    return featuresList.map(({ feature, value }, index) => (
+      <Feature key={feature} index={index}>
+        <Text>&#x2713;</Text>
+        <Text>
+          {value.match(/[A-Z][a-z]+/g).join(' ').concat(' ')}
+          {feature}
+        </Text>
+      </Feature>
+    ));
+  }
 
-  const featuresComponents = features.map(({ feature, value }, index) => (
-    <Feature key={feature} index={index}>
-      <Text>&#x2713;</Text>
-      <Text>
-        {value?.match(/[A-Z][a-z]+/g).join(' ').concat(' ')}
-        {feature}
-      </Text>
-    </Feature>
-  ));
+  if (!features) {
+    return null;
+  }
 
   return (
     <Container role="list">
       Features
-      { featuresComponents }
+      {getFeaturesComponents(features)}
     </Container>
   );
 }
@@ -32,6 +35,7 @@ const Container = styled.ul`
   align-items: flex-start;
   padding-left: 0px;
   margin-top: 0px;
+  margin-bottom: 0px; */ if content has padding of content background color */
 `;
 
 const Feature = styled.li`
