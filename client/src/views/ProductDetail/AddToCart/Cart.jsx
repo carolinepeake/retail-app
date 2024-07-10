@@ -8,6 +8,8 @@ import CartItem from './CartItem';
 
 // TODO: make sure properly lined up on right edge of page
 
+// TODO: maybe use directional arrow (round poppy kind see, https://bushe.ru/ ) to close cart sidebar instead of X
+
 function Cart({
   showCart,
   toggleCart,
@@ -130,7 +132,7 @@ const Container = styled.div`
   position: fixed;
   display: flex;
   flex-direction: column;
-  right: ${(props) => (props.$visible ? '0' : '-20em')};
+  right: ${(props) => (props.$visible ? '0' : '-22em')};
   top: 0;
   width: 20em;
   width: 22em;
@@ -210,7 +212,6 @@ const ListItem = styled.li`
   border-radius: 7.5px;
   box-shadow: rgba(0,0,0,0.25) 0px 5px 10px; /* Lighter than box-shadow used for cards elsewhere */
   background-color: rgba(209,217,235, 0.2);
-
 `;
 
 export default Cart;
